@@ -16,9 +16,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackClosest.hpp" />
     <ClInclude Include="moverelative.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttackClosest.cpp" />
     <ClCompile Include="moverelative.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

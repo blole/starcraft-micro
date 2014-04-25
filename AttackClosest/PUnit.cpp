@@ -11,16 +11,28 @@ PUnit::PUnit(Unit unit) : GameUnit(unit)
 }
 
 	// Methods
-bool PUnit::isIdle()
-{
-	return false;
-}
 bool PUnit::isAttacking()
 {
-	return false;
+	return (this->unit->isAttacking());
 }
 
 void PUnit::setTarget(PositionOrUnit newTarget)
 {
 	target = newTarget;
+}
+
+void PUnit::attackTarget(PositionOrUnit newTarget)
+{
+		target = newTarget;
+		this->unit->attack(target);
+}
+
+Position PUnit::getPosition()
+{
+	return this->unit->getPosition();
+}
+
+Unit PUnit::getClosestEnnemy()
+{
+	return this->unit->getClosestUnit(Filter::IsEnemy);
 }

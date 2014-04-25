@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bot.cpp" />
+    <ClCompile Include="botAttackClosest.cpp" />
     <ClCompile Include="Commander.cpp" />
     <ClCompile Include="dll.cpp" />
     <ClCompile Include="GameUnit.cpp" />
@@ -20,12 +20,20 @@
     <ClCompile Include="SquadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bot.hpp" />
+    <ClInclude Include="botAttackClosest.hpp" />
     <ClInclude Include="Commander.hpp" />
     <ClInclude Include="GameUnit.hpp" />
     <ClInclude Include="OUnit.hpp" />
     <ClInclude Include="PUnit.hpp" />
     <ClInclude Include="SquadManager.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
+      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
+      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{70A9681A-02BD-43B9-B17F-291BD1F0A26A}</ProjectGuid>

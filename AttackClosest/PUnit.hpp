@@ -12,8 +12,10 @@ public:
 	// Constructor
 	PUnit(BWAPI::Unit unit);
 	// Methods
-	bool isIdle();
 	bool isAttacking();
 	void setTarget(BWAPI::PositionOrUnit newTarget);
+	void attackTarget(BWAPI::PositionOrUnit newTarget);
+	BWAPI::Position getPosition();
+	BWAPI::Unit getClosestEnnemy();
 private:
 };

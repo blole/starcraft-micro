@@ -4,6 +4,9 @@
 #include "GameUnit.hpp"
 #include "PUnit.hpp"
 #include "OUnit.hpp"
+#include <lib/libbehavior/BehaviorTree.h>
+
+using namespace BehaviorTree;
 
 // Remember not to use "Broodwar" in any global class constructor!
 
@@ -18,6 +21,8 @@ public:
 	// Methods
 	void update();
 	void destroyUnit(GameUnit unit);
+
 private:
+	BehaviorTreeNode* brain;
 	
 };

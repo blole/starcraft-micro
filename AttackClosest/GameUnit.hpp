@@ -14,7 +14,7 @@ public:
 	int getHp();
 	float getDps();
 	BWAPI::Position getPosition();
-private:
+protected:
 	// Attributes
 	BWAPI::Unit unit;	
 };

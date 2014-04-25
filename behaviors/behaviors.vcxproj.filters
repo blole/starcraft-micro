@@ -18,9 +18,15 @@
     <ClInclude Include="moverelative.hpp">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="AttackClosest.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="moverelative.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackClosest.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
