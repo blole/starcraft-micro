@@ -12,7 +12,7 @@ class SquadManager
 public:
 	// Attributes
 	BWAPI::Position positionToAttack;
-	std:set<PUnit> squadUnits;
+	std::set<PUnit> squadUnits;
 	
 	// constructor
 	SquadManager(std::set<PUnit> units);

@@ -5,9 +5,8 @@ using namespace BWAPI;
 using namespace Filter;
 
 	// Constructor
-PUnit::PUnit(Unit unit)
+PUnit::PUnit(Unit unit) : GameUnit(unit)
 {
-	GameUnit(unit);
 	target = nullptr;
 }
 

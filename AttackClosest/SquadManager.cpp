@@ -8,7 +8,6 @@ using namespace Filter;
 SquadManager::SquadManager(std::set<PUnit> units)
 {
 	squadUnits = units;
-	positionToAttack = nullptr;
 }
 
 	// Methods
