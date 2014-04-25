@@ -5,9 +5,8 @@ using namespace BWAPI;
 using namespace Filter;
 
 	// Constructor
-OUnit::OUnit(BWAPI::Unit unit): dammageAttributed(0.0), numberOfAttackers(0) 
+OUnit::OUnit(BWAPI::Unit unit): GameUnit(unit), dammageAttributed(0.0), numberOfAttackers(0) 
 {
-	GameUnit(unit);
 }
 	
 	// Methods
