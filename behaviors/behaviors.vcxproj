@@ -11,27 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
-      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bot.cpp" />
-    <ClCompile Include="commander.cpp" />
-    <ClCompile Include="dll.cpp" />
+    <ClInclude Include="moverelative.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bot.hpp" />
-    <ClInclude Include="commander.hpp" />
+    <ClCompile Include="moverelative.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2E63AE74-758A-4607-9DE4-D28E814A6E13}</ProjectGuid>
+    <ProjectGuid>{244ED8C6-F017-4421-AF42-14E2ED027E22}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>bot</ProjectName>
+    <ProjectName>behaviors</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -41,7 +35,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -81,6 +75,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

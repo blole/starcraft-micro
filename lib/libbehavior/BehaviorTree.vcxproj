@@ -10,38 +10,20 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
-      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
-      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="bot.cpp" />
-    <ClCompile Include="commander.cpp" />
-    <ClCompile Include="dll.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bot.hpp" />
-    <ClInclude Include="commander.hpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2E63AE74-758A-4607-9DE4-D28E814A6E13}</ProjectGuid>
-    <RootNamespace>ExampleAIModule</RootNamespace>
+    <ProjectGuid>{18A56DAE-2719-40C8-ADE2-7C1BDDBABB83}</ProjectGuid>
+    <RootNamespace>BehaviorTree</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>bot</ProjectName>
+    <ProjectName>libbehavior</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -60,52 +42,69 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(BWAPI_DIR)/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;EXAMPLEAIMODULE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DisableSpecificWarnings>
-      </DisableSpecificWarnings>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPId.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
+    <Lib>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD</IgnoreSpecificDefaultLibraries>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(BWAPI_DIR)/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;EXAMPLEAIMODULE_EXPORTS;_SECURE_SCL 0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPI.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CountLimitNode.cpp" />
+    <ClCompile Include="FPCompare.cpp" />
+    <ClCompile Include="mtrand.cpp" />
+    <ClCompile Include="ParallelNode.cpp" />
+    <ClCompile Include="PriorityNode.cpp" />
+    <ClCompile Include="ProbabilityNode.cpp" />
+    <ClCompile Include="RepeatNode.cpp" />
+    <ClCompile Include="SequentialNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BehaviorTree.h" />
+    <ClInclude Include="BehaviorTreeBase.h" />
+    <ClInclude Include="BoolCondition.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="CountLimitNode.h" />
+    <ClInclude Include="FloatCondition.h" />
+    <ClInclude Include="FPCompare.h" />
+    <ClInclude Include="FunctionCall.h" />
+    <ClInclude Include="IntCondition.h" />
+    <ClInclude Include="mainpage.h" />
+    <ClInclude Include="mtrand.h" />
+    <ClInclude Include="ParallelNode.h" />
+    <ClInclude Include="PriorityNode.h" />
+    <ClInclude Include="ProbabilityNode.h" />
+    <ClInclude Include="RepeatNode.h" />
+    <ClInclude Include="SequentialNode.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
