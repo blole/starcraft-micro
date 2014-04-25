@@ -6,7 +6,6 @@ using namespace Filter;
 
 void Bot::onStart()
 {
-	a = 2;
 	Broodwar->sendText("Hello world!");
 	// BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
 	Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;

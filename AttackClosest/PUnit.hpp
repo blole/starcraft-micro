@@ -10,9 +10,10 @@ public:
 	// Attributes
 	BWAPI::PositionOrUnit target;
 	// Constructor
-	PUnit();
+	PUnit(BWAPI::Unit unit);
 	// Methods
-	void isIdle();
-	void isAttacking();
+	bool isIdle();
+	bool isAttacking();
+	void setTarget(BWAPI::PositionOrUnit newTarget);
 private:
 };

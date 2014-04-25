@@ -11,7 +11,7 @@ public:
 	float dammageAttributed;
 	int numberOfAttackers;
 	// Constructor
-	OUnit();
+	OUnit(BWAPI::Unit unit);
 	// Methods
 	bool willDie();
 private:

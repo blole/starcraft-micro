@@ -28,5 +28,5 @@ public:
 	// Everything below this line is safe to modify.
 
 private:
-	int a;
+	Commander commander;
 };
