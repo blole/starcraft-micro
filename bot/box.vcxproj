@@ -11,11 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
+      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
+      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="bot.cpp" />
+    <ClCompile Include="commander.cpp" />
     <ClCompile Include="dll.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bot.hpp" />
+    <ClInclude Include="commander.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2E63AE74-758A-4607-9DE4-D28E814A6E13}</ProjectGuid>
@@ -48,7 +58,6 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
@@ -64,7 +73,6 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
     </ClCompile>

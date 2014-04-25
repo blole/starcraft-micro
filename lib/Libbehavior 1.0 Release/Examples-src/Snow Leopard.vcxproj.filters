@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\content">
+      <UniqueIdentifier>{8ebdc720-3e09-4e44-a679-7683534b9bc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\content\AI Behaviors">
+      <UniqueIdentifier>{3991d8ca-a9ba-40c2-97b9-7fd96da53419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\content\AI Behaviors\Movement">
+      <UniqueIdentifier>{6886304b-6c9d-4a7c-87cd-f690416d507e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\content\AI Behaviors\Sensing">
+      <UniqueIdentifier>{0bcb5971-6a46-4928-bc31-f48bb39803b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\content\AI Behaviors\Shooting">
+      <UniqueIdentifier>{0d763c5b-2798-4085-af92-2b4836e46719}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Apps\Programming\xerces-c_2_8_0-x86-windows-vc_8_0\include\xercesc\util\PlatformUtils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DOMHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GoStraight.h">
+      <Filter>Source Files\content\AI Behaviors\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="mtrand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnTowardsTarget.h">
+      <Filter>Source Files\content\AI Behaviors\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xerces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="XercesString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GFrameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GoStraight.cpp">
+      <Filter>Source Files\content\AI Behaviors\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mtrand.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnTowardsTarget.cpp">
+      <Filter>Source Files\content\AI Behaviors\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Resources\XML\SLSchema.xsd">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="resources.xml" />
+    <None Include="Resources\XML\example.xml" />
+  </ItemGroup>
+</Project>

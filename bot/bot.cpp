@@ -62,8 +62,8 @@ void Bot::onFrame()
 	// Called once every game frame
 	
 	// Display the game frame rate as text in the upper left area of the screen
-	Broodwar->drawTextScreen(200, 0,  "FPS: %d", Broodwar->getFPS() );
-	Broodwar->drawTextScreen(200, 20, "Average FPS: %f", Broodwar->getAverageFPS() );
+	Broodwar->drawTextScreen(200, 0,  "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
+	Broodwar->drawTextScreen(200, 15, "latency frames: %d", Broodwar->getLatencyFrames());
 	
 	// Return if the game is a replay or is paused
 	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
@@ -73,6 +73,8 @@ void Bot::onFrame()
 	// Latency frames are the number of frames before commands are processed.
 	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
 		return;
+	
+	commander.onFrame();
 	
 	// Iterate through all the units that we own
 	Unitset myUnits = Broodwar->self()->getUnits();

@@ -18,12 +18,18 @@
     <ClCompile Include="bot.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="commander.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bot.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="commander.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
