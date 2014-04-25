@@ -1,5 +1,6 @@
 #pragma once
 #include <BWAPI.h>
+#include "Commander.hpp"
 
 // Remember not to use "Broodwar" in any global class constructor!
 
@@ -27,7 +28,5 @@ public:
 	// Everything below this line is safe to modify.
 
 private:
-	// Standard attributes of the Bot
-	std::string botDescription;
-	
+	int a;
 };

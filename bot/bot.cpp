@@ -6,6 +6,7 @@ using namespace Filter;
 
 void Bot::onStart()
 {
+	a = 2;
 	// Hello World!
 	Broodwar->sendText("Hello world!");
 	

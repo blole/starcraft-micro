@@ -1,4 +1,4 @@
-#include "bot/bot.hpp"
+#include "bot.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -6,6 +6,7 @@ using namespace Filter;
 
 void Bot::onStart()
 {
+	a = 2;
 	Broodwar->sendText("Hello world!");
 	// BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
 	Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;
@@ -58,6 +59,7 @@ void Bot::onFrame()
 	// Called once every game frame
 	
 	// Display the game frame rate as text in the upper left area of the screen
+	const static std::string botDescription = "Attack closest opponent";
 	Broodwar->drawTextScreen(50, 0,  "FPS: %d", Broodwar->getFPS() );
 	Broodwar->drawTextScreen(50, 20, "Average FPS: %f", Broodwar->getAverageFPS() );
 	Broodwar->drawTextScreen(100,0, "Bot behavior is: %s", botDescription);
@@ -71,11 +73,6 @@ void Bot::onFrame()
 	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
 		return;
 	
-	Commander.update();
-
-	// COMMANDER
-	Broodwar->getUnits();
-
 	// Iterate through all the units that we own
 	Unitset myUnits = Broodwar->self()->getUnits();
 	for (Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u)
@@ -102,7 +99,7 @@ void Bot::onFrame()
 		// Finally make the unit do some stuff!
 		
 		// If the unit is a worker unit
-		if(u->getType()==UnitType::Terran_Marine){
+		if(u->getType()==UnitTypes::Terran_Marine){
 
 		}
 		else if (u->getType().isWorker())

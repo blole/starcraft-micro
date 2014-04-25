@@ -9,7 +9,7 @@ public:
 	// Attributes
 	int hp;
 	float dps;
-	string name;
+	std::string name;
 	BWAPI::Position position;
 	// Constructor
 	GameUnit();
