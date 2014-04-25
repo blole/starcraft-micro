@@ -1,4 +1,4 @@
-#include "bot/bot.hpp"
+#include "bot.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -7,10 +7,7 @@ using namespace Filter;
 void Bot::onStart()
 {
 	a = 2;
-	// Hello World!
 	Broodwar->sendText("Hello world!");
-	
-	// Print the map name.
 	// BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
 	Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;
 	
@@ -18,7 +15,7 @@ void Bot::onStart()
 	Broodwar->enableFlag(Flag::UserInput);
 	
 	// Uncomment the following line and the bot will know about everything through the fog of war (cheat).
-	//Broodwar->enableFlag(Flag::CompleteMapInformation);
+	Broodwar->enableFlag(Flag::CompleteMapInformation);
 	
 	// Set the command optimization level so that common commands can be grouped
 	// and reduce the bot's APM (Actions Per Minute).
@@ -62,9 +59,11 @@ void Bot::onFrame()
 	// Called once every game frame
 	
 	// Display the game frame rate as text in the upper left area of the screen
-	Broodwar->drawTextScreen(200, 0,  "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
-	Broodwar->drawTextScreen(200, 15, "latency frames: %d", Broodwar->getLatencyFrames());
-	
+	const static std::string botDescription = "Attack closest opponent";
+	Broodwar->drawTextScreen(50, 0,  "FPS: %d", Broodwar->getFPS() );
+	Broodwar->drawTextScreen(50, 20, "Average FPS: %f", Broodwar->getAverageFPS() );
+	Broodwar->drawTextScreen(100,0, "Bot behavior is: %s", botDescription);
+
 	// Return if the game is a replay or is paused
 	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
 		return;
@@ -73,8 +72,6 @@ void Bot::onFrame()
 	// Latency frames are the number of frames before commands are processed.
 	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
 		return;
-	
-	commander.onFrame();
 	
 	// Iterate through all the units that we own
 	Unitset myUnits = Broodwar->self()->getUnits();
@@ -102,7 +99,10 @@ void Bot::onFrame()
 		// Finally make the unit do some stuff!
 		
 		// If the unit is a worker unit
-		if (u->getType().isWorker())
+		if(u->getType()==UnitTypes::Terran_Marine){
+
+		}
+		else if (u->getType().isWorker())
 		{
 			// if our worker is idle
 			if (u->isIdle())
