@@ -1,0 +1,50 @@
+\documentclass[a4paper,9pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{url}
+
+\renewcommand{\labelitemi}{-}
+
+\title{Artificial Intelligence \& Mutli-Agent System \\ \textsc{Starcraft Broodwar AI}}
+\author{Kilian \textsc{Demeulemeester}, Björn \textsc{Holm}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Goal}
+
+RTS game provide a very interesting baseground for develloping and testing mutli-agent cooperation behavior. 
+
+Our goal is to create an AI for the \emph{Starcraft -- Broodwar} game by restraining ourselves to the following criteria:
+\begin{itemize}
+    \item Ressources are provided at a constant rate
+    \item Building cannot be attacked
+    \item Full knowledge of the game state
+\end{itemize}
+
+Our goal is to implement a controller performing military manoeuvre.
+
+\section*{Steps}
+
+\begin{itemize}
+    \item Set up the environment using the \emph{Broodwar API} (BWAPI) (see \url{https://code.google.com/p/bwapi/}
+    \item Create a map with a given number of units \& Minimize casualties when fighting against the same number of units 
+
+    \item Introduce three different type of unit $\{A,B,C\}$ where $A > B > C > A > ...$ (like paper, scissor, rock game).
+    \item Handle unit production
+\end{itemize}
+
+\emph{Optionnal}
+\begin{itemize}
+    \item Building can be attacked
+    \item Extend the algorithms to partial knowledge game 
+\end{itemize}
+
+\end{document}
