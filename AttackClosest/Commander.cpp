@@ -39,8 +39,9 @@ void Commander::init()
 
 void Commander::update()
 {
-	static std::set<PUnit*> units;
-	
+	if(oAllUnits.size()==0)
+		return;
+
 	for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
 	{
 			brain->execute(*i);

@@ -13,8 +13,7 @@ void AttackClosest::init(void* agent)
 {
 	PUnit *pUnit = (PUnit*)agent;
 	target = pUnit->getClosestEnnemy();
-	if(!(target == nullptr))
-		pUnit->attackTarget(target);
+	pUnit->attackTarget(target);
 }
 
 BEHAVIOR_STATUS AttackClosest::execute(void* agent)
@@ -39,8 +38,6 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 		if(!hasStartAttack)
 		{
 			Unit tmpTarget = pUnit->getClosestEnnemy();
-			if(tmpTarget == nullptr)
-				return BT_SUCCESS;
 			if(target!=tmpTarget)
 			{
 				target = tmpTarget;
