@@ -34,7 +34,6 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 		if(pUnit->isAttacking())
 		{
 			hasStartAttack = true;
-			Broodwar << "Started attack" << std::endl;
 		}
 
 		if(!hasStartAttack)
