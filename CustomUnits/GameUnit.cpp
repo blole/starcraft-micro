@@ -22,3 +22,8 @@ BWAPI::Position GameUnit::getPosition()
 {
 	return this->unit->getPosition();
 }
+
+bool GameUnit::exists()
+{
+	return this->unit->exists();
+}

@@ -27,17 +27,7 @@ void PUnit::attackTarget(PositionOrUnit newTarget)
 		this->unit->attack(target);
 }
 
-Position PUnit::getPosition()
-{
-	return this->unit->getPosition();
-}
-
 Unit PUnit::getClosestEnnemy()
 {
 	return this->unit->getClosestUnit(Filter::IsEnemy);
-}
-
-bool PUnit::exists()
-{
-	return this->unit->exists();
 }
