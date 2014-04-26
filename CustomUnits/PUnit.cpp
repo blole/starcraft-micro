@@ -13,7 +13,7 @@ PUnit::PUnit(Unit unit) : GameUnit(unit)
 	// Methods
 bool PUnit::isAttacking()
 {
-	return (this->unit->isAttacking());
+	return (this->unit->isAttackFrame() || (this->unit->getGroundWeaponCooldown() != 0) || this->unit->isAttacking());
 }
 
 void PUnit::setTarget(PositionOrUnit newTarget)

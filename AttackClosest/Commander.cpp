@@ -39,7 +39,7 @@ void Commander::init()
 
 void Commander::update()
 {
-	if(oAllUnits.size()==0)
+	if(oAllUnits.size()==0) // Winning scenario
 		return;
 
 	for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
