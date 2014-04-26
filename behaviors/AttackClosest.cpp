@@ -12,26 +12,42 @@ void AttackClosest::init(void* agent)
 {
 	PUnit *pUnit = (PUnit*)agent;
 	target = pUnit->getClosestEnnemy();
-	pUnit->attackTarget(target);
+	if(!(target == nullptr))
+		pUnit->attackTarget(target);
 }
 
 BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 {
 	PUnit *pUnit = (PUnit*)agent;
 
-	if(!target->exists())
-	{ 
-		Broodwar << "Sucess" << std::endl;
-		return BT_SUCCESS;
+	static bool hasStartAttack = false;
+
+	if(hasStartAttack)
+	{
+		Broodwar->drawLineMap(pUnit->getPosition(),target->getPosition(),Color(255,0,0));
+		if(!target->exists())
+			return BT_SUCCESS;
 	}
 	else
 	{
-		Unit tmpTarget = pUnit->getClosestEnnemy();
-		if(target!=tmpTarget)
+		if(pUnit->isAttacking())
 		{
-			target = tmpTarget;
-			pUnit->attackTarget(target);
+			hasStartAttack = true;
+			Broodwar << "Started attack" << std::endl;
 		}
+
+		if(!hasStartAttack)
+		{
+			Unit tmpTarget = pUnit->getClosestEnnemy();
+			if(tmpTarget == nullptr)
+				return BT_SUCCESS;
+			if(target!=tmpTarget)
+			{
+				target = tmpTarget;
+				pUnit->attackTarget(target);
+			}
+		}
+		Broodwar->drawLineMap(pUnit->getPosition(),target->getPosition(),Color(255,0,0));
 		return BT_RUNNING;
 	}
 }

@@ -21,15 +21,19 @@ void Commander::update()
 		Unitset tmpUnit = Broodwar->self()->getUnits();
 		for(auto i=tmpUnit.begin();i!=tmpUnit.end();i++) 
 		{
-			PUnit* pUnit = new PUnit(*i);
-			brain->init(pUnit);
-			units.insert(pUnit);
+			if(i->getType()==UnitTypes::Terran_Marine)
+			{
+				PUnit* pUnit = new PUnit(*i);
+				brain->init(pUnit);
+				units.insert(pUnit);
+			}
 		}
 	}
 	
 	for(auto i=units.begin();i!=units.end();i++)
 	{
-		brain->execute(*i);
+		if((*i)->exists())
+			brain->execute(*i);
 	}
 }
 void Commander::destroyUnit(GameUnit unit)

@@ -36,3 +36,8 @@ Unit PUnit::getClosestEnnemy()
 {
 	return this->unit->getClosestUnit(Filter::IsEnemy);
 }
+
+bool PUnit::exists()
+{
+	return this->unit->exists();
+}

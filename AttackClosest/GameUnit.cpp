@@ -5,10 +5,8 @@ using namespace BWAPI;
 using namespace Filter;
 
 	// Constructor
-GameUnit::GameUnit(BWAPI::Unit unit)
+GameUnit::GameUnit(BWAPI::Unit unit) : unit(unit),name(unit->getType().c_str())
 {
-	this->unit = unit;
-	this->name = unit->getType().c_str();
 }
 
 	// Methods

@@ -17,5 +17,6 @@ public:
 	void attackTarget(BWAPI::PositionOrUnit newTarget);
 	BWAPI::Position getPosition();
 	BWAPI::Unit getClosestEnnemy();
+	bool exists();
 private:
 };
