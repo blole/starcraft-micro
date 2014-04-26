@@ -14,13 +14,14 @@ class Commander
 {
 public:
 	// Attributes
-	std::set<PUnit> pAllUnits;
-	std::set<OUnit> oAllUnits;
+	std::set<PUnit*> pAllUnits;
+	std::set<OUnit*> oAllUnits;
 	// Constructor
 	Commander();
 	// Methods
 	void update();
-	void destroyUnit(GameUnit unit);
+	void destroyUnit(BWAPI::Unit unit);
+	void init();
 
 private:
 	BehaviorTreeNode* brain;

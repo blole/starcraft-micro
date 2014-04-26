@@ -27,3 +27,8 @@ bool GameUnit::exists()
 {
 	return this->unit->exists();
 }
+
+int GameUnit::getID()
+{
+	return this->unit->getID();
+}

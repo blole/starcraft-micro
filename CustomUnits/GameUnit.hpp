@@ -15,6 +15,7 @@ public:
 	float getDps();
 	BWAPI::Position getPosition();
 	bool exists();
+	int getID();
 protected:
 	// Attributes
 	BWAPI::Unit unit;	
