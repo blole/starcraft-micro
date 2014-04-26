@@ -1,6 +1,7 @@
 #include "behaviors/AttackClosest.hpp"
-#include "AttackClosest/GameUnit.hpp"
-#include "AttackClosest/PUnit.hpp"
+#include "CustomUnits/GameUnit.hpp"
+#include "CustomUnits/OUnit.hpp"
+#include "CustomUnits/PUnit.hpp"
 
 using namespace BWAPI;
 

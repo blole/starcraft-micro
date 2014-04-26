@@ -1,10 +1,10 @@
 #pragma once
 #include <BWAPI.h>
 #include <set>
-#include "GameUnit.hpp"
-#include "PUnit.hpp"
-#include "OUnit.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
+#include "CustomUnits/GameUnit.hpp"
+#include "CustomUnits/OUnit.hpp"
+#include "CustomUnits/PUnit.hpp"
 
 using namespace BehaviorTree;
 
