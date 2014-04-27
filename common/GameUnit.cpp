@@ -1,4 +1,4 @@
-#include "GameUnit.hpp"
+#include "common/GameUnit.hpp"
 #include <iostream>
 
 using namespace BWAPI;

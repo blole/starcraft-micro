@@ -1,8 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include "bot/commander.hpp"
-
-// Remember not to use "Broodwar" in any global class constructor!
+#include "bot/general.hpp"
 
 class Bot : public BWAPI::AIModule
 {
@@ -27,5 +25,5 @@ public:
 	virtual void onUnitComplete(BWAPI::Unit unit);
 	// Everything below this line is safe to modify.
 
-	Commander commander;
+	General general;
 };
