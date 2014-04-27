@@ -13,4 +13,6 @@ public:
 	int getHp();
 	float getDps();
 	BWAPI::Position getPosition();
+	bool exists();
+	int getID();
 };

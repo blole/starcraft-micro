@@ -18,24 +18,28 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 	PUnit* pUnit = (PUnit*)agent;
 	BWAPI::Unit unit = pUnit->unit;
 
-	if (first)
-	{
-		first = false;
+	static bool hasStartAttack = false;
 
-		Unit target = unit->getClosestUnit(Filter::IsEnemy);
-		if (target == nullptr)
-			return BT_SUCCESS; //no known enemies
-		else if (unit->getGroundWeaponCooldown() == 0)
-			unit->attack(target);
-		else
-			return BT_FAILURE; //already busy attacking
+	if(hasStartAttack)
+	{
+		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
+		if (!pUnit->target.getUnit()->exists())
+			return BT_SUCCESS;
 	}
-	
-	if (unit->getTarget() != nullptr)
-		Broodwar->drawLineMap(unit->getPosition(), unit->getTarget()->getPosition(), Color(255, 0, 0));
-	
-	if (unit->getGroundWeaponCooldown() == 0)
-		return BT_SUCCESS;
 	else
+	{
+		if(pUnit->isAttacking())
+		{
+			hasStartAttack = true;
+		}
+
+		if(!hasStartAttack)
+		{
+			Unit target = pUnit->getClosestEnemy();
+			if(pUnit->target.getUnit()!=target)
+				pUnit->attackTarget(target);
+		}
+		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
 		return BT_RUNNING;
+	}
 }

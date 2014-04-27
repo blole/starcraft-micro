@@ -9,6 +9,7 @@ std::map<int, PUnit*> PUnit::units;
 
 PUnit::PUnit(Unit unit)
 	:GameUnit(unit)
+	,target(nullptr)
 {
 	brain = (new SequentialNode())
 		->addChild(new AttackClosest());
@@ -17,12 +18,18 @@ PUnit::PUnit(Unit unit)
 	// Methods
 bool PUnit::isAttacking()
 {
-	return (this->unit->isAttacking());
+	return (this->unit->isAttackFrame() || (this->unit->getGroundWeaponCooldown() != 0) || this->unit->isAttacking());
 }
 
-Position PUnit::getPosition()
+void PUnit::setTarget(PositionOrUnit newTarget)
 {
-	return this->unit->getPosition();
+	target = newTarget;
+}
+
+void PUnit::attackTarget(PositionOrUnit newTarget)
+{
+	target = newTarget;
+	this->unit->attack(target);
 }
 
 Unit PUnit::getClosestEnemy()
@@ -30,10 +37,7 @@ Unit PUnit::getClosestEnemy()
 	return this->unit->getClosestUnit(Filter::IsEnemy);
 }
 
-bool PUnit::exists()
-{
-	return this->unit->exists();
-}
+
 
 PUnit* PUnit::get(BWAPI::Unit unit)
 {

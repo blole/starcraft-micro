@@ -11,13 +11,14 @@ protected:
 public:
 	// Attributes
 	BehaviorTree::BehaviorTreeNode* brain;
+	BWAPI::PositionOrUnit target;
 
 	// Methods
 	bool isAttacking();
-	BWAPI::Position getPosition();
+	void setTarget(BWAPI::PositionOrUnit newTarget);
+	void attackTarget(BWAPI::PositionOrUnit newTarget);
 	BWAPI::Unit getClosestEnemy();
-	bool exists();
-	
+
 	
 protected:
 	static std::map<int, PUnit*> units;

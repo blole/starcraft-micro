@@ -11,29 +11,61 @@ Commander::Commander()
 }
 
 		// Methods
-void Commander::update()
+void Commander::init()
 {
-	static bool first = true;
-	static std::set<PUnit*> units;
-	
-	if (first)
+	// Enemy units
+	Unitset tmpEnemyUnit = Broodwar->enemy()->getUnits();
+	for(auto i=tmpEnemyUnit.begin();i!=tmpEnemyUnit.end();++i)
 	{
-		first = false;
-		Unitset tmpUnit = Broodwar->self()->getUnits();
-		for(auto i=tmpUnit.begin();i!=tmpUnit.end();i++) 
+		if(i->getType()==UnitTypes::Terran_Marine)
 		{
-			if(i->getType()==UnitTypes::Terran_Marine)
-				units.insert(PUnit::get(*i));
+			OUnit* oUnit = new OUnit(*i);
+			oAllUnits.insert(oUnit);
 		}
 	}
-	
-	for(auto i=units.begin();i!=units.end();i++)
+
+	// My units
+	Unitset tmpUnit = Broodwar->self()->getUnits();
+	for(auto i=tmpUnit.begin();i!=tmpUnit.end();++i)
 	{
-		if((*i)->exists())
+		if(i->getType()==UnitTypes::Terran_Marine)
+			pAllUnits.insert(PUnit::get(*i));
+	}
+}
+
+void Commander::update()
+{
+	if(oAllUnits.size()==0) // Winning scenario
+		return;
+
+	for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
+	{
 			(*i)->brain->execute(*i);
 	}
 }
-void Commander::destroyUnit(GameUnit unit)
+void Commander::destroyUnit(BWAPI::Unit unit)
 {
-	
+	// If its one of my units
+	if(unit->getPlayer()->getID() == Broodwar->self()->getID())
+	{
+		for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
+		{
+			if((*i)->getID() == unit->getID())
+			{
+				pAllUnits.erase(i);
+				break;
+			}
+		}
+	}
+	else // If its one of my ennemy
+	{
+		for(auto i=oAllUnits.begin();i!=oAllUnits.end();i++)
+		{
+			if((*i)->getID() == unit->getID())
+			{
+				oAllUnits.erase(i);
+				break;
+			}
+		}
+	}
 }
