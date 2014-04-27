@@ -6,21 +6,20 @@ MoveRelative::MoveRelative(int x, int y)
 	: offset(x,y)
 {
 }
-void MoveRelative::init(void* agent)
+
+BEHAVIOR_STATUS MoveRelative::firstExecute(PUnit* unit)
 {
-	Unit unit = (Unit)agent;
 	origin = unit->getPosition();
+	return subsequentExecute(unit);
 }
 
-BEHAVIOR_STATUS MoveRelative::execute(void* agent)
+BEHAVIOR_STATUS MoveRelative::subsequentExecute(PUnit* unit)
 {
-	Unit unit = (Unit)agent;
-	
-	if (unit->getPosition() == origin+offset)
+	if (unit->getPosition() == origin + offset)
 		return BT_SUCCESS;
 	else
 	{
-		unit->move(origin+offset);
+		unit->unit->move(origin + offset);
 		return BT_RUNNING;
 	}
 }

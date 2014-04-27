@@ -1,16 +1,17 @@
 #pragma once
-#include <lib/libbehavior/BehaviorTree.h>
+#include "common/BehaviorTreeNodeFirstSubsequent.hpp"
+#include "common/PUnit.hpp"
 #include <BWAPI.h>
 
 using namespace BehaviorTree;
 
-class MoveRelative : public BehaviorTreeNode
+class MoveRelative : public BehaviorTreeNodeFirstSubsequent<PUnit>
 {
 public:
 	MoveRelative(int x, int y);
-	
-	void init(void* agent);
-	BEHAVIOR_STATUS execute(void* agent);
+
+	BEHAVIOR_STATUS firstExecute(PUnit* unit);
+	BEHAVIOR_STATUS subsequentExecute(PUnit* unit);
 
 private:
 	BWAPI::Position origin;

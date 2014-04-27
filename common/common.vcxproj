@@ -17,8 +17,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameUnit.hpp" />
+    <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="OUnit.hpp" />
     <ClInclude Include="PUnit.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
+      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7CFEE4DB-10DD-40D1-9175-5EA2F0913D17}</ProjectGuid>

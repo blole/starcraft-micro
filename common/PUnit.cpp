@@ -1,5 +1,4 @@
 #include "common/PUnit.hpp"
-#include "behaviors/AttackClosest.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -10,9 +9,8 @@ std::map<int, PUnit*> PUnit::units;
 PUnit::PUnit(Unit unit)
 	:GameUnit(unit)
 	,target(nullptr)
+	,brain(nullptr)
 {
-	brain = (new SequentialNode())
-		->addChild(new AttackClosest());
 }
 
 	// Methods

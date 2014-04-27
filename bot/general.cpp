@@ -27,6 +27,21 @@ void General::onFrame()
 			continue;
 
 		PUnit* pUnit = PUnit::get(*u);
+
+		if (pUnit->brain == nullptr)
+		{
+			pUnit->brain =
+				(new SequentialNode())
+					->addChild((new BehaviorTree::RepeatNode(30))
+						->addChild(new MoveRelative(1, 0)))
+					->addChild((new BehaviorTree::RepeatNode(30))
+						->addChild(new MoveRelative(0, 1)))
+					->addChild((new BehaviorTree::RepeatNode(30))
+						->addChild(new MoveRelative(-1, 0)))
+					->addChild((new BehaviorTree::RepeatNode(30))
+						->addChild(new MoveRelative(0, -1)));
+		}
+
 		pUnit->brain->execute(pUnit);
 	}
 }
