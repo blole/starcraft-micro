@@ -14,12 +14,14 @@
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="OUnit.cpp" />
     <ClCompile Include="PUnit.cpp" />
+    <ClCompile Include="squad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameUnit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="OUnit.hpp" />
     <ClInclude Include="PUnit.hpp" />
+    <ClInclude Include="squad.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">

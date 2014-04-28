@@ -7,9 +7,10 @@ using namespace Filter;
 std::map<int, PUnit*> PUnit::units;
 
 PUnit::PUnit(Unit unit)
-	:GameUnit(unit)
-	,target(nullptr)
-	,brain(nullptr)
+	: GameUnit(unit)
+	, target(nullptr)
+	, brain(nullptr)
+	, squad(nullptr)
 {
 }
 

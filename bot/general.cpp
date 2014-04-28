@@ -4,44 +4,44 @@
 
 using namespace BWAPI;
 
-General::General()
+General::General(std::function<Squad*()> newSquad)
+	: newSquad(newSquad)
 {
 }
 
 void General::onStart()
 {
-	
 }
 
 void General::onFrame()
 {
-	Unitset myUnits = Broodwar->self()->getUnits();
-	
-	for (Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u)
+	for each (BWAPI::Unit u in Broodwar->self()->getUnits())
 	{
-		if (!u->exists()		|| u->isLockedDown()	||
-			u->isMaelstrommed()	|| u->isStasised()		||
-			u->isLoaded()		|| !u->isPowered()		||
-			u->isStuck()		|| !u->isCompleted()	||
-			u->isConstructing())
+		if (!u->exists() || !u->getType().canAttack() ||
+			u->getType().isWorker() || u->getType().isBuilding() ||
+			!u->isCompleted())
 			continue;
 
-		PUnit* pUnit = PUnit::get(*u);
-
-		if (pUnit->brain == nullptr)
+		PUnit* pUnit = PUnit::get(u);
+		
+		if (pUnit->squad == nullptr)
 		{
-			pUnit->brain =
-				(new SequentialNode())
-					->addChild((new BehaviorTree::RepeatNode(30))
-						->addChild(new MoveRelative(1, 0)))
-					->addChild((new BehaviorTree::RepeatNode(30))
-						->addChild(new MoveRelative(0, 1)))
-					->addChild((new BehaviorTree::RepeatNode(30))
-						->addChild(new MoveRelative(-1, 0)))
-					->addChild((new BehaviorTree::RepeatNode(30))
-						->addChild(new MoveRelative(0, -1)));
-		}
+			if (squads.empty())
+				squads.push_back(newSquad());
 
-		pUnit->brain->execute(pUnit);
+			squads.front()->addUnit(pUnit);
+		}
+	}
+	
+	for each (Squad* squad in squads)
+		squad->onFrame();
+	
+	//text overlay
+	Broodwar->drawTextScreen(1, 0, "squads: %d", squads.size());
+	int i = 0;
+	for each (Squad* squad in squads)
+	{
+		Broodwar->drawTextScreen(1, (i+1)*15, "squad %d: %d units", i, squad->units.size());
+		i++;
 	}
 }

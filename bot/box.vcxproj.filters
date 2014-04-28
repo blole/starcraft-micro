@@ -24,12 +24,18 @@
     <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="reactivesquad.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bot.hpp">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="general.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="reactivesquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

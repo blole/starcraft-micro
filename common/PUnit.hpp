@@ -1,5 +1,6 @@
 #pragma once
 #include <BWAPI.h>
+#include "common/squad.hpp"
 #include "common/GameUnit.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
 
@@ -12,6 +13,7 @@ public:
 	// Attributes
 	BehaviorTree::BehaviorTreeNode* brain;
 	BWAPI::PositionOrUnit target;
+	Squad* squad;
 
 	// Methods
 	bool isAttacking();

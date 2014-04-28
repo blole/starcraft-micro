@@ -1,4 +1,6 @@
 #include "bot/bot.hpp"
+#include "bot/reactivesquad.hpp"
+#include "behaviors/moverelative.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -13,8 +15,14 @@ void Bot::onStart()
 	
 	if (!Broodwar->isReplay())
 	{
+		auto unitBrain = []{ return
+			(new SequentialNode())
+				->addChild(new MoveRelative(10, 0));
+		};
+
+		general = new General([=]{ return new ReactiveSquad(unitBrain); });
 		Broodwar << "hej" << std::endl;
-		general.onStart();
+		general->onStart();
 	}
 }
 
@@ -29,8 +37,8 @@ void Bot::onFrame()
 	
 	// Prevent spamming by only running our onFrame once every number of latency frames.
 	// Latency frames are the number of frames before commands are processed.
-	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
-		return;
+	//if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
+	//	return;
 	
 	// Iterate through all the units that we own
 	Unitset myUnits = Broodwar->self()->getUnits();
@@ -46,7 +54,7 @@ void Bot::onFrame()
 		// Finally make the unit do some stuff!
 	}
 
-	general.onFrame();
+	general->onFrame();
 }
 
 void Bot::onEnd(bool isWinner)
