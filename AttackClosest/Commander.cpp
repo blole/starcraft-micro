@@ -28,8 +28,14 @@ void Commander::init()
 	Unitset tmpUnit = Broodwar->self()->getUnits();
 	for(auto i=tmpUnit.begin();i!=tmpUnit.end();++i)
 	{
+		PUnit* pUnit = PUnit::get(*i);
+
 		if(i->getType()==UnitTypes::Terran_Marine)
-			pAllUnits.insert(PUnit::get(*i));
+			pAllUnits.insert(pUnit);
+
+		if (pUnit->brain == nullptr)
+			pUnit->brain = (new SequentialNode())
+				->addChild(new AttackClosest());
 	}
 }
 

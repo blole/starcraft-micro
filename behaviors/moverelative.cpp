@@ -16,7 +16,7 @@ BEHAVIOR_STATUS MoveRelative::firstExecute(PUnit* unit)
 	else
 		unit->unit->move(origin + offset);
 
-	return subsequentExecute(unit);
+	return BT_RUNNING;
 }
 
 BEHAVIOR_STATUS MoveRelative::subsequentExecute(PUnit* unit)
