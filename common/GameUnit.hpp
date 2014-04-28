@@ -1,13 +1,12 @@
 #pragma once
 #include <BWAPI.h>
 
-// Remember not to use "Broodwar" in any global class constructor!
-
 class GameUnit
 {
 public:
 	// Attributes
 	std::string name;
+	BWAPI::Unit unit;	
 	// Constructor
 	GameUnit(BWAPI::Unit unit);
 	// Methods
@@ -16,7 +15,4 @@ public:
 	BWAPI::Position getPosition();
 	bool exists();
 	int getID();
-protected:
-	// Attributes
-	BWAPI::Unit unit;	
 };

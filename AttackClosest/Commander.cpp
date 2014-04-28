@@ -6,8 +6,8 @@ using namespace BWAPI;
 using namespace Filter;
 
 	// Constructor
-Commander::Commander() {
-	brain = (new SequentialNode())->addChild(new AttackClosest());
+Commander::Commander()
+{
 }
 
 		// Methods
@@ -29,11 +29,7 @@ void Commander::init()
 	for(auto i=tmpUnit.begin();i!=tmpUnit.end();++i)
 	{
 		if(i->getType()==UnitTypes::Terran_Marine)
-		{
-			PUnit* pUnit = new PUnit(*i);
-			brain->init(pUnit);
-			pAllUnits.insert(pUnit);
-		}
+			pAllUnits.insert(PUnit::get(*i));
 	}
 }
 
@@ -44,7 +40,7 @@ void Commander::update()
 
 	for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
 	{
-			brain->execute(*i);
+			(*i)->brain->execute(*i);
 	}
 }
 void Commander::destroyUnit(BWAPI::Unit unit)

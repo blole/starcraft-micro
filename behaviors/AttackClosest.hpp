@@ -12,8 +12,6 @@ public:
 	void init(void* agent);
 	BEHAVIOR_STATUS execute(void* agent);
 	
-	const BehaviorTree::BehaviorTreeList* getChildren() const { return NULL; }
-
 private:
-	BWAPI::Unit target;
+	bool first;
 };

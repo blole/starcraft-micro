@@ -1,14 +1,13 @@
 #pragma once
+#include "common/GameUnit.hpp"
+#include "common/PUnit.hpp"
+#include "common/OUnit.hpp"
 #include <BWAPI.h>
-#include <set>
 #include <lib/libbehavior/BehaviorTree.h>
-#include "CustomUnits/GameUnit.hpp"
-#include "CustomUnits/OUnit.hpp"
-#include "CustomUnits/PUnit.hpp"
+#include <set>
+
 
 using namespace BehaviorTree;
-
-// Remember not to use "Broodwar" in any global class constructor!
 
 class Commander
 {
@@ -22,8 +21,4 @@ public:
 	void update();
 	void destroyUnit(BWAPI::Unit unit);
 	void init();
-
-private:
-	BehaviorTreeNode* brain;
-	
 };

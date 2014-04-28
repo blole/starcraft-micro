@@ -1,7 +1,6 @@
 #include "behaviors/AttackClosest.hpp"
-#include "CustomUnits/GameUnit.hpp"
-#include "CustomUnits/OUnit.hpp"
-#include "CustomUnits/PUnit.hpp"
+#include "common/GameUnit.hpp"
+#include "common/PUnit.hpp"
 
 using namespace BWAPI;
 
@@ -11,21 +10,20 @@ AttackClosest::AttackClosest()
 
 void AttackClosest::init(void* agent)
 {
-	PUnit *pUnit = (PUnit*)agent;
-	target = pUnit->getClosestEnnemy();
-	pUnit->attackTarget(target);
+	first = true;
 }
 
 BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 {
-	PUnit *pUnit = (PUnit*)agent;
+	PUnit* pUnit = (PUnit*)agent;
+	BWAPI::Unit unit = pUnit->unit;
 
 	static bool hasStartAttack = false;
 
 	if(hasStartAttack)
 	{
-		Broodwar->drawLineMap(pUnit->getPosition(),target->getPosition(),Color(255,0,0));
-		if(!(target->exists()))
+		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
+		if (!pUnit->target.getUnit()->exists())
 			return BT_SUCCESS;
 	}
 	else
@@ -37,14 +35,11 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 
 		if(!hasStartAttack)
 		{
-			Unit tmpTarget = pUnit->getClosestEnnemy();
-			if(target!=tmpTarget)
-			{
-				target = tmpTarget;
+			Unit target = pUnit->getClosestEnemy();
+			if(pUnit->target.getUnit()!=target)
 				pUnit->attackTarget(target);
-			}
 		}
-		Broodwar->drawLineMap(pUnit->getPosition(),target->getPosition(),Color(255,0,0));
+		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
 		return BT_RUNNING;
 	}
 }

@@ -2,8 +2,6 @@
 #include <BWAPI.h>
 #include "Commander.hpp"
 
-// Remember not to use "Broodwar" in any global class constructor!
-
 class BotAttackClosest : public BWAPI::AIModule
 {
 public:
