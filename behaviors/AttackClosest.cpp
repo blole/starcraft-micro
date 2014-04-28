@@ -11,6 +11,8 @@ AttackClosest::AttackClosest()
 void AttackClosest::init(void* agent)
 {
 	first = true;
+	PUnit* pUnit = (PUnit*)agent;
+	pUnit->attackTarget(pUnit->getClosestEnemy());
 }
 
 BEHAVIOR_STATUS AttackClosest::execute(void* agent)
@@ -23,8 +25,12 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 	if(hasStartAttack)
 	{
 		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
-		if (!pUnit->target.getUnit()->exists())
+		//if (!pUnit->target.getUnit()->exists())
+		//	return BT_SUCCESS;
+		if(!pUnit->target.getUnit()->exists() || !pUnit->isAttacking())
 			return BT_SUCCESS;
+		
+		return BT_RUNNING;
 	}
 	else
 	{
