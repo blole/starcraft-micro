@@ -46,8 +46,8 @@ void Commander::init()
 	// Add a 'brain' to a squad
 	for(auto i=squads.begin(); i!=squads.end();++i)
 	{
-		if((*i)->brain == nullptr)
-			(*i)->brain = (new ParrallelNode())
+		if((*i)->squadBrain == nullptr)
+			(*i)->squadBrain = (new ParrallelNode())
 							->addChild((new RepeadNode(-1))
 								->addChild(new BoolCondition<SquadManager>(&SquadManager::isInPosition,true))
 								->addChild(new SquadFire()))
@@ -72,7 +72,7 @@ void Commander::update()
 
 	for(auto i=squads.begin(); i!=squads.end();++i)
 	{
-		(*i)->brain->execute(*i);
+		(*i)->squadBrain->execute(*i);
 	}
 
 	//for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
