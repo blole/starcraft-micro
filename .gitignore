@@ -178,3 +178,8 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 build/
+
+# Kilian's Folder
+SubjectDescription/
+masai.sublime-project
+masai.sublime-workspace
