@@ -11,17 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botAttackClosest.cpp" />
-    <ClCompile Include="Commander.cpp" />
-    <ClCompile Include="dll.cpp" />
-    <ClCompile Include="SquadManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="botAttackClosest.hpp" />
-    <ClInclude Include="Commander.hpp" />
-    <ClInclude Include="SquadManager.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">
       <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
     </ProjectReference>
@@ -32,11 +21,22 @@
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="botSquad.cpp" />
+    <ClCompile Include="Commander.cpp" />
+    <ClCompile Include="dll.cpp" />
+    <ClCompile Include="SquadManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="botSquad.hpp" />
+    <ClInclude Include="Commander.hpp" />
+    <ClInclude Include="SquadManager.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{70A9681A-02BD-43B9-B17F-291BD1F0A26A}</ProjectGuid>
+    <ProjectGuid>{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>AttackClosest</ProjectName>
+    <ProjectName>botSquad</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

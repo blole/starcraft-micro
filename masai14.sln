@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bot", "bot\box.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbehavior", "lib\libbehavior\BehaviorTree.vcxproj", "{18A56DAE-2719-40C8-ADE2-7C1BDDBABB83}"
@@ -11,6 +9,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "behaviors", "behaviors\behaviors.vcxproj", "{244ED8C6-F017-4421-AF42-14E2ED027E22}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "common", "common\common.vcxproj", "{7CFEE4DB-10DD-40D1-9175-5EA2F0913D17}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "botSquad", "botSquad\botSquad.vcxproj", "{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +38,10 @@ Global
 		{7CFEE4DB-10DD-40D1-9175-5EA2F0913D17}.Debug|Win32.Build.0 = Debug|Win32
 		{7CFEE4DB-10DD-40D1-9175-5EA2F0913D17}.Release|Win32.ActiveCfg = Release|Win32
 		{7CFEE4DB-10DD-40D1-9175-5EA2F0913D17}.Release|Win32.Build.0 = Release|Win32
+		{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}.Debug|Win32.Build.0 = Debug|Win32
+		{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}.Release|Win32.ActiveCfg = Release|Win32
+		{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

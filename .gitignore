@@ -183,3 +183,4 @@ build/
 SubjectDescription/
 masai.sublime-project
 masai.sublime-workspace
+*.violet.html

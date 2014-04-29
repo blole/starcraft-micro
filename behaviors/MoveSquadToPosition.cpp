@@ -1,4 +1,4 @@
-#include "behaviors/AttackClosest.hpp"
+#include "behaviors/MoveSquadToPosition.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
 
@@ -12,7 +12,7 @@ void MoveSquadToPosition::init(void* agent)
 {
 }
 
-BEHAVIOR_STATUS AttackClosest::execute(void* agent)
+BEHAVIOR_STATUS MoveSquadToPosition::execute(void* agent)
 {
  return BT_RUNNING;
 }

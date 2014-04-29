@@ -9,17 +9,17 @@ class SquadManager
 {
 public:
 	// Attributes
-	BWAPI::Position positionToAttack;
+	BWAPI::PositionOrUnit positionToAttack;
 	BWAPI::Position positionSquad;
-	std::set<PUnit> squadUnits;
-	BehaviorTree::BehaviorTreeNode* squadBrain;
+	std::set<PUnit*> squadUnits;
+	BehaviorTree::BehaviorTreeNode* brain;
 	
 	// constructor
 	SquadManager(std::set<PUnit*> units);
 	
 	// Methods
 	void update();
-	void addUnits(std::set<PUnit*> newUnits);
+	void addUnit(PUnit* unit);
 	bool destroyUnit(BWAPI::Unit unit);
 	void setTarget(BWAPI::PositionOrUnit target);
 	bool isInPosition();

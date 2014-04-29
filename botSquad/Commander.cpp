@@ -29,7 +29,7 @@ void Commander::init()
 	Unitset allGameUnit = Broodwar->self()->getUnits();
 	bool indexInSquad = 0;
 	std::set<PUnit*> squadUnits;
-	for(auto i=tmpUnit.begin();i!=tmpUnit.end();++i)
+	for(auto i=allGameUnit.begin();i!=allGameUnit.end();++i)
 	{
 		PUnit* pUnit = PUnit::get(*i);
 		if(indexInSquad >= nbUnitPerSquad)
@@ -41,23 +41,22 @@ void Commander::init()
 		squadUnits.insert(pUnit);
 		indexInSquad++;
 	}
-	if(!squadUnits.isEmpty()) // In case of a non full squad
+	if(!squadUnits.empty()) // In case of a non full squad
 		squads.insert(new SquadManager(squadUnits));
 
 	// Add a 'brain' to a squad
 	for(auto i=squads.begin(); i!=squads.end();++i)
 	{
-		if((*i)->squadBrain == nullptr)
-			(*i)->squadBrain = (new ParrallelNode())
-							->addChild((new RepeadNode(-1))
+		if((*i)->brain == nullptr)
+			(*i)->brain = (new ParallelNode())
+							->addChild((new RepeatNode(-1))
 								->addChild(new BoolCondition<SquadManager>(&SquadManager::isInPosition,true))
 								->addChild(new SquadFire()))
 							->addChild(new MoveSquadToPosition());
 	}
 
 	// My units
-	Unitset tmpUnit = Broodwar->self()->getUnits();
-	for(auto i=tmpUnit.begin();i!=tmpUnit.end();++i)
+	for(auto i=allGameUnit.begin();i!=allGameUnit.end();++i)
 	{
 		PUnit* pUnit = PUnit::get(*i);
 
@@ -73,7 +72,7 @@ void Commander::update()
 
 	for(auto i=squads.begin(); i!=squads.end();++i)
 	{
-		(*i)->squadBrain->execute(*i);
+		(*i)->brain->execute(*i);
 	}
 
 	//for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)

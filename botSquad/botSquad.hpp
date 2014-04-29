@@ -2,7 +2,7 @@
 #include <BWAPI.h>
 #include "Commander.hpp"
 
-class BotAttackClosest : public BWAPI::AIModule
+class botSquad : public BWAPI::AIModule
 {
 public:
 	// Virtual functions for callbacks, leave these as they are.
@@ -27,5 +27,4 @@ public:
 
 private:
 	Commander commander;
-	const std::string botDescription = "Attack closest in squad";
 };

@@ -6,18 +6,22 @@ using namespace Filter;
 
 	// Constructor
 SquadManager::SquadManager(std::set<PUnit*> units)
-	: target(nullptr)
+	: positionToAttack(nullptr)
 	, brain(nullptr)
-	, squadUnits(units)
 {
+	for(auto i=units.begin();i!=units.end();i++)
+	{
+		squadUnits.insert(*i);
+	}
 }
 
 	// Methods
 void SquadManager::update()
 {	
 }
-void SquadManager::addUnits(std::set<PUnit> newUnits)
+void SquadManager::addUnit(PUnit* unit)
 {	
+	squadUnits.insert(unit);
 }
 bool SquadManager::destroyUnit(Unit unit)
 {	
@@ -37,5 +41,5 @@ void SquadManager::setTarget(PositionOrUnit target)
 }
 bool SquadManager::isInPosition()
 {
-	return (positionToAttack.getApproxDistance(positionSquad) < 4);
+	return (positionToAttack.getPosition().getApproxDistance(positionSquad) < 4);
 }

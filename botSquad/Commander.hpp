@@ -4,6 +4,7 @@
 #include "common/OUnit.hpp"
 #include <BWAPI.h>
 #include <lib/libbehavior/BehaviorTree.h>
+#include "SquadManager.hpp"
 #include <set>
 
 
@@ -24,5 +25,5 @@ public:
 	void destroyUnit(BWAPI::Unit unit);
 
 private:
-	const int nbUnitPerSquad = 5;
+	const static int nbUnitPerSquad = 5;
 };

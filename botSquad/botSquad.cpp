@@ -1,23 +1,23 @@
-#include "botAttackClosest.hpp"
+#include "botSquad.hpp"
 #include <iostream>
 
 using namespace BWAPI;
 using namespace Filter;
 
-void BotAttackClosest::onStart()
+void botSquad::onStart()
 {
 	Broodwar->sendText("Hello world!");
 	// BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
 	Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;
 	
-	// Enable the UserInput flag, which allows us to control the BotAttackClosest and type messages.
+	// Enable the UserInput flag, which allows us to control the botSquad and type messages.
 	Broodwar->enableFlag(Flag::UserInput);
 	
-	// Uncomment the following line and the BotAttackClosest will know about everything through the fog of war (cheat).
+	// Uncomment the following line and the botSquad will know about everything through the fog of war (cheat).
 	Broodwar->enableFlag(Flag::CompleteMapInformation);
 	
 	// Set the command optimization level so that common commands can be grouped
-	// and reduce the BotAttackClosest's APM (Actions Per Minute).
+	// and reduce the botSquad's APM (Actions Per Minute).
 	Broodwar->setCommandOptimizationLevel(2);
 	
 	// Check if this is a replay
@@ -47,7 +47,7 @@ void BotAttackClosest::onStart()
 	commander.init();
 }
 
-void BotAttackClosest::onEnd(bool isWinner)
+void botSquad::onEnd(bool isWinner)
 {
 	// Called when the game ends
 	if (isWinner)
@@ -56,7 +56,7 @@ void BotAttackClosest::onEnd(bool isWinner)
 	}
 }
 
-void BotAttackClosest::onFrame()
+void botSquad::onFrame()
 {
 	// Called once every game frame
 
@@ -64,6 +64,7 @@ void BotAttackClosest::onFrame()
 	// Display the game frame rate as text in the upper left area of the screen
 	Broodwar->drawTextScreen(50, 0,  "FPS: %d", Broodwar->getFPS() );
 	Broodwar->drawTextScreen(50, 20, "Average FPS: %f", Broodwar->getAverageFPS() );
+	static std::string botDescription = "Attack closest in squad";
 	Broodwar->drawTextScreen(100,0, "Bot behavior is: %s", botDescription);
 
 	// Return if the game is a replay or is paused
@@ -78,7 +79,7 @@ void BotAttackClosest::onFrame()
 		return;
 }
 
-void BotAttackClosest::onSendText(std::string text)
+void botSquad::onSendText(std::string text)
 {
 	// Send the text to the game if it is not being processed.
 	Broodwar->sendText("%s", text.c_str());
@@ -87,20 +88,20 @@ void BotAttackClosest::onSendText(std::string text)
 	// otherwise you may run into problems when you use the %(percent) character!
 }
 
-void BotAttackClosest::onReceiveText(BWAPI::Player player, std::string text)
+void botSquad::onReceiveText(BWAPI::Player player, std::string text)
 {
 	// Parse the received text
 	Broodwar << player->getName() << " said \"" << text << "\"" << std::endl;
 }
 
-void BotAttackClosest::onPlayerLeft(BWAPI::Player player)
+void botSquad::onPlayerLeft(BWAPI::Player player)
 {
 	// Interact verbally with the other players in the game by
 	// announcing that the other player has left.
 	Broodwar->sendText("Goodbye %s!", player->getName().c_str());
 }
 
-void BotAttackClosest::onNukeDetect(BWAPI::Position target)
+void botSquad::onNukeDetect(BWAPI::Position target)
 {
 	// Check if the target is a valid position
 	if (target)
@@ -117,23 +118,23 @@ void BotAttackClosest::onNukeDetect(BWAPI::Position target)
 	// You can also retrieve all the nuclear missile targets using Broodwar->getNukeDots()!
 }
 
-void BotAttackClosest::onUnitDiscover(BWAPI::Unit unit)
+void botSquad::onUnitDiscover(BWAPI::Unit unit)
 {
 }
 
-void BotAttackClosest::onUnitEvade(BWAPI::Unit unit)
+void botSquad::onUnitEvade(BWAPI::Unit unit)
 {
 }
 
-void BotAttackClosest::onUnitShow(BWAPI::Unit unit)
+void botSquad::onUnitShow(BWAPI::Unit unit)
 {
 }
 
-void BotAttackClosest::onUnitHide(BWAPI::Unit unit)
+void botSquad::onUnitHide(BWAPI::Unit unit)
 {
 }
 
-void BotAttackClosest::onUnitCreate(BWAPI::Unit unit)
+void botSquad::onUnitCreate(BWAPI::Unit unit)
 {
 	if (Broodwar->isReplay())
 	{
@@ -148,12 +149,12 @@ void BotAttackClosest::onUnitCreate(BWAPI::Unit unit)
 	}
 }
 
-void BotAttackClosest::onUnitDestroy(BWAPI::Unit unit)
+void botSquad::onUnitDestroy(BWAPI::Unit unit)
 {
 	commander.destroyUnit(unit);
 }
 
-void BotAttackClosest::onUnitMorph(BWAPI::Unit unit)
+void botSquad::onUnitMorph(BWAPI::Unit unit)
 {
 	if (Broodwar->isReplay())
 	{
@@ -168,15 +169,15 @@ void BotAttackClosest::onUnitMorph(BWAPI::Unit unit)
 	}
 }
 
-void BotAttackClosest::onUnitRenegade(BWAPI::Unit unit)
+void botSquad::onUnitRenegade(BWAPI::Unit unit)
 {
 }
 
-void BotAttackClosest::onSaveGame(std::string gameName)
+void botSquad::onSaveGame(std::string gameName)
 {
 	Broodwar << "The game was saved to \"" << gameName << "\"" << std::endl;
 }
 
-void BotAttackClosest::onUnitComplete(BWAPI::Unit unit)
+void botSquad::onUnitComplete(BWAPI::Unit unit)
 {
 }
