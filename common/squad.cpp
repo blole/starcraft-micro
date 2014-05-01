@@ -21,3 +21,14 @@ void Squad::removeUnit(PUnit* unit)
 		unit->squad = nullptr;
 	}
 }
+
+void Squad::displaySquadLinks()
+{
+	for(auto i=units.begin(); i!=units.end();i++)
+	{
+		for(auto j=units.begin(); j!=units.end();j++)
+		{
+			Broodwar->drawLineMap((*i)->getPosition(),(*j)->getPosition(),Color(0,255,0));
+		}
+	}
+}

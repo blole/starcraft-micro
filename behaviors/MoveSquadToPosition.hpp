@@ -1,6 +1,7 @@
 #pragma once
 #include <lib/libbehavior/BehaviorTree.h>
 #include <BWAPI.h>
+#include "botSquad/SquadManager.hpp"
 
 using namespace BehaviorTree;
 
@@ -14,4 +15,5 @@ public:
 	
 private:
 	bool first;
+	float radiusFormation;
 };

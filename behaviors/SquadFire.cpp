@@ -1,6 +1,7 @@
 #include "SquadFire.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
+#include "botSquad/SquadManager.hpp"
 
 using namespace BWAPI;
 
@@ -10,44 +11,26 @@ SquadFire::SquadFire()
 
 void SquadFire::init(void* agent)
 {
-	// first = true;
-	// PUnit* pUnit = (PUnit*)agent;
-	// pUnit->attackTarget(pUnit->getClosestEnemy());
+	first = true;
+	SquadManager* squad = (SquadManager*)agent;
 }
 
 BEHAVIOR_STATUS SquadFire::execute(void* agent)
 {
-	// PUnit* pUnit = (PUnit*)agent;
-	// BWAPI::Unit unit = pUnit->unit;
+	SquadManager* squad = (SquadManager*)agent;
 
-	// static bool hasStartAttack = false;
-
-	// if(hasStartAttack)
-	// {
-	// 	Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
-	// 	//if (!pUnit->target.getUnit()->exists())
-	// 	//	return BT_SUCCESS;
-	// 	if(!pUnit->target.getUnit()->exists() || !pUnit->isAttacking())
-	// 		return BT_SUCCESS;
-		
-	// 	return BT_RUNNING;
-	// }
-	// else
-	// {
-	// 	if(pUnit->isAttacking())
-	// 	{
-	// 		hasStartAttack = true;
-	// 	}
-
-	// 	if(!hasStartAttack)
-	// 	{
-	// 		Unit target = pUnit->getClosestEnemy();
-	// 		if(pUnit->target.getUnit()!=target)
-	// 			pUnit->attackTarget(target);
-	// 	}
-	// 	Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
-	// 	return BT_RUNNING;
-	// }
-
-	return BT_RUNNING;
+	if(!squad->positionToAttack.getUnit()->exists())
+		return BT_SUCCESS;
+	else
+	{
+		for(auto i=squad->units.begin(); i!=squad->units.end();i++)
+		{
+			if((*i)->target.getUnit() != squad->positionToAttack.getUnit())
+			{
+				(*i)->attackTarget(squad->positionToAttack,true);
+				(*i)->unit->move((*i)->getPosition() + (*i)->getPosition() - (*i)->target.getPosition(),true);
+			}
+		}
+		return BT_RUNNING;
+	}
 }

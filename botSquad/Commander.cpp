@@ -20,29 +20,32 @@ void Commander::init()
 	{
 		if(i->getType()==UnitTypes::Terran_Marine)
 		{
-			OUnit* oUnit = new OUnit(*i);
+			OUnit* oUnit = OUnit::get(*i);
 			oAllUnits.insert(oUnit);
 		}
 	}
 
 	// Create squad of 'nbUnitPerSquad' units
 	Unitset allGameUnit = Broodwar->self()->getUnits();
-	bool indexInSquad = 0;
+	int indexInSquad = 0;
 	std::set<PUnit*> squadUnits;
 	for(auto i=allGameUnit.begin();i!=allGameUnit.end();++i)
 	{
-		PUnit* pUnit = PUnit::get(*i);
-		if(indexInSquad >= nbUnitPerSquad)
+		if(i->getType()==UnitTypes::Terran_Marine)
 		{
-			indexInSquad=0;
-			SquadManager* newSquad = new SquadManager();
-			for(auto currentUnit = squadUnits.begin(); currentUnit!=squadUnits.end();currentUnit++)
-				newSquad->addUnit(*currentUnit);
-			squads.insert(newSquad);
-			squadUnits.clear();
+			PUnit* pUnit = PUnit::get(*i);
+			if(indexInSquad >= nbUnitPerSquad)
+			{
+				indexInSquad=0;
+				SquadManager* newSquad = new SquadManager();
+				for(auto currentUnit = squadUnits.begin(); currentUnit!=squadUnits.end();currentUnit++)
+					newSquad->addUnit(*currentUnit);
+				squads.insert(newSquad);
+				squadUnits.clear();
+			}
+			squadUnits.insert(pUnit);
+			indexInSquad++;
 		}
-		squadUnits.insert(pUnit);
-		indexInSquad++;
 	}
 
 	if(!squadUnits.empty()) // In case of a non full squad
@@ -78,6 +81,20 @@ void Commander::update()
 {
 	if(oAllUnits.size()==0) // Winning scenario
 		return;
+
+
+	// TO IMPROVE
+	auto squadIt = squads.begin();
+	for(auto i=oAllUnits.begin(); i!=oAllUnits.end();++i)
+	{
+		if(squadIt == squads.end())
+			break;
+
+		if(!(*squadIt)->positionToAttack.getUnit()->exists())
+			(*squadIt)->positionToAttack = (*i)->unit;
+		
+		++squadIt;
+	}
 
 	for(auto i=squads.begin(); i!=squads.end();++i)
 	{

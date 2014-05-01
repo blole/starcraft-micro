@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\botSquad\botSquad.cpp" />
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="OUnit.cpp" />
     <ClCompile Include="PUnit.cpp" />
