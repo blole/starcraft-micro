@@ -4,8 +4,9 @@
 #include "common/GameUnit.hpp"
 #include "common/OUnit.hpp"
 #include "common/PUnit.hpp"
+#include "common/squad.hpp"
 
-class SquadManager
+class SquadManager : public Squad
 {
 public:
 	// Attributes
@@ -15,12 +16,10 @@ public:
 	BehaviorTree::BehaviorTreeNode* brain;
 	
 	// constructor
-	SquadManager(std::set<PUnit*> units);
+	SquadManager();
 	
 	// Methods
-	void update();
-	void addUnit(PUnit* unit);
-	bool destroyUnit(BWAPI::Unit unit);
+	void onFrame();
 	void setTarget(BWAPI::PositionOrUnit target);
 	bool isInPosition();
 };

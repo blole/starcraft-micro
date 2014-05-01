@@ -1,4 +1,4 @@
-#include "behaviors/SquadFire.hpp"
+#include "SquadFire.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
 

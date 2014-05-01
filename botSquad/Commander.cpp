@@ -35,14 +35,23 @@ void Commander::init()
 		if(indexInSquad >= nbUnitPerSquad)
 		{
 			indexInSquad=0;
-			squads.insert(new SquadManager(squadUnits));
+			SquadManager* newSquad = new SquadManager();
+			for(auto currentUnit = squadUnits.begin(); currentUnit!=squadUnits.end();currentUnit++)
+				newSquad->addUnit(*currentUnit);
+			squads.insert(newSquad);
 			squadUnits.clear();
 		}
 		squadUnits.insert(pUnit);
 		indexInSquad++;
 	}
+
 	if(!squadUnits.empty()) // In case of a non full squad
-		squads.insert(new SquadManager(squadUnits));
+	 {
+	 	SquadManager* newSquad = new SquadManager();
+	 	for(auto currentUnit = squadUnits.begin(); currentUnit!=squadUnits.end();currentUnit++)
+	 		newSquad->addUnit(*currentUnit);
+	 	squads.insert(newSquad);
+	 }
 
 	// Add a 'brain' to a squad
 	for(auto i=squads.begin(); i!=squads.end();++i)
@@ -95,10 +104,7 @@ void Commander::destroyUnit(BWAPI::Unit unit)
 		}
 
 		for(auto i=squads.begin();i!=squads.end();i++)
-		{
-			if((*i)->destroyUnit(unit))
-				break;
-		}
+			(*i)->removeUnit(PUnit::get(unit));
 	}
 	else // If its one of my ennemy
 	{

@@ -15,6 +15,9 @@ void Squad::addUnit(PUnit* unit)
 
 void Squad::removeUnit(PUnit* unit)
 {
-	units.remove(unit);
-	unit->squad = nullptr;
+	if(unit->squad == this)
+	{
+		units.remove(unit);
+		unit->squad = nullptr;
+	}
 }
