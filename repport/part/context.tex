@@ -1,0 +1,24 @@
+\section{Context}
+
+RTS game provide a very interesting baseground for developping and testing multi-agent cooperative behavior.
+Our goal was to create an AI for the \texttt{Stacraft: Broodwar} game. We focused only on the military aspect of the game. Therefore, our bot do not handle harvesting ressources, build order, troops production, \ldots.
+
+We only dealt with the following scenario: Two teams fight against each other with the same number of units (\texttt{Terran Marine}). The goal is to destroy all ennemies units.
+This restriction was made in order to test and compare different micro-management algorithm. 
+At the current time, we have the following bots:
+\begin{shortitem}
+\item \texttt{AC: Attack Closest} All units attack their closest opponent,
+\item \texttt{ACL: Attack Closest Lethal} All units attack the closest opponent that will not die soon(\emph{i.e} If the amount of damage attributed to this unit is not already enought to kill him soon),
+\item \texttt{KS: Kitting Strategy} All units attack their closest opponent applying a kitting\footnote{Staying at a distance, using ranged attacks, and running whenever the enemy comes near} strategy,
+\item \texttt{KSL: Kitting Strategy Lethal} All units attack the closest opponent that will not die soon applying a kitting strategy,
+\item \texttt{GB: Graph Bot} Heuristic search in the game graph to compute the cleverest action.
+\end{shortitem}
+
+\begin{definition}[Scripted based behaviors]
+Make decision only on a reactive way and do not make any plan for the future of the game. (Bots \texttt{AC, ACL, KS, KSL})
+\end{definition}
+
+\begin{definition}[Heuristic based behaviors]
+% TODO
+blabla...
+\end{definition}

@@ -187,6 +187,7 @@ build/
 *.blg
 *.dvi
 *.pdf
+*.ps
 compile
 
 # Kilian's Folder
