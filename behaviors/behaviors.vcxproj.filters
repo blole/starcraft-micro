@@ -27,6 +27,9 @@
     <ClCompile Include="MoveSquadToPosition.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="AttackClosestLethal.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackClosest.hpp">
@@ -39,6 +42,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="MoveSquadToPosition.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackClosestLethal.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

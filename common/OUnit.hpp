@@ -13,7 +13,7 @@ public:
 	// Methods
 	bool willDie();
 
-protected:
+public:
 	static std::map<int, OUnit*> units;
 public:
 	static OUnit* get(BWAPI::Unit unit);

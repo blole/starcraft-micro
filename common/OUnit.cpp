@@ -4,7 +4,6 @@
 using namespace BWAPI;
 using namespace Filter;
 
-
 std::map<int, OUnit*> OUnit::units;
 
 	// Constructor
@@ -15,7 +14,8 @@ OUnit::OUnit(BWAPI::Unit unit): GameUnit(unit), dammageAttributed(0.0), numberOf
 	// Methods
 bool OUnit::willDie()
 {
-	return false;
+	int dammage = (int)this->dammageAttributed;
+	return (this->unit->getHitPoints() < dammage);
 }
 
 OUnit* OUnit::get(BWAPI::Unit unit)
@@ -28,7 +28,7 @@ OUnit* OUnit::get(BWAPI::Unit unit)
 	else
 	{
 		OUnit* u = new OUnit(unit);
-		units[id] = u;
+		OUnit::units[id] = u;
 		return u;
 	}
 }

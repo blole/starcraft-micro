@@ -27,9 +27,6 @@
     <ClCompile Include="squad.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="..\botSquad\botSquad.cpp">
-      <Filter>headers</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameUnit.hpp">

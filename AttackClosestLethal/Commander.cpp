@@ -1,5 +1,5 @@
 #include "Commander.hpp"
-#include "behaviors/AttackClosest.hpp"
+#include "behaviors/AttackClosestLethal.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -19,7 +19,7 @@ void Commander::init()
 	{
 		if(i->getType()==UnitTypes::Terran_Marine)
 		{
-			OUnit* oUnit = new OUnit(*i);
+			OUnit* oUnit = OUnit::get(*i);
 			oAllUnits.insert(oUnit);
 		}
 	}
@@ -35,7 +35,7 @@ void Commander::init()
 
 		if (pUnit->brain == nullptr)
 			pUnit->brain = (new SequentialNode())
-				->addChild(new AttackClosest());
+				->addChild(new AttackClosestLethal());
 	}
 }
 

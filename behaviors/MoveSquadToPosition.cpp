@@ -40,11 +40,11 @@ BEHAVIOR_STATUS MoveSquadToPosition::execute(void* agent)
  		}
 		Position squadGoal = needToRegroup ? squad->positionSquad : squad->positionToAttack.getPosition();
 
-		float thetaS = atan2((float)squadGoal.y,(float)squadGoal.x);
-		float theta = atan2((float)squad->positionToAttack.getPosition().y - squad->positionSquad.y,
+		float thetaS = (float)atan2((float)squadGoal.y,(float)squadGoal.x);
+		float theta = (float)atan2((float)squad->positionToAttack.getPosition().y - squad->positionSquad.y,
 					(float)squad->positionToAttack.getPosition().y - squad->positionSquad.x);
-		float r0 = squadGoal.getDistance(Position(0,0));
-		float step = 2 * 3.14 / (squad->units.size());
+		float r0 = (float)squadGoal.getDistance(Position(0,0));
+		float step = (float)2 * 3.14 / ((float)squad->units.size());
 		float r = radiusFormation;
 
  		for(auto i=squad->units.begin(); i!=squad->units.end();i++)
