@@ -178,3 +178,14 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 build/
+
+## LATEX
+
+*.aux
+*.out
+*.bbl
+*.blg
+*.dvi
+*.pdf
+compile
+

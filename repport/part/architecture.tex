@@ -1,0 +1,56 @@
+\section{Architecture}
+
+In order to have a huge flexibility in our bot behaviors we designed our AI in a modular and hierarchical fashion (Figure \ref{classDiag}).
+
+
+\begin{figure}[h!b]
+\centering
+\begin{tabular}{|c|}
+\hline
+Commander \\
+\emph{Make the overall decision} \\
+\hline
+\end{tabular} \ \\
+\begin{tabular}{c}
+$\downarrow$
+\end{tabular} \ \\
+\begin{tabular}{|c|}
+\hline
+Squad Manager \\
+\emph{Handle $n$ units and lead them into battle} \\
+\hline
+\end{tabular} \ \\
+\begin{tabular}{c}
+$\downarrow$
+\end{tabular} \ \\
+\begin{tabular}{|c|}
+\hline
+Units \\
+\emph{Fight for glory} \\
+\hline
+\end{tabular}
+\caption{Class Diagram}
+\label{classDiag}
+\end{figure}
+
+Our bot also uses behaviors tree (using the library in \cite{libbehavior}). A example of the behavior tree used by the units acheiving \texttt{Kitting\footnote{Staying at a distance, using ranged attacks, and running whenever the enemy comes near}} is depicted in Figure \ref{behaAttackClos}.
+
+\begin{figure}[h!b]
+\caption{Behavior tree for kitting}
+\label{behaAttackClos}
+\end{figure}
+
+Two differents behaviors has been study for our bot:
+\begin{shortitem}
+\item Scripted based behaviors
+\item Heuristic based behaviors
+\end{shortitem}
+
+\begin{definition}[Scripted based behaviors]
+Make decision only on a reactive way and do not make any plan for the future of the game.
+\end{definition}
+
+\begin{definition}[Heuristic based behaviors]
+% TODO
+blabla...
+\end{definition}
