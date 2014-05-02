@@ -16,12 +16,11 @@ void Bot::onStart()
 	if (!Broodwar->isReplay())
 	{
 		auto unitBrain = []{ return
-			(new SequentialNode())
-				->addChild(new MoveRelative(10, 0));
+			(new SequentialNode());
+				//->addChild(new MoveRelative(10, 0));
 		};
 
 		general = new General([=]{ return new ReactiveSquad(unitBrain); });
-		Broodwar << "hej" << std::endl;
 		general->onStart();
 	}
 }
@@ -29,7 +28,8 @@ void Bot::onStart()
 void Bot::onFrame()
 {
 	Broodwar->drawTextScreen(200, 0,  "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
-	Broodwar->drawTextScreen(200, 15, "latency frames: %d", Broodwar->getLatencyFrames());
+	Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
+	Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
 	
 	// Return if the game is a replay or is paused
 	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
