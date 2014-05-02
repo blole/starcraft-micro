@@ -21,12 +21,24 @@
     <ClCompile Include="moverelative.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="SquadFire.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveSquadToPosition.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackClosest.hpp">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="moverelative.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SquadFire.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSquadToPosition.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

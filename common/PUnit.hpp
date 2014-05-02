@@ -18,7 +18,7 @@ public:
 	// Methods
 	bool isAttacking();
 	void setTarget(BWAPI::PositionOrUnit newTarget);
-	void attackTarget(BWAPI::PositionOrUnit newTarget);
+	void attackTarget(BWAPI::PositionOrUnit newTarget, bool addToQueue);
 	BWAPI::Unit getClosestEnemy();
 
 	

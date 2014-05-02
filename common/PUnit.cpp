@@ -25,10 +25,10 @@ void PUnit::setTarget(PositionOrUnit newTarget)
 	target = newTarget;
 }
 
-void PUnit::attackTarget(PositionOrUnit newTarget)
+void PUnit::attackTarget(PositionOrUnit newTarget, bool addToQueue = false)
 {
 	target = newTarget;
-	this->unit->attack(target);
+	this->unit->attack(target,addToQueue);
 }
 
 Unit PUnit::getClosestEnemy()

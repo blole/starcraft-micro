@@ -21,10 +21,14 @@
   <ItemGroup>
     <ClInclude Include="AttackClosest.hpp" />
     <ClInclude Include="moverelative.hpp" />
+    <ClInclude Include="MoveSquadToPosition.hpp" />
+    <ClInclude Include="SquadFire.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackClosest.cpp" />
     <ClCompile Include="moverelative.cpp" />
+    <ClCompile Include="MoveSquadToPosition.cpp" />
+    <ClCompile Include="SquadFire.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{244ED8C6-F017-4421-AF42-14E2ED027E22}</ProjectGuid>

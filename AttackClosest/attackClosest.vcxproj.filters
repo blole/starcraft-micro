@@ -24,18 +24,12 @@
     <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="SquadManager.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="botAttackClosest.hpp">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Commander.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SquadManager.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
