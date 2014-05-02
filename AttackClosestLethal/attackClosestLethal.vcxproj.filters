@@ -4,13 +4,13 @@
     <ClCompile Include="SquadManager.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="botAttackClosest.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="Commander.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="dll.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="BotAttackClosestLethal.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -18,10 +18,10 @@
     <ClInclude Include="Commander.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="botAttackClosest.hpp">
+    <ClInclude Include="SquadManager.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="SquadManager.hpp">
+    <ClInclude Include="BotAttackClosestLethal.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
