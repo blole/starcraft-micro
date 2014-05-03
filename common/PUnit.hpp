@@ -23,6 +23,7 @@ public:
 	void attackTarget(BWAPI::PositionOrUnit newTarget, bool addToQueue);
 	BWAPI::Unit getClosestEnemy();
 	void attackClosestEnemyNonWorried();
+	bool isUnderAttack();
 
 	
 public:

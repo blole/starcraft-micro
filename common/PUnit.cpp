@@ -18,6 +18,7 @@ PUnit::PUnit(Unit unit)
 	// Methods
 bool PUnit::isAttacking()
 {
+	//	return (this->unit->isAttacking());
 	return (this->unit->isAttackFrame() || (this->unit->getGroundWeaponCooldown() != 0) || this->unit->isAttacking());
 }
 
@@ -91,6 +92,10 @@ void PUnit::attackClosestEnemyNonWorried()
 	}
 }
 
+bool PUnit::isUnderAttack()
+{
+	return this->unit->isUnderAttack();
+}
 
 
 PUnit* PUnit::get(BWAPI::Unit unit)
