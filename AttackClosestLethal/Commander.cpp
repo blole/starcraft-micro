@@ -17,7 +17,7 @@ void Commander::init()
 	Unitset tmpEnemyUnit = Broodwar->enemy()->getUnits();
 	for(auto i=tmpEnemyUnit.begin();i!=tmpEnemyUnit.end();++i)
 	{
-		if(i->getType()==UnitTypes::Terran_Marine)
+		if(i->getType()!=UnitTypes::Special_Map_Revealer)
 		{
 			OUnit* oUnit = OUnit::get(*i);
 			oAllUnits.insert(oUnit);
@@ -30,7 +30,7 @@ void Commander::init()
 	{
 		PUnit* pUnit = PUnit::get(*i);
 
-		if(i->getType()==UnitTypes::Terran_Marine)
+		if(i->getType()!=UnitTypes::Special_Map_Revealer)
 			pAllUnits.insert(pUnit);
 
 		if (pUnit->brain == nullptr)
