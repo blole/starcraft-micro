@@ -19,6 +19,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="AttackClosest.cpp" />
     <ClCompile Include="AttackClosestLethal.cpp" />
     <ClCompile Include="Flee.cpp" />
@@ -27,6 +28,7 @@
     <ClCompile Include="SquadFire.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Attack.hpp" />
     <ClInclude Include="AttackClosest.hpp" />
     <ClInclude Include="AttackClosestLethal.hpp" />
     <ClInclude Include="Flee.hpp" />

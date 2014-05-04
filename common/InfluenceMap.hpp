@@ -7,24 +7,20 @@ class InfluenceMap
 {
 public:
 	// Attributes
-	std::map<BWAPI::UnitType,double**> matrixInfluence;
-	int mapWidth;
-	int mapHeight;
+	static std::map<BWAPI::UnitType,double**> matrixInfluence;
+	static int mapWidth;
+	static int mapHeight;
 
 	// Informations map
-	std::map<BWAPI::UnitType,double> mapSpeed;
-	std::map<BWAPI::UnitType,double> mapAcceleration;
-	std::map<BWAPI::UnitType,double> mapTurn;
-	std::map<BWAPI::UnitType,double> mapAttackTime;
-	std::map<BWAPI::UnitType,double> mapAttackRange;
+	static std::map<BWAPI::UnitType,double> mapSpeed;
+	static std::map<BWAPI::UnitType,double> mapAcceleration;
+	static std::map<BWAPI::UnitType,double> mapTurn;
+	static std::map<BWAPI::UnitType,double> mapAttackTime;
+	static std::map<BWAPI::UnitType,double> mapAttackRange;
 
-
-	// Constructor
-	// CAN BE INSTANTIATE ONCE EVERYUNIT EXISTS
-	InfluenceMap();
 	// Methods
-	void init();
-	void update();
-	void debugDisplayInfluence();
+	static void init();
+	static void update();
+	static void debugDisplayInfluence();
 	
 };

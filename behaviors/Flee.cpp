@@ -12,30 +12,48 @@ void Flee::init(void* agent)
 {
 	first = true;
 	PUnit* pUnit = (PUnit*)agent;
+	lookForNewPos = true;
 }
 
 BEHAVIOR_STATUS Flee::execute(void* agent)
 {
 	PUnit* pUnit = (PUnit*)agent;
 	
-	// Get all unit in weapon range and flee away from them
-	auto enemies = pUnit->unit->getUnitsInWeaponRange(WeaponTypes::Gauss_Rifle,Filter::IsEnemy);
-	if(enemies.size()==0)
+	auto type = pUnit->unit->getType();
+	auto matrixInfluence = (InfluenceMap::matrixInfluence.find(type))->second;
+	int iUnit = pUnit->getPosition().x/32;
+	int jUnit = pUnit->getPosition().y/32;
+	if(matrixInfluence[iUnit][jUnit] == 0)
 		return BT_SUCCESS;
 	else
 	{
-		// Compute enemies mean position
-		Position meanPosEnemies(0,0);
-		for(auto i=enemies.begin();i!=enemies.end();i++)
+		// Check if bestPos is still safe
+		int iBest = bestPos.x/32;
+		int jBest = bestPos.y/32;
+		if(lookForNewPos || !matrixInfluence[iBest][jBest] ==0)
 		{
-			meanPosEnemies += (*i)->getPosition();
+			// go to the closest safe area
+			double bestDist = 10000;
+			for(int i=0;i<InfluenceMap::mapWidth;i++)
+			{
+				for(int j=0;j<InfluenceMap::mapHeight;j++)
+				{
+					if(matrixInfluence[i][j] == 0)
+					{
+						Position cellPos(i*32,j*32);
+						double dist = cellPos.getApproxDistance(pUnit->getPosition());
+						if(abs(dist-InfluenceMap::mapAttackRange[type]) < bestDist)
+						{
+							bestDist = abs(dist-InfluenceMap::mapAttackRange[type]);
+							bestPos = cellPos;
+						}
+					}
+				}
+			}
+			lookForNewPos = false;
 		}
-		meanPosEnemies /= enemies.size();
-
-		// Run away from that position
-		Position goal(3*(pUnit->getPosition()) - meanPosEnemies);
-		pUnit->unit->move(goal);
-		Broodwar->drawLineMap(pUnit->getPosition(),goal,Color(255,0,0));
+		Broodwar->drawLineMap(pUnit->getPosition(),bestPos,Color(0,0,255));
+		pUnit->unit->move(bestPos);
 		return BT_RUNNING;
 	}
 }

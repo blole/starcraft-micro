@@ -2,6 +2,7 @@
 #include "behaviors/Flee.hpp"
 #include "behaviors/AttackClosest.hpp"
 #include "behaviors/AttackClosestLethal.hpp"
+#include "behaviors/Attack.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -37,7 +38,11 @@ void Commander::init()
 		if(i->getType()!=UnitTypes::Special_Map_Revealer)
 			pAllUnits.insert(pUnit);
 
-		//if (pUnit->brain == nullptr)
+		if (pUnit->brain == nullptr)
+			pUnit->brain=(new SequentialNode())
+				->addChild(new Flee())
+				//->addChild(new AcquireTarget())
+				->addChild(new Attack());
 		//	//pUnit->brain = (new ParallelNode())
 		//	//	->addChild((new SequentialNode())
 		//	//		->addChild(new BoolCondition<PUnit>(&PUnit::isUnderAttack,true))
@@ -56,15 +61,17 @@ void Commander::init()
 
 void Commander::update()
 {
+
 	if(oAllUnits.size()==0) // Winning scenario
 		return;
-
-	//for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
-	//{
-	//		(*i)->brain->execute(*i);
-	//}
-
+	
 	influenceMap.update();
+
+	for(auto i=pAllUnits.begin();i!=pAllUnits.end();i++)
+	{
+			(*i)->brain->execute(*i);
+	}
+
 }
 void Commander::destroyUnit(BWAPI::Unit unit)
 {

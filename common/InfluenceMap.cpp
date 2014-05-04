@@ -1,44 +1,20 @@
 #include "common/InfluenceMap.hpp"
 #include <iostream>
+#include <stdlib.h>
 
 using namespace BWAPI;
 
-	//	std::map<int,int**> matrixInfluence;
-	//// Enemy
-	//std::map<int,float> enemySpeed;
-	//std::map<int,float> enemyAcceleration;
-	//std::map<int,float> enemyTurn;
-	//std::map<int,float> enemyAttackTime;
-	//std::map<int,float> enemyAttackRange;
-	//// Me
-	//std::map<int,float> unitSpeed;
-	//std::map<int,float> unitAcceleration;
-	//std::map<int,float> unitTurn;
-	//std::map<int,float> unitAttackTime;
-	//std::map<int,float> unitAttackRange;
-
-
-	// Constructor
-InfluenceMap::InfluenceMap()
-{
-	////Enemy
-	//zealotSpeed = 4;
-	//zealotAcceleration = 2;
-	//zealotTurn = 1; 
-	//zealotAttackTime = 2;
-	//zealotAttackRange = 15;
-	////Me
-	//vultureSpeed = 6.4;
-	//vultureAcceleration = 9;
-	//vultureTurn = 3;
-	//vultureAttackTime = 1;
-	//vultureAttackRange = 160;
-}
+std::map<BWAPI::UnitType,double**> InfluenceMap::matrixInfluence;
+std::map<BWAPI::UnitType,double> InfluenceMap::mapSpeed;
+std::map<BWAPI::UnitType,double> InfluenceMap::mapAcceleration;
+std::map<BWAPI::UnitType,double> InfluenceMap::mapTurn;
+std::map<BWAPI::UnitType,double> InfluenceMap::mapAttackTime;
+std::map<BWAPI::UnitType,double> InfluenceMap::mapAttackRange;
+int InfluenceMap::mapWidth;
+int InfluenceMap::mapHeight;
 
 void InfluenceMap::init()
 {
-	// Create informations map
-
 	mapWidth = Broodwar->mapWidth();
 	mapHeight = Broodwar->mapHeight();
 
@@ -52,10 +28,10 @@ void InfluenceMap::init()
 		{
 			// Update informations map
 			mapSpeed[type] = 6.4; //type.topSpeed();
-			mapAcceleration[type] = 9 ; //type.acceleration()*2;
-			mapTurn[type] = 3; //type.turnRadius()/40;
+			mapAcceleration[type] = 9; //type.acceleration();
+			mapTurn[type] = 3; //type.turnRadius();
 			mapAttackTime[type] = 1; // TODO FIND A WAY TO COMPUTE THIS VALUE
-			mapAttackRange[type] = type.groundWeapon().maxRange();
+			mapAttackRange[type] = 160; //type.groundWeapon().maxRange();
 
 			// Matrix not already existing
 			matrixInfluence[type] = (double**) malloc(mapWidth*sizeof(double*));
@@ -79,11 +55,11 @@ void InfluenceMap::init()
 		if(! (iter != mapSpeed.end()))
 		{
 			// Update informations map
-			mapSpeed[type] = 4.0; //type.topSpeed();
-			mapAcceleration[type] = 2; //type.acceleration()*2;
-			mapTurn[type] = 1; //type.turnRadius()/40;
+			mapSpeed[type] = 4; //type.topSpeed();
+			mapAcceleration[type] = 2; //type.acceleration();
+			mapTurn[type] = 1; //type.turnRadius();
 			mapAttackTime[type] = 2; // TODO FIND A WAY TO COMPUTE THIS VALUE
-			mapAttackRange[type] = type.groundWeapon().maxRange();
+			mapAttackRange[type] = 15; //type.groundWeapon().maxRange();
 		}
 	}
 }
@@ -111,7 +87,7 @@ void InfluenceMap::update()
 		{
 			for(int j=0;j<mapHeight;j++)
 			{
-				// Resest influence
+				// Reset influence
 				matrix[i][j] = 0;
 
 				// Recompute influence of all enemies
@@ -119,21 +95,21 @@ void InfluenceMap::update()
 				{
 					auto enemy = pairEnemy->second;
 					auto enemyType = enemy->unit->getType();
-					double dmax = mapAttackRange[enemyType]
-									+ k
-									+ mapSpeed[enemyType] * kitingTime;
+					double dmax = mapAttackRange[type];
+									//+ k
+									//+ mapSpeed[enemyType] * kitingTime;
 					Position cellPosition(i*32,j*32);
 					double d = cellPosition.getApproxDistance(enemy->getPosition());
 					if(d < dmax)
 					{
-						matrix[i][j] += Broodwar->getDamageFrom(type,enemyType);
+						matrix[i][j] += Broodwar->getDamageFrom(type,enemyType) / mapAttackTime[enemyType];
 					}
 				}
 			}
 		}
 	}
 
-	//debugDisplayInfluence();
+	debugDisplayInfluence();
 }
 
 void InfluenceMap::debugDisplayInfluence()
@@ -181,8 +157,8 @@ void InfluenceMap::debugDisplayInfluence()
 				{
 					Position cellPosition(i*32,j*32);
 					//Broodwar->drawTextMap(cellPosition,"%f",matrix[i][j]);
-					//Broodwar->drawEllipseMap(cellPosition,radius,radius,	Color(radius*(255/unitKind),0,0),false);
-					Broodwar->drawBoxMap(cellPosition-Position(16,16),cellPosition+Position(16,16),Color(radius*(255/max),0,0),true);
+					Broodwar->drawEllipseMap(cellPosition,radius,radius,	Color(radius*(255/unitKind),0,0),false);
+					//Broodwar->drawBoxMap(cellPosition-Position(16,16),cellPosition+Position(16,16),Color(radius*(255/max),0,0),true);
 				}
 			}
 		}

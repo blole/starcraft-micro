@@ -32,6 +32,9 @@
     <ClCompile Include="Flee.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackClosest.hpp">
@@ -50,6 +53,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="Flee.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

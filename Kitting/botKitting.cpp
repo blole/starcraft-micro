@@ -73,10 +73,10 @@ void BotKitting::onFrame()
 
 	commander.update();
 	
-	// Prevent spamming by only running our onFrame once every number of latency frames.
-	// Latency frames are the number of frames before commands are processed.
-	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
-		return;
+	//// Prevent spamming by only running our onFrame once every number of latency frames.
+	//// Latency frames are the number of frames before commands are processed.
+	//if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
+	//	return;
 }
 
 void BotKitting::onSendText(std::string text)
