@@ -11,41 +11,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameUnit.cpp" />
-    <ClCompile Include="InfluenceMap.cpp" />
-    <ClCompile Include="OUnit.cpp" />
-    <ClCompile Include="PUnit.cpp" />
-    <ClCompile Include="squad.cpp" />
+    <ClCompile Include="botKitting.cpp" />
+    <ClCompile Include="Commander.cpp" />
+    <ClCompile Include="dll.cpp" />
+    <ClCompile Include="SquadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameUnit.hpp" />
-    <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
-    <ClInclude Include="InfluenceMap.hpp" />
-    <ClInclude Include="OUnit.hpp" />
-    <ClInclude Include="PUnit.hpp" />
-    <ClInclude Include="squad.hpp" />
+    <ClInclude Include="botKitting.hpp" />
+    <ClInclude Include="Commander.hpp" />
+    <ClInclude Include="SquadManager.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
+      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\common\common.vcxproj">
+      <Project>{7cfee4db-10dd-40d1-9175-5ea2f0913d17}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7CFEE4DB-10DD-40D1-9175-5EA2F0913D17}</ProjectGuid>
+    <ProjectGuid>{B00F666A-BDF3-46A3-AF97-B34DD3410783}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>common</ProjectName>
+    <ProjectName>Kitting</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
@@ -63,10 +65,8 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
