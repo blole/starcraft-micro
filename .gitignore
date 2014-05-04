@@ -189,6 +189,7 @@ build/
 *.pdf
 *.ps
 compile
+*.gif
 
 # Kilian's Folder
 SubjectDescription/
