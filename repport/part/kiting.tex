@@ -13,7 +13,7 @@ We based our algorithm on the work of\:\cite{kiting}.
     \end{shortitem}
 \end{definition}
 
-The behavior tree used by the units acheiving \texttt{Kiting} is depicted in Figure \ref{behaAttackClos}.
+The behavior tree used by the units achieving \texttt{Kiting} is depicted in Figure \ref{behaAttackClos}.
 
 \begin{figure}[h!t]
 \centering
@@ -71,4 +71,16 @@ $$
 Using this matrix each unit can compute its closest safe position.
 
 Then an attack is performed each time the unit is in a safe area.
+
+Figure \ref{influenceMatrix} shows the influence matrix of a group of 6 units.
+
+\begin{center}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\columnwidth]{fig/InfluenceMap.ps}
+        \caption{Influence matrix created by a group of 6 units \\ 
+        Lighter blue means bigger value}
+        \label{influenceMatrix}
+    \end{figure}
+\end{center}
 

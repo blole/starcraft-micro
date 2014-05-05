@@ -7,10 +7,10 @@ The different tasks that have to be accomplished when playing a complete game of
     \tikzstyle{quadri}=[rectangle,draw, align=center, scale=0.8]
     \tikzstyle{link}=[->,thin,>=latex]
     \node[quadri] (commander) at (0,2) {Commander \\ \emph{Coordinate, allocate resources}};
-    \node[quadri] (general) at (-2,1) {General \\ \emph{Tactical military decisions}};
-    \node[quadri] (squad) at (-2,0) {Squad \\ \emph{Micromanage units}};
-    \node[quadri] (unit) at (-2,-1) {Unit \\ \emph{Follow orders}};
-    \node[quadri] (basemanager) at (2,1) {Base Manager \\ \emph{Construct units and buildings}};
+    \node[quadri] (general) at (-1.5,1) {General \\ \emph{Tactical military decisions}};
+    \node[quadri] (squad) at (-1.5,0) {Squad \\ \emph{Micro-manage units}};
+    \node[quadri] (unit) at (-1.5,-1) {Unit \\ \emph{Follow orders}};
+    \node[quadri] (basemanager) at (1.5,1) {Base Manager \\ \emph{Construct units and buildings}};
     \draw[link] (commander)--(general);
     \draw[link] (general)--(squad);
     \draw[link] (squad)--(unit);
@@ -33,7 +33,7 @@ One per game. Constructs what the Commander wants, possibly given priorities.
 One per game. Splits the available military units up into squads and assigns them objectives such as \texttt{Attack}, \texttt{Defend} and \texttt{Flee}.
 \end{definition}
 \begin{definition}[Squad]
-As many as the general wants. They have a military goal and micromanage every move of each unit.
+As many as the general wants. They have a military goal and micro-manage every move of each unit.
 \end{definition}
 \begin{definition}[Unit]
 The actual units in the game, ordered according to the wishes of the squad manager.
