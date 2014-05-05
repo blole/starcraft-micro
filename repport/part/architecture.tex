@@ -1,38 +1,18 @@
 \section{Architecture}
+In order to maintain flexibility in our bot's behaviors we designed it in a modular and hierarchical fashion to fit the conceptual model in Figure \ref{conceptualModel}. As mentioned before we did, however, not implement anything sophisticated for anything above the squad-level and focused on the micromanagement.
+This architecture and the addition of behaviors tree was perfectly fitted for the development of multiple bots -- only small parts of the code has to be change to improve/change the bot behavior.
+%It also looks like a human hierarchy -- facilitating the conception of each bot.
 
-In order to have a huge flexibility in our bot behaviors we designed our AI in a modular and hierarchical fashion (Figure \ref{classDiag}).
-This architecture and the addition of behaviors tree was perfectly fitted for the development of multiple bots -- small part of the code has to be change to improve/change the bot behavior.
-It also looks like a human hierarchy -- faciliting the conception of each bot.
+For the behaviors trees we used the library libbehavior \cite{libbehavior}.
 
-\begin{figure}[h!t]
-\centering
-\begin{tikzpicture}[node distance = 1 cm]
-    \tikzstyle{quadri}=[rectangle,draw, align=center, scale=0.8]
-    \tikzstyle{link}=[->,thin,>=latex]
-    \node[quadri] (commander) at (-2,2) {Commander \\ \emph{Make overall decision}};
-    \node[quadri] (squad) at (-2,1) {Squad \\ \emph{Micro manage units}};
-    \draw[link] (commander)--(squad);
+The following are the squad managers we have at the current moment:
+\begin{shortitem}
+\item \texttt{Attack Closest:} Every unit attack their closest opponent.
+\item \texttt{Attack Closest Lethal:} Every unit attack the closest opponent that will not die soon (\emph{i.e.} the amount of damage attributed to this unit is not already enough to kill him soon).
+\item \texttt{Kiting:} Every unit attacks their closest opponent applying a kiting strategy.
+\item \texttt{Kiting Lethal:} Every unit attacks the closest opponent that will not die soon, while also applying a kiting strategy.
+\item \texttt{Searching:} A searching algorithm trying to find the best option for moving or which opponent to attacking in any situation.
+\end{shortitem}
 
-    \node[quadri] (gameUnit) at (2,2) {Game Unit};
-    \node[quadri] (pUnit) at (1,1){Player Unit \\ \emph{Fight for glory}};
-    \node[quadri] (oUnit) at (3,1){Opponent Unit \\ \emph{Should be defeated}};
-
-    \draw[link] (squad)--(pUnit);
-    \draw[link] (gameUnit)--(pUnit);
-    \draw[link] (gameUnit)--(oUnit);
-\end{tikzpicture}
-\caption{Class Diagram}
-\label{classDiag}
-\end{figure}
-
-\begin{definition}[Commander, Squad, Units]
-    \ \\
-    \begin{description}
-        \item[Commander:]  One per game who make overall decision for the game such as: Creating squad, assigning objectives to squads (\texttt{Attack}, \texttt{Flee}, \texttt{Go to}, \ldots).
-        \item[Squad:] As many squad as the commander want. They have a military goal and are in charge of micro-managing each units. 
-        \item[Unit:] Each game unit has many attributes and some scripted behaviors (\texttt{Attack closest ennemy}, \texttt{Regroup with squad}, \texttt{Attack ennemy with kitting strategy}, \ldots)
-    \end{description}
-\end{definition}
-
-Our bots also uses behaviors tree (using the library from \cite{libbehavior}). 
+The first four of these squad managers don't make any plan for the future of the game, and only act in a purely reactive way according to some preset conditions. It should also be noted that in the non-lethal versions, the units don't share any information with each other, whereas in the lethal versions they share the information about which target they will attack next. In the searching squad manager, on the other hand, the units are all considered as a single entity, like the fingers of a hand, and are coordinated.
 

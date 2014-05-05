@@ -1,0 +1,58 @@
+\section{UCT Search}
+UCT, or Upper Confidence bound for Trees, is the most popular Monte Carlo Tree Search algorithm for playing games that are otherwise hard for computers to handle.
+This algorithm has recently seen success in the game of go, but more relevant to our topic, also been applied to games such as Arimaa, and even RTS games. For a review of how it works we refer to \cite{mcts}.
+Arimaa is interesting because it has an average branching factor of 17000, compared to chess, which only has 35. \cite{arimaawiki}
+
+In \cite{wargusuct}, UCT is used for deciding where squads should attack in the RTS game Wargus, which would correspond to using UCT at the General-level in our conceptual model as well.
+
+In \cite{abcd}, an extended version of alpha-beta pruning, which is also a searching algorithm, was used for micromanagement just like we describe, they were able to find good solutions for 8 v.s. 8 unit scenarios in 5 ms, achieving around a 80\% win rate against their best script.
+
+
+
+To be able to perform good searches of RTS games we have to account for the way actions are executed over several frames. In the alpha-beta searching paper (\cite{abcd}) they refer to this as durative moves, but a closer analogy would maybe delayed effects, because, for example, these are the fixed animation steps that a marine goes through when performing an attack.
+
+\begin{center}
+\begin{tabular}{ r | p{3,5cm} }
+Frame offset & Effect \\
+\hline
+0 & marine may not move \\
+1 & damage is applied to target \\
+6 & marine may move again \\
+14-17 & marine may attack again
+\footnote{The exact number is randomed every attack.}
+\end{tabular}
+\end{center}
+\\ \\
+
+However, these effects can be quite complex. Here are the corresponding steps for an firebat attacking.
+
+\\
+\begin{center}
+\begin{tabular}{ r | p{3,5cm} }
+Frame offset & Effect \\
+\hline
+0 & firebat may not move \\
+5 & half of the damage is applied to target \\
+6 & if the firebat is still alive, the other half of the damage is applied to the target as well \\
+10 & the firebat may move again \\
+21-24 & the firebat may attack again
+\end{tabular}
+\end{center}
+\\ \\
+
+Therefore we propose to use this model of the GameState to keep track of all the effects that are to take place.
+
+\\
+\begin{center}
+\begin{tabular}{ | l | p{3,5cm} | }
+\hline
+\multicolumn{2}{|c|}{\emph{GameState}} \\
+\hline
+units		& all the units with their positions, health, and internal states \\
+effects	& all the pending effects to be applied to the GameState at a future frame. \\
+\hline
+\end{tabular}
+\end{center}
+\\
+
+So that when exploring the search tree and applying actions to states to expand the tree, the child states are essentially a copy of the parent state with the action's effects added to the child state's list of pending effects.
