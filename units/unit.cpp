@@ -37,7 +37,7 @@ public:
 		std::list<Action*> actions;
 
 		for each (Unit* unit in state->unitsInRange(pos, range))
-			actions.push_back(new Attack(state, this, unit));
+			actions.push_back(new Attack<6>(state, this, unit));
 
 		for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 4)
 			actions.push_back(new Move(state, this, dir));

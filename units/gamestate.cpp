@@ -3,6 +3,8 @@
 
 using namespace Bot::Units;
 
+std::vector<BWAPI::Unit> GameState::bwapiUnits;
+
 GameState::GameState(GameState* parent, Action* action)
 	: parent(parent)
 	, frame(parent->frame)
@@ -90,6 +92,11 @@ Unit* GameState::getUnitModifiable(id_t id)
 {
 	units[id] = units[id]->clone();
 	return units[id];
+}
+
+BWAPI::Unit GameState::getBwapiUnit(id_t id)
+{
+	return bwapiUnits[id];
 }
 
 BWAPI::Unit GameState::getBwapiUnit(Unit* unit)

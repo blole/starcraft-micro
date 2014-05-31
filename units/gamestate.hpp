@@ -14,7 +14,7 @@ namespace Bot { namespace Units
 	class Settings
 	{
 	public:
-		static bool branchOnUnit;
+		static const bool branchOnUnit = true;
 	};
 
 	class GameState
@@ -40,6 +40,7 @@ namespace Bot { namespace Units
 		int getFrame() { return frame; }
 		const Unit* getUnit(id_t id);
 		Unit* getUnitModifiable(id_t id);
+		BWAPI::Unit getBwapiUnit(id_t id);
 		BWAPI::Unit getBwapiUnit(Unit* unit);
 
 		std::list<Action*> possibleActions();
@@ -51,13 +52,13 @@ namespace Bot { namespace Units
 		std::list<Unit*> unitsInRange(BWAPI::Position pos, int maxRange);
 		std::list<Unit*> unitsInRange(BWAPI::Position pos, int minRange, int maxRange);
 
+
+	public:
+		std::vector<Action*> search()
+		{
+			std::vector<Action*> bestActions;
+
+			return bestActions;
+		}
 	};
-
-	std::vector<Action*> search(std::vector<BWAPI::Unit> bwapiUnits)
-	{
-		std::vector<Action*> bestActions;
-		GameState startingState(bwapiUnits);
-
-		return bestActions;
-	}
 }}
