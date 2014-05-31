@@ -21,6 +21,8 @@ namespace Bot { namespace Units
 	{
 	private:
 		static std::vector<BWAPI::Unit> bwapiUnits;
+		//std::vector<Unit*> playerUnits;
+		//std::vector<Unit*> opponentUnits;
 		std::vector<Unit*> units;
 		GameState* parent;
 		std::map<Action*, GameState*> children;
@@ -48,6 +50,7 @@ namespace Bot { namespace Units
 
 		std::list<Unit*> unitsInRange(BWAPI::Position pos, int maxRange);
 		std::list<Unit*> unitsInRange(BWAPI::Position pos, int minRange, int maxRange);
+
 	};
 
 	std::vector<Action*> search(std::vector<BWAPI::Unit> bwapiUnits)
