@@ -31,9 +31,9 @@ LifeTimeDamage1::LifeTimeDamage1() : Heuristic()
 
 float LifeTimeDamage1::value(GameState* pGameState)
 {
+	float value = 0;
 	auto playerUnits = pGameState->getPlayerUnits();
 	auto opponentUnits = pGameState->getOpponentUnits();
-	float value = 0;
 	foreach(auto unit in playerUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
