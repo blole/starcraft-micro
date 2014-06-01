@@ -10,13 +10,13 @@ namespace Bot { namespace Units
 	protected:
 		const int frameStarted;
 
-		Action(GameState* state)
+		Action(const GameState* state)
 			: frameStarted(state->getFrame())
 		{}
 
 	public:
 		bool applyTo(GameState* state) { return applyTo(state, state->getFrame()-frameStarted); }
-		virtual bool applyTo(GameState* state, int frame) = 0;
+		virtual bool applyTo(GameState* state, int frameOffset) = 0;
 		virtual void executeOrder(GameState* state) = 0;
 	};
 
@@ -25,7 +25,7 @@ namespace Bot { namespace Units
 	protected:
 		const id_t unitID;
 
-		SingleUnitAction(GameState* state, Unit* unit)
+		SingleUnitAction(const GameState* state, const Unit* unit)
 			: Action(state)
 			, unitID(unit->id)
 		{}
@@ -36,7 +36,7 @@ namespace Bot { namespace Units
 	protected:
 		const id_t targetID;
 
-		TwoUnitAction(GameState* state, Unit* unit, Unit* target)
+		TwoUnitAction(const GameState* state, const Unit* unit, const Unit* target)
 			: SingleUnitAction(state, unit)
 			, targetID(target->id)
 		{}
@@ -45,57 +45,73 @@ namespace Bot { namespace Units
 
 
 
-
 	class Move : public SingleUnitAction
 	{
-		const BWAPI::Position frameOffset;
+		static const int moveQuanta = 25;
+		const BWAPI::Position moveOffset;
 	public:
-		Move(GameState* state, Unit* unit, float direction)
+		Move(const GameState* state, const Unit* unit, float direction)
 			: SingleUnitAction(state, unit)
-			, frameOffset(
+			, moveOffset(
 				BWAPI::Position(
 					(int)(std::cos(direction)*state->getBwapiUnit(unit)->getType().topSpeed()),
 					(int)(std::sin(direction)*state->getBwapiUnit(unit)->getType().topSpeed())))
 		{}
 
-		virtual bool applyTo(GameState* state, int frame)
+		virtual bool applyTo(GameState* state, int frameOffset)
 		{
-			const Unit* unit = state->getUnit(unitID);
-			if (!unit->isAlive() || unit->isAttackFrame)
+			Unit* unit = state->getUnitModifiable(unitID);
+			if (!unit->isAlive() || unit->isAttackFrame || frameOffset >= moveQuanta)
+			{
+				unit->isMoving = false;
 				return false;
+			}
+			else
+			{
+				state->addEffect(1, this);
 
-			Unit* unitModifiable = state->getUnitModifiable(unitID);
-			unitModifiable->pos += frameOffset;
-			state->addEffect(1, this);
+				if (frameOffset == 0)
+					unit->isMoving = true;
+				else
+					unit->pos += moveOffset;
 
-			return true;
+				return true;
+			}
 		}
 
 		virtual void executeOrder(GameState* state)
 		{
-			state->getBwapiUnit(unitID)->move(frameOffset * 3);
+			state->getBwapiUnit(unitID)->move(moveOffset * 3);
 		}
 	};
 
-	template<int AttackFrames>
+	template<int AttackFrames> //TODO: weapon cooldown
 	class Attack : public TwoUnitAction
 	{
 	public:
-		Attack(GameState* state, Unit* unit, Unit* target)
+		Attack(const GameState* state, const Unit* unit, const Unit* target)
 			: TwoUnitAction(state, unit, target)
 		{}
 
-		virtual bool applyTo(GameState* state, int frame)
+		virtual bool applyTo(GameState* state, int frameOffset)
 		{
-			switch (frame)
+			switch (frameOffset)
 			{
+			case 0:
+				{
+					Unit* unit = state->getUnitModifiable(unitID);
+					unit->isAttackFrame = true;
+					unit->groundWeaponCooldown = true;
+
+					state->addEffect(1, this);
+					state->addEffect(AttackFrames, this);
+					state->addEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
+					break;
+				}
 			case 1:
 				if (state->getUnit(unitID)->isAlive())
 				{
-					Unit* unit = state->getUnitModifiable(unitID);
 					Unit* target = state->getUnitModifiable(targetID);
-					unit->isAttackFrame = true;
-					unit->groundWeaponCooldown = true;
 					target->hp -= state->getBwapiUnit(unitID)->getType().groundWeapon().damageAmount();
 					return true;
 				}
@@ -106,7 +122,7 @@ namespace Bot { namespace Units
 				unit->isAttackFrame = false;
 				return true;
 			}
-			if (frame == state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown())
+			if (frameOffset == state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown())
 			{
 				Unit* unit = state->getUnitModifiable(unitID);
 				unit->groundWeaponCooldown = false;
@@ -124,11 +140,11 @@ namespace Bot { namespace Units
 	class GroundWeaponReloaded : public SingleUnitAction
 	{
 	public:
-		GroundWeaponReloaded(GameState* state, Unit* unit)
+		GroundWeaponReloaded(const GameState* state, const Unit* unit)
 			: SingleUnitAction(state, unit)
 		{}
 
-		virtual bool applyTo(GameState* state, int frame)
+		virtual bool applyTo(GameState* state, int frameOffset)
 		{
 			state->getUnitModifiable(unitID)->groundWeaponCooldown = false;
 			return true;
@@ -141,7 +157,7 @@ namespace Bot { namespace Units
 	class AttackAnimationDone : public SingleUnitAction
 	{
 	public:
-		AttackAnimationDone(GameState* state, Unit* unit)
+		AttackAnimationDone(const GameState* state, const Unit* unit)
 			: SingleUnitAction(state, unit)
 		{}
 

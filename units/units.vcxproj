@@ -17,11 +17,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />
+    <ClCompile Include="possibleactions.cpp" />
+    <ClCompile Include="search.cpp" />
     <ClCompile Include="unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.hpp" />
     <ClInclude Include="gamestate.hpp" />
+    <ClInclude Include="possibleactions.hpp" />
+    <ClInclude Include="search.hpp" />
     <ClInclude Include="unit.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

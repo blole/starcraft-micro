@@ -24,12 +24,24 @@
     <ClInclude Include="action.hpp">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="search.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="possibleactions.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="unit.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="gamestate.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="search.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="possibleactions.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

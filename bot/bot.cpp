@@ -1,5 +1,6 @@
 #include "bot/bot.hpp"
 #include "bot/reactivesquad.hpp"
+#include "bot/MCTSsquad.hpp"
 #include "behaviors/moverelative.hpp"
 #include <iostream>
 
@@ -15,12 +16,7 @@ void Bot::onStart()
 	
 	if (!Broodwar->isReplay())
 	{
-		auto unitBrain = []{ return
-			(new SequentialNode());
-				//->addChild(new MoveRelative(10, 0));
-		};
-
-		general = new General([=]{ return new ReactiveSquad(unitBrain); });
+		general = new General([]{ return new MCTSsquad(); });
 		general->onStart();
 	}
 }

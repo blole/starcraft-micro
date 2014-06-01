@@ -14,11 +14,13 @@
     <ClCompile Include="bot.cpp" />
     <ClCompile Include="general.cpp" />
     <ClCompile Include="dll.cpp" />
+    <ClCompile Include="MCTSsquad.cpp" />
     <ClCompile Include="reactivesquad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bot.hpp" />
     <ClInclude Include="general.hpp" />
+    <ClInclude Include="MCTSsquad.hpp" />
     <ClInclude Include="reactivesquad.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -30,6 +32,9 @@
     </ProjectReference>
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\units\units.vcxproj">
+      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

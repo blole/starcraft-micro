@@ -27,6 +27,9 @@
     <ClCompile Include="reactivesquad.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="MCTSsquad.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bot.hpp">
@@ -36,6 +39,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="reactivesquad.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MCTSsquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

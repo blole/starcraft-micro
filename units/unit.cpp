@@ -7,6 +7,9 @@ namespace Bot { namespace Units {
 Unit::Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	: id(id)
 	, hp(bwapiUnit->getHitPoints())
+	, isMoving(false)
+	, isAttackFrame(false)
+	, groundWeaponCooldown(false)
 {
 	if (bwapiUnit->isAttackFrame())
 	{
@@ -30,22 +33,29 @@ public:
 
 	}
 
-	virtual std::list<Action*> const possibleActions(GameState* state)
+	virtual std::list<Action*> possibleActions(const GameState* state) const
 	{
 		static const int range = BWAPI::UnitTypes::Terran_Marine.groundWeapon().maxRange();
 
 		std::list<Action*> actions;
 
 		for each (Unit* unit in state->unitsInRange(pos, range))
-			actions.push_back(new Attack<6>(state, this, unit));
+		{
+			if (!this->groundWeaponCooldown)
+				actions.push_back(new Attack<6>(state, this, unit));
+		}
 
-		for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 4)
-			actions.push_back(new Move(state, this, dir));
+		if (!this->isAttackFrame)
+		{
+			//TODO: precalc all of these directional offsets..
+			for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 4)
+				actions.push_back(new Move(state, this, dir));
+		}
 
 		return actions;
 	}
 
-	virtual Unit* const clone()
+	virtual Unit* clone() const
 	{
 		return new Terran_Marine(*this);
 	}

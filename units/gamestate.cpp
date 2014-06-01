@@ -1,14 +1,29 @@
 #include "units/gamestate.hpp"
+#include "units/action.hpp"
 #include "units/unit.hpp"
 
 using namespace Bot::Units;
 
 std::vector<BWAPI::Unit> GameState::bwapiUnits;
 
-GameState::GameState(GameState* parent, Action* action)
+GameState::GameState(const GameState* parent, Action* action)
 	: parent(parent)
 	, frame(parent->frame)
-{}
+	, units(parent->units)
+	, pendingEffects(parent->pendingEffects)
+{
+	action->applyTo(this);
+}
+
+GameState::GameState(const GameState* parent)
+	: parent(parent)
+	, frame(parent->frame)
+	, units(parent->units)
+	, pendingEffects(parent->pendingEffects)
+{
+	//TODO: step through pendingEffects one frame at a time until possibleActions() returns something
+	//frame++;
+}
 
 GameState::GameState(std::vector<BWAPI::Unit> bwapiUnits)
 	: parent(nullptr)
@@ -30,7 +45,7 @@ GameState::~GameState()
 	GameState::bwapiUnits.clear();
 }
 
-std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int maxRange)
+std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int maxRange) const
 {
 	std::list<Unit*> inRange;
 
@@ -46,7 +61,7 @@ std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int maxRange)
 	return inRange;
 }
 
-std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int minRange, int maxRange)
+std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int minRange, int maxRange) const
 {
 	std::list<Unit*> inRange;
 
@@ -62,28 +77,13 @@ std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int minRange, int 
 	return inRange;
 }
 
-std::list<Action*> GameState::possibleActions()
+void GameState::setPossibleActions(std::list<Action*> possibleActions)
 {
-	if (!actions.empty())
-		return actions;
-
-	if (Settings::branchOnUnit)
-	{
-		for each (Unit* unit in units)
-		{
-			if (unit->isAlive())
-			{
-				actions = unit->possibleActions(this);
-				if (!actions.empty())
-					return actions;
-			}
-		}
-	}
-
-	throw std::runtime_error("GameState has no possible actions!?!");
+	this->possibleActions = possibleActions;
+	//maybe clear/setup expandedChildren here?
 }
 
-const Unit* GameState::getUnit(id_t id)
+const Unit* GameState::getUnit(id_t id) const
 {
 	return units[id];
 }
@@ -94,19 +94,19 @@ Unit* GameState::getUnitModifiable(id_t id)
 	return units[id];
 }
 
-BWAPI::Unit GameState::getBwapiUnit(id_t id)
+BWAPI::Unit GameState::getBwapiUnit(id_t id) const
 {
 	return bwapiUnits[id];
 }
 
-BWAPI::Unit GameState::getBwapiUnit(Unit* unit)
+BWAPI::Unit GameState::getBwapiUnit(const Unit* unit) const
 {
 	return bwapiUnits[unit->id];
 }
 
 void GameState::addEffect(int frameOffset, Action* action)
 {
-	//TODO
+	pendingEffects.addEffect(frameOffset, action);
 }
 
 float GameState::defaultPolicy()
@@ -116,11 +116,11 @@ float GameState::defaultPolicy()
 
 GameState* GameState::takeAction(Action* action)
 {
-	auto iter = children.find(action);
-	if (iter == children.end())
+	auto iter = expandedChildren.find(action);
+	if (iter == expandedChildren.end())
 	{
 		GameState* child = new GameState(this, action);
-		children[action] = child;
+		expandedChildren[action] = child;
 		return child;
 	}
 	else

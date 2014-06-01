@@ -17,14 +17,15 @@ namespace Bot { namespace Units
 		const id_t id;
 		BWAPI::Position pos;
 		int hp;
+		bool isMoving;
 		bool isAttackFrame;
 		bool groundWeaponCooldown;
 
 	public:
 		bool isAlive() const { return hp > 0; }
 
-		virtual std::list<Action*> const possibleActions(GameState* state) = 0;
-		virtual Unit* const clone() = 0;
+		virtual std::list<Action*> possibleActions(const GameState* state) const = 0;
+		virtual Unit* clone() const = 0;
 
 	protected:
 		Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id);
