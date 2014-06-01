@@ -187,7 +187,6 @@ build/
 *.blg
 *.dvi
 *.pdf
-*.ps
 compile
 *.gif
 
