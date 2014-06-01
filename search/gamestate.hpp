@@ -6,7 +6,7 @@
 
 typedef int id_t;
 
-namespace Bot { namespace Units
+namespace Bot { namespace Search
 {
 	class Action;
 	class Unit;

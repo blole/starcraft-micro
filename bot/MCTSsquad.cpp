@@ -1,22 +1,22 @@
 #include "BWAPI.h"
 #include "bot/MCTSsquad.hpp"
 #include "behaviors/moverelative.hpp"
-#include "units/gamestate.hpp"
-#include "units/action.hpp"
 #include "common/PUnit.hpp"
+#include "search/gamestate.hpp"
+#include "search/actions/action.hpp"
+#include "search/searchers/searcher.hpp"
+#include "search/actionlisters/actionlister.hpp"
 #include <exception>
 #include <vector>
 #include <set>
-#include "units/search.hpp"
-#include "units/possibleactions.hpp"
 
 using namespace BWAPI;
-using namespace Bot::Units;
+using namespace Bot::Search;
 
 void MCTSsquad::onFrame()
 {
-	static SearchAlgorithm* searchAlgorithm = new SearchUCT();
-	static PossibleActions* possibleActions = new BranchOnUnit();
+	static Searcher* searchAlgorithm = new SearchUCT();
+	static ActionLister* possibleActions = new BranchOnUnit();
 
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });
 	

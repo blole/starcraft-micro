@@ -1,8 +1,8 @@
-#include "units/gamestate.hpp"
-#include "units/action.hpp"
-#include "units/unit.hpp"
+#include "search/gamestate.hpp"
+#include "search/actions/action.hpp"
+#include "search/units/unit.hpp"
 
-using namespace Bot::Units;
+using namespace Bot::Search;
 
 std::vector<BWAPI::Unit> GameState::bwapiUnits;
 

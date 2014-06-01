@@ -1,8 +1,8 @@
-#include "units/possibleactions.hpp"
-#include "units/action.hpp"
-#include "units/unit.hpp"
+#include "search/actionlisters/actionlister.hpp"
+#include "search/actions/action.hpp"
+#include "search/units/unit.hpp"
 
-using namespace Bot::Units;
+using namespace Bot::Search;
 
 std::list<Action*> BranchOnUnit::actions(const GameState* gamestate) const
 {

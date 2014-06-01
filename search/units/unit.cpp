@@ -1,8 +1,8 @@
-#include "units/unit.hpp"
-#include "units/action.hpp"
-#include "units/gamestate.hpp"
+#include "search/units/unit.hpp"
+#include "search/actions/action.hpp"
+#include "search/gamestate.hpp"
 
-namespace Bot { namespace Units {
+namespace Bot { namespace Search {
 
 Unit::Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	: id(id)

@@ -1,6 +1,6 @@
 #include "heuristic.hpp"
 
-using namespace Bot::Units;
+using namespace Bot::Search;
 
 Heuristic::Heuristic()
 {}

@@ -1,9 +1,9 @@
 #pragma once
-#include "units/gamestate.hpp"
-#include "units/unit.hpp"
+#include "search/gamestate.hpp"
+#include "search/units/unit.hpp"
 #include <BWAPI.h>
 
-namespace Bot { namespace Units
+namespace Bot { namespace Search
 {
 	class Action
 	{

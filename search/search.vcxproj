@@ -11,48 +11,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bot.cpp" />
-    <ClCompile Include="general.cpp" />
-    <ClCompile Include="dll.cpp" />
-    <ClCompile Include="MCTSsquad.cpp" />
-    <ClCompile Include="reactivesquad.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="bot.hpp" />
-    <ClInclude Include="general.hpp" />
-    <ClInclude Include="MCTSsquad.hpp" />
-    <ClInclude Include="reactivesquad.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
-      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\common\common.vcxproj">
-      <Project>{7cfee4db-10dd-40d1-9175-5ea2f0913d17}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\units\units.vcxproj">
-      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\search\actionlisters\actionlister.hpp" />
+    <ClInclude Include="..\search\actions\action.hpp" />
+    <ClInclude Include="..\search\gamestate.hpp" />
+    <ClInclude Include="..\search\searchers\searcher.hpp" />
+    <ClInclude Include="..\search\units\unit.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\search\actionlisters\actionlister.cpp" />
+    <ClCompile Include="..\search\gamestate.cpp" />
+    <ClCompile Include="..\search\searchers\searcher.cpp" />
+    <ClCompile Include="..\search\units\unit.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2E63AE74-758A-4607-9DE4-D28E814A6E13}</ProjectGuid>
+    <ProjectGuid>{E039051D-F5E1-44BB-91E2-98C1AB33E0DB}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>bot</ProjectName>
+    <ProjectName>search</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
@@ -70,8 +61,10 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,9 +77,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPId.lib;%(AdditionalDependencies)</AdditionalDependencies>

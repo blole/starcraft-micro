@@ -1,7 +1,7 @@
 #pragma once
 #include <BWAPI.h>
-#include "units/unit.hpp"
-#include "units/gamestate.hpp"
+#include "search/units/unit.hpp"
+#include "search/gamestate.hpp"
 #include <vector>
 #include <list>
 #include <map>
