@@ -11,10 +11,4 @@ namespace Bot { namespace Search
 	public:
 		virtual std::list<Action*> actions(const GameState* gamestate) const = 0;
 	};
-
-	class BranchOnUnit : public ActionLister
-	{
-	public:
-		virtual std::list<Action*> actions(const GameState* gamestate) const;
-	};
 }}

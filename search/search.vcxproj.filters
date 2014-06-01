@@ -25,14 +25,14 @@
     <ClCompile Include="..\search\gamestate.cpp">
       <Filter>gamestate</Filter>
     </ClCompile>
-    <ClCompile Include="..\search\actionlisters\actionlister.cpp">
-      <Filter>actionlisters</Filter>
-    </ClCompile>
     <ClCompile Include="..\search\units\unit.cpp">
       <Filter>units</Filter>
     </ClCompile>
-    <ClCompile Include="..\search\searchers\searcher.cpp">
-      <Filter>searchers</Filter>
+    <ClCompile Include="units\marine.hpp">
+      <Filter>units</Filter>
+    </ClCompile>
+    <ClCompile Include="actionlisters\branchonunit.hpp">
+      <Filter>actionlisters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +49,21 @@
       <Filter>units</Filter>
     </ClInclude>
     <ClInclude Include="..\search\searchers\searcher.hpp">
+      <Filter>searchers</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\move.hpp">
+      <Filter>actions</Filter>
+    </ClInclude>
+    <ClInclude Include="pendingeffects.hpp">
+      <Filter>gamestate</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\attack.hpp">
+      <Filter>actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\sync.hpp">
+      <Filter>actions</Filter>
+    </ClInclude>
+    <ClInclude Include="searchers\searcheruct.hpp">
       <Filter>searchers</Filter>
     </ClInclude>
   </ItemGroup>

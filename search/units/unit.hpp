@@ -33,24 +33,4 @@ namespace Bot { namespace Search
 	public:
 		static Unit* create(GameState* state, BWAPI::Unit bwapiUnit, id_t id);
 	};
-
-	
-
-
-
-
-	class PendingEffect
-	{
-		std::vector<std::list<Action*>> effects;
-	public:
-		std::list<Action*>::iterator getEffects()
-		{
-			return effects.front().begin();
-		}
-		void advance()
-		{
-			if (!effects.empty())
-				effects.erase(effects.begin());
-		}
-	};
 }}

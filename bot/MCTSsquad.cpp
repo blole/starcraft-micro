@@ -4,8 +4,8 @@
 #include "common/PUnit.hpp"
 #include "search/gamestate.hpp"
 #include "search/actions/action.hpp"
-#include "search/searchers/searcher.hpp"
-#include "search/actionlisters/actionlister.hpp"
+#include "search/searchers/searcheruct.hpp"
+#include "search/actionlisters/branchonunit.hpp"
 #include <exception>
 #include <vector>
 #include <set>
@@ -15,7 +15,7 @@ using namespace Bot::Search;
 
 void MCTSsquad::onFrame()
 {
-	static Searcher* searchAlgorithm = new SearchUCT();
+	static Searcher* searchAlgorithm = new SearcherUCT();
 	static ActionLister* possibleActions = new BranchOnUnit();
 
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });

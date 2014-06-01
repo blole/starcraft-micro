@@ -3,6 +3,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include "search/pendingeffects.hpp"
 
 typedef int id_t;
 
@@ -10,23 +11,6 @@ namespace Bot { namespace Search
 {
 	class Action;
 	class Unit;
-
-	class PendingEffects
-	{
-	private:
-		std::vector<std::list<Action*>> effects;
-
-	public:
-		std::list<Action*> getEffects(int frameOffset)	{return effects[frameOffset];}
-		
-		void addEffect(unsigned int frameOffset, Action* action)
-		{
-			if (effects.size() <= frameOffset)
-				effects.resize(frameOffset+1);
-
-			effects[frameOffset].push_back(action);
-		}
-	};
 
 	class GameState
 	{
