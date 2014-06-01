@@ -5,13 +5,15 @@ This architecture and the addition of behaviors tree was perfectly fitted for th
 
 For the behaviors trees we used the library libbehavior \cite{libbehavior}.
 
-The following are the squad managers we have at the current moment:
+The squad managers develloped are the following:
 \begin{shortitem}
 \item \texttt{Attack Closest:} Every unit attack their closest opponent.
-\item \texttt{Attack Closest Lethal:} Every unit attack the closest opponent that will not die soon (\emph{i.e.} the amount of damage attributed to this unit is not already enough to kill him soon).
+\item \texttt{Attack Closest -- No Over-Kill:} Every unit attack the closest opponent that will not die soon (\emph{i.e.} the amount of damage attributed to this unit is not already enough to kill him soon).
 \item \texttt{Kiting:} Every unit attacks their closest opponent applying a kiting strategy.
-\item \texttt{Searching:} A searching algorithm trying to find the best option for moving or which opponent to attacking in any situation.
+\item \texttt{UCT-Searching:} A searching algorithm based on Monte-Carlo algorithm (UCT: \emph{Upper Confident Bound}).
+\item \texttt{ABCD-Searching:} A searching algorithm based on the alpha-beta algorithm adapted to durative moves (ABCD: \emph{Alpha-Beta Considering Durations}).
 \end{shortitem}
 
-The first three of these squad managers don't make any plan for the future of the game, and only act in a purely reactive way according to some preset conditions. It should also be noted that in the non-lethal versions, the units don't share any information with each other, whereas in the lethal version they share the information about which target they will attack next. In the searching squad manager, on the other hand, the units are all considered as a single entity, like the fingers of a hand, and are coordinated.
-
+The first three of these squad managers don't make any plan for the future of the game, and only act in a purely reactive way according to some preset conditions. 
+It should also be noted that in the ``overkill'' versions, the units don't share any information with each other, whereas in the no over-kill version they share the information about which target they will attack next. 
+In the searching squad managers, on the other hand, the units are all considered as a single entity, like the fingers of a hand, and are coordinated.

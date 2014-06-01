@@ -1,7 +1,7 @@
 \section{Kiting}
 
 Kiting behavior is worth more explanation. 
-We based our algorithm on the work of\:\cite{kiting}. 
+We based our algorithm on the work of \cite{kiting}. 
 
 \begin{definition}[Kiting]
     Kiting (to kite) is to move units around to make the enemy chase them and thus not be able to attack as much, or not at all. 
@@ -20,16 +20,31 @@ The behavior tree used by the units achieving \texttt{Kiting} is depicted in Fig
 \begin{tikzpicture}[node distance = 1 cm]
     \tikzstyle{leaf}=[rectangle, align=center, scale=0.8, draw]
     \tikzstyle{node}=[rectangle,dotted, align=center, scale=0.8, draw]
+    \tikzstyle{tt}=[rectangle,scale=0.8, align=center]
     \tikzstyle{link}=[->,thin,>=latex]
     \node[node] (start) at (1,4) {\emph{Sequential Node}};
+    \node[tt] (start1) at (0.3,3.7) {};
+    \node[tt] (end1) at (1.8,3.7) {};
+    \draw[link] (start1)--(end1);
 
     \node[leaf] (target) at (0,3) {Select Target};
+
     \node[node] (seqNode) at (2,3) {\emph{Sequential Node}};
+    \node[tt] (start2) at (1.3,2.7) {};
+    \node[tt] (end2) at (2.8,2.7) {};
+    \draw[link] (start2)--(end2);
 
     \node[leaf] (leafMove) at (1,2) {Move to target};
-    \node[node] (paraAttack) at (3,2) {\emph{Parallel Node}};
+    \node[node] (seqAttack) at (3,2) {\emph{Sequential Node}};
+    \node[tt] (start3) at (2.3,1.7) {};
+    \node[tt] (end3) at (3.8,1.7) {};
+    \draw[link] (start3)--(end3);
 
     \node[node] (attackNode) at (2,1) {\emph{Sequential Node}};
+    \node[tt] (start4) at (1.3,0.7) {};
+    \node[tt] (end4) at (2.8,0.7) {};
+    \draw[link] (start4)--(end4);
+
     \node[leaf] (moveSafe) at (4,1) {Move to Safe Area};
 
     \node[leaf] (isSafe) at (1,0) {Is in safe area};
@@ -39,10 +54,10 @@ The behavior tree used by the units achieving \texttt{Kiting} is depicted in Fig
     \draw[link] (start)--(seqNode);
 
     \draw[link] (seqNode)--(leafMove);
-    \draw[link] (seqNode)--(paraAttack);
+    \draw[link] (seqNode)--(seqAttack);
 
-    \draw[link] (paraAttack)--(attackNode);
-    \draw[link] (paraAttack)--(moveSafe);
+    \draw[link] (seqAttack)--(attackNode);
+    \draw[link] (seqAttack)--(moveSafe);
 
     \draw[link] (attackNode)--(attack);
     \draw[link] (attackNode)--(isSafe);
@@ -65,21 +80,21 @@ This relation is denoted $e \textasciitilde (i,j)$.
 
 Then the influence matrix is define as:
 $$
-I_{enemy}(i,j) = \sum_{e \textasciitilde (i,j)}e.DPS  
+I_{enemy}(i,j) = \sum_{e \textasciitilde (i,j)}e.DPF \text{ where } DPF = \frac{e.damage}{e.cooldown}  
 $$
 
+(DPF is the damage per frame --  average damage of an unit.)
+
 Using this matrix each unit can compute its closest safe position.
-
 Then an attack is performed each time the unit is in a safe area.
-
-Figure \ref{influenceMatrix} shows the influence matrix of a group of 6 units.
+Figure \ref{influenceMatrix} shows the influence matrix of a group of 3 units.
 
 \begin{center}
-    \begin{figure}
+    \begin{figure}[h!t]
         \centering
-        \includegraphics[width=0.8\columnwidth]{fig/InfluenceMap.ps}
-        \caption{Influence matrix created by a group of 6 units \\ 
-        Lighter blue means bigger value}
+        \includegraphics[width=0.4\columnwidth]{fig/InfluenceMap.ps}
+        \caption{Influence matrix created by a group of 3 units \\ 
+        Darker grey means bigger threat}
         \label{influenceMatrix}
     \end{figure}
 \end{center}
