@@ -28,19 +28,19 @@ $$
 
 \item Life Time Damage:
 $$
-    \displaystyle{LTD(s) = \sum_{u \in U_1} u.hp \cdot DPF(u)- \sum_{u \in U_2} u.hp \cdot DPF(u) } 
+    \displaystyle{LTD(s) = \sum_{u \in U_1} u.hp \cdot u.DPF- \sum_{u \in U_2} u.hp \cdot u.DPF } 
 $$
 
 \item Life Time Damage 2:
 $$
-    \displaystyle{LTD2(s) = \sum_{u \in U_1} \sqrt{u.hp} \cdot DPF(u) - \sum_{u \in U_2} \sqrt{u.hp} \cdot DPF(u) } 
+    \displaystyle{LTD2(s) = \sum_{u \in U_1} \sqrt{u.hp} \cdot u.DPF - \sum_{u \in U_2} \sqrt{u.hp} \cdot u.DPF } 
 $$
 \end{shortitem}
 
 Where $DPF$ in the damage per frame of a unit (see section \ref{kiting}), $U_1$ (resp. $U_2$) is the set of player's (resp. opponent's) units .
 
-$SFE$ doesn't take into account unit strike force and do not lead to a focus of stronger unit first -- which can be essential during a battle. 
-$LFD$ present a good estimation of this strike force but do not favour having a greatest number of units. 
+$SFE$ doesn't take into account unit strike force -- which is an essential information during a battle. 
+$LFD$ present a good estimation of this strike force but do not favour having a greater number of units. 
 Ultimately $LTD2$ measure the strike force and favor the greatest number of units remaining. 
 (Having two units with $50$ hit points gives more power than one with $100$ hit points.)
 
@@ -50,6 +50,8 @@ $$
 S_{A|p} = \{A \in S_A | \forall a \in A, a \text{ is an action performed by $p$}\}
 $$
 Algorithm \ref{algABCD} presents the ABCD algorithm.
+The main disctinction with the ``classic'' alpha-beta algorithm is that there is not a perfect alternation between $MAX$ and $MIN$. Once a state has no possible actions, we move in time until an action can be performed for one of the player. 
+Figure \ref{figABCD} shows an exemple of such a graph: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore is still him who is considered as the current player.
 
 \begin{figure}[h!t]
     \begin{algorithm}[ABCD (Alpha-Beta Considering Durations)]
@@ -61,6 +63,9 @@ Algorithm \ref{algABCD} presents the ABCD algorithm.
         \item \textbf{If} ($s$ is a terminal state) \textbf{Return} $LTD2(s)$
         \item \textbf{Else}
             \begin{enum}
+            \item If $S_{A|p} \neq \emptyset$ 
+
+            \begin{enum}
             \item \textbf{While} $S_{A|p} \neq \emptyset$
                 \begin{enum}
                 \item Pop $s_1$ from $S_{A|p}$ 
@@ -69,11 +74,57 @@ Algorithm \ref{algABCD} presents the ABCD algorithm.
                 \item \textbf{If} $p = MIN$ and $(v < \beta)$ \textbf{then} $\beta= v$
                 \item \textbf{If} $\alpha \geq \beta$ \textbf{then break} 
                 \end{enum}
+            \item \textbf{Return} $(p = MAX) ? \alpha : \beta$ 
             \end{enum}
-        \item \textbf{Return} $(p = MAX) ? \alpha : \beta$ 
+        \item \textbf{Else if} $S_{A|\bar{p}} \neq \emptyset$
+            \begin{enum}
+            \item \textbf{Return} $ABCD(s,d,\alpha,\beta,\bar{p})$
+            \end{enum}
+        \item \textbf{Else} 
+            \begin{enum}
+            \item Advance in time to state $s'$ for which $S'_A \neq \emptyset$
+            \item \textbf{Return} $ABCD(s',d,\alpha,\beta,p)$
+            \end{enum}
+        \end{enum}
         \end{enum}
         \ \\
-        And $s$ being considered as a \textbf{terminal state} if $d_{max}$ is reached, the time is elapsed (error) or game is terminated.
+        And $s$ being considered as a \textbf{terminal state} if $d_{max}$ is reached, the time is elapsed or the state is a winning/loosing situation.
         \label{algABCD}
     \end{algorithm}
+\end{figure}
+
+\begin{figure}[h!t]
+\centering
+\begin{tikzpicture}[node distance = 1cm]
+    \tikzstyle{node}=[circle,align=center,scale=0.8,draw]
+    \tikzstyle{nodenotgen}=[circle,dotted,align=center,scale=0.8,draw]
+    \tikzstyle{nodeterm}=[circle,fill=gray!30,align=center,scale=0.8,draw]
+    \tikzstyle{link}=[->,thin,>=latex]
+    
+    \node[node] (s0) at (4,4) {$MAX$};
+
+    \node[node] (s1) at (2,3) {$MIN$};
+    \node[node] (s3) at (6,3) {$MIN$};
+
+    \node[auto,scale=0.8] (s33) at (6,2) {};
+    \draw[-,>=latex,dotted] (s3) to (s33);
+
+    \node[auto,scale=0.8] (s4) at (1,2) {};
+    \node[node] (s6) at (3,2) {$MAX$};
+
+    \node[node] (s7) at (2,1) {$MAX$};
+
+    \node[auto,scale=0.8] (s8) at (2,0.2) {};
+    
+    \draw[link] (s0) to node [auto,scale=0.6] {$A_0 \in S_{A|MAX}$} (s1); 
+    \draw[link] (s0) to node [auto,scale=0.6] {$A_1 \in S_{A|MAX}$} (s3);
+    \draw[-,>=latex,dotted] (s1) to (s4);
+    \draw[link] (s1) to node [auto,scale=0.6] {$A_2 \in S_{A|MIN}$} (s6);
+    \draw[link] (s6) to node [auto,scale=0.6] {$t \rightarrow t+1$} (s7);
+    \draw[-,>=latex,dotted] (s7) to (s8);
+    
+
+\end{tikzpicture}
+    \caption{Exemple of a graph constructed by the ABCD-algorithm}
+    \label{figABCD}
 \end{figure}
