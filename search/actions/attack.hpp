@@ -24,9 +24,9 @@ namespace Bot { namespace Search
 					unit->isAttackFrame = true;
 					unit->groundWeaponCooldown = true;
 
-					state->addEffect(1, this);
-					state->addEffect(AttackFrames, this);
-					state->addEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
+					state->enqueueEffect(1, this);
+					state->enqueueEffect(AttackFrames, this);
+					state->enqueueEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
 					break;
 				}
 			case 1:

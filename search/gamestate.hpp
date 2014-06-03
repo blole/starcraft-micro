@@ -14,35 +14,31 @@ namespace Bot { namespace Search
 
 	class GameState
 	{
+		friend class Unit;
 	private:
 		static std::vector<BWAPI::Unit> bwapiUnits;
-		//std::vector<Unit*> playerUnits;
-		//std::vector<Unit*> opponentUnits;
-		std::vector<Unit*> units;
-		const GameState* parent;
-		PendingEffects pendingEffects;
-		std::list<Action*> possibleActions;
-		std::map<Action*, GameState*> expandedChildren;
-		int frame;
+		static int playerUnitCount;
 
-	protected:
-		GameState(const GameState* parent, Action* action);
-		GameState(const GameState* parent);
+		std::vector<Unit*> units;
+		PendingEffects pendingEffects;
+		unsigned int frame;
 
 	public:
 		GameState(std::vector<BWAPI::Unit> bwapiUnits);
+		GameState(const GameState* parent, Action* action);
 		~GameState();
 
-		int getFrame() const { return frame; }
-		void setPossibleActions(std::list<Action*> possibleActions);
-		float defaultPolicy();
+	public:
+		unsigned int getFrame() const { return frame; }
+		bool isTerminal();
 
-		GameState* takeAction(Action* action);
-		void addEffect(int frameOffset, Action* action);
+		void advanceFrames(unsigned int framesToAdvance);
+		void enqueueEffect(int frameOffset, Action* action);
 
-		const std::list<Action*> getPossibleActions() const		{return possibleActions;}
-		const std::vector<Unit*> getUnits() const				{return units;}
-		
+		std::list<const Unit*> playerUnits() const;
+		std::list<const Unit*> enemyUnits() const;
+		const std::vector<const Unit*>& getUnits() const;
+
 		const Unit* getUnit(id_t id) const;
 		Unit* getUnitModifiable(id_t id);
 		BWAPI::Unit getBwapiUnit(id_t id) const;

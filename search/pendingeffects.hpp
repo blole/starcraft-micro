@@ -21,11 +21,9 @@ namespace Bot { namespace Search
 
 			effects[frameOffset].push_back(action);
 		}
-		void advance()
+		void advanceFrames(unsigned int framesToAdvance)
 		{
-			if (!effects.empty())
-				effects.erase(effects.begin());
-
+			effects.erase(effects.begin(), effects.begin() + framesToAdvance);
 		}
 	};
 }}

@@ -2,21 +2,232 @@
 #include <BWAPI.h>
 #include <vector>
 #include <list>
+#include <cassert>
 #include "search/searchers/searcher.hpp"
+#include "search/units/unit.hpp"
 
 namespace Bot { namespace Search
 {
-	class SearcherUCT : public Searcher
+	class NodeUCT;
+
+	struct NodeChild
+	{
+		Action* const action;
+		NodeUCT* node;
+
+		NodeChild(Action* const action)
+			: action(action)
+			, node(nullptr)
+		{}
+	};
+
+
+
+	class NodeUCT
 	{
 	public:
-		std::list<Action*> search(GameState* gamestate, ActionLister* possibleActions) const
+		NodeUCT* const parent;
+		GameState* const gamestate;
+		std::vector<NodeChild> children;
+
+		int visits;
+		double score;
+		bool fullyExpanded;
+
+	private:
+		bool terminal;
+		bool checkedForTerminal;
+
+	public:
+		NodeUCT(NodeUCT* const parent, GameState* const gamestate, ActionLister* actionlister)
+			: parent(parent)
+			, gamestate(gamestate)
+			, visits(0)
+			, score(0)
+			, fullyExpanded(false)
+			, terminal(false)
+			, checkedForTerminal(false)
 		{
-			std::vector<Action*> bestActions;
+			std::list<Action*> actions;
+			while (true)
+			{
+				actions = actionlister->actions(gamestate);
+
+				if (actions.size() == 0)
+				{
+					gamestate->advanceFrames(1);
+					if (gamestate->isTerminal())
+					{
+
+						break;
+					}
+				}
+				else
+					break;
+			}
+
+			children.reserve(actions.size());
+			for each (Action* action in actions)
+				children.push_back(NodeChild(action));
+		}
+
+	public:
+		bool isTerminal()
+		{
+			if (!checkedForTerminal)
+			{
+				checkedForTerminal = true;
+				terminal = gamestate->isTerminal();
+			}
+			return terminal;
+		}
+	};
+
+
+
+	class SearcherUCT : public Searcher
+	{
+	private:
+		ActionLister* actionlister;
+
+	public:
+		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
+		{
+			this->actionlister = actionlister;
+
+			NodeUCT root(nullptr, gamestate, actionlister);
 			//abort();
-			std::list<Action*> a = possibleActions->actions(gamestate);
+			//TODO: constrain in time instead
+			for (int i = 0; i < 500; i++)
+			{
+				NodeUCT* leaf = treePolicy(&root);
+				double score = playout(leaf->gamestate);
+			}
+			
+			NodeUCT* node = &root;
+			std::list<Action*> bestActions;
+			while (node->gamestate->getFrame() == 0)
+			{
+				NodeChild child = bestChild(node);
+				bestActions.push_back(child.action);
+				node = child.node;
+			}
+			std::list<Action*> a = actionlister->actions(gamestate);
 			BWAPI::Broodwar->drawTextScreen(200, 100,  "possible actions: %d", a.size());
 			return a;
 			//return bestActions;
+		}
+
+	private:
+		NodeUCT* treePolicy(NodeUCT* node)
+		{
+			while (true)
+			{
+				if (node->isTerminal())
+					return node;
+				else if (!node->fullyExpanded)
+					return expand(node);
+				else
+					node = bestChild(node).node;
+			}
+		}
+
+		NodeUCT* expand(NodeUCT* parent)
+		{
+			NodeUCT* expanded = nullptr;
+			for (int i=0; i<parent->children.size(); i++)
+			{
+				NodeChild& child = parent->children[i];
+				if (child.node == nullptr) //unexpanded child found
+				{
+					if (expanded == nullptr) //it's the first we found
+						expanded = child.node = new NodeUCT(parent, new GameState(parent->gamestate, child.action), actionlister);
+					else	//we found another one, so break
+						return expanded;
+				}
+			}
+
+			assert(expanded != nullptr);
+
+			//if we got here, the parent has been fully expanded
+			parent->fullyExpanded = true;
+			return expanded;
+		}
+
+		NodeChild bestChild(NodeUCT* parent)
+		{
+			assert(parent->fullyExpanded);
+
+			NodeChild* best = &parent->children[0];
+
+			for (int i=1; i<parent->children.size(); i++)
+			{
+				NodeChild* child = &parent->children[i];
+				if (best->node->score < child->node->score)
+					best = child;
+			}
+
+			return *best;
+		}
+
+		double traverse(NodeUCT* node)
+		{
+			if (node->visits == 0)
+			{
+				node->score = playout(node->gamestate);
+			}
+			else if (!node->isTerminal())
+			{
+				NodeChild child = selectChild(node);
+ 				traverse(child.node);
+			}
+			node->visits++;
+
+
+			return node->score;
+		}
+
+		NodeChild selectChild(NodeUCT* parent)
+		{
+			if (parent->children.size() == 0)
+				return nullptr;
+
+			double bestScore = -std::numeric_limits<double>::infinity();
+			for (unsigned int i = 0; i < parent->children.size(); i++)
+			{
+				NodeChild& child = parent->children[i];
+				if (child.node == nullptr)
+				{
+					child.node = new NodeUCT(parent, new GameState(parent->gamestate, child.action), actionlister);
+				}
+			}
+		}
+
+		double playout(GameState* gamestate)
+		{
+			//TODO: handle if node is terminal and step through nodes
+			return evaluate(gamestate);
+		}
+
+		double evaluate(GameState* gamestate)
+		{
+			double sum = 0;
+
+			for each (const Unit* unit in gamestate->playerUnits())
+			{
+				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
+				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
+				sum += std::sqrt((double)unit->hp)*dmg / cd;
+			}
+
+			for each (const Unit* unit in gamestate->enemyUnits())
+			{
+				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
+				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
+				sum -= std::sqrt((double)unit->hp)*dmg / cd;
+			}
+
+			return sum;
 		}
 	};
 }}

@@ -9,8 +9,8 @@ namespace Bot { namespace Search
 	public:
 		virtual std::list<Action*> actions(const GameState* gamestate) const
 		{
-			const std::vector<Unit*> units = gamestate->getUnits();
-			for each (Unit* unit in units)
+			const std::vector<const Unit*>& units = gamestate->getUnits();
+			for each (const Unit* unit in units)
 			{
 				if (unit->isAlive())
 				{

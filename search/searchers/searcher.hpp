@@ -8,6 +8,6 @@ namespace Bot { namespace Search
 	class Searcher
 	{
 	public:
-		virtual std::list<Action*> search(GameState* gamestate, ActionLister* possibleActions) const = 0;
+		virtual std::list<Action*> search(GameState* gamestate, ActionLister* possibleActions) = 0;
 	};
 }}

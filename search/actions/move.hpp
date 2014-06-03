@@ -29,7 +29,7 @@ namespace Bot { namespace Search
 			}
 			else
 			{
-				state->addEffect(1, this);
+				state->enqueueEffect(1, this);
 
 				if (frameOffset == 0)
 					unit->isMoving = true;

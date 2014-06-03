@@ -5,44 +5,35 @@
 using namespace Bot::Search;
 
 std::vector<BWAPI::Unit> GameState::bwapiUnits;
+int GameState::playerUnitCount = -1;
 
 GameState::GameState(const GameState* parent, Action* action)
-	: parent(parent)
-	, frame(parent->frame)
+	: frame(parent->frame)
 	, units(parent->units)
 	, pendingEffects(parent->pendingEffects)
 {
 	action->applyTo(this);
 }
 
-GameState::GameState(const GameState* parent)
-	: parent(parent)
-	, frame(parent->frame)
-	, units(parent->units)
-	, pendingEffects(parent->pendingEffects)
-{
-	//TODO: step through pendingEffects one frame at a time until possibleActions() returns something
-	//frame++;
-}
-
 GameState::GameState(std::vector<BWAPI::Unit> bwapiUnits)
-	: parent(nullptr)
+	: frame(0)
 {
-	if (!GameState::bwapiUnits.empty())
-		throw std::runtime_error("previous 'mother' GameState was not destroyed before creating a new one");
-
 	GameState::bwapiUnits = bwapiUnits;
+	GameState::playerUnitCount = 0;
 	id_t id = 0;
 	for each (BWAPI::Unit bwapiUnit in bwapiUnits)
 	{
 		units.push_back(Unit::create(this, bwapiUnit, id));
 		id++;
+
+		//TODO: this assumes enemy units come after player units
+		if (bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
+			GameState::playerUnitCount++;
 	}
 }
 
 GameState::~GameState()
 {
-	GameState::bwapiUnits.clear();
 }
 
 std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int maxRange) const
@@ -77,12 +68,6 @@ std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int minRange, int 
 	return inRange;
 }
 
-void GameState::setPossibleActions(std::list<Action*> possibleActions)
-{
-	this->possibleActions = possibleActions;
-	//maybe clear/setup expandedChildren here?
-}
-
 const Unit* GameState::getUnit(id_t id) const
 {
 	return units[id];
@@ -104,25 +89,58 @@ BWAPI::Unit GameState::getBwapiUnit(const Unit* unit) const
 	return bwapiUnits[unit->id];
 }
 
-void GameState::addEffect(int frameOffset, Action* action)
+void GameState::advanceFrames(unsigned int framesToAdvance)
+{
+	for (unsigned int i = 0; i<framesToAdvance; i++)
+	{
+		for each (auto effect in pendingEffects.getEffects(i))
+			effect->applyTo(this);
+		frame++; //TODO do this before or after applying effects?
+	}
+	pendingEffects.advanceFrames(framesToAdvance);
+}
+
+void GameState::enqueueEffect(int frameOffset, Action* action)
 {
 	pendingEffects.addEffect(frameOffset, action);
 }
 
-float GameState::defaultPolicy()
+bool GameState::isTerminal()
 {
-	throw std::runtime_error("not yet implemented");
+	bool anyFriendlyAlive = false;
+	for each (const Unit* unit in playerUnits())
+	{
+		if (unit->isAlive())
+		{
+			anyFriendlyAlive = true;
+			break;
+		}
+	}
+
+	bool anyEnemyAlive = false;
+	for each (const Unit* unit in enemyUnits())
+	{
+		if (unit->isAlive())
+		{
+			anyEnemyAlive = true;
+			break;
+		}
+	}
+
+	return anyFriendlyAlive && anyEnemyAlive;
 }
 
-GameState* GameState::takeAction(Action* action)
+std::list<const Unit*> GameState::playerUnits() const
 {
-	auto iter = expandedChildren.find(action);
-	if (iter == expandedChildren.end())
-	{
-		GameState* child = new GameState(this, action);
-		expandedChildren[action] = child;
-		return child;
-	}
-	else
-		return iter->second;
+	return std::list<const Unit*>(getUnits().begin(), getUnits().begin() + playerUnitCount);
+}
+
+std::list<const Unit*> GameState::enemyUnits() const
+{
+	return std::list<const Unit*>(getUnits().begin() + playerUnitCount, getUnits().end());
+}
+
+const std::vector<const Unit*>& GameState::getUnits() const
+{
+	return (std::vector<const Unit*>&)units;
 }

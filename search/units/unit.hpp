@@ -2,13 +2,12 @@
 #include <BWAPI.h>
 #include <vector>
 #include <list>
-#include <map>
+#include "search/gamestate.hpp"
 
 typedef int id_t;
 
 namespace Bot { namespace Search
 {
-	class GameState;
 	class Action;
 
 	class Unit
@@ -23,6 +22,7 @@ namespace Bot { namespace Search
 
 	public:
 		bool isAlive() const { return hp > 0; }
+		bool isEnemyUnit() const { return id >= GameState::playerUnitCount; }
 
 		virtual std::list<Action*> possibleActions(const GameState* state) const = 0;
 		virtual Unit* clone() const = 0;
