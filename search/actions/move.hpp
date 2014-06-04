@@ -42,7 +42,7 @@ namespace Bot { namespace Search
 			state->getBwapiUnit(unitID)->move(moveOffset * 3);
 		}
 
-		virtual bool isPlayerAction(GameState* state) const
+		virtual bool isPlayerAction(const GameState* state) const
 		{
 			return state->getUnit(unitID)->isPlayerUnit();
 		}
