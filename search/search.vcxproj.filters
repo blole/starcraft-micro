@@ -66,5 +66,11 @@
     <ClInclude Include="searchers\searcheruct.hpp">
       <Filter>searchers</Filter>
     </ClInclude>
+    <ClInclude Include="actionlisters\branchonplayer.hpp">
+      <Filter>actionlisters</Filter>
+    </ClInclude>
+    <ClInclude Include="searchers\searcherabcd.hpp">
+      <Filter>searchers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

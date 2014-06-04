@@ -21,10 +21,12 @@
     <ClInclude Include="..\search\gamestate.hpp" />
     <ClInclude Include="..\search\searchers\searcher.hpp" />
     <ClInclude Include="..\search\units\unit.hpp" />
+    <ClInclude Include="actionlisters\branchonplayer.hpp" />
     <ClInclude Include="actions\attack.hpp" />
     <ClInclude Include="actions\move.hpp" />
     <ClInclude Include="actions\sync.hpp" />
     <ClInclude Include="pendingeffects.hpp" />
+    <ClInclude Include="searchers\searcherabcd.hpp" />
     <ClInclude Include="searchers\searcheruct.hpp" />
   </ItemGroup>
   <ItemGroup>

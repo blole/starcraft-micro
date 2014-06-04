@@ -30,6 +30,9 @@
     <ClCompile Include="MCTSsquad.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="ABCDsquad.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bot.hpp">
@@ -42,6 +45,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="MCTSsquad.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ABCDsquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
