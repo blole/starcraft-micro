@@ -18,9 +18,13 @@ namespace Bot { namespace Search
 		void applyTo(GameState* state) { applyTo(state, state->getFrame()-frameStarted); }
 		virtual void applyTo(GameState* state, int frameOffset) = 0;
 		virtual void executeOrder(GameState* state) = 0;
-		virtual bool isPlayerAction(GameState* state) const = 0;
+		virtual bool isPlayerAction(const GameState* state) const = 0;
 	};
-
+	
+	
+	
+	
+	
 	class CompositeAction : public Action
 	{
 	protected:
@@ -43,7 +47,7 @@ namespace Bot { namespace Search
 				action->executeOrder(state);
 		}
 
-		virtual bool isPlayerAction(GameState* state) const
+		virtual bool isPlayerAction(const GameState* state) const
 		{
 			return actions.front()->isPlayerAction(state);
 		}
