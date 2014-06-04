@@ -25,7 +25,10 @@ namespace Bot { namespace Search
 			for each (Unit* unit in state->unitsInRange(pos, range))
 			{
 				if (!this->groundWeaponCooldown)
+				{
+					if(this->isPlayerUnit() != unit->isPlayerUnit())
 					actions.push_back(new Attack<6>(state, this, unit));
+				}
 			}
 
 			if (!this->isAttackFrame)

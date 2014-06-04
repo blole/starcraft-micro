@@ -40,6 +40,7 @@ namespace Bot { namespace Search
 		virtual void executeOrder(GameState* state)
 		{
 			state->getBwapiUnit(unitID)->move(moveOffset * 3);
+			BWAPI::Broodwar->drawLineMap(state->getBwapiUnit(unitID)->getPosition(),moveOffset * 3,BWAPI::Color(255,0,0));
 		}
 
 		virtual bool isPlayerAction(const GameState* state) const

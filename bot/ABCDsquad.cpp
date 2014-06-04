@@ -31,9 +31,8 @@ void ABCDsquad::onFrame()
 
 	GameState state(std::vector<BWAPI::Unit>(bwapiUnits.begin(), bwapiUnits.end()));
 
-	/*try {
+	try {
 		std::list<Action*> actions = searchAlgorithm->search(&state, possibleActions);
-
 		for each (Action* action in actions)
 		{
 			action->executeOrder(&state);
@@ -44,5 +43,5 @@ void ABCDsquad::onFrame()
 		abort();
 	} catch(...) {
 		abort();
-	}*/
+	}
 }

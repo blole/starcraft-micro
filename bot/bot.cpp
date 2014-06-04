@@ -1,6 +1,7 @@
 #include "bot/bot.hpp"
 #include "bot/reactivesquad.hpp"
 #include "bot/MCTSsquad.hpp"
+#include "bot/ABCDsquad.hpp"
 #include "behaviors/moverelative.hpp"
 #include <iostream>
 
@@ -16,7 +17,8 @@ void Bot::onStart()
 	
 	if (!Broodwar->isReplay())
 	{
-		general = new General([]{ return new MCTSsquad(); });
+		general = new General([]{ return new ABCDsquad(); });
+		//general = new General([]{ return new MCTSsquad(); });
 		general->onStart();
 	}
 }

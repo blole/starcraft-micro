@@ -5,6 +5,7 @@
 #include <cassert>
 #include "search/searchers/searcher.hpp"
 #include "search/units/unit.hpp"
+#include "search/actionlisters/branchonplayer.hpp"
 
 namespace Bot { namespace Search
 {
@@ -49,26 +50,11 @@ namespace Bot { namespace Search
 			, checkedForTerminal(false)
 		{
 			std::list<Action*> actions;
-			/*while (true)
-			{
-				actions = actionlister->actions(gamestate);
-
-				if (actions.size() == 0)
-				{
-					gamestate->advanceFrames(1);
-					if (gamestate->isTerminal())
-					{
-
-						break;
-					}
-				}
-				else
-					break;
-			}
+			actions = actionlister->actions(gamestate);
 
 			children.reserve(actions.size());
 			for each (Action* action in actions)
-				children.push_back(NodeChild(action));*/
+				children.push_back(NodeChild(action));
 		}
 
 	public:
@@ -94,121 +80,80 @@ namespace Bot { namespace Search
 		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
 		{
 			this->actionlister = actionlister;
+			((BranchOnPlayer*)this->actionlister)->switchPlayer(true); //
+			NodeABCD* root = new NodeABCD(nullptr, gamestate, actionlister);
 
-			NodeABCD root(nullptr, gamestate, actionlister);
-			//abort();
-			//TODO: constrain in time instead
-			for (int i = 0; i < 500; i++)
+			std::vector<double> valueChildren;
+
+			if(root->children.empty())
+				return std::list<Action*>();
+			else
 			{
-				NodeABCD* leaf = treePolicy(&root);
-				double score = playout(leaf->gamestate);
+				for each(auto child in root->children)
+				{
+					auto childGenerated = new NodeABCD(root, new GameState(root->gamestate, child.action), actionlister);
+					valueChildren.push_back(alphabeta(childGenerated,5,-10000,10000,false,this->actionlister));
+				}
 			}
-			
-			NodeABCD* node = &root;
-			std::list<Action*> bestActions;
-			while (node->gamestate->getFrame() == 0)
+
+			double bestvalue = -100000;
+			int bestindex = -1;
+			for(unsigned int i=0; i < valueChildren.size(); i++)
 			{
-				NodeChild child = bestChild(node);
-				bestActions.push_back(child.action);
-				node = child.node;
+				if(bestvalue < valueChildren[i])
+				{
+					bestvalue = valueChildren[i];
+					bestindex = i;
+				}
 			}
-			std::list<Action*> a = actionlister->actions(gamestate);
-			BWAPI::Broodwar->drawTextScreen(200, 100,  "possible actions: %d", a.size());
-			return a;
-			//return bestActions;
+
+			std::list<Action*> result;
+			result.push_back(root->children.at(bestindex).action);
+			return result;
+		}
+
+		double alphabeta(NodeABCD* node, int depth, double alpha, double beta, bool player, ActionLister* actionlister)
+		{
+			if(depth == 0 || node->isTerminal())
+				return evaluate(node->gamestate);
+
+			if(!node->children.empty()) // "normal" alpha-beta !
+			{
+				((BranchOnPlayer*)actionlister)->switchPlayer(!player);
+				for each(auto child in node->children)
+				{
+					auto childGenerated = new NodeABCD(node, new GameState(node->gamestate, child.action), actionlister);
+					double v = alphabeta(childGenerated, depth-1,alpha,beta,!player, actionlister);
+					if(player && v > alpha) 
+						alpha = v;
+					if(!player && v < beta)
+						beta = v;
+					if(alpha >= beta)
+						break;
+				}
+				return (player ? alpha : beta);
+			}
+			else // try to change player
+			{
+				((BranchOnPlayer*)actionlister)->switchPlayer(!player);
+				node = new NodeABCD(node->parent,node->gamestate,actionlister);
+				if(!node->children.empty())
+					return alphabeta(node,depth-1,alpha,beta,!player,actionlister);
+				else // Advance in time (no actions available for both player)
+				{
+					node->gamestate->advanceFrames(1);
+					if(node->gamestate->isTerminal())
+						return evaluate(node->gamestate);
+					else
+					{
+						return alphabeta(node,depth,alpha,beta,player,actionlister);
+					}
+				}
+			}
+
 		}
 
 	private:
-		NodeABCD* treePolicy(NodeABCD* node)
-		{
-			while (true)
-			{
-				if (node->isTerminal())
-					return node;
-				else if (!node->fullyExpanded)
-					return expand(node);
-				else
-					node = bestChild(node).node;
-			}
-		}
-
-		NodeABCD* expand(NodeABCD* parent)
-		{
-			NodeABCD* expanded = nullptr;
-			for (unsigned int i=0; i<parent->children.size(); i++)
-			{
-				NodeChild& child = parent->children[i];
-				if (child.node == nullptr) //unexpanded child found
-				{
-					if (expanded == nullptr) //it's the first we found
-						expanded = child.node = new NodeABCD(parent, new GameState(parent->gamestate, child.action), actionlister);
-					else	//we found another one, so break
-						return expanded;
-				}
-			}
-
-			assert(expanded != nullptr);
-
-			//if we got here, the parent has been fully expanded
-			parent->fullyExpanded = true;
-			return expanded;
-		}
-
-		NodeChild bestChild(NodeABCD* parent)
-		{
-			assert(parent->fullyExpanded);
-
-			NodeChild* best = &parent->children[0];
-
-			for (unsigned int i=1; i<parent->children.size(); i++)
-			{
-				NodeChild* child = &parent->children[i];
-				if (best->node->score < child->node->score)
-					best = child;
-			}
-
-			return *best;
-		}
-
-		double traverse(NodeABCD* node)
-		{
-			if (node->visits == 0)
-			{
-				node->score = playout(node->gamestate);
-			}
-			else if (!node->isTerminal())
-			{
-				NodeChild child = selectChild(node);
- 				traverse(child.node);
-			}
-			node->visits++;
-
-
-			return node->score;
-		}
-
-		NodeChild selectChild(NodeABCD* parent)
-		{
-			if (parent->children.size() == 0)
-				return nullptr;
-
-			double bestScore = -std::numeric_limits<double>::infinity();
-			for (unsigned int i = 0; i < parent->children.size(); i++)
-			{
-				NodeChild& child = parent->children[i];
-				if (child.node == nullptr)
-				{
-					child.node = new NodeABCD(parent, new GameState(parent->gamestate, child.action), actionlister);
-				}
-			}
-		}
-
-		double playout(GameState* gamestate)
-		{
-			//TODO: handle if node is terminal and step through nodes
-			return evaluate(gamestate);
-		}
-
 		double evaluate(GameState* gamestate)
 		{
 			double sum = 0;
