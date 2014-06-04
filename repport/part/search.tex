@@ -16,7 +16,7 @@ Arimaa is interesting because it has an average branching factor of 17000, compa
 In \cite{wargusuct}, UCT is used for deciding where squads should attack in the RTS game Wargus, which would correspond to using UCT at the General-level in our conceptual model as well.
 
 \subsection{ABCD Search}
-In \cite{abcd}, an extended version of alpha-beta pruning, which is also a searching algorithm, was used for micro-management. 
+In \cite{abcd}, an extended version of alpha-beta pruning, which is a well-known searching algorithm, was used for micro-management. 
 They were able to find good solutions for 8 v.s. 8 unit scenarios in 5 ms, achieving around a 80\% win rate against their best script.
 
 The evaluation functions suggested by \cite{abcd} are the following:
@@ -41,8 +41,7 @@ Where $DPF$ in the damage per frame of a unit (see section \ref{kiting}), $U_1$ 
 
 $SFE$ doesn't take into account unit strike force -- which is an essential information during a battle. 
 $LFD$ present a good estimation of this strike force but do not favour having a greater number of units. 
-Ultimately $LTD2$ measure the strike force and favor the greatest number of units remaining. 
-(Having two units with $50$ hit points gives more power than one with $100$ hit points.)
+Ultimately $LTD2$ measure the strike force and favor the greatest number of units remaining\footnote{Having two units with $50$ hit points gives more power than one with $100$ hit points.}.
 
 In order to use alpha-beta algorithm it is necessary to separates the player's actions and its opponents action.
 It can be done quiet efficiently by considering the children of a node as the restriction of its children to only one player set of actions:
@@ -51,12 +50,11 @@ S_{A|p} = \{A \in S_A | \forall a \in A, a \text{ is an action performed by $p$}
 $$
 Algorithm \ref{algABCD} presents the ABCD algorithm.
 The main disctinction with the ``classic'' alpha-beta algorithm is that there is not a perfect alternation between $MAX$ and $MIN$. Once a state has no possible actions, we move in time until an action can be performed for one of the player. 
-Figure \ref{figABCD} shows an exemple of such a graph: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore is still him who is considered as the current player.
+Figure \ref{figABCD} shows an exemple of such a graph: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still him who is considered as the current player.
 
 \begin{figure}[h!t]
     \begin{algorithm}[ABCD (Alpha-Beta Considering Durations)]
-        Let $s_0$ be the root node, $MAX$ be the player and $MIN$ the opponent. 
-        The algorithm return the best move compute by $ABCD(s_0,d_{max},-\infty,+\infty,MAX)$ where: \ \\
+Let $s_0$ be the root node, $MAX$ be the player and $MIN$ the opponent. The algorithm return the best move compute by $ABCD(s_0,d_{max},-\infty,+\infty,MAX)$ where: \ \\
 
         \textbf{Function} $ABCD(s,d,\alpha,\beta,p)$:
         \begin{enum}
