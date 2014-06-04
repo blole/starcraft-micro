@@ -22,6 +22,7 @@ namespace Bot { namespace Search
 
 	public:
 		bool isAlive() const { return hp > 0; }
+		bool isPlayerUnit() const { return id < GameState::playerUnitCount; }
 		bool isEnemyUnit() const { return id >= GameState::playerUnitCount; }
 
 		virtual std::list<Action*> possibleActions(const GameState* state) const = 0;

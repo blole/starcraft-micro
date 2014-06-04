@@ -14,7 +14,7 @@ namespace Bot { namespace Search
 			: TwoUnitAction(state, unit, target)
 		{}
 
-		virtual bool applyTo(GameState* state, int frameOffset)
+		virtual void applyTo(GameState* state, int frameOffset)
 		{
 			switch (frameOffset)
 			{
@@ -27,34 +27,35 @@ namespace Bot { namespace Search
 					state->enqueueEffect(1, this);
 					state->enqueueEffect(AttackFrames, this);
 					state->enqueueEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
-					break;
+					return;
 				}
 			case 1:
 				if (state->getUnit(unitID)->isAlive())
 				{
 					Unit* target = state->getUnitModifiable(targetID);
 					target->hp -= state->getBwapiUnit(unitID)->getType().groundWeapon().damageAmount();
-					return true;
 				}
-				else
-					return false;
+				return;
 			case AttackFrames:
 				Unit* unit = state->getUnitModifiable(unitID);
 				unit->isAttackFrame = false;
-				return true;
+				return;
 			}
 			if (frameOffset == state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown())
 			{
 				Unit* unit = state->getUnitModifiable(unitID);
 				unit->groundWeaponCooldown = false;
-				return true;
 			}
-			return true;
 		}
 
 		virtual void executeOrder(GameState* state)
 		{
 			state->getBwapiUnit(unitID)->attack(state->getBwapiUnit(targetID));
+		}
+
+		virtual bool isPlayerAction(GameState* state) const
+		{
+			return state->getUnit(unitID)->isPlayerUnit();
 		}
 	};
 }}

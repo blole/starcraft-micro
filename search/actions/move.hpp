@@ -19,13 +19,12 @@ namespace Bot { namespace Search
 					(int)(std::sin(direction)*state->getBwapiUnit(unit)->getType().topSpeed())))
 		{}
 
-		virtual bool applyTo(GameState* state, int frameOffset)
+		virtual void applyTo(GameState* state, int frameOffset)
 		{
 			Unit* unit = state->getUnitModifiable(unitID);
 			if (!unit->isAlive() || unit->isAttackFrame || frameOffset >= moveQuanta)
 			{
 				unit->isMoving = false;
-				return false;
 			}
 			else
 			{
@@ -35,14 +34,17 @@ namespace Bot { namespace Search
 					unit->isMoving = true;
 				else
 					unit->pos += moveOffset;
-
-				return true;
 			}
 		}
 
 		virtual void executeOrder(GameState* state)
 		{
 			state->getBwapiUnit(unitID)->move(moveOffset * 3);
+		}
+
+		virtual bool isPlayerAction(GameState* state) const
+		{
+			return state->getUnit(unitID)->isPlayerUnit();
 		}
 	};
 }}

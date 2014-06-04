@@ -15,9 +15,38 @@ namespace Bot { namespace Search
 		{}
 
 	public:
-		bool applyTo(GameState* state) { return applyTo(state, state->getFrame()-frameStarted); }
-		virtual bool applyTo(GameState* state, int frameOffset) = 0;
+		void applyTo(GameState* state) { applyTo(state, state->getFrame()-frameStarted); }
+		virtual void applyTo(GameState* state, int frameOffset) = 0;
 		virtual void executeOrder(GameState* state) = 0;
+		virtual bool isPlayerAction(GameState* state) const = 0;
+	};
+
+	class CompositeAction : public Action
+	{
+	protected:
+		std::list<Action*> actions;
+	public:
+		CompositeAction(const GameState* state, std::list<Action*> actions)
+			: Action(state)
+			, actions(actions)
+		{}
+
+		virtual void applyTo(GameState* state, int frameOffset)
+		{
+			for each (Action* action in actions)
+				action->applyTo(state, frameOffset);
+		}
+
+		virtual void executeOrder(GameState* state)
+		{
+			for each (Action* action in actions)
+				action->executeOrder(state);
+		}
+
+		virtual bool isPlayerAction(GameState* state) const
+		{
+			return actions.front()->isPlayerAction(state);
+		}
 	};
 
 
