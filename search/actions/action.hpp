@@ -19,6 +19,7 @@ namespace Bot { namespace Search
 		virtual void applyTo(GameState* state, int frameOffset) = 0;
 		virtual void executeOrder(GameState* state) = 0;
 		virtual bool isPlayerAction(const GameState* state) const = 0;
+		virtual Action* clone() const = 0;
 	};
 	
 	
@@ -53,6 +54,11 @@ namespace Bot { namespace Search
 		{
 			return actions.front()->isPlayerAction(state);
 		}
+
+		virtual CompositeAction* clone() const
+		{
+			return new CompositeAction(*this);
+		}
 	};
 
 
@@ -83,5 +89,26 @@ namespace Bot { namespace Search
 			: SingleUnitAction(state, unit)
 			, targetID(target->id)
 		{}
+	};
+
+
+
+
+
+	class DummyPlayerAction : public Action
+	{
+	public:
+		DummyPlayerAction(const GameState* state)
+			: Action(state)
+		{}
+	public:
+		virtual void applyTo(GameState* state, int frameOffset) {}
+		virtual void executeOrder(GameState* state) {}
+		virtual bool isPlayerAction(const GameState* state) const	{ return true; }
+
+		virtual DummyPlayerAction* clone() const
+		{
+			return new DummyPlayerAction(*this);
+		}
 	};
 }}

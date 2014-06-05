@@ -16,12 +16,12 @@ Unit::Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	{
 		isAttackFrame = true;
 		//TODO: set correct move cooldown
-		state->enqueueEffect(5, new AttackAnimationDone(state, this));
+		state->addEffect(5, new AttackAnimationDone(state, this));
 	}
 	if (bwapiUnit->getGroundWeaponCooldown() != 0)
 	{
 		groundWeaponCooldown = true;
-		state->enqueueEffect(bwapiUnit->getGroundWeaponCooldown(), new GroundWeaponReloaded(state, this));
+		state->addEffect(bwapiUnit->getGroundWeaponCooldown(), new GroundWeaponReloaded(state, this));
 	}
 }
 

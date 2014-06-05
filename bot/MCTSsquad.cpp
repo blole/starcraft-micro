@@ -16,33 +16,42 @@ using namespace Bot::Search;
 void MCTSsquad::onFrame()
 {
 	static Searcher* searchAlgorithm = new SearcherUCT();
-	static ActionLister* possibleActions = new BranchOnUnit();
+	static ActionLister* actionlister = new BranchOnUnit();
 
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });
 	
-	std::set<BWAPI::Unit> bwapiUnits;
+	std::vector<BWAPI::Unit> playerUnits;
+	std::vector<BWAPI::Unit> enemyUnits;
 
 	for each(PUnit* unit in units)
 	{
-		bwapiUnits.insert(unit->unit);
-		for each (BWAPI::Unit enemy in unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
-			bwapiUnits.insert(enemy);
+		playerUnits.push_back(unit->unit);
+		for each (BWAPI::Unit enemyUnit in unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
+		{
+			if (std::find(enemyUnits.begin(), enemyUnits.end(), enemyUnit) == enemyUnits.end())
+				enemyUnits.push_back(enemyUnit);
+		}
 	}
 
-	GameState state(std::vector<BWAPI::Unit>(bwapiUnits.begin(), bwapiUnits.end()));
+	GameState state(playerUnits, enemyUnits);
 
-	try {
-		std::list<Action*> actions = searchAlgorithm->search(&state, possibleActions);
+	if (!state.isTerminal())
+	{
+		try {
+			int gameframe = BWAPI::Broodwar->getFrameCount();
+			std::list<Action*> actions = searchAlgorithm->search(&state, actionlister);
 
-		for each (Action* action in actions)
-		{
-			action->executeOrder(&state);
+			for each (Action* action in actions)
+			{
+				if (action->isPlayerAction(&state))
+					action->executeOrder(&state);
+			}
+		} catch (const std::runtime_error& e) {
+			throw;
+		} catch (const std::exception& e) {
+			throw;
+		} catch (...) {
+			abort();
 		}
-	} catch(const std::runtime_error& e) {
-		abort();
-	} catch(const std::exception& e) {
-		abort();
-	} catch(...) {
-		abort();
 	}
 }

@@ -15,57 +15,61 @@ GameState::GameState(const GameState* parent, Action* action)
 	action->applyTo(this);
 }
 
-GameState::GameState(std::vector<BWAPI::Unit> bwapiUnits)
+GameState::GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Unit> enemyUnits)
 	: frame(0)
 {
-	GameState::bwapiUnits = bwapiUnits;
-	GameState::playerUnitCount = 0;
-	id_t id = 0;
-	for each (BWAPI::Unit bwapiUnit in bwapiUnits)
-	{
-		units.push_back(Unit::create(this, bwapiUnit, id));
-		id++;
+	GameState::bwapiUnits.clear();
+	GameState::playerUnitCount = playerUnits.size();
+	std::copy(playerUnits.begin(), playerUnits.end(), std::back_inserter(bwapiUnits));
+	std::copy(enemyUnits.begin(), enemyUnits.end(), std::back_inserter(bwapiUnits));
 
-		//TODO: this assumes enemy units come after player units
-		if (bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
-			GameState::playerUnitCount++;
-	}
+	id_t id = 0;
+
+	for each (BWAPI::Unit playerUnit in playerUnits)
+		units.push_back(Unit::create(this, playerUnit, id++));
+
+	for each (BWAPI::Unit enemyUnit in enemyUnits)
+		units.push_back(Unit::create(this, enemyUnit, id++));
 }
 
 GameState::~GameState()
 {
 }
 
-std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int maxRange) const
+std::list<const Unit*> GameState::unitsInRange(const std::list<const Unit*>& outOf, BWAPI::Position origin, int minRange, int maxRange) const
 {
-	std::list<Unit*> inRange;
+	std::list<const Unit*> inRange;
 
-	for each (Unit* unit in units)
+	for each (const Unit* unit in outOf)
 	{
 		if (!unit->isAlive())
 			continue;
-		double distance = unit->pos.getDistance(pos);
-		if (distance <= maxRange)
+		double distance = origin.getDistance(unit->pos);
+		if (minRange <= distance && distance <= maxRange)
 			inRange.push_back(unit);
 	}
 
 	return inRange;
 }
 
-std::list<Unit*> GameState::unitsInRange(BWAPI::Position pos, int minRange, int maxRange) const
+std::list<const Unit*> GameState::playerUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const
 {
-	std::list<Unit*> inRange;
+	return unitsInRange(playerUnits(), origin, minRange, maxRange);
+}
 
-	for each (Unit* unit in units)
-	{
-		if (!unit->isAlive())
-			continue;
-		double distance = unit->pos.getDistance(pos);
-		if (minRange <= distance && distance <= maxRange)
-			inRange.push_back(unit);
-	}
+std::list<const Unit*> GameState::playerUnitsInRange(BWAPI::Position origin, int maxRange) const
+{
+	return playerUnitsInRange(origin, 0, maxRange);
+}
 
-	return inRange;
+std::list<const Unit*> GameState::enemyUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const
+{
+	return unitsInRange(enemyUnits(), origin, minRange, maxRange);
+}
+
+std::list<const Unit*> GameState::enemyUnitsInRange(BWAPI::Position origin, int maxRange) const
+{
+	return enemyUnitsInRange(origin, 0, maxRange);
 }
 
 const Unit* GameState::getUnit(id_t id) const
@@ -91,18 +95,22 @@ BWAPI::Unit GameState::getBwapiUnit(const Unit* unit) const
 
 void GameState::advanceFrames(unsigned int framesToAdvance)
 {
-	for (unsigned int i = 0; i<framesToAdvance; i++)
+	for (unsigned int i = 1; i<=framesToAdvance; i++)
 	{
-		for each (auto effect in pendingEffects.getEffects(i))
+		frame++;
+		auto effects = pendingEffects.getEffects(i);
+		pendingEffects.advanceFrames(1);
+		for each (auto effect in effects)
 			effect->applyTo(this);
-		frame++; //TODO do this before or after applying effects?
 	}
-	pendingEffects.advanceFrames(framesToAdvance);
 }
 
-void GameState::enqueueEffect(int frameOffset, Action* action)
+void GameState::addEffect(int frameOffset, Action* action)
 {
-	pendingEffects.addEffect(frameOffset, action);
+	if (frameOffset == 0)
+		action->applyTo(this);
+	else
+		pendingEffects.addEffect(frameOffset, action);
 }
 
 bool GameState::isTerminal()
@@ -127,7 +135,7 @@ bool GameState::isTerminal()
 		}
 	}
 
-	return !anyFriendlyAlive && !anyEnemyAlive;
+	return !(anyFriendlyAlive && anyEnemyAlive);
 }
 
 std::list<const Unit*> GameState::playerUnits() const

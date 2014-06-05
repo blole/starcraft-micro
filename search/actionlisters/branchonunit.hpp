@@ -15,6 +15,14 @@ namespace Bot { namespace Search
 				if (unit->isAlive())
 				{
 					std::list<Action*> actions = unit->possibleActions(gamestate);
+
+					/*if (actions.size() > 2)
+					{
+						std::list<Action*>::iterator element2 = actions.begin();
+						std::advance(element2, 2);
+						actions.erase(element2, actions.end());
+					}*/
+
 					if (!actions.empty())
 						return actions;
 				}

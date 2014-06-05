@@ -5,19 +5,21 @@
 #include <cassert>
 #include "search/searchers/searcher.hpp"
 #include "search/units/unit.hpp"
+#include "search/actions/action.hpp"
 
 namespace Bot { namespace Search
 {
 	class NodeUCT;
 
-	struct NodeChild
+	class NodeChild
 	{
-		Action* const action;
+	public:
+		Action* action;
 		NodeUCT* node;
 
-		NodeChild(Action* const action)
+		NodeChild(Action* action, NodeUCT* node = nullptr)
 			: action(action)
-			, node(nullptr)
+			, node(node)
 		{}
 	};
 
@@ -31,7 +33,7 @@ namespace Bot { namespace Search
 		std::vector<NodeChild> children;
 
 		int visits;
-		double score;
+		double totalReward;
 		bool fullyExpanded;
 
 	private:
@@ -43,32 +45,41 @@ namespace Bot { namespace Search
 			: parent(parent)
 			, gamestate(gamestate)
 			, visits(0)
-			, score(0)
+			, totalReward(0)
 			, fullyExpanded(false)
 			, terminal(false)
 			, checkedForTerminal(false)
 		{
 			std::list<Action*> actions;
-			while (true)
+			while (!gamestate->isTerminal())
 			{
+				//advance while we have not reached a terminal state and
+				//there are no possible actions
+
 				actions = actionlister->actions(gamestate);
 
 				if (actions.size() == 0)
-				{
 					gamestate->advanceFrames(1);
-					if (gamestate->isTerminal())
-					{
-
-						break;
-					}
-				}
 				else
+				{
+					children.reserve(actions.size());
+					for each (Action* action in actions)
+						children.push_back(NodeChild(action));
 					break;
+				}
+			}
+		}
+
+		~NodeUCT()
+		{
+			for each (NodeChild child in children)
+			{
+				delete child.node;
+				delete child.action;
 			}
 
-			children.reserve(actions.size());
-			for each (Action* action in actions)
-				children.push_back(NodeChild(action));
+			if (parent != nullptr)
+				delete gamestate;
 		}
 
 	public:
@@ -80,6 +91,11 @@ namespace Bot { namespace Search
 				terminal = gamestate->isTerminal();
 			}
 			return terminal;
+		}
+
+		double UCB(NodeUCT* parent)
+		{
+			return totalReward/visits + std::sqrt(std::log((double)parent->visits)/visits);
 		}
 	};
 
@@ -93,114 +109,95 @@ namespace Bot { namespace Search
 	public:
 		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
 		{
+			assert(!gamestate->isTerminal());
+
 			this->actionlister = actionlister;
 
+			DummyPlayerAction rootAction(gamestate);
 			NodeUCT root(nullptr, gamestate, actionlister);
-			//abort();
+			NodeChild rootChild(&rootAction, &root);
+
 			//TODO: constrain in time instead
-			for (int i = 0; i < 500; i++)
+			for (int i = 0; i < 50; i++)
 			{
-				NodeUCT* leaf = treePolicy(&root);
-				double score = playout(leaf->gamestate);
+				traverse(rootChild);
 			}
 			
 			NodeUCT* node = &root;
 			std::list<Action*> bestActions;
 			while (node->gamestate->getFrame() == 0)
 			{
-				NodeChild child = bestChild(node);
-				bestActions.push_back(child.action);
+				NodeChild child = selectChild(node);
+				bestActions.push_back(child.action->clone());
 				node = child.node;
 			}
-			std::list<Action*> a = actionlister->actions(gamestate);
-			BWAPI::Broodwar->drawTextScreen(200, 100,  "possible actions: %d", a.size());
-			return a;
-			//return bestActions;
+
+			BWAPI::Broodwar->drawTextScreen(200, 75,  "number of taken actions: %d", bestActions.size());
+			return bestActions;
 		}
 
 	private:
-		NodeUCT* treePolicy(NodeUCT* node)
+		double traverse(NodeChild node)
 		{
-			while (true)
-			{
-				if (node->isTerminal())
-					return node;
-				else if (!node->fullyExpanded)
-					return expand(node);
-				else
-					node = bestChild(node).node;
-			}
-		}
+			double score;
 
-		NodeUCT* expand(NodeUCT* parent)
-		{
-			NodeUCT* expanded = nullptr;
-			for (int i=0; i<parent->children.size(); i++)
-			{
-				NodeChild& child = parent->children[i];
-				if (child.node == nullptr) //unexpanded child found
-				{
-					if (expanded == nullptr) //it's the first we found
-						expanded = child.node = new NodeUCT(parent, new GameState(parent->gamestate, child.action), actionlister);
-					else	//we found another one, so break
-						return expanded;
-				}
-			}
+			if (node.node->visits == 0)
+				score = playout(node.node->gamestate);
+			else if (!node.node->isTerminal())
+				score = traverse(selectChild(node.node));
+			else //already visited terminal state
+				score = node.node->totalReward/node.node->visits; //or maybe 0? nah...
+			
+			node.node->visits++;
 
-			assert(expanded != nullptr);
+			if (node.action->isPlayerAction(node.node->gamestate))
+				node.node->totalReward += score;
+			else
+				node.node->totalReward -= score;
 
-			//if we got here, the parent has been fully expanded
-			parent->fullyExpanded = true;
-			return expanded;
-		}
-
-		NodeChild bestChild(NodeUCT* parent)
-		{
-			assert(parent->fullyExpanded);
-
-			NodeChild* best = &parent->children[0];
-
-			for (int i=1; i<parent->children.size(); i++)
-			{
-				NodeChild* child = &parent->children[i];
-				if (best->node->score < child->node->score)
-					best = child;
-			}
-
-			return *best;
-		}
-
-		double traverse(NodeUCT* node)
-		{
-			if (node->visits == 0)
-			{
-				node->score = playout(node->gamestate);
-			}
-			else if (!node->isTerminal())
-			{
-				NodeChild child = selectChild(node);
- 				traverse(child.node);
-			}
-			node->visits++;
-
-
-			return node->score;
+			return score;
 		}
 
 		NodeChild selectChild(NodeUCT* parent)
 		{
-			if (parent->children.size() == 0)
-				return nullptr;
-
-			double bestScore = -std::numeric_limits<double>::infinity();
-			for (unsigned int i = 0; i < parent->children.size(); i++)
+			if (!parent->fullyExpanded)
 			{
-				NodeChild& child = parent->children[i];
-				if (child.node == nullptr)
+				//try to find unexpanded child
+				for (unsigned int i=0; i<parent->children.size(); i++)
 				{
-					child.node = new NodeUCT(parent, new GameState(parent->gamestate, child.action), actionlister);
+					NodeChild& child = parent->children[i];
+					if (child.node == nullptr)
+					{
+						child.node = new NodeUCT(parent, new GameState(parent->gamestate, child.action), actionlister);
+						return child;
+					}
+				}
+
+				parent->fullyExpanded = true;
+			}
+			
+			return bestChild(parent);
+		}
+		
+		NodeChild bestChild(NodeUCT* parent)
+		{
+			assert(parent->fullyExpanded);
+
+			NodeChild best = parent->children[0];
+			double bestUCB = best.node->UCB(parent);
+
+			for (unsigned int i=1; i<parent->children.size(); i++)
+			{
+				NodeChild child = parent->children[i];
+				double ucb = child.node->UCB(parent);
+				if (bestUCB < ucb)
+				{
+					best = child;
+					bestUCB = ucb;
 				}
 			}
+			
+			return best;
 		}
 
 		double playout(GameState* gamestate)

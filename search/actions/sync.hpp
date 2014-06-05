@@ -25,6 +25,11 @@ namespace Bot { namespace Search
 		{
 			return state->getUnit(unitID)->isPlayerUnit();
 		}
+
+		virtual GroundWeaponReloaded* clone() const
+		{
+			return new GroundWeaponReloaded(*this);
+		}
 	};
 
 
@@ -49,6 +54,11 @@ namespace Bot { namespace Search
 		virtual bool isPlayerAction(const GameState* state) const
 		{
 			return state->getUnit(unitID)->isPlayerUnit();
+		}
+
+		virtual AttackAnimationDone* clone() const
+		{
+			return new AttackAnimationDone(*this);
 		}
 	};
 }}

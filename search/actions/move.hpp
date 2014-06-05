@@ -28,7 +28,7 @@ namespace Bot { namespace Search
 			}
 			else
 			{
-				state->enqueueEffect(1, this);
+				state->addEffect(1, this);
 
 				if (frameOffset == 0)
 					unit->isMoving = true;
@@ -46,6 +46,11 @@ namespace Bot { namespace Search
 		virtual bool isPlayerAction(const GameState* state) const
 		{
 			return state->getUnit(unitID)->isPlayerUnit();
+		}
+
+		virtual Move* clone() const
+		{
+			return new Move(*this);
 		}
 	};
 }}

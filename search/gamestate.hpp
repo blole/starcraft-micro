@@ -24,7 +24,7 @@ namespace Bot { namespace Search
 		unsigned int frame;
 
 	public:
-		GameState(std::vector<BWAPI::Unit> bwapiUnits);
+		GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Unit> enemyUnits);
 		GameState(const GameState* parent, Action* action);
 		~GameState();
 
@@ -33,7 +33,7 @@ namespace Bot { namespace Search
 		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);
-		void enqueueEffect(int frameOffset, Action* action);
+		void addEffect(int frameOffset, Action* action);
 
 		std::list<const Unit*> playerUnits() const;
 		std::list<const Unit*> enemyUnits() const;
@@ -44,7 +44,11 @@ namespace Bot { namespace Search
 		BWAPI::Unit getBwapiUnit(id_t id) const;
 		BWAPI::Unit getBwapiUnit(const Unit* unit) const;
 
-		std::list<Unit*> unitsInRange(BWAPI::Position pos, int maxRange) const;
-		std::list<Unit*> unitsInRange(BWAPI::Position pos, int minRange, int maxRange) const;
+		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int maxRange) const;
+		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const;
+		std::list<const Unit*> playerUnitsInRange(BWAPI::Position origin, int maxRange) const;
+		std::list<const Unit*> playerUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const;
+	private:
+		std::list<const Unit*> unitsInRange(const std::list<const Unit*>& outOf, BWAPI::Position origin, int minRange, int maxRange) const;
 	};
 }}

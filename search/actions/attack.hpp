@@ -24,9 +24,9 @@ namespace Bot { namespace Search
 					unit->isAttackFrame = true;
 					unit->groundWeaponCooldown = true;
 
-					state->enqueueEffect(1, this);
-					state->enqueueEffect(AttackFrames, this);
-					state->enqueueEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
+					state->addEffect(1, this);
+					state->addEffect(AttackFrames, this);
+					state->addEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
 					return;
 				}
 			case 1:
@@ -50,13 +50,26 @@ namespace Bot { namespace Search
 
 		virtual void executeOrder(GameState* state)
 		{
-			state->getBwapiUnit(unitID)->attack(state->getBwapiUnit(targetID));
-			BWAPI::Broodwar->drawLineMap(state->getBwapiUnit(unitID)->getPosition(),state->getBwapiUnit(targetID)->getPosition(),BWAPI::Color(255,0,0));
+			BWAPI::Unit unit = state->getBwapiUnit(unitID);
+			BWAPI::Unit target = state->getBwapiUnit(targetID);
+			unit->attack(target);
+
+			
+			BWAPI::Broodwar->drawLine(BWAPI::CoordinateType::Map,
+				unit->getPosition().x, unit->getPosition().y,
+				target->getPosition().x, target->getPosition().y,
+				unit->getPlayer() == BWAPI::Broodwar->self() ?
+					BWAPI::Colors::Red : BWAPI::Colors::Blue);
 		}
 
 		virtual bool isPlayerAction(const GameState* state) const
 		{
 			return state->getUnit(unitID)->isPlayerUnit();
+		}
+
+		virtual Attack* clone() const
+		{
+			return new Attack(*this);
 		}
 	};
 }}
