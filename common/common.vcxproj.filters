@@ -27,6 +27,9 @@
     <ClCompile Include="squad.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="InfluenceMap.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameUnit.hpp">
@@ -42,6 +45,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="squad.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="InfluenceMap.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

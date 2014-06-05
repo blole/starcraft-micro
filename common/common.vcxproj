@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameUnit.cpp" />
+    <ClCompile Include="InfluenceMap.cpp" />
     <ClCompile Include="OUnit.cpp" />
     <ClCompile Include="PUnit.cpp" />
     <ClCompile Include="squad.cpp" />
@@ -19,6 +20,7 @@
   <ItemGroup>
     <ClInclude Include="GameUnit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
+    <ClInclude Include="InfluenceMap.hpp" />
     <ClInclude Include="OUnit.hpp" />
     <ClInclude Include="PUnit.hpp" />
     <ClInclude Include="squad.hpp" />

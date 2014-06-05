@@ -1,0 +1,12 @@
+\section{Results }
+
+At the present time our micro-management bots need more development (UCT search) and/or more testing. This part will be accomplished in a future work.
+
+So far all of the testing has been made by testing our bot against the original IA of Stacraft. While not sure of how this IA work it seems to pack all unit together and send them in a suicide mission (move to closest target, attack it, repeat). 
+
+This IA is able to defeat the \texttt{Attack Closest} bot on almost every game (10 vs 10 often leads to 3--4 man standing for the opponent team).
+Indeed, \texttt{Attack Closest} do not present any cooperative work neither fleeing behavior for in danger units. However, \texttt{Attack Closest Lethal} defeat the IA on almost every game with a ration of \textasciitilde25\% of player units still alive. This bot offers a very good cooperation between unit.
+
+Since kiting behavior can not be tested with the same kind of units we tested it by fighting slow powerful but low range units (\texttt{zealot}) versus fast long range units (\texttt{Vulture}). 
+In that situation our bot was able to defeat the opponent team almost every time (even in scenario such as 3 (us) VS 10 (opponent)). 
+Theoretically, one unit should be enough. However the bot attack sequence sometimes gets stuck in attack mode (our bot was unable do detect that the attack has been performed) and therefore the \texttt{Vulture} unit is destroyed almost instantly by the \texttt{Zealots}.

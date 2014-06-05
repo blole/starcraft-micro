@@ -19,12 +19,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AttackClosest.hpp" />
-    <ClInclude Include="moverelative.hpp" />
+    <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="AttackClosest.cpp" />
+    <ClCompile Include="AttackClosestLethal.cpp" />
+    <ClCompile Include="Flee.cpp" />
+    <ClCompile Include="moverelative.cpp" />
+    <ClCompile Include="MoveSquadToPosition.cpp" />
+    <ClCompile Include="SquadFire.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AttackClosest.cpp" />
-    <ClCompile Include="moverelative.cpp" />
+    <ClInclude Include="Attack.hpp" />
+    <ClInclude Include="AttackClosest.hpp" />
+    <ClInclude Include="AttackClosestLethal.hpp" />
+    <ClInclude Include="Flee.hpp" />
+    <ClInclude Include="moverelative.hpp" />
+    <ClInclude Include="MoveSquadToPosition.hpp" />
+    <ClInclude Include="SquadFire.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{244ED8C6-F017-4421-AF42-14E2ED027E22}</ProjectGuid>

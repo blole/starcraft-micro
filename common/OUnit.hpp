@@ -12,6 +12,10 @@ public:
 	OUnit(BWAPI::Unit unit);
 	// Methods
 	bool willDie();
-private:
+
+public:
+	static std::map<int, OUnit*> units;
+public:
+	static OUnit* get(BWAPI::Unit unit);
 	
 };

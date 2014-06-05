@@ -14,4 +14,5 @@ public:
 	
 private:
 	bool first;
+	bool hasStartAttack;
 };

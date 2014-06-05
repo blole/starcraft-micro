@@ -1,0 +1,27 @@
+\section{Introduction and Background}
+RTS games provide a very interesting platform for developing and testing multi agent cooperative behavior.
+%In game theoretic terms, RTS games can be considered symmetric, non-zero-sum, simultaneous, imperfect information, combinatorial games.
+That which separates RTS games the most from traditional games like chess is the huge branching factor when taking every possible combination of every unit's moves into account, and even in a 10 vs 10 unit battle, all the different ways a battle could play out quickly grows beyond what is feasible to do a exhaustive search on.
+On top of that, a complete model of how the game mechanics work might not be available, and new decisions have to be taken in only the time between each frame
+\footnote{
+As an example, in the 2011 AIIDE Starcraft AI Competition, 55 ms were given to the bots per frame.
+\url{https://skatgame.net/mburo/sc2011/rules.html}
+}
+.
+
+The game of Starcraft is a good platform for evaluating different methods for addressing these difficulties that RTS games pose and several tournaments are held yearly
+\footnote{
+\url{http://www.sscaitournament.com/} \
+\url{http://www.aiide.org/starcraft} \
+\url{http://bots-stats.krasi0.com/} (ladder)
+}
+. 
+
+
+When it comes to the management of units, most of current bot (such as \emph{UAlbertaBot} or \emph{Skynet} in the 2010 AIIDE \textsc{Starcraft} AI competition) uses scripted behavior, a mechanisms mostly based on behavior trees and applying the same scheme of action at any time (as an exemple, attacking the closest enemy). 
+Those algorithm provide good results in term of computational speed but often lack in foresight. 
+Another approach is to used search-based methods. They naturally adapts to the current situtation. Looking ahead will often find winning variations, where scripted solutions fail due to the enormous decision complexity. 
+As in the games of Chess or Go, the problem of finding an optimal winning solution as been proven to be NP-HARD \cite{nphard}. 
+However classical search based method have to be modified in order to take in account simultaneous and non-instaneous moves.
+In \cite{abcd} a fast search method -- Alpha-Beta search for duratives moves -- is developed and proved better than commonly used AI scripts (with battle up to 8 vs 8 units). 
+\cite{wargusuct} investigates the use of UCT -- a Monte-Carlo planning algorithm for this problem -- and provide a battle planning strategy better than several baselines and even a human player.

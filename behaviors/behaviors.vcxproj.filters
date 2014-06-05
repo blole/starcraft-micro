@@ -10,8 +10,7 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="headers">
-      <UniqueIdentifier>{ccda04d6-db43-4a63-a95b-2484d82da6cd}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <UniqueIdentifier>{b1602a90-9435-457d-a1ee-d214bc825d3f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,12 +20,42 @@
     <ClCompile Include="moverelative.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="SquadFire.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveSquadToPosition.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackClosestLethal.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Flee.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackClosest.hpp">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="AttackClosestLethal.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
     <ClInclude Include="moverelative.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSquadToPosition.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SquadFire.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Flee.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
