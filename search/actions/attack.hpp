@@ -52,12 +52,10 @@ namespace Bot { namespace Search
 		{
 			BWAPI::Unit unit = state->getBwapiUnit(unitID);
 			BWAPI::Unit target = state->getBwapiUnit(targetID);
+			
 			unit->attack(target);
 
-			
-			BWAPI::Broodwar->drawLine(BWAPI::CoordinateType::Map,
-				unit->getPosition().x, unit->getPosition().y,
-				target->getPosition().x, target->getPosition().y,
+			BWAPI::Broodwar->drawLineMap(unit->getPosition(), target->getPosition(),
 				unit->getPlayer() == BWAPI::Broodwar->self() ?
 					BWAPI::Colors::Red : BWAPI::Colors::Blue);
 		}
