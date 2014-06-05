@@ -19,16 +19,17 @@ namespace Bot { namespace Search
 
 			for each(const Unit* unit in units)
 			{
-				if (unit->isAlive())
+				if (unit->isAlive() && unit->isPlayerUnit() == current_player)
 				{
 					std::list<Action*> list = unit->possibleActions(gamestate);
 					std::vector<Action*> actions = std::vector<Action*>(list.begin(),list.end());
-					if(!actions.empty() && actions.front()->isPlayerAction(gamestate) == current_player)
+					if(!actions.empty())
 						matrixOfActions.push_back(actions);
 				}
 			}
 
 			// Create a list of Composite action from random combination
+
 			for(int nbPerm = 0; nbPerm < nbPermMax ; nbPerm++)
 			{
 				std::list<Action*> actions;
@@ -37,7 +38,8 @@ namespace Bot { namespace Search
 					int k = rand() % (*i).size();
 					actions.push_back((*i).at(k));
 				}
-				setOfActions.push_back(new CompositeAction(gamestate, actions));
+				if(!actions.empty())
+					setOfActions.push_back(new CompositeAction(gamestate, actions));
 			}
 			
 			//abort();
@@ -50,6 +52,6 @@ namespace Bot { namespace Search
 
 	private:
 		bool current_player;
-		const static int nbPermMax = 5;
+		const static int nbPermMax = 10;
 	};
 }}

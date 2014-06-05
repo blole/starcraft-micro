@@ -11,7 +11,6 @@ using namespace Filter;
 void Bot::onStart()
 {
 	Broodwar->enableFlag(Flag::UserInput);
-	
 	// Set the command optimization level so that common commands can be grouped and reduce the bot's APM (Actions Per Minute).
 	//Broodwar->setCommandOptimizationLevel(2);
 	
@@ -52,7 +51,8 @@ void Bot::onFrame()
 		// Finally make the unit do some stuff!
 	}
 
-	general->onFrame();
+		if(Broodwar->getFrameCount() % 6 == 0)
+			general->onFrame();
 }
 
 void Bot::onEnd(bool isWinner)

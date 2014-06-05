@@ -33,7 +33,7 @@ namespace Bot { namespace Search
 			if (!this->isAttackFrame && !this->isMoving)
 			{
 				//TODO: precalc all of these directional offsets..
-				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 4)
+				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 2)
 					actions.push_back(new Move(state, this, dir));
 			}
 

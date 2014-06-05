@@ -2,6 +2,7 @@
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
 #include <BWAPI.h>
+#include <cassert>
 
 namespace Bot { namespace Search
 {
@@ -35,7 +36,9 @@ namespace Bot { namespace Search
 		CompositeAction(const GameState* state, std::list<Action*> actions)
 			: Action(state)
 			, actions(actions)
-		{}
+		{
+			assert(!actions.empty());
+		}
 
 		virtual void applyTo(GameState* state, int frameOffset)
 		{

@@ -79,6 +79,7 @@ namespace Bot { namespace Search
 		ActionLister* actionlister;
 		int nbcall;
 		int nbPrune;
+		int nbFrameAdvanced;
 
 	public:
 		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
@@ -90,6 +91,7 @@ namespace Bot { namespace Search
 			std::vector<double> valueChildren;
 			nbcall = 0;
 			nbPrune = 0;
+			nbFrameAdvanced = 0;
 			NodeABCD::countNode = 0;
 			if(root->children.empty())
 				return std::list<Action*>();
@@ -98,7 +100,7 @@ namespace Bot { namespace Search
 				for each(auto child in root->children)
 				{
 					auto childGenerated = new NodeABCD(root, new GameState(root->gamestate, child.action), actionlister);
-					valueChildren.push_back(alphabeta(childGenerated,5,-10000,10000,false,this->actionlister));
+					valueChildren.push_back(alphabeta(childGenerated,6,-10000,10000,false,this->actionlister));
 				}
 			}
 
@@ -117,6 +119,7 @@ namespace Bot { namespace Search
 			result.push_back(root->children.at(bestindex).action);
 			BWAPI::Broodwar << "Alpha-beta been called: " << nbcall << " and pruned " << nbPrune << " states." << std::endl;
 			BWAPI::Broodwar << NodeABCD::countNode << " node created." << std::endl;
+			BWAPI::Broodwar << nbFrameAdvanced << " advances in frame." << std::endl;
 			
 			return result;
 		}
@@ -149,13 +152,16 @@ namespace Bot { namespace Search
 			else // try to change player
 			{
 				((BranchOnPlayer*)actionlister)->switchPlayer(!player);
-				node = new NodeABCD(node->parent,node->gamestate,actionlister);
-				if(!node->children.empty())
-					return alphabeta(node,depth,alpha,beta,!player,actionlister);
+				auto childGenerated = new NodeABCD(node, node->gamestate, actionlister);
+				if(!childGenerated->children.empty())
+				{
+					return alphabeta(childGenerated,depth,alpha,beta,!player,actionlister);
+				}
 				else // Advance in time (no actions available for both player)
 				{
+					nbFrameAdvanced++;
 					node->gamestate->advanceFrames(1);
-					if(node->gamestate->isTerminal())
+					if(node->gamestate->isTerminal() ||nbFrameAdvanced > 100)
 						return evaluate(node->gamestate);
 					else
 					{
