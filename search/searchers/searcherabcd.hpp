@@ -100,7 +100,7 @@ namespace Bot { namespace Search
 				for each(auto child in root->children)
 				{
 					auto childGenerated = new NodeABCD(root, new GameState(root->gamestate, child.action), actionlister);
-					valueChildren.push_back(alphabeta(childGenerated,6,-10000,10000,false,this->actionlister));
+					valueChildren.push_back(alphabeta(childGenerated,10,-10000,10000,false,this->actionlister));
 				}
 			}
 
@@ -120,6 +120,7 @@ namespace Bot { namespace Search
 			BWAPI::Broodwar << "Alpha-beta been called: " << nbcall << " and pruned " << nbPrune << " states." << std::endl;
 			BWAPI::Broodwar << NodeABCD::countNode << " node created." << std::endl;
 			BWAPI::Broodwar << nbFrameAdvanced << " advances in frame." << std::endl;
+			BWAPI::Broodwar << bestvalue << " best value." << std::endl;
 			
 			return result;
 		}
