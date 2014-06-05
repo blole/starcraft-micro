@@ -11,43 +11,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
-      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\common\common.vcxproj">
-      <Project>{7cfee4db-10dd-40d1-9175-5ea2f0913d17}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
-      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
+    <ProjectReference Include="..\units\units.vcxproj">
+      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botSquad.cpp" />
-    <ClCompile Include="Commander.cpp" />
-    <ClCompile Include="dll.cpp" />
-    <ClCompile Include="SquadManager.cpp" />
+    <ClInclude Include="heuristic.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="botSquad.hpp" />
-    <ClInclude Include="Commander.hpp" />
-    <ClInclude Include="SquadManager.hpp" />
+    <ClCompile Include="heuristic.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}</ProjectGuid>
+    <ProjectGuid>{DA71CE34-62DC-46BB-B0C5-DC1597185F96}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>botSquad</ProjectName>
+    <ProjectName>heuristic</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
@@ -65,8 +54,10 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)/build/$(Configuration)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)/intermediate/$(ProjectName)/</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

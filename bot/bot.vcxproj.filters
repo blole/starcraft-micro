@@ -15,39 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameUnit.cpp">
+    <ClCompile Include="bot.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="OUnit.cpp">
+    <ClCompile Include="general.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="PUnit.cpp">
+    <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="squad.cpp">
+    <ClCompile Include="reactivesquad.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="InfluenceMap.cpp">
+    <ClCompile Include="MCTSsquad.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="ABCDsquad.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameUnit.hpp">
+    <ClInclude Include="bot.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="OUnit.hpp">
+    <ClInclude Include="general.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="PUnit.hpp">
+    <ClInclude Include="reactivesquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp">
+    <ClInclude Include="MCTSsquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="squad.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="InfluenceMap.hpp">
+    <ClInclude Include="ABCDsquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

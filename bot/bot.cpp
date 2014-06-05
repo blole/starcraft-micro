@@ -1,5 +1,7 @@
 #include "bot/bot.hpp"
 #include "bot/reactivesquad.hpp"
+#include "bot/MCTSsquad.hpp"
+#include "bot/ABCDsquad.hpp"
 #include "behaviors/moverelative.hpp"
 #include <iostream>
 
@@ -9,19 +11,13 @@ using namespace Filter;
 void Bot::onStart()
 {
 	Broodwar->enableFlag(Flag::UserInput);
-	
 	// Set the command optimization level so that common commands can be grouped and reduce the bot's APM (Actions Per Minute).
 	//Broodwar->setCommandOptimizationLevel(2);
 	
 	if (!Broodwar->isReplay())
 	{
-		auto unitBrain = []{ return
-			(new SequentialNode())
-				->addChild(new MoveRelative(10, 0));
-		};
-
-		general = new General([=]{ return new ReactiveSquad(unitBrain); });
-		Broodwar << "hej" << std::endl;
+		general = new General([]{ return new ABCDsquad(); });
+		//general = new General([]{ return new MCTSsquad(); });
 		general->onStart();
 	}
 }
@@ -29,7 +25,8 @@ void Bot::onStart()
 void Bot::onFrame()
 {
 	Broodwar->drawTextScreen(200, 0,  "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
-	Broodwar->drawTextScreen(200, 15, "latency frames: %d", Broodwar->getLatencyFrames());
+	Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
+	Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
 	
 	// Return if the game is a replay or is paused
 	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
@@ -54,7 +51,8 @@ void Bot::onFrame()
 		// Finally make the unit do some stuff!
 	}
 
-	general->onFrame();
+		if(Broodwar->getFrameCount() % 6 == 0)
+			general->onFrame();
 }
 
 void Bot::onEnd(bool isWinner)
