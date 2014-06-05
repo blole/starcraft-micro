@@ -127,7 +127,7 @@ bool GameState::isTerminal()
 		}
 	}
 
-	return anyFriendlyAlive && anyEnemyAlive;
+	return !anyFriendlyAlive && !anyEnemyAlive;
 }
 
 std::list<const Unit*> GameState::playerUnits() const

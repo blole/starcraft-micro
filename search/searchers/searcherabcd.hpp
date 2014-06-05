@@ -23,7 +23,6 @@ namespace Bot { namespace Search
 	};
 
 
-
 	class NodeABCD
 	{
 	public:
@@ -35,10 +34,11 @@ namespace Bot { namespace Search
 		double score;
 		bool fullyExpanded;
 
+		static int countNode;
+
 	private:
 		bool terminal;
 		bool checkedForTerminal;
-
 	public:
 		NodeABCD(NodeABCD* const parent, GameState* const gamestate, ActionLister* actionlister)
 			: parent(parent)
@@ -49,6 +49,8 @@ namespace Bot { namespace Search
 			, terminal(false)
 			, checkedForTerminal(false)
 		{
+			NodeABCD::countNode++;
+
 			std::list<Action*> actions;
 			actions = actionlister->actions(gamestate);
 
@@ -69,12 +71,14 @@ namespace Bot { namespace Search
 		}
 	};
 
-
+	int NodeABCD::countNode;
 
 	class SearcherABCD : public Searcher
 	{
 	private:
 		ActionLister* actionlister;
+		int nbcall;
+		int nbPrune;
 
 	public:
 		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
@@ -84,7 +88,9 @@ namespace Bot { namespace Search
 			NodeABCD* root = new NodeABCD(nullptr, gamestate, actionlister);
 
 			std::vector<double> valueChildren;
-
+			nbcall = 0;
+			nbPrune = 0;
+			NodeABCD::countNode = 0;
 			if(root->children.empty())
 				return std::list<Action*>();
 			else
@@ -109,19 +115,23 @@ namespace Bot { namespace Search
 
 			std::list<Action*> result;
 			result.push_back(root->children.at(bestindex).action);
+			BWAPI::Broodwar << "Alpha-beta been called: " << nbcall << " and pruned " << nbPrune << " states." << std::endl;
+			BWAPI::Broodwar << NodeABCD::countNode << " node created." << std::endl;
+			
 			return result;
 		}
 
 		double alphabeta(NodeABCD* node, int depth, double alpha, double beta, bool player, ActionLister* actionlister)
 		{
+			nbcall++;
 			if(depth == 0 || node->isTerminal())
 				return evaluate(node->gamestate);
 
 			if(!node->children.empty()) // "normal" alpha-beta !
 			{
-				((BranchOnPlayer*)actionlister)->switchPlayer(!player);
 				for each(auto child in node->children)
 				{
+					((BranchOnPlayer*)actionlister)->switchPlayer(!player);
 					auto childGenerated = new NodeABCD(node, new GameState(node->gamestate, child.action), actionlister);
 					double v = alphabeta(childGenerated, depth-1,alpha,beta,!player, actionlister);
 					if(player && v > alpha) 
@@ -129,7 +139,10 @@ namespace Bot { namespace Search
 					if(!player && v < beta)
 						beta = v;
 					if(alpha >= beta)
+					{
+						nbPrune++;
 						break;
+					}
 				}
 				return (player ? alpha : beta);
 			}
