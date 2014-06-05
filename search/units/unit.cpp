@@ -12,16 +12,25 @@ Unit::Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	, isAttackFrame(false)
 	, groundWeaponCooldown(false)
 {
-	if (bwapiUnit->isAttackFrame())
+	if (bwapiUnit->isAttackFrame() ||
+		(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
+		 bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))
 	{
 		isAttackFrame = true;
 		//TODO: set correct move cooldown
-		state->addEffect(5, new AttackAnimationDone(state, this));
+		state->addEffect(6, new AttackAnimationDone(state, this));
 	}
+
 	if (bwapiUnit->getGroundWeaponCooldown() != 0)
 	{
 		groundWeaponCooldown = true;
 		state->addEffect(bwapiUnit->getGroundWeaponCooldown(), new GroundWeaponReloaded(state, this));
+	}
+	else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
+			 bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
+	{
+		groundWeaponCooldown = true;
+		state->addEffect(14, new GroundWeaponReloaded(state, this));
 	}
 }
 
