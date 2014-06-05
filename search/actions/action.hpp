@@ -30,6 +30,7 @@ namespace Bot { namespace Search
 	protected:
 		std::list<Action*> actions;
 	public:
+
 		CompositeAction(const GameState* state, std::list<Action*> actions)
 			: Action(state)
 			, actions(actions)
@@ -43,6 +44,7 @@ namespace Bot { namespace Search
 
 		virtual void executeOrder(GameState* state)
 		{
+			Broodwar << "Will execute : " << actions.size() << " actions." << std::endl;
 			for each (Action* action in actions)
 				action->executeOrder(state);
 		}

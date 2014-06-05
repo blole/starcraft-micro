@@ -151,7 +151,7 @@ namespace Bot { namespace Search
 				((BranchOnPlayer*)actionlister)->switchPlayer(!player);
 				node = new NodeABCD(node->parent,node->gamestate,actionlister);
 				if(!node->children.empty())
-					return alphabeta(node,depth-1,alpha,beta,!player,actionlister);
+					return alphabeta(node,depth,alpha,beta,!player,actionlister);
 				else // Advance in time (no actions available for both player)
 				{
 					node->gamestate->advanceFrames(1);
