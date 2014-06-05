@@ -10,18 +10,18 @@ HitPointDifference::HitPointDifference() : Heuristic()
 
 float HitPointDifference::value(GameState* pGameState)
 {
-	auto playerUnits = pGameState->getPlayerUnits();
-	auto opponentUnits = pGameState->getOpponentUnits();
+	auto playerUnits = pGameState->playerUnits();
+	auto opponentUnits = pGameState->enemyUnits();
 	float value = 0;
-	foreach(auto unit in playerUnits)
+	for each(auto unit in playerUnits)
 	{
-		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
+		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 		value += currentUnit->getHitPoints();
 	}
-	foreach(auto unit in opponentUnits)
+	for each(auto unit in opponentUnits)
 	{
-		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
-		value -	= currentUnit->getHitPoints();
+		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
+		value -= currentUnit->getHitPoints();
 	}
 	return value;
 }
@@ -32,26 +32,26 @@ LifeTimeDamage1::LifeTimeDamage1() : Heuristic()
 float LifeTimeDamage1::value(GameState* pGameState)
 {
 	float value = 0;
-	auto playerUnits = pGameState->getPlayerUnits();
-	auto opponentUnits = pGameState->getOpponentUnits();
-	foreach(auto unit in playerUnits)
+	auto playerUnits = pGameState->playerUnits();
+	auto opponentUnits = pGameState->enemyUnits();
+	for each(auto unit in playerUnits)
 	{
-		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
+		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
-		BWAPI::WeaponType weapon = currentUnit->groundWeapon();
-		float damage = weapon->damageAmount();
-		float cooldown = weapon->damageCooldown();
+		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
+		float damage = weapon.damageAmount();
+		float cooldown = weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
 		value += dpf * currentUnit->getHitPoints();
 	}
-	foreach(auto unit in opponentUnits)
+	for each(auto unit in opponentUnits)
 	{
-		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
+		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
-		BWAPI::WeaponType weapon = currentUnit->groundWeapon();
-		float damage = weapon->damageAmount();
-		float cooldown = weapon->damageCooldown();
+		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
+		float damage = weapon.damageAmount();
+		float cooldown = weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
 		value -= dpf * currentUnit->getHitPoints();
@@ -64,30 +64,30 @@ LifeTimeDamage2::LifeTimeDamage2() : Heuristic()
 
 float LifeTimeDamage2::value(GameState* pGameState)
 {
-	auto playerUnits = pGameState->getPlayerUnits();
-	auto opponentUnits = pGameState->getOpponentUnits();
+	auto playerUnits = pGameState->playerUnits();
+	auto opponentUnits = pGameState->enemyUnits();
 	float value = 0;
-	foreach(auto unit in playerUnits)
+	for each(auto unit in playerUnits)
 	{
-		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
+		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
-		BWAPI::WeaponType weapon = currentUnit->groundWeapon();
-		float damage = weapon->damageAmount();
-		float cooldown = weapon->damageCooldown();
+		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
+		float damage = weapon.damageAmount();
+		float cooldown = weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
-		value += dpf * std::sqrt(currentUnit->getHitPoints());
+		value += dpf * std::sqrt((double)currentUnit->getHitPoints());
 	}
-	foreach(auto unit in opponentUnits)
+	for each(auto unit in opponentUnits)
 	{
-		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(*unit);
+		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
-		BWAPI::WeaponType weapon = currentUnit->groundWeapon();
-		float damage = weapon->damageAmount();
-		float cooldown = weapon->damageCooldown();
+		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
+		float damage = weapon.damageAmount();
+		float cooldown = weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
-		value -= dpf * std::sqrt(currentUnit->getHitPoints());
+		value -= dpf * std::sqrt((double)currentUnit->getHitPoints());
 	}
 	return value;
 }
