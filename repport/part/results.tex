@@ -1,12 +1,17 @@
 \section{Results}
 
-At the present time our micromanagement bots need more development (UCT search) and/or more testing. This part will be accomplished in a future work.
 
-So far all of the testing has been made by testing our bot against the built-in AI of \textsc{Starcraft}. While not sure of how this AI work it seems to pack all unit together and send them in a suicide mission (move to closest target, attack it, repeat). 
+
+%At the present time our micromanagement bots need more development (UCT search) and/or more testing. This part will be accomplished in a future work.
+
+So far all of the testing has been made by testing our bots against the built-in AI of \textsc{Starcraft}. While not sure of how this AI work it seems to pack all unit together and send them in a suicide mission (move to closest target, attack it, repeat). 
 
 This AI is able to defeat the \texttt{Attack Closest} bot on almost every game (10 vs 10 often leads to 3--4 man standing for the opponent team).
-Indeed, \texttt{Attack Closest} do not present any cooperative work neither fleeing behavior for in danger units. However, \texttt{Attack Closest Lethal} defeat the AI on almost every game with a ration of \textasciitilde25\% of player units still alive. This bot offers a very good cooperation between unit.
+Indeed, \texttt{Attack Closest} do not present any cooperative work neither fleeing behavior for in danger units. However, \texttt{Attack Closest -- No Overkill} defeat the AI on almost every game with a ration of \textasciitilde25\% of player units still alive. This bot offers a very good cooperation between unit.
 
 Since kiting behavior can not be tested with the same kind of units we tested it by fighting slow powerful but low range units (\texttt{zealot}) versus fast long range units (\texttt{Vulture}). 
 In that situation our bot was able to defeat the opponent team almost every time (even in scenario such as 3 (us) VS 10 (opponent)). 
 Theoretically, one unit should be enough. However the bot attack sequence sometimes gets stuck in attack mode (our bot was unable do detect that the attack has been performed) and therefore the \texttt{Vulture} unit is destroyed almost instantly by the \texttt{Zealots}.
+
+Our implementation of searching algorithms (ABCD and UCT) do not success in defeating the built-in AI.
+However, $\textasciitilde 20000$ nodes can be explored by those algorithm in a reasonable time ($\textasciitilde 50ms$). 
