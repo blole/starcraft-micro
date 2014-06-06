@@ -1,77 +1,74 @@
 \section{Game Combat Model}
 
 \subsection{Modeling}
+To be able to search over possible future states of the game it is necessary to be able to represent such future states,
+and since is not possible to try the outcomes of different actions through the \textsc{Starcraft} engine, 
+we must create a model of the game and simulate this separately.
+A similar model is presented in \cite{portfolio} but the one presented here allows for more detailed reproductions of all of the timings and various intricacies of the game engine, possibly at the expense of computation time.
+It also allows for modeling things such as splash damage and spells, but does not, at the moment, consider unit collisions.
 
 In order to search for a solution, we created the following components:
 
 \begin{descri}
 %STATE
-\item[State] $s=<t,U,S_A,E>$:
+\item[State] $s=<t,U_p,U_e,E,S_A>$:
 \begin{shortitem}
 \item Current game time $t$
-\item Set $U$ of units  
-\item Set $S_A$ of set of action that can be performed from $s$ ($S_A$ is a set of set of action)
-\item Set of pending effect $E$ 
+\item Set $U_p$ of the player's units
+\item Set $U_e$ of the enemy's units
+\item Set of pending effects $E$
+\item Set $S_A$ of allowed sets of actions that can be performed from $s$ (multiple units may be be ordered to at the same time)
 \end{shortitem}
 
 %UNIT
-\item[Unit] $u = <p,hp,b_a,b_m,b_c>$
+\item[Unit] $u = <p,hp,b_a,b_m,S_A>$
 \begin{shortitem}
-\item Position $p = (x,y) \in \mathbb{R}^2$
-\item Current hit point $hp$ ($\Leftrightarrow$ Health point)
-\item Boolean indicating if unit can attack $b_a$, move $b_m$ or if its weapon is in cooldown $b_c$
+\item Position $p = (x,y) \in \mathbb{Z}^2$
+\item Current hit points $hp$ ($\Leftrightarrow$ health points)
+\item Booleans indicating if the unit can attack $b_a$ or move $b_m$
+\item A static set $S_A$ of all possible actions that the unit can perform
 \end{shortitem}
 
+There are many different actions, such as: attack, move, deploy, spells, etc.
 %ACTION
-\item[Action] $a=<u,target,t_s,type>$
+\item[Action] $a=<pc,E>$
 \begin{shortitem}
-\item Unit $u$ to perform this action
-\item Type $type$ of action:
-    \begin{shortitem}
-    \item Move to $target$
-    \item Attack unit $target$
-    \item \dots
-    \end{shortitem}
-    \item Time step $t_s$ when the action started
+\item Precondition $pc$ for the action to be allowed in the current gamestate
+\item Set $E$ of effects the action will have on the gamestate.
+	Most effects are delayed and will not alter the gamestate right away, and will instead be put in the state's set of pending effects $E$.
 \end{shortitem}
 
+Effects, in turn, can have various parameters, such as \emph{attacker} and \emph{target} in the case of an attack effect, or \emph{unit} and \emph{direction} in the case of an move effect.
+The only things they have in common is that they have an frame offset $t_e$ and that they may modify any part of the gamestate when applied.
 %EFFECT
-\item[Effect] $e=<u,target,t_e,type>$
+\item[Effect] $e=<t_e>$
 \begin{shortitem}
-\item Units $u$ and $target$ on which the effect applies 
-\item Time step $t_e$ when the effect applies
-\item Type $type$ of effect
-    \begin{shortitem}
-    \item Decrease $target.hp$
-    \item Reset cooldown
-    \item $u$ attacking (unable to move)
-    \item \dots
-    \end{shortitem}
+\item Frame offset $t_e$ relative to the frame on which the action it is part of was issued. At this offset the effect is to be applied to the gamestate
 \end{shortitem}
 \end{descri}
 
-Table \ref{effectUnits} presents the effect corresponding to an attack for two kind of units (a \texttt{Marine} and a \texttt{Firebat}).
-As we can see deciding an action for a units has an impact in the \emph{future} frames.
+Table \ref{effectUnits} presents the effect corresponding to an attack for two kinds of units (a \texttt{Marine} and a \texttt{Firebat}).
+As we can see units' actions have impacts on \emph{future} frames.
 
 \begin{table}[h!t]
-\subfloat[$u$ being a \texttt{Marine} and $t_e = 0$]{
+\subfloat{
 \centering
 \begin{tabular}{cc|ccc}
-&& $u$ can & Decrease & Weapon in \\
+&& unit can & Decrease & Weapon in \\
 && not move & $target.hp$ & cooldown \\
 \hline
 \multirow{4}{*}{\rot{Frame}} 
 & 0    & \OK &     & \OK  \\
-& 1    & \OK &     & \OK  \\
-& 2-5  & \OK & \OK & \OK  \\
+& 1    & \OK & \OK & \OK  \\
+& 2-5  & \OK &     & \OK  \\
 & 6-17 &     &     & \OK  \\
 \end{tabular}
 }
 \\
-\subfloat[$u$ being a \texttt{Firebat} and $t_e = 0$]{
+\subfloat{
 \centering
 \begin{tabular}{cc|ccc}
-&& $u$ can & Decrease & Weapon in \\
+&& unit can & Decrease & Weapon in \\
 && not move & $target.hp$ & cooldown \\
 \hline
 \multirow{4}{*}{\rot{Frame}} 
@@ -87,52 +84,59 @@ As we can see deciding an action for a units has an impact in the \emph{future} 
 
 \subsection{State generation}
 
-Algorithm \ref{algGeneration} explains how a new state is constructed, taking in account the actions performed to go from the father to the new child and the pending effect.
+Algorithm \ref{algGeneration} explains how a new state is constructed, taking into account the actions performed to go from the parent to the new child and the pending effects.
 
 \begin{figure}[h!t]
 \begin{algorithm}[State generation]
-The following algorithm describe how a state is constructed from its father.
-In the following, $s_0$ denotates the father and $s_1$ the newly constructed state.
+%\begin{descri} 
+The following algorithm describes how a new state $s_1=<t,U_p,U_e,E,S_A>$ is constructed from its parent $s_0$ and a set of allowed actions $a$. \ \\
+%\end{descri}
 
-\begin{descri} 
+\textbf{Function} $descend(s_0,A)$:
+\begin{shortitem}
+\item $s_1.t = s_0.t$
+\item $s_1.U_p = s_0.U_p$
+\item $s_1.U_e = s_0.U_e$
+\item $s_1.E &= s_0.E \cup A.E$
+\item Create the set $s_1.S_A$ of allowed sets of actions available from $s_1$
 
-% CASE ACTION AVAILABLE
-\item[Case 1: A set $A_0$  of action can be performed from $s_0$]
-\ \\
-The new state $s_1=<t,U,S_A,E>$ is constructed as the following:
+\item \textbf{While} $S_A$ is empty and no team has won
 \begin{shortitem}
-\item $s_1.t = s_0.t$ 
-\item Apply the set of action $A_0$ to $s_0$ and create $s_1.E$:
-\begin{align*}
-s_1.E &= s_0.E \cup E_{A_0} \\
-E_{A_0} &= \{\text{effect e | e was created by an action of } A_0\}  
-\end{align*}
-\item Create the set $S_{A}$ of set of actions avaible from $s_1$
+	\item $s_1.t = s_1.t + 1$
+	\item apply all effects $\{e \in s_0.E | e.t_e = s_1.t\}$ to $s_1$
+	\item $s_1.E &= \{e \in s_0.E | e.t_e > s_1.t\}$
+	\item Create the set $s_1.S_A$ of allowed sets of actions available from $s_1$
 \end{shortitem}
-% CASE NO ACTION AVAILABLE
-\item[Case 2: No actions can be performed from $s_0$]
-\ \\
-The new state $s_1 = <t,U,S_A,E>$ is constructed as the following:
-\begin{shortitem}
-\item $s_1.t = s_0.t + 1$
-\item The new set of effect $s_1.E$ is:
-\begin{align*}
-s_1.E &= \{e \in s_0.E | e.t_e \geq s_1.t\}
-\end{align*}
-\item Create the set $S_{A}$ of set of actions avaible from $s_1$
+
+\item \textbf{Return} $s_1$
+
 \end{shortitem}
-\end{descri}
 \label{algGeneration}
 \end{algorithm}
 \end{figure}
-When constructing the graph, all of the children can not be analysed. 
-As an example, 8 units\footnote{Representing 4 vs 4 battle} with 6 possible actions (move \texttt{North}, move \texttt{South}, move \texttt{East}, move \texttt{West}, attack, hold) leads to $6^8 = 1679616$ possible combination for only the first frame. 
-Therefore, only some path in the graph can be explored.
-It is necessary to decide whether or not a state should be expanded.
 
-Figure \ref{graph} display an example of a graph used by the algorithm. Only some nodes of the graph are contructed. Knowing \emph{where to go} in the graph depends of the algorithm used and is detailed in the following sections.
-As shown in Algorithm \ref{algGeneration}, a child is generated either if there is actions available from the current state or by increasing the frame number.
-As an example, assuming that our set of actions attributes an attack sequence to each of the \texttt{Marine} in the battleground and according to Table \ref{effectUnits}, there will not be any actions available until the next sixth frame.
+
+
+\subsection{Allowed actions generation}
+The allowed actions for each game state corresponds to which the children of each node are in the game tree.
+The problem is only that in RTS games, the number of all allowed actions quickly grows beyond what is feasible to perform an exhastive search on.
+Consider that even in as small an battle as that between 10 units, 5 on each team, each having 5 possible actions
+(move \texttt{North}, move \texttt{South}, move \texttt{East}, move \texttt{West}, attack
+lead to $5^10 = 9765625$ possible combinations of orders only for the first frame.
+\footnote{This number is then lower or even zero for subsequent frames while the units are busy executing their given orders, but may grow again when the units are finished.}
+Which the allowed actions are for each state depends on the method being used, two possible such methods are:
+
+\begin{shortitem}
+\item \texttt{PlayerActionSubset:}
+	Taking the huge number of allowed action combinations into account, one way of addressing this issue is to only consider a random subset of them.
+\item \texttt{UnitAction:}
+	Another way of managing the branches of the tree is to not generate complete combinations of one action for every unit at every level of the tree, but instead only considering the allowed actions of a single unit at each level in the tree.
+	This way, it may be possible to prune bad choices for specific units more efficiently, but unless the unit is the one whose's actions are consider at the root of the tree, the same action may be evaluated again in other branches of the tree.
+\end{shortitem}
+
+Figure \ref{tree} displays an example of a tree constructed and traversed by the algorithm. Only some nodes of the tree are contructed.
+As shown in Algorithm \ref{algGeneration}, a child's frame number is incremented until either a terminal state is reached or any actions become available.
+As an example, assuming that our set of actions attributes an attack sequence to each of the \texttt{Marine} in the battleground and according to Table \ref{effectUnits}, there will not be any new actions available until the sixth frame.
 
 \begin{figure}[h!t]
 \centering
@@ -161,8 +165,8 @@ As an example, assuming that our set of actions attributes an attack sequence to
     \draw[link] (s0) to node [auto,scale=0.6] {$A_2$} (s3);
     \draw[link] (s1) to node [auto,scale=0.6] {$A_3$} (s4);
     \draw[link] (s1) to node [auto,scale=0.6] {$A_4$} (s5);
-    \draw[link] (s1) to node [auto,scale=0.6] {$A_5$} (s6);
-    \draw[link] (s5) to node [auto,scale=0.6] {$t \rightarrow t+1$} (s7);
+    \draw[link] (s1) to node [auto,scale=0.6] {$A_5$, $t \rightarrow t+1$} (s6);
+    \draw[link] (s5) to node [auto,scale=0.6] {$A_6$} (s7);
     \draw[-,>=latex,dotted] (s7) to (s8);
     
 
@@ -176,8 +180,50 @@ As an example, assuming that our set of actions attributes an attack sequence to
     \node[align=left,rectangle,scale=0.8] (l3t) at (6.2,1.5) {Not generated state};
 
 \end{tikzpicture}
-\caption{Exemple of a graph}
-\label{graph}
+\caption{Exemple of a tree}
+\label{tree}
 \end{figure}
+
+
+
+\subsection{Move ordering}
+After selecting which are the allowed sets of actions from each state, that is, the children of each node in the game tree, it is of further interest to prune the less promising branches of the tree.
+For this, move ordering, or deciding in which order to evaluate the children, is important since it allows for earlier pruning.
+The time restriction of RTS games greatly limits the maximum number of childs that can be explored, and it is well known that a good move ordering can greatly improve performance.
+
+One interesting way of doing this is presented in \cite{portfolio}.
+Their idea is to first consider the actions produced by some scripted behaviors that generally perform quite good.
+
+
+
+\subsection{State evaluation}
+For comparing how good states are, it is necessary to make use of some evaluation function.
+The evaluation functions suggested by \cite{abcd} are the following:
+\begin{shortitem}
+\item Straight Forward Evaluations:
+$$
+    \displaystyle{SFE(s) = \sum_{u \in s.U_p} u.hp - \sum_{u \in s.U_e} u.hp } 
+$$
+
+\item Life Time Damage:
+$$
+    \displaystyle{LTD(s) = \sum_{u \in s.U_p} u.hp \cdot u.DPS- \sum_{u \in s.U_e} u.hp \cdot u.DPS } 
+$$
+
+\item Life Time Damage 2:
+$$
+    \displaystyle{LTD2(s) = \sum_{u \in s.U_p} \sqrt{u.hp} \cdot u.DPS - \sum_{u \in s.U_e} \sqrt{u.hp} \cdot u.DPS } 
+$$
+
+\item Playouts:
+	Another way of evaluating the state commonly used in Monte Carlo Tree Search algorithms is playouts. In essence the game state is played out to a terminal state either by picking random moves for the players or by using some scripted behaviors.
+\end{shortitem}
+
+
+$SFE$ doesn't take into account units' damage per second, DPS -- which is an essential information during a battle. 
+$LTD$ present a good estimation of DPS but does not favor equal hit point distribution among the units. 
+Ultimately $LTD2$ measures the DPS and favor the greatest number of units remaining\footnote{Having two units with $50$ hit points means higher DPS than one with $100$ hit points.}.
+
+
 
 

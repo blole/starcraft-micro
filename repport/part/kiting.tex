@@ -1,7 +1,7 @@
 \section{Kiting}
 \label{kiting}
 
-Kiting behavior is worth more explanation. 
+The kiting behavior is worth a bit more explanation. 
 We based our algorithm on the work of \cite{kiting}. 
 
 \begin{definition}[Kiting]
@@ -9,12 +9,14 @@ We based our algorithm on the work of \cite{kiting}.
     Kiting can be summarize as:
     \begin{shortitem}
     \item Move out of range
-    \item Turn back and shoot at the enemy
+    \item Turn back to shoot at the enemy
     \item Repeat
     \end{shortitem}
 \end{definition}
 
-The behavior tree used by the units achieving \texttt{Kiting} is depicted in Figure \ref{behaAttackClos}.
+The behavior tree\footnote{
+For the behavior trees we used the library \emph{libbehavior} \cite{libbehavior}.
+} used by the units achieving \texttt{Kiting} is depicted in Figure \ref{behaAttackClos}.
 
 \begin{figure}[h!t]
 \centering
@@ -67,10 +69,10 @@ The behavior tree used by the units achieving \texttt{Kiting} is depicted in Fig
 \label{behaAttackClos}
 \end{figure}
 
-When selecting the target our bot try to select a target on which a kiting strategy can be used (for instance unit \texttt{A} can not kite another unit \texttt{A}). 
-If it can not find any kitable unit then a classic attack is perform (\emph{fight to the death while standing on your position}).
+When selecting the target our bot tries to select a target on which a kiting strategy can be used (units can not for instance kite other units of the same type). 
+If it can not find any kitable unit then a regular attack closest is performed.
 
-As in paper \cite{kiting} the kiting bot uses an influence map for performing kiting: a 2D matrix $I_{enemy}$.
+As in \cite{kiting} the kiting bot uses an influence map for performing kiting: a 2D matrix $I_{enemy}$.
 
 Let $e$ be an enemy. $e$ has an influence of the area $(i,j)$ of the map if the area can be reached by the enemy before performing kiting.
 This relation is denoted $e \textasciitilde (i,j)$.
@@ -79,12 +81,12 @@ This relation is denoted $e \textasciitilde (i,j)$.
     e \textasciitilde (i,j) \Leftrightarrow \\ d(e,(i,j)) \leq e.attackRange + e.speed * kitingTime
 \end{multline*}
 
-Then the influence matrix is define as:
+Then the influence matrix is defined as:
 $$
-I_{enemy}(i,j) = \sum_{e \textasciitilde (i,j)}e.DPF \text{ where } DPF = \frac{e.damage}{e.cooldown}  
+I_{enemy}(i,j) = \sum_{e \textasciitilde (i,j)}e.DPS \text{ where } DPS = \frac{e.damage}{e.cooldown}  
 $$
 
-(DPF is the damage per frame --  average damage of an unit.)
+(DPS, damage per second -- is the average damage of an unit.)
 
 Using this matrix each unit can compute its closest safe position.
 Then an attack is performed each time the unit is in a safe area.
