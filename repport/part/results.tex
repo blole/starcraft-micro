@@ -4,14 +4,15 @@
 
 %At the present time our micromanagement bots need more development (UCT search) and/or more testing. This part will be accomplished in a future work.
 
-So far all of the testing has been made by testing our bots against the built-in AI of \textsc{Starcraft}. While not sure of how this AI work it seems to pack all unit together and send them in a suicide mission (move to closest target, attack it, repeat). 
+So far all of the testing has been against the built-in AI of \textsc{Starcraft}.
+This AI is able to defeat the \texttt{Attack Closest} bot in almost every game, 10 vs 10 often leads to 3--4 men standing for the opponent team.
+Indeed, \texttt{Attack Closest} does not present any cooperative work neither fleeing behavior for in danger units. However, \texttt{Attack Closest -- No Overkill} defeats the AI on almost every game with a ratio of \textasciitilde25\% of player units still alive. This bot offers a very good cooperation between units.
 
-This AI is able to defeat the \texttt{Attack Closest} bot on almost every game (10 vs 10 often leads to 3--4 man standing for the opponent team).
-Indeed, \texttt{Attack Closest} do not present any cooperative work neither fleeing behavior for in danger units. However, \texttt{Attack Closest -- No Overkill} defeat the AI on almost every game with a ration of \textasciitilde25\% of player units still alive. This bot offers a very good cooperation between unit.
-
-Since kiting behavior can not be tested with the same kind of units we tested it by fighting slow powerful but low range units (\texttt{zealot}) versus fast long range units (\texttt{Vulture}). 
-In that situation our bot was able to defeat the opponent team almost every time (even in scenario such as 3 (us) VS 10 (opponent)). 
+Since kiting behavior can not be tested between units of the same kind, we tested it in a matchup of slow powerful melee units, \texttt{Zealots}, versus fast ranged units, \texttt{Vultures}. 
+In that situation our bot was able to defeat the opponent team almost every time, even in scenario such as 3 vs 10. 
 Theoretically, one unit should be enough. However the bot attack sequence sometimes gets stuck in attack mode (our bot was unable do detect that the attack has been performed) and therefore the \texttt{Vulture} unit is destroyed almost instantly by the \texttt{Zealots}.
 
-Our implementation of searching algorithms (ABCD and UCT) do not success in defeating the built-in AI.
-However, $\textasciitilde 20000$ nodes can be explored by those algorithm in a reasonable time ($\textasciitilde 50ms$). 
+Our implementations of the ABCD and UCT searching algorithms do not at the present moment succeed in defeating the built-in AI.
+There are two main issues which we suspect to be the cause of this.
+First is the issue of giving orders to the game engine, because giving an order twice will abort the previous order, and there are about two frames of delay before orders get accepted.
+Even more importantly may be the issue of our search algorithms not being fast or optimized enough, they are however able to search $\textasciitilde 20000$ nodes in the 50 ms given them.

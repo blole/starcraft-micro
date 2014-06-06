@@ -1,4 +1,4 @@
-\section{Game Combat Model}
+\section{Combat Model}
 
 \subsection{Modeling}
 To be able to search over possible future states of the game it is necessary to be able to represent such future states,
@@ -47,13 +47,14 @@ The only things they have in common is that they have an frame offset $t_e$ and 
 \end{shortitem}
 \end{descri}
 
-Table \ref{effectUnits} presents the effect corresponding to an attack for two kinds of units (a \texttt{Marine} and a \texttt{Firebat}).
+Table \ref{effectUnits} presents the different attack actions of the a \texttt{Marine} and \texttt{Firebat} units.
 As we can see units' actions have impacts on \emph{future} frames.
 
 \begin{table}[h!t]
     \centering
 \subfloat{
 \centering
+\texttt{Marine attack sequence}
 \begin{tabular}{cc|ccc}
 && unit can & Decrease & Weapon in \\
 && not move & $target.hp$ & cooldown \\
@@ -68,6 +69,7 @@ As we can see units' actions have impacts on \emph{future} frames.
 \\
 \subfloat{
 \centering
+\texttt{Firebat attack sequence}
 \begin{tabular}{cc|ccc}
 && unit can & Decrease & Weapon in \\
 && not move & $target.hp$ & cooldown \\
@@ -79,7 +81,7 @@ As we can see units' actions have impacts on \emph{future} frames.
 & 11-24 &     &     & \OK  \\
 \end{tabular}
 }
-\caption{Example of effects}
+\caption{Example of the delayed effects of actions}
 \label{effectUnits}
 \end{table}
 
@@ -123,8 +125,8 @@ The allowed actions for each game state corresponds to which the children of eac
 The problem is only that in RTS games, the number of all allowed actions quickly grows beyond what is feasible to perform an exhaustive search on.
 Consider that even in as small an battle as that between 10 units, 5 on each team, each having 5 possible actions
 (move \texttt{North}, move \texttt{South}, move \texttt{East}, move \texttt{West}, attack
-lead to $5^10 = 9765625$ possible combinations of orders only for the first frame.
-\footnote{This number is then lower or even zero for subsequent frames while the units are busy executing their given orders, but may grow again when the units are finished.}
+lead to $5^{10} = 9765625$ possible combinations of orders only for the first frame.
+\footnote{This number is then lower or even zero for subsequent frames while the units are busy executing their given orders, but grow again when the units are finished.}
 Which the allowed actions are for each state depends on the method being used, two possible such methods are:
 
 \begin{shortitem}
