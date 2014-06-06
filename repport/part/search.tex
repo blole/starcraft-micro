@@ -61,3 +61,39 @@ Let $s_0$ be the root node, $MAX$ be the player and $MIN$ the opponent. The algo
     \end{algorithm}
 \end{figure}
 
+\begin{figure}[h!t]
+\centering
+\begin{tikzpicture}[node distance = 1cm]
+    \tikzstyle{node}=[circle,align=center,scale=0.8,draw]
+    \tikzstyle{nodenotgen}=[circle,dotted,align=center,scale=0.8,draw]
+    \tikzstyle{nodeterm}=[circle,fill=gray!30,align=center,scale=0.8,draw]
+    \tikzstyle{link}=[->,thin,>=latex]
+    
+    \node[node] (s0) at (4,4) {$MAX$};
+
+    \node[node] (s1) at (2,3) {$MIN$};
+    \node[node] (s3) at (6,3) {$MIN$};
+
+    \node[auto,scale=0.8] (s33) at (6,2) {};
+    \draw[-,>=latex,dotted] (s3) to (s33);
+
+    \node[auto,scale=0.8] (s4) at (1,2) {};
+    \node[node] (s6) at (3,2) {$MAX$};
+
+    \node[node] (s7) at (2,1) {$MAX$};
+
+    \node[auto,scale=0.8] (s8) at (2,0.2) {};
+    
+    \draw[link] (s0) to node [auto,scale=0.6] {$A_0 \in S_{A|MAX}$} (s1); 
+    \draw[link] (s0) to node [auto,scale=0.6] {$A_1 \in S_{A|MAX}$} (s3);
+    \draw[-,>=latex,dotted] (s1) to (s4);
+    \draw[link] (s1) to node [auto,scale=0.6] {$A_2 \in S_{A|MIN}$} (s6);
+    \draw[link] (s6) to node [auto,scale=0.6] {$t \rightarrow t+1$} (s7);
+    \draw[-,>=latex,dotted] (s7) to (s8);
+    
+
+\end{tikzpicture}
+    \caption{Exemple of a graph constructed by the ABCD-algorithm}
+    \label{figABCD}
+\end{figure}
+
