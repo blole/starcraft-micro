@@ -19,8 +19,8 @@ $$
 S_{A|p} = \{A \in S_A | \forall a \in A, a \text{ is an action performed by $p$}\}
 $$
 Algorithm \ref{algABCD} presents the ABCD algorithm.
-The main disctinction with the ``classic'' alpha-beta algorithm is that there is not a perfect alternation between $MAX$ and $MIN$. Once a state has no possible actions, we move in time until an action can be performed for one of the player. 
-%Figure \ref{figABCD} shows an exemple of such a tree: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still he who is considered as the current player.
+The main distinction with the ``classic'' alpha-beta algorithm is that there is not a perfect alternation between $MAX$ and $MIN$. Once a state has no possible actions, we move in time until an action can be performed for one of the player. 
+%Figure \ref{figABCD} shows an example of such a tree: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still he who is considered as the current player.
 
 \begin{figure}[h!t]
     \begin{algorithm}[ABCD (Alpha-Beta Considering Durations)]

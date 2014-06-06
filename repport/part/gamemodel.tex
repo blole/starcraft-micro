@@ -79,7 +79,7 @@ As we can see units' actions have impacts on \emph{future} frames.
 & 11-24 &     &     & \OK  \\
 \end{tabular}
 }
-\caption{Exemple of effects $e=<u,target,t_e,type>$}
+\caption{Example of effects $e=<u,target,t_e,type>$}
 \label{effectUnits}
 \end{table}
 
@@ -120,7 +120,7 @@ The following algorithm describes how a new state $s_1=<t,U_p,U_e,E,S_A>$ is con
 
 \subsection{Allowed actions generation}
 The allowed actions for each game state corresponds to which the children of each node are in the game tree.
-The problem is only that in RTS games, the number of all allowed actions quickly grows beyond what is feasible to perform an exhastive search on.
+The problem is only that in RTS games, the number of all allowed actions quickly grows beyond what is feasible to perform an exhaustive search on.
 Consider that even in as small an battle as that between 10 units, 5 on each team, each having 5 possible actions
 (move \texttt{North}, move \texttt{South}, move \texttt{East}, move \texttt{West}, attack
 lead to $5^10 = 9765625$ possible combinations of orders only for the first frame.
@@ -135,7 +135,7 @@ Which the allowed actions are for each state depends on the method being used, t
 	This way, it may be possible to prune bad choices for specific units more efficiently, but unless the unit is the one whose's actions are consider at the root of the tree, the same action may be evaluated again in other branches of the tree.
 \end{shortitem}
 
-Figure \ref{tree} displays an example of a tree constructed and traversed by the algorithm. Only some nodes of the tree are contructed.
+Figure \ref{tree} displays an example of a tree constructed and traversed by the algorithm. Only some nodes of the tree are constructed.
 As shown in Algorithm \ref{algGeneration}, a child's frame number is incremented until either a terminal state is reached or any actions become available.
 As an example, assuming that our set of actions attributes an attack sequence to each of the \texttt{Marine} in the battleground and according to Table \ref{effectUnits}, there will not be any new actions available until the sixth frame.
 
@@ -181,7 +181,7 @@ As an example, assuming that our set of actions attributes an attack sequence to
     \node[align=left,rectangle,scale=0.8] (l3t) at (6.2,1.5) {Not generated state};
 
 \end{tikzpicture}
-\caption{Exemple of a tree}
+\caption{Example of a tree}
 \label{tree}
 \end{figure}
 
@@ -190,7 +190,7 @@ As an example, assuming that our set of actions attributes an attack sequence to
 \subsection{Move ordering}
 After selecting which are the allowed sets of actions from each state, that is, the children of each node in the game tree, it is of further interest to prune the less promising branches of the tree.
 For this, move ordering, or deciding in which order to evaluate the children, is important since it allows for earlier pruning.
-The time restriction of RTS games greatly limits the maximum number of childs that can be explored, and it is well known that a good move ordering can greatly improve performance.
+The time restriction of RTS games greatly limits the maximum number of children that can be explored, and it is well known that a good move ordering can greatly improve performance.
 
 One interesting way of doing this is presented in \cite{portfolio}.
 Their idea is to first consider the actions produced by some scripted behaviors that generally perform quite good.
