@@ -12,14 +12,15 @@ For a review of how UCT works we refer to \cite{mcts}.
 In \cite{abcd}, an extended version of alpha-beta pruning, which is a well-known searching algorithm, was used for micromanagement. 
 They were able to find good solutions for 8 v.s. 8 unit scenarios in 5 ms, achieving around a 80\% win rate against their best script.
 
-In order to use alpha-beta algorithm it is necessary to separates the player's actions and its opponents action.
-It can be done quiet efficiently by considering the children of a node as the restriction of its children to only one player set of actions:
+In order to use alpha-beta algorithm it is necessary to separates the player's actions and its opponents action. We used the method \texttt{PlayerActionSubset} to do so. 
+
+The children of a node are the restriction of its children to only one player set of actions:
 $$
 S_{A|p} = \{A \in S_A | \forall a \in A, a \text{ is an action performed by $p$}\}
 $$
 Algorithm \ref{algABCD} presents the ABCD algorithm.
 The main disctinction with the ``classic'' alpha-beta algorithm is that there is not a perfect alternation between $MAX$ and $MIN$. Once a state has no possible actions, we move in time until an action can be performed for one of the player. 
-Figure \ref{figABCD} shows an exemple of such a tree: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still he who is considered as the current player.
+%Figure \ref{figABCD} shows an exemple of such a tree: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still he who is considered as the current player.
 
 \begin{figure}[h!t]
     \begin{algorithm}[ABCD (Alpha-Beta Considering Durations)]

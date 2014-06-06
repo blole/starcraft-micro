@@ -51,6 +51,7 @@ Table \ref{effectUnits} presents the effect corresponding to an attack for two k
 As we can see units' actions have impacts on \emph{future} frames.
 
 \begin{table}[h!t]
+    \centering
 \subfloat{
 \centering
 \begin{tabular}{cc|ccc}
@@ -93,24 +94,24 @@ The following algorithm describes how a new state $s_1=<t,U_p,U_e,E,S_A>$ is con
 %\end{descri}
 
 \textbf{Function} $descend(s_0,A)$:
-\begin{shortitem}
+\begin{enum}
 \item $s_1.t = s_0.t$
 \item $s_1.U_p = s_0.U_p$
 \item $s_1.U_e = s_0.U_e$
-\item $s_1.E &= s_0.E \cup A.E$
+\item $s_1.E = s_0.E \cup A.E$
 \item Create the set $s_1.S_A$ of allowed sets of actions available from $s_1$
 
 \item \textbf{While} $S_A$ is empty and no team has won
-\begin{shortitem}
+\begin{enum}
 	\item $s_1.t = s_1.t + 1$
 	\item apply all effects $\{e \in s_0.E | e.t_e = s_1.t\}$ to $s_1$
-	\item $s_1.E &= \{e \in s_0.E | e.t_e > s_1.t\}$
+	\item $s_1.E = \{e \in s_0.E | e.t_e > s_1.t\}$
 	\item Create the set $s_1.S_A$ of allowed sets of actions available from $s_1$
-\end{shortitem}
+\end{enum}
 
 \item \textbf{Return} $s_1$
 
-\end{shortitem}
+\end{enum}
 \label{algGeneration}
 \end{algorithm}
 \end{figure}

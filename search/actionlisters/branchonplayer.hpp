@@ -52,6 +52,6 @@ namespace Bot { namespace Search
 
 	private:
 		bool current_player;
-		const static int nbPermMax = 10;
+		const static int nbPermMax = 12;
 	};
 }}

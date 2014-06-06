@@ -100,7 +100,7 @@ namespace Bot { namespace Search
 				for each(auto child in root->children)
 				{
 					auto childGenerated = new NodeABCD(root, new GameState(root->gamestate, child.action), actionlister);
-					valueChildren.push_back(alphabeta(childGenerated,10,-10000,10000,false,this->actionlister));
+					valueChildren.push_back(alphabeta(childGenerated,20,-10000,10000,false,this->actionlister));
 				}
 			}
 
