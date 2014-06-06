@@ -2,10 +2,15 @@
 Both of the search algorithms we implemented perform a completely new search for solutions every game frame and no information is kept between frames.
 
 \subsection{UCT Search}
-UCT, or Upper Confidence bound for Trees, is the most popular Monte Carlo Tree Search algorithm for playing games that are otherwise hard for computers to handle. \cite{mcts}
-This algorithm has recently seen success in the game of Go, but more relevant to our topic, also been applied to games such as Arimaa, and even RTS games.
-Arimaa is interesting because it has an average branching factor of 17000, compared to chess, which only has 35. \cite{arimaawiki}
-For a review of how UCT works we refer to \cite{mcts}.
+UCT, Upper Confidence bounds for Trees, is the most popular Monte-Carlo Tree Search algorithm for playing games that are otherwise hard for computers to handle. \cite{mcts}
+
+UCT, or indeed any other search algorithm, would however not be able to handle the huge branching factor of RTS games if they were to consider all possible combinations of actions.
+This algorithm has recently seen success in the game of Go, but more relevant to our topic, also been applied to games such as Arimaa, and even RTS games (in \cite{portfolio} and \cite{wargusuct}).
+Arimaa is interesting because it has an average branching factor of 17000, which is large when compared to chess, with 35, or Go, with 250.
+To manage the branching factor in Arimaa in \cite{arimaa}, the author tried something like the UnitAction presented here in \ref{actiongeneration}, basically deciding the order for each unit in turn, one unit per node in the game tree.
+For a complete review of how UCT works we refer to \cite{mcts}.
+
+In our implementation we use the UnitAction branching method, LTD2 state evaluation and for move orderings we simply consider attacking units in range before the moving.
 
 \subsection{ABCD Search}
 %move to related work?
@@ -20,7 +25,7 @@ S_{A|p} = \{A \in S_A | \forall a \in A, a \text{ is an action performed by $p$}
 $$
 Algorithm \ref{algABCD} presents the ABCD algorithm.
 The main distinction with the ``classic'' alpha-beta algorithm is that there is not a perfect alternation between $MAX$ and $MIN$. Once a state has no possible actions, we move in time until an action can be performed for one of the player. 
-%Figure \ref{figABCD} shows an example of such a tree: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still he who is considered as the current player.
+Figure \ref{figABCD} shows an example of such a tree: once we've reached a state where no action can be made for both player, we advance in time. In this new frame, there is an action for $MAX$. Therefore it is still he who is considered as the current player.
 
 \begin{figure}[h!t]
     \begin{algorithm}[ABCD (Alpha-Beta Considering Durations)]
