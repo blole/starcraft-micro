@@ -79,7 +79,7 @@ As we can see units' actions have impacts on \emph{future} frames.
 & 11-24 &     &     & \OK  \\
 \end{tabular}
 }
-\caption{Example of effects $e=<u,target,t_e,type>$}
+\caption{Example of effects}
 \label{effectUnits}
 \end{table}
 
@@ -134,6 +134,7 @@ Which the allowed actions are for each state depends on the method being used, t
 	Another way of managing the branches of the tree is to not generate complete combinations of one action for every unit at every level of the tree, but instead only considering the allowed actions of a single unit at each level in the tree.
 	This way, it may be possible to prune bad choices for specific units more efficiently, but unless the unit is the one whose's actions are consider at the root of the tree, the same action may be evaluated again in other branches of the tree.
 \end{shortitem}
+\label{actiongeneration}
 
 Figure \ref{tree} displays an example of a tree constructed and traversed by the algorithm. Only some nodes of the tree are constructed.
 As shown in Algorithm \ref{algGeneration}, a child's frame number is incremented until either a terminal state is reached or any actions become available.
@@ -217,7 +218,7 @@ $$
 $$
 
 \item Playouts:
-	Another way of evaluating the state commonly used in Monte Carlo Tree Search algorithms is playouts. In essence the game state is played out to a terminal state either by picking random moves for the players or by using some scripted behaviors.
+	Another way of evaluating the state commonly used in Monte-Carlo Tree Search algorithms is playouts. In essence the game state is played out to a terminal state either by picking random moves for the players or by using some scripted behaviors.
 \end{shortitem}
 
 
