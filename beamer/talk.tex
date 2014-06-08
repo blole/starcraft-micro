@@ -18,6 +18,17 @@
 \usepackage[T1]{fontenc}
 
 %---------------------------------------------
+% Tabular package 
+%---------------------------------------------
+\usepackage{booktabs}
+\usepackage{pifont}
+\newcommand*\rot{\rotatebox{90}}
+\newcommand*\rotsix{\rotatebox{60}}
+\newcommand*\OK{\ding{51}}
+\usepackage{multirow}
+\usepackage{subfig}
+
+%---------------------------------------------
 % Math environment packages & command
 %---------------------------------------------
 \usepackage{amsmath}
@@ -28,14 +39,17 @@
 % \def\sgn{\mathop{\rm sgn}\nolimits} 
 % \usepackage{bbm}
 
-
-\usetheme{CambridgeUS}
+%\usetheme{Bergen}
+%\usetheme{CambridgeUS}
+%\usetheme{Montpellier}
+\usetheme{Boadilla}
+\setbeamertemplate{itemize item}[square]
 %\useoutertheme{sidebar} %: Ligne à commenter dans un premier temps, et à décommentez dans un second temps.
 
 %---------------------------------------------
 % Opening
 %---------------------------------------------
-\title{\textsc{Micro Management in Real Time Strategy Games}}
+\title{Micro Management in RTS Games}
 %\author{Björn \textsc{Holm}, Kilian \textsc{Demeulemeester} \\ \texttt{\{bjh,kiliande\}@kth.se}}
 \author{Björn \textsc{Holm}
     \and
@@ -57,195 +71,288 @@ Kilian \textsc{Demeulemeester}}
 %---------------------------------------------
 % Item package option 
 %---------------------------------------------
-\newenvironment{shortitem}{
-    \begin{itemize}
-        \setlength{\item[-]sep}{0pt}
-        \setlength{\parskip}{0pt}
-        \setlength{\parsep}{0pt}
-    }{\end{itemize}}
 
 
+\newenvironment{framesec}{
+    \begin{frame}{\secname}
+}{\end{frame}}
+
+\newenvironment{framesubsec}{
+    \begin{frame}{\subsecname}
+}{\end{frame}}
 
 \begin{document}
 
 \begin{frame}
     \maketitle
 \end{frame}
-
-\section{Scope}
-
 \begin{frame}
-\frametitle{Scope}
-\begin{itemize}
-\item[-] Micro-management only
-\item[-] 1 vs 1
-\item[-] Same number of units
-\item[-] Destroy all enemy units
-\item[-] Maximize the number of survivors
-\item[-] Full knowledge of game state
-\end{itemize}
+    \tableofcontents
 \end{frame}
 
-\section{Model \& Architecture}
+\section{Problem statement}
+\begin{framesec}
+    \begin{block}{Scope} 
+       Micromanagement of the units of two players engaging in combat.
+    \end{block}  
+    \begin{itemize}
+        \item Where to move the units?
+        \item Which enemies to attack?
+        \item How to coordinate well with team members?
+        \item How to detect and exploit opponent weaknesses?
+    \end{itemize}
+\end{framesec}
 
-\begin{frame}
-\frametitle{Model \& Architecture}
-\begin{center}
-\begin{tikzpicture}[node distance = 1 cm]
-    \tikzstyle{quadri}=[rectangle,draw, align=center, scale=0.5]
-    \tikzstyle{link}=[->,thin,>=latex]
-    \node[quadri] (commander) at (0,2) {Commander \\ \emph{Coordinate, allocate resources}};
-    \node[quadri] (general) at (-3,1) {General \\ \emph{Tactical military decisions}};
-    \node[quadri] (squad) at (-3,0) {Squad \\ \emph{Micro-manage units}};
-    \node[quadri] (unit) at (-3,-1) {Unit \\ \emph{Follow orders}};
-    \node[quadri] (basemanager) at (3,1) {Base Manager \\ \emph{Construct units and buildings}};
-    \draw[link] (commander)--(general);
-    \draw[link] (general)--(squad);
-    \draw[link] (squad)--(unit);
-    \draw[link] (commander)--(basemanager);
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-\section{Our bots}
-
-\begin{frame}
-\frametitle{Our bots}
-\begin{itemize}
-\item[-] \texttt{Attack Closest:} Every unit attack their closest opponent.
-\item[-] \texttt{Attack Closest Lethal:} Every unit attack the closest opponent that will not die soon (\emph{i.e.} the amount of damage attributed to this unit is not already enough to kill him soon).
-\item[-] \texttt{Kiting:} Every unit attacks their closest opponent applying a kiting strategy.
-\item[-] \texttt{Searching:} A searching algorithm trying to find the best option for moving or which opponent to attacking in any situation.
-
-\end{itemize}
-\end{frame}
-
-\section{Kiting}
+\section{Approaches to micromanagemet}
+\begin{framesec}
+    \begin{block}{Scripted behaviors}
+        \begin{itemize}
+            \item Attack Closest
+            \item Attack Closest -- No Overkill
+            \item Kiting
+        \end{itemize}
+    \end{block}
+    \begin{block}{Searching algorithms}
+        \begin{itemize}
+            \item UCT-Searching
+            \item ABCD-Searching
+        \end{itemize}
+    \end{block}
+\end{framesec}
 
 
-\begin{frame}
-\frametitle{Kiting}
-\begin{center}
-    \begin{figure}
+\section{Combat Model}
+\begin{framesec}
+    \begin{block}{Combat Model} 
+        \begin{itemize}
+            \item Modeling
+            \item State generation
+            \item Allowed actions generation
+            \item Move ordering
+            \item State evaluation
+        \end{itemize}
+    \end{block}
+\end{framesec}
+
+\subsection{Modeling}
+\begin{framesubsec}
+    \begin{block}{\textbf{State} $s = <t,U_p,U_e,E,S_A>$}
+        \begin{itemize}
+        \item Current game time $t$ 
+        \item Set $U_p$ of the player's units
+        \item Set $U_e$ of the enemy's units
+        \item Set of pending effects $E$
+        \item Set $S_A$ of allowed sets of actions that can be performed from $s$ (multiple units may be be ordered to at the same time)
+    \end{itemize}
+    \end{block}
+
+    \begin{block}{\textbf{Unit} $u = <p,hp,b_a,b_m,S_A>$}
+        \begin{itemize}
+        \item Position $p = (x,y) \in \mathbb{Z}^2$
+        \item Current hit points $hp$ ($\Leftrightarrow$ health points)
+        \item Booleans $b_a$ (attack), $b_m$ (move)
+        \item Set $S_A$ of all possible actions that the unit can perform
+        \end{itemize}
+    \end{block}
+\end{framesubsec}
+
+\begin{framesubsec}
+    \begin{block}{\textbf{Action} $a = <pc,E>$}
+        \begin{itemize}
+            \item Precondition $pc$
+            \item Effect $e$
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{\textbf{Effect} $E = <t_e>$}
+        \begin{itemize}
+            \item Frame offset $t_e$
+        \end{itemize}
+    \end{block}
+\end{framesubsec}
+
+\begin{framesubsec}
+    \begin{table}[h!t]
+            \centering
+            \footnotesize
+            \subfloat{
+                \centering
+                \begin{tabular}{cc|ccc}
+                    && unit can & Decrease & Weapon in \\
+                    && not move & $target.hp$ & cooldown \\
+                    \hline
+                    \multirow{4}{*}{\rot{Frame}} 
+                    & 0    & \OK &     & \OK  \\
+                    & 1    & \OK & \OK & \OK  \\
+                    & 2-5  & \OK &     & \OK  \\
+                    & 6-17 &     &     & \OK  \\
+                    \\
+                    \multicolumn{5}{c}{{(a) Marine attack sequence}} \\
+                \end{tabular}
+            }
+            \\
+            \subfloat{
+                \centering
+                \begin{tabular}{cc|ccc}
+                    && unit can & Decrease & Weapon in \\
+                    && not move & $target.hp$ & cooldown \\
+                    \hline
+                    \multirow{4}{*}{\rot{Frame}} 
+                    & 0-4   & \OK &     & \OK  \\
+                    & 5-6   & \OK & \OK & \OK  \\
+                    & 7-10  & \OK &     & \OK  \\
+                    & 11-24 &     &     & \OK  \\
+                    \\
+                    \multicolumn{5}{c}{{(b) Firebat attack sequence}} \\
+                \end{tabular}
+            }
+            \caption{Example of the delayed effects of actions}
+            \label{effectUnits}
+        \end{table}
+\end{framesubsec}
+
+\subsection{State generation}
+\begin{framesubsec}
+    \begin{block}{Main idea}
+        \begin{itemize}
+            \item Update time
+            \item Update unit
+            \item Apply effect 
+            \item Compute the new set of allowed actions 
+        \end{itemize}
+    \end{block}
+\end{framesubsec}
+
+\subsection{Allowed actions generation}
+\begin{framesubsec}
+    \begin{block}{PlayerActionSubset}
+        Comibinations of all allowed actions
+    \end{block}
+    \begin{block}{UnitAction}
+        One branch = One unit action
+    \end{block}
+\end{framesubsec}
+
+\subsection{Move ordering}
+\begin{framesubsec}
+    \begin{block}{Why order children?}
+        Prune more nodes
+    \end{block}
+    \begin{block}{How to order children?}
+        Use actions produced by scripted behaviors first
+    \end{block}
+\end{framesubsec}
+
+\subsection{State evaluation}
+\begin{framesubsec}
+    \begin{block}{Evaluation Function}
+        \begin{itemize}
+    \item Straight Forward Evaluations:
+        $$
+            \displaystyle{SFE(s) = \sum_{u \in s.U_p} u.hp - \sum_{u \in s.U_e} u.hp } 
+            $$
+
+        \item Life Time Damage:
+            $$
+                \displaystyle{LTD(s) = \sum_{u \in s.U_p} u.hp \cdot u.DPS- \sum_{u \in s.U_e} u.hp \cdot u.DPS } 
+                $$
+
+            \item Life Time Damage 2:
+                $$
+                    \displaystyle{LTD2(s) = \sum_{u \in s.U_p} \sqrt{u.hp} \cdot u.DPS - \sum_{u \in s.U_e} \sqrt{u.hp} \cdot u.DPS } 
+                    $$
+
+            \end{itemize}
+        \end{block}
+\end{framesubsec}
+
+\begin{framesubsec}
+        \begin{block}{Playouts}
+            Game state is played out to a terminal state  using random moves or scripted behaviors.
+                    \end{block}
+\end{framesubsec}
+
+\subsection{Example}
+\begin{framesubsec}
+    \begin{figure}[h!t]
         \centering
-        \includegraphics[height=5cm]{fig.ps}
-        \caption{Influence matrix created by a group of 6 units \\ 
-        Lighter blue means bigger value}
-        \label{influenceMatrix}
-    \end{figure}
-\end{center}
-\end{frame}
+        \begin{tikzpicture}[node distance = 1cm]
+                \tikzstyle{node}=[circle,align=center,scale=0.8,draw]
+                    \tikzstyle{nodenotgen}=[circle,dotted,align=center,scale=0.8,draw]
+                        \tikzstyle{nodeterm}=[circle,fill=gray!30,align=center,scale=0.8,draw]
+                            \tikzstyle{link}=[->,thin,>=latex]
+                                
+                                \node[node] (s0) at (4,4) {$s_0$};
 
+                                    \node[node] (s1) at (2,3) {$s_1$};
+                                        \node[nodenotgen] (s2) at (4,3) {$s_2$};
+                                            \node[nodenotgen] (s3) at (6,3) {$s_3$};
 
-\begin{frame}
-\frametitle{Kiting}
-\begin{center}
-\begin{tikzpicture}[node distance = 1 cm]
-    \tikzstyle{leaf}=[rectangle, align=center, scale=0.8, draw]
-    \tikzstyle{node}=[rectangle,dotted, align=center, scale=0.8, draw]
-    \tikzstyle{link}=[->,thin,>=latex]
-    \node[node] (start) at (1,4) {\emph{Sequential Node}};
+                                                \node[nodenotgen] (s4) at (1,2) {$s_4$};
+                                                    \node[node] (s5) at (2,2) {$s_5$};
+                                                        \node[nodeterm] (s6) at (3,2) {$s_6$};
 
-    \node[leaf] (target) at (0,3) {Select Target};
-    \node[node] (seqNode) at (4,3) {\emph{Sequential Node}};
+                                                            \node[node] (s7) at (2,1) {$s_7$};
 
-    \node[leaf] (leafMove) at (2,2) {Move to target};
-    \node[node] (paraAttack) at (6,2) {\emph{Parallel Node}};
-
-    \node[node] (attackNode) at (4,1) {\emph{Sequential Node}};
-    \node[leaf] (moveSafe) at (8,1) {Move to Safe Area};
-
-    \node[leaf] (isSafe) at (2,0) {Is in safe area};
-    \node[leaf] (attack) at (6,0) {Attack target};
-
-    \draw[link] (start)--(target);
-    \draw[link] (start)--(seqNode);
-
-    \draw[link] (seqNode)--(leafMove);
-    \draw[link] (seqNode)--(paraAttack);
-
-    \draw[link] (paraAttack)--(attackNode);
-    \draw[link] (paraAttack)--(moveSafe);
-
-    \draw[link] (attackNode)--(attack);
-    \draw[link] (attackNode)--(isSafe);
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
+                                                                \node[auto,scale=0.8] (s8) at (2,0.2) {};
+                                                                    
+                                                                    \draw[link] (s0) to node [auto,scale=0.6] {$A_0$} (s1); 
+                                                                        \draw[link] (s0) to node [auto,scale=0.6] {$A_1$} (s2);
+                                                                            \draw[link] (s0) to node [auto,scale=0.6] {$A_2$} (s3);
+                                                                                \draw[link] (s1) to node [auto,scale=0.6] {$A_3$} (s4);
+                                                                                    \draw[link] (s1) to node [auto,scale=0.6] {$A_4$} (s5);
+                                                                                    \draw[link] (s1) to node [auto,scale=0.6] {$A_5$, $t \rightarrow t+1$} (s6);
+                                                                                        \draw[link] (s5) to node [auto,scale=0.6] {$A_6$} (s7);
+                                                                                            \draw[-,>=latex,dotted] (s7) to (s8);
+                                                                                                
+                                                                                            
+                                                                                                %LEGEND
+                                                                                            
+                                                                                                \node[node] (l1) at (5,0.5) {}; % {$\phantom{s_1}$};
+                                                                                                    \node[nodeterm] (l2) at (5,1)  {}; %{$\phantom{s_1}$};
+                                                                                                        \node[nodenotgen] (l3) at (5,1.5) {}; %{$\phantom{s_1}$};
+                                                                                                            \node[align=left,rectangle,scale=0.8] (l1t) at (5.6,0.5) {State};
+                                                                                                                \node[align=left,rectangle,scale=0.8] (l2t) at (6.15,1.0) {Terminal state};
+                                                                                                                    \node[align=left,rectangle,scale=0.8] (l3t) at (6.5,1.5) {Not generated state};
+                                                                                                                    
+                                                                                                                \end{tikzpicture}
+                                                                                                                \caption{Example of a tree}
+                                                                                                                \label{tree}
+                                                                                                            \end{figure}
+\end{framesubsec}
 
 \section{Search}
+\begin{framesec}
+    \begin{block}{Searching algorithms}
+        \begin{itemize}
+            \item UCT: Upper Confidence bounds for Trees
+            \item ABCD: Alpha-Beta algorithm Considering Duratives Moves 
+        \end{itemize}
+    \end{block}
+\end{framesec}
 
-\begin{frame}
-\frametitle{Search}
-The marine attack action
-\begin{center}
-\begin{tabular}{ r | p{3,5cm} }
-Frame offset & Effect \\
-\hline
-0 & marine may not move \\
-1 & damage is applied to target \\
-6 & marine may move again \\
-14-17 & marine may attack again\footnotemark
-\end{tabular}
-\footnotetext{The exact number is randomed every attack.}
-\end{center}
-\end{frame}
+\subsection{UCT Search}
+\begin{framesubsec}
+    \begin{block}{Main ideas}
+        \begin{itemize}
+            \item UnitAction branching method 
+            \item LTD2 state evaluation
+            \item Move ordering: Attacking before moving 
+        \end{itemize}
+    \end{block}
+\end{framesubsec}
 
-\begin{frame}
-\frametitle{Search}
-The firebat attack action
-\begin{center}
-\begin{tabular}{ r | p{3,5cm} }
-Frame offset & Effect \\
-\hline
-0 & firebat may not move \\
-5 & half of the damage is applied to target \\
-6 & if the firebat is still alive, the other half of the damage is applied to the target as well \\
-10 & the firebat may move again \\
-21-24 & the firebat may attack again
-\end{tabular}
-\end{center}
-\end{frame}
+\subsection{ABCD Search}
+\begin{framesubsec}
+    \begin{block}{Main ideas}
+        \begin{itemize}
+            \item Random set from the PlayerActionSubset branching method 
+            \item LTD2 state evaluation
+        \end{itemize}
+    \end{block}
+\end{framesubsec}
 
-\begin{frame}
-\frametitle{Search}
-Monte Carlo Tree Search algorithm
-
-\begin{center}
-\begin{tabular}{ | l | p{3,5cm} | }
-\hline
-\multicolumn{2}{|c|}{\emph{GameState}} \\
-\hline
-units		& all the units with their positions, health, and internal states \\
-effects	& all the pending effects to be applied to the GameState at a future frame. \\
-\hline
-\end{tabular}
-\end{center}
-\end{frame}
-
-\section{Results}
-
-\begin{frame}
-\frametitle{Results}
-\begin{itemize}
-\item[-] \texttt{Attack Closest:} Defeated
-\item[-] \texttt{Attack Closest Lethal:} almost 100\% -- show real cooperation behaviors
-\item[-] \texttt{Kiting:} almost 100\% -- some bugs
-\item[-] \texttt{Searching:} Not implemented
-\end{itemize}
-\end{frame}
-
-\section{Future work}
-
-\begin{frame}
-\frametitle{Future work}
-Potential topics:
-\begin{itemize}
-\item[-] Implement search bot
-\item[-] Handle 3 types of units ($A > B > C > A \dots$)
-\item[-] Add ressources generation at constant rate \& produce units
-\item[-] Kill the king !
-\end{itemize}
-\end{frame}
+\section{Results \& Conclusion}
+\begin{framesec}
+\end{framesec}
 \end{document}

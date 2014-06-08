@@ -54,7 +54,6 @@ As we can see units' actions have impacts on \emph{future} frames.
     \centering
 \subfloat{
 \centering
-\texttt{Marine attack sequence}
 \begin{tabular}{cc|ccc}
 && unit can & Decrease & Weapon in \\
 && not move & $target.hp$ & cooldown \\
@@ -64,12 +63,13 @@ As we can see units' actions have impacts on \emph{future} frames.
 & 1    & \OK & \OK & \OK  \\
 & 2-5  & \OK &     & \OK  \\
 & 6-17 &     &     & \OK  \\
+\\
+\multicolumn{5}{c}{{(a) Marine attack sequence}} \\
 \end{tabular}
 }
 \\
 \subfloat{
 \centering
-\texttt{Firebat attack sequence}
 \begin{tabular}{cc|ccc}
 && unit can & Decrease & Weapon in \\
 && not move & $target.hp$ & cooldown \\
@@ -79,6 +79,8 @@ As we can see units' actions have impacts on \emph{future} frames.
 & 5-6   & \OK & \OK & \OK  \\
 & 7-10  & \OK &     & \OK  \\
 & 11-24 &     &     & \OK  \\
+\\
+\multicolumn{5}{c}{{(b) Firebat attack sequence}} \\
 \end{tabular}
 }
 \caption{Example of the delayed effects of actions}
