@@ -118,7 +118,7 @@ namespace Bot { namespace Search
 			NodeChild rootChild(&rootAction, &root);
 
 			//TODO: constrain in time instead
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < 3000; i++)
 			{
 				traverse(rootChild);
 			}
@@ -132,7 +132,9 @@ namespace Bot { namespace Search
 				node = child.node;
 			}
 
-			BWAPI::Broodwar->drawTextScreen(200, 75,  "number of taken actions: %d", bestActions.size());
+			//BWAPI::Broodwar->drawTextScreen(200, 75,  "number of taken actions: %d", bestActions.size());
+			//BWAPI::Broodwar->drawTextScreen(200, 100, "root average reward: %.3f", root.totalReward / root.visits);
+			BWAPI::Broodwar->drawTextScreen(0, 30,  "root.visits: %d", root.visits);
 			return bestActions;
 		}
 
@@ -146,16 +148,19 @@ namespace Bot { namespace Search
 			else if (!node.node->isTerminal())
 				score = traverse(selectChild(node.node));
 			else //already visited terminal state
-				score = node.node->totalReward/node.node->visits; //or maybe 0? nah...
+				score = node.node->totalReward/node.node->visits;
 			
 			node.node->visits++;
-
+			node.node->totalReward += score;
 			if (node.action->isPlayerAction(node.node->gamestate))
-				node.node->totalReward += score;
+			{
+				return -score;
+			}
 			else
-				node.node->totalReward -= score;
+			{
+				return score;
+			}
 
-			return score;
 		}
 
 		NodeChild selectChild(NodeUCT* parent)
