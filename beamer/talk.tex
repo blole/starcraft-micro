@@ -136,13 +136,59 @@ Kilian \textsc{Demeulemeester}}
 
 \subsection{Modeling}
 \begin{framesubsec}
+\begin{figure}[h!t]
+\centering
+\begin{tikzpicture}[node distance = 1cm]
+	\tikzstyle{node}=[circle,align=center,scale=0.8,draw]
+	\tikzstyle{nodenotgen}=[circle,dotted,align=center,scale=0.8,draw]
+	\tikzstyle{nodeterm}=[circle,fill=gray!30,align=center,scale=0.8,draw]
+	\tikzstyle{link}=[->,thin,>=latex]
+	
+	\node[node] (s) at (2,4) {state};
+	\node[node] (u1) at (0,3) {unit 0};
+	\node[node] (u2) at (1.3,2.5) {unit 1};
+	\node[node] (u3) at (2.7,2.5) {unit 2};
+	\node[node] (u4) at (4,3) {unit 3};
+
+	\node[node] (u) at (8,4) {unit};
+	\node[node] (a1) at (6.5,2.5) {action 1};
+	\node[node] (a2) at (9.5,2.5) {action 2};
+
+	\node[node] (a) at (5,0.5) {action};
+	\node[node] (e1) at (3,-0.5) {effect};
+	\node[node] (e2) at (5,-1.2) {effect};
+	\node[node] (e3) at (7,-0.5) {effect};
+
+	\draw[link] (s) to node [auto,scale=0.6] {} (u1);
+	\draw[link] (s) to node [auto,scale=0.6] {} (u2);
+	\draw[link] (s) to node [auto,scale=0.6] {} (u3);
+	\draw[link] (s) to node [auto,scale=0.6] {} (u4);
+	\draw[link] (u) to node [auto,scale=0.6] {precondition} (a1);
+	\draw[link] (u) to node [auto,scale=0.6] {precondition} (a2);
+	\draw[link] (a) to node [auto,scale=0.6] {frame 0} (e1);
+	\draw[link] (a) to node [auto,scale=0.6] {frame 1} (e2);
+	\draw[link] (a) to node [auto,scale=0.6] {frame 6} (e3);
+	%\draw[link] (s0) to node [auto,scale=0.6] {$A_1$} (s2);
+	%\draw[link] (s0) to node [auto,scale=0.6] {$A_2$} (s3);
+	%\draw[link] (s1) to node [auto,scale=0.6] {$A_3$} (s4);
+	%\draw[link] (s1) to node [auto,scale=0.6] {$A_4$} (s5);
+	%\draw[link] (s1) to node [auto,scale=0.6] {$A_5$, $t \rightarrow t+1$} (s6);
+	%\draw[link] (s5) to node [auto,scale=0.6] {$A_6$} (s7);
+	%\draw[-,>=latex,dotted] (s7) to (s8);
+
+\end{tikzpicture}
+\caption{Rough idea of the combat model}
+\end{figure}
+\end{framesubsec}
+
+\begin{framesubsec}
     \begin{block}{\textbf{State} $s = <t,U_p,U_e,E,S_A>$}
         \begin{itemize}
         \item Current game time $t$ 
         \item Set $U_p$ of the player's units
         \item Set $U_e$ of the enemy's units
         \item Set of pending effects $E$
-        \item Set $S_A$ of allowed sets of actions that can be performed from $s$ (multiple units may be be ordered to at the same time)
+        \item Set $S_A$ of allowed sets of actions that can be performed from $s$ (multiple units may be given orders at the same time)
     \end{itemize}
     \end{block}
 
