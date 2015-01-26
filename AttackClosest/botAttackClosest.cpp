@@ -27,8 +27,7 @@ void BotAttackClosest::onStart()
 		Broodwar << "The following players are in this replay:" << std::endl;
 		
 		// Iterate all the players in the game using a std:: iterator
-		Playerset players = Broodwar->getPlayers();
-		for (auto& p : players)
+		for (auto& p : Broodwar->getPlayers())
 		{
 			// Only print the player if they are not an observer
 			if (!p->isObserver())
