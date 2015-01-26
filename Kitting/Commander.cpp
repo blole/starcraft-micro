@@ -17,23 +17,21 @@ Commander::Commander()
 void Commander::init()
 {
 	// Enemy units
-	Unitset tmpEnemyUnit = Broodwar->enemy()->getUnits();
-	for(auto i=tmpEnemyUnit.begin();i!=tmpEnemyUnit.end();++i)
+	for (auto& i : Broodwar->enemy()->getUnits())
 	{
 		if(i->getType()!=UnitTypes::Special_Map_Revealer)
 		{
-			OUnit* oUnit = OUnit::get(*i);
+			OUnit* oUnit = OUnit::get(i);
 			oAllUnits.insert(oUnit);
 		}
 	}
 
 	// My units
-	Unitset tmpUnit = Broodwar->self()->getUnits();
-	for(auto i=tmpUnit.begin();i!=tmpUnit.end();++i)
+	for (auto& i : Broodwar->self()->getUnits())
 	{
 		if(i->getType()!=UnitTypes::Special_Map_Revealer)
 		{
-		PUnit* pUnit = PUnit::get(*i);
+		PUnit* pUnit = PUnit::get(i);
 
 		if(i->getType()!=UnitTypes::Special_Map_Revealer)
 			pAllUnits.insert(pUnit);

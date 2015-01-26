@@ -39,8 +39,7 @@ void Bot::onFrame()
 	//	return;
 	
 	// Iterate through all the units that we own
-	Unitset myUnits = Broodwar->self()->getUnits();
-	for (Unitset::iterator u = myUnits.begin(); u != myUnits.end(); ++u)
+	for (auto u : Broodwar->self()->getUnits())
 	{
 		if (!u->exists() || u->isLockedDown() ||
 			u->isMaelstrommed() || u->isStasised() ||

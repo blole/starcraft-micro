@@ -15,25 +15,23 @@ Commander::Commander()
 void Commander::init()
 {
 	// Enemy units
-	Unitset tmpEnemyUnit = Broodwar->enemy()->getUnits();
-	for(auto i=tmpEnemyUnit.begin();i!=tmpEnemyUnit.end();++i)
+	for (auto i : Broodwar->enemy()->getUnits())
 	{
 		if(i->getType()==UnitTypes::Terran_Marine)
 		{
-			OUnit* oUnit = OUnit::get(*i);
+			OUnit* oUnit = OUnit::get(i);
 			oAllUnits.insert(oUnit);
 		}
 	}
 
 	// Create squad of 'nbUnitPerSquad' units
-	Unitset allGameUnit = Broodwar->self()->getUnits();
 	int indexInSquad = 0;
 	std::set<PUnit*> squadUnits;
-	for(auto i=allGameUnit.begin();i!=allGameUnit.end();++i)
+	for (auto& i : Broodwar->self()->getUnits())
 	{
 		if(i->getType()==UnitTypes::Terran_Marine)
 		{
-			PUnit* pUnit = PUnit::get(*i);
+			PUnit* pUnit = PUnit::get(i);
 			if(indexInSquad >= nbUnitPerSquad)
 			{
 				indexInSquad=0;
@@ -57,10 +55,10 @@ void Commander::init()
 	 }
 
 	// Add a 'brain' to a squad
-	for(auto i=squads.begin(); i!=squads.end();++i)
+	for(auto& i : squads)
 	{
-		if((*i)->brain == nullptr)
-			(*i)->brain = (new ParallelNode())
+		if(i->brain == nullptr)
+			i->brain = (new ParallelNode())
 							->addChild((new RepeatNode(-1))
 								->addChild(new BoolCondition<SquadManager>(&SquadManager::isInPosition,true))
 								->addChild(new SquadFire()))
@@ -68,9 +66,9 @@ void Commander::init()
 	}
 
 	// My units
-	for(auto i=allGameUnit.begin();i!=allGameUnit.end();++i)
+	for (auto& i : Broodwar->self()->getUnits())
 	{
-		PUnit* pUnit = PUnit::get(*i);
+		PUnit* pUnit = PUnit::get(i);
 
 		if(i->getType()==UnitTypes::Terran_Marine)
 			pAllUnits.insert(pUnit);

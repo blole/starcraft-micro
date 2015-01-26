@@ -46,9 +46,9 @@ void MCTSsquad::onFrame()
 				if (action->isPlayerAction(&state))
 					action->executeOrder(&state);
 			}
-		} catch (const std::runtime_error& e) {
+		} catch (const std::runtime_error&) {
 			throw;
-		} catch (const std::exception& e) {
+		} catch (const std::exception&) {
 			throw;
 		} catch (...) {
 			abort();
