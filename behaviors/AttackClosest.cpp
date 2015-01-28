@@ -21,7 +21,7 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 	if(hasStartAttack)
 	{
 		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
-		if(pUnit->target.getUnit()->exists())
+		if (!pUnit->unit->isAttackFrame()) //if (pUnit->target.getUnit()->exists())
 			return BT_SUCCESS;
 		else
 			return BT_RUNNING;

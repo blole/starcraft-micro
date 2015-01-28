@@ -1,5 +1,5 @@
 #include "Commander.hpp"
-#include "behaviors/Attack.hpp"
+#include "behaviors/AttackClosest.hpp"
 #include <iostream>
 
 using namespace BWAPI;
@@ -33,7 +33,7 @@ void Commander::init()
 
 		if (pUnit->brain == nullptr)
 			pUnit->brain = (new SequentialNode())
-				->addChild(new Attack());
+				->addChild(new AttackClosest());
 	}
 }
 
