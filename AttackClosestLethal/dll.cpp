@@ -1,7 +1,9 @@
 #define WIN32_LEAN_AND_MEAN	// Exclude rarely-used stuff from Windows headers
 #include <windows.h>
 #include <BWAPI.h>
-#include "BotAttackClosestLethal.hpp"
+#include "common/main.hpp"
+#include "common/generalallunitssinglesquad.hpp"
+#include "behaviors/AttackClosestLethal.hpp"
 
 extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
 BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved )
@@ -18,5 +20,11 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
-	return new BotAttackClosestLethal();
+	std::function<BehaviorTreeNode*()> unitBrain = []{
+		return (new SequentialNode())
+			->addChild(new AttackClosestLethal());
+	};
+	General* general = new GeneralAllUnitsSingleSquad(unitBrain);
+
+	return new Main(general);
 }

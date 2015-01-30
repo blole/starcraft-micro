@@ -11,13 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botAttackClosest.cpp" />
-    <ClCompile Include="Commander.cpp" />
     <ClCompile Include="dll.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="botAttackClosest.hpp" />
-    <ClInclude Include="Commander.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">

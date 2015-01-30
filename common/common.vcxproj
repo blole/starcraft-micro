@@ -12,17 +12,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameUnit.cpp" />
-    <ClCompile Include="InfluenceMap.cpp" />
+    <ClCompile Include="generalallunitssinglesquad.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="OUnit.cpp" />
     <ClCompile Include="PUnit.cpp" />
+    <ClCompile Include="reactivesquad.cpp" />
     <ClCompile Include="squad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameUnit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
-    <ClInclude Include="InfluenceMap.hpp" />
+    <ClInclude Include="general.hpp" />
+    <ClInclude Include="generalallunitssinglesquad.hpp" />
+    <ClInclude Include="main.hpp" />
     <ClInclude Include="OUnit.hpp" />
     <ClInclude Include="PUnit.hpp" />
+    <ClInclude Include="reactivesquad.hpp" />
     <ClInclude Include="squad.hpp" />
   </ItemGroup>
   <ItemGroup>

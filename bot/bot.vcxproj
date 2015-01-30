@@ -12,18 +12,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ABCDsquad.cpp" />
-    <ClCompile Include="bot.cpp" />
-    <ClCompile Include="general.cpp" />
     <ClCompile Include="dll.cpp" />
     <ClCompile Include="MCTSsquad.cpp" />
-    <ClCompile Include="reactivesquad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ABCDsquad.hpp" />
-    <ClInclude Include="bot.hpp" />
-    <ClInclude Include="general.hpp" />
     <ClInclude Include="MCTSsquad.hpp" />
-    <ClInclude Include="reactivesquad.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">

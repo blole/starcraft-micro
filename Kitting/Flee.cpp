@@ -1,4 +1,4 @@
-#include "behaviors/Flee.hpp"
+#include "Flee.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
 

@@ -1,19 +1,9 @@
-#include "bot/general.hpp"
-#include "behaviors/moverelative.hpp"
+#include "common/generalallunitssinglesquad.hpp"
 #include "common/PUnit.hpp"
 
 using namespace BWAPI;
 
-General::General(std::function<Squad*()> newSquad)
-	: newSquad(newSquad)
-{
-}
-
-void General::onStart()
-{
-}
-
-void General::onFrame()
+void GeneralAllUnitsSingleSquad::onFrame()
 {
 	for each (BWAPI::Unit u in Broodwar->self()->getUnits())
 	{

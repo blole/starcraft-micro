@@ -1,4 +1,4 @@
-#include "bot/reactivesquad.hpp"
+#include "common/reactivesquad.hpp"
 #include "behaviors/moverelative.hpp"
 #include "common/PUnit.hpp"
 #include <exception>

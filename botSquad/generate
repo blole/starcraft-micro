@@ -1,8 +1,0 @@
-#!/bin/bash
-
-for f in `ls *.hpp`
-do
-    echo "${f%.*}.cpp"
-    touch "${f%.*}.cpp"
-done
-        

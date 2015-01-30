@@ -1,9 +1,17 @@
 #pragma once
 #include <BWAPI.h>
-#include "bot/general.hpp"
+#include "common/general.hpp"
+#include <lib/libbehavior/BehaviorTree.h>
 
-class Bot : public BWAPI::AIModule
+class Main : public BWAPI::AIModule
 {
+private:
+	General* general;
+	
+public:
+	explicit Main(General* general);
+	
+	
 public:
 	// Virtual functions for callbacks, leave these as they are.
 	virtual void onStart();
@@ -23,7 +31,4 @@ public:
 	virtual void onUnitRenegade(BWAPI::Unit unit);
 	virtual void onSaveGame(std::string gameName);
 	virtual void onUnitComplete(BWAPI::Unit unit);
-	// Everything below this line is safe to modify.
-
-	General* general;
 };

@@ -1,4 +1,4 @@
-#include "common/InfluenceMap.hpp"
+#include "InfluenceMap.hpp"
 #include <iostream>
 #include <stdlib.h>
 
@@ -157,7 +157,7 @@ void InfluenceMap::debugDisplayInfluence()
 				{
 					Position cellPosition(i*32,j*32);
 					//Broodwar->drawTextMap(cellPosition,"%f",matrix[i][j]);
-					Broodwar->drawEllipseMap(cellPosition,radius,radius,	Color(radius*(255/unitKind),0,0),false);
+					Broodwar->drawEllipseMap(cellPosition, (int)radius, (int)radius, Color((int)(radius*(255.0 / unitKind)), 0, 0), false);
 					//Broodwar->drawBoxMap(cellPosition-Position(16,16),cellPosition+Position(16,16),Color(radius*(255/max),0,0),true);
 				}
 			}

@@ -11,15 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botKitting.cpp" />
-    <ClCompile Include="Commander.cpp" />
     <ClCompile Include="dll.cpp" />
-    <ClCompile Include="SquadManager.cpp" />
+    <ClCompile Include="Flee.cpp" />
+    <ClCompile Include="InfluenceMap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="botKitting.hpp" />
-    <ClInclude Include="Commander.hpp" />
-    <ClInclude Include="SquadManager.hpp" />
+    <ClInclude Include="Flee.hpp" />
+    <ClInclude Include="generalkiting.hpp" />
+    <ClInclude Include="InfluenceMap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">

@@ -27,7 +27,13 @@
     <ClCompile Include="squad.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="InfluenceMap.cpp">
+    <ClCompile Include="reactivesquad.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="generalallunitssinglesquad.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +53,16 @@
     <ClInclude Include="squad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="InfluenceMap.hpp">
+    <ClInclude Include="general.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="reactivesquad.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="main.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="generalallunitssinglesquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

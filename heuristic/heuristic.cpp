@@ -39,8 +39,8 @@ float LifeTimeDamage1::value(GameState* pGameState)
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
 		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
-		float damage = weapon.damageAmount();
-		float cooldown = weapon.damageCooldown();
+		float damage = (float)weapon.damageAmount();
+		float cooldown = (float)weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
 		value += dpf * currentUnit->getHitPoints();
@@ -50,8 +50,8 @@ float LifeTimeDamage1::value(GameState* pGameState)
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
 		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
-		float damage = weapon.damageAmount();
-		float cooldown = weapon.damageCooldown();
+		float damage = (float)weapon.damageAmount();
+		float cooldown = (float)weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
 		value -= dpf * currentUnit->getHitPoints();
@@ -72,22 +72,22 @@ float LifeTimeDamage2::value(GameState* pGameState)
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
 		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
-		float damage = weapon.damageAmount();
-		float cooldown = weapon.damageCooldown();
+		float damage = (float)weapon.damageAmount();
+		float cooldown = (float)weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
-		value += dpf * std::sqrt((double)currentUnit->getHitPoints());
+		value += dpf * std::sqrt((float)currentUnit->getHitPoints());
 	}
 	for each(auto unit in opponentUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
 		BWAPI::WeaponType weapon = currentUnit->getType().groundWeapon();
-		float damage = weapon.damageAmount();
-		float cooldown = weapon.damageCooldown();
+		float damage = (float)weapon.damageAmount();
+		float cooldown = (float)weapon.damageCooldown();
 		float dpf = damage/cooldown;
 
-		value -= dpf * std::sqrt((double)currentUnit->getHitPoints());
+		value -= dpf * std::sqrt((float)currentUnit->getHitPoints());
 	}
 	return value;
 }

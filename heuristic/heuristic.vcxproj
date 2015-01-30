@@ -11,11 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\units\units.vcxproj">
-      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="heuristic.hpp" />
   </ItemGroup>
   <ItemGroup>

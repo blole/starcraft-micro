@@ -25,11 +25,15 @@
     <ClCompile Include="botSquad.cpp" />
     <ClCompile Include="Commander.cpp" />
     <ClCompile Include="dll.cpp" />
+    <ClCompile Include="MoveSquadToPosition.cpp" />
+    <ClCompile Include="SquadFire.cpp" />
     <ClCompile Include="SquadManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="botSquad.hpp" />
     <ClInclude Include="Commander.hpp" />
+    <ClInclude Include="MoveSquadToPosition.hpp" />
+    <ClInclude Include="SquadFire.hpp" />
     <ClInclude Include="SquadManager.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

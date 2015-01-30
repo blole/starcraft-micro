@@ -1,4 +1,4 @@
-#include "behaviors/MoveSquadToPosition.hpp"
+#include "MoveSquadToPosition.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
 //#include <math.h>
@@ -44,14 +44,14 @@ BEHAVIOR_STATUS MoveSquadToPosition::execute(void* agent)
 		float theta = (float)atan2((float)squad->positionToAttack.getPosition().y - squad->positionSquad.y,
 					(float)squad->positionToAttack.getPosition().y - squad->positionSquad.x);
 		float r0 = (float)squadGoal.getDistance(Position(0,0));
-		float step = (float)2 * 3.14 / ((float)squad->units.size());
+		float step = (float)2 * 3.14f / ((float)squad->units.size());
 		float r = radiusFormation;
 
  		for(auto i=squad->units.begin(); i!=squad->units.end();i++)
  		{
 			// Set the unit goal (using line formation)
-			int xUnit = r0 * cos(thetaS) + r * sin(theta);
-			int yUnit = r0 * sin(thetaS) - r * cos(theta);
+			int xUnit = (int)(r0 * cos(thetaS) + r * sin(theta));
+			int yUnit = (int)(r0 * sin(thetaS) - r * cos(theta));
 			Broodwar->drawLineMap((*i)->getPosition(),Position(xUnit,yUnit),Color(0,255,255));
 			(*i)->unit->move(Position(xUnit,yUnit));
 			theta += step;

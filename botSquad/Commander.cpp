@@ -1,15 +1,11 @@
 #include "Commander.hpp"
-#include "behaviors/SquadFire.hpp"
-#include "behaviors/MoveSquadToPosition.hpp"
+#include "SquadFire.hpp"
+#include "MoveSquadToPosition.hpp"
 #include <iostream>
 
 using namespace BWAPI;
 using namespace Filter;
 
-	// Constructor
-Commander::Commander()
-{
-}
 
 		// Methods
 void Commander::init()

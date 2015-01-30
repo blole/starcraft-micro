@@ -20,19 +20,7 @@
     <ClCompile Include="moverelative.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="SquadFire.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveSquadToPosition.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="AttackClosestLethal.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="Flee.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="Attack.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,18 +32,6 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="moverelative.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveSquadToPosition.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SquadFire.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Flee.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Attack.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

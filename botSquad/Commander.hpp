@@ -17,8 +17,6 @@ public:
 	std::set<PUnit*> pAllUnits;
 	std::set<OUnit*> oAllUnits;
 	std::set<SquadManager*> squads;
-	// Constructor
-	Commander();
 	// Methods
 	void init();
 	void update();
