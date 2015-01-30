@@ -35,7 +35,7 @@
     <ProjectGuid>{B00F666A-BDF3-46A3-AF97-B34DD3410783}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>kiting</ProjectName>
+    <ProjectName>.main-kiting</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

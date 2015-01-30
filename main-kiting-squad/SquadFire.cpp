@@ -1,7 +1,7 @@
 #include "SquadFire.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
-#include "botSquad/SquadManager.hpp"
+#include "SquadManager.hpp"
 
 using namespace BWAPI;
 

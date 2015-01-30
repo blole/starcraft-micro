@@ -1,11 +1,11 @@
 #include "BWAPI.h"
-#include "bot/squad_abcd.hpp"
+#include "squad_mcts.hpp"
 #include "behaviors/moverelative.hpp"
 #include "common/PUnit.hpp"
 #include "search/gamestate.hpp"
 #include "search/actions/action.hpp"
-#include "search/searchers/searcherabcd.hpp"
-#include "search/actionlisters/branchonplayer.hpp"
+#include "search/searchers/searcheruct.hpp"
+#include "search/actionlisters/branchonunit.hpp"
 #include <exception>
 #include <vector>
 #include <set>
@@ -13,10 +13,10 @@
 using namespace BWAPI;
 using namespace Bot::Search;
 
-void SquadABCD::onFrame()
+void SquadMCTS::onFrame()
 {
-	static Searcher* searchAlgorithm = new SearcherABCD();
-	static BranchOnPlayer* possibleActions = new BranchOnPlayer();
+	static Searcher* searchAlgorithm = new SearcherUCT();
+	static ActionLister* actionlister = new BranchOnUnit();
 
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });
 	
@@ -35,22 +35,22 @@ void SquadABCD::onFrame()
 
 	GameState state(playerUnits, enemyUnits);
 
-
 	if (!state.isTerminal())
 	{
 		try {
-			std::list<Action*> actions = searchAlgorithm->search(&state, possibleActions);
+			int gameframe = BWAPI::Broodwar->getFrameCount();
+			std::list<Action*> actions = searchAlgorithm->search(&state, actionlister);
 
 			for each (Action* action in actions)
 			{
 				if (action->isPlayerAction(&state))
 					action->executeOrder(&state);
 			}
-		} catch(const std::runtime_error&) {
+		} catch (const std::runtime_error&) {
 			throw;
-		} catch(const std::exception&) {
+		} catch (const std::exception&) {
 			throw;
-		} catch(...) {
+		} catch (...) {
 			abort();
 		}
 	}

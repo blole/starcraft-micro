@@ -11,13 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="squad_abcd.cpp" />
     <ClCompile Include="dll.cpp" />
-    <ClCompile Include="squad_mcts.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="squad_abcd.hpp" />
-    <ClInclude Include="squad_mcts.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">
@@ -29,15 +23,12 @@
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\search\search.vcxproj">
-      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2E63AE74-758A-4607-9DE4-D28E814A6E13}</ProjectGuid>
+    <ProjectGuid>{70A9681A-02BD-43B9-B17F-291BD1F0A26A}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>bot</ProjectName>
+    <ProjectName>.main-attack-closest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -80,9 +71,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPId.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dll.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">
       <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
     </ProjectReference>
@@ -21,26 +24,11 @@
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="botSquad.cpp" />
-    <ClCompile Include="Commander.cpp" />
-    <ClCompile Include="dll.cpp" />
-    <ClCompile Include="MoveSquadToPosition.cpp" />
-    <ClCompile Include="SquadFire.cpp" />
-    <ClCompile Include="SquadManager.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="botSquad.hpp" />
-    <ClInclude Include="Commander.hpp" />
-    <ClInclude Include="MoveSquadToPosition.hpp" />
-    <ClInclude Include="SquadFire.hpp" />
-    <ClInclude Include="SquadManager.hpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}</ProjectGuid>
+    <ProjectGuid>{A9BC283F-F0E2-4939-B55E-A3D01CEC4265}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>bot-squad</ProjectName>
+    <ProjectName>.main-attack-closest-nok</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

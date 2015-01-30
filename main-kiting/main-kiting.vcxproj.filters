@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dll.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="InfluenceMap.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="Flee.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="InfluenceMap.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Flee.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="generalkiting.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="headers">
+      <UniqueIdentifier>{5bc6dfa3-7c3d-4833-ab3a-0632077b2a81}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="source">
+      <UniqueIdentifier>{3759fb3f-d1f9-4329-ad30-6b84bbc564cb}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+</Project>

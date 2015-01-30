@@ -12,6 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll.cpp" />
+    <ClCompile Include="squad_mcts.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="squad_mcts.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">
@@ -23,12 +27,15 @@
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\search\search.vcxproj">
+      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A9BC283F-F0E2-4939-B55E-A3D01CEC4265}</ProjectGuid>
+    <ProjectGuid>{F956096F-4030-468C-92CF-F7DD683BDC62}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>attack-closest-nok</ProjectName>
+    <ProjectName>.main-mcts</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -71,9 +78,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>
       </DisableSpecificWarnings>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPId.lib;%(AdditionalDependencies)</AdditionalDependencies>

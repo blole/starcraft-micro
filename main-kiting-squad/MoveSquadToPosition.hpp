@@ -1,7 +1,7 @@
 #pragma once
 #include <lib/libbehavior/BehaviorTree.h>
 #include <BWAPI.h>
-#include "botSquad/SquadManager.hpp"
+#include "SquadManager.hpp"
 
 using namespace BehaviorTree;
 

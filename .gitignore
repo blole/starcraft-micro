@@ -178,21 +178,3 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 build/
-
-## LATEX
-
-*.aux
-*.out
-*.bbl
-*.blg
-*.dvi
-*.pdf
-compile
-*.gif
-
-# Kilian's Folder
-SubjectDescription/
-masai.sublime-project
-masai.sublime-workspace
-*.violet.html
-*.vcxproj.filters
