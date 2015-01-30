@@ -1,12 +1,8 @@
-#include "behaviors/AttackClosest.hpp"
+#include "behaviors/attackclosest.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
 
 using namespace BWAPI;
-
-AttackClosest::AttackClosest()
-{
-}
 
 void AttackClosest::init(void* agent)
 {

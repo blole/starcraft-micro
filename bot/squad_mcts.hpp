@@ -6,7 +6,7 @@
 
 using namespace BehaviorTree;
 
-class MCTSsquad : public Squad
+class SquadMCTS : public Squad
 {
 public:
 	static const int radius = 400;

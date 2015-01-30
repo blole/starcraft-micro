@@ -20,7 +20,7 @@
     <ClCompile Include="squad.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameUnit.hpp" />
+    <ClInclude Include="gameunit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="general.hpp" />
     <ClInclude Include="generalallunitssinglesquad.hpp" />

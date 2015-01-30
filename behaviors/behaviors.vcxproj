@@ -19,13 +19,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AttackClosest.cpp" />
-    <ClCompile Include="AttackClosestLethal.cpp" />
+    <ClCompile Include="attackclosest.cpp" />
+    <ClCompile Include="attackclosestnok.cpp" />
     <ClCompile Include="moverelative.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AttackClosest.hpp" />
-    <ClInclude Include="AttackClosestLethal.hpp" />
+    <ClInclude Include="attackclosest.hpp" />
+    <ClInclude Include="attackclosestnok.hpp" />
     <ClInclude Include="moverelative.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

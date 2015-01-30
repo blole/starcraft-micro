@@ -7,8 +7,6 @@ using namespace BehaviorTree;
 class AttackClosest : public BehaviorTreeNode
 {
 public:
-	AttackClosest();
-	
 	void init(void* agent);
 	BEHAVIOR_STATUS execute(void* agent);
 	

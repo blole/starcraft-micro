@@ -1,5 +1,5 @@
 #include "BWAPI.h"
-#include "bot/ABCDsquad.hpp"
+#include "bot/squad_abcd.hpp"
 #include "behaviors/moverelative.hpp"
 #include "common/PUnit.hpp"
 #include "search/gamestate.hpp"
@@ -13,7 +13,7 @@
 using namespace BWAPI;
 using namespace Bot::Search;
 
-void ABCDsquad::onFrame()
+void SquadABCD::onFrame()
 {
 	static Searcher* searchAlgorithm = new SearcherABCD();
 	static BranchOnPlayer* possibleActions = new BranchOnPlayer();

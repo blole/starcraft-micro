@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ABCDsquad.cpp" />
+    <ClCompile Include="squad_abcd.cpp" />
     <ClCompile Include="dll.cpp" />
-    <ClCompile Include="MCTSsquad.cpp" />
+    <ClCompile Include="squad_mcts.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ABCDsquad.hpp" />
-    <ClInclude Include="MCTSsquad.hpp" />
+    <ClInclude Include="squad_abcd.hpp" />
+    <ClInclude Include="squad_mcts.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">

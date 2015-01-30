@@ -1,5 +1,5 @@
 #include "BWAPI.h"
-#include "bot/MCTSsquad.hpp"
+#include "bot/squad_mcts.hpp"
 #include "behaviors/moverelative.hpp"
 #include "common/PUnit.hpp"
 #include "search/gamestate.hpp"
@@ -13,7 +13,7 @@
 using namespace BWAPI;
 using namespace Bot::Search;
 
-void MCTSsquad::onFrame()
+void SquadMCTS::onFrame()
 {
 	static Searcher* searchAlgorithm = new SearcherUCT();
 	static ActionLister* actionlister = new BranchOnUnit();

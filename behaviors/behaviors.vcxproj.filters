@@ -20,7 +20,7 @@
     <ClCompile Include="moverelative.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="AttackClosestLethal.cpp">
+    <ClCompile Include="attackclosestnok.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -28,10 +28,10 @@
     <ClInclude Include="AttackClosest.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="AttackClosestLethal.hpp">
+    <ClInclude Include="moverelative.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="moverelative.hpp">
+    <ClInclude Include="attackclosestnok.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

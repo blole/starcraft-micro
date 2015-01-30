@@ -1,21 +1,17 @@
-#include "behaviors/AttackClosestLethal.hpp"
+#include "behaviors/attackclosestnok.hpp"
 #include "common/GameUnit.hpp"
 #include "common/PUnit.hpp"
 
 using namespace BWAPI;
 
-AttackClosestLethal::AttackClosestLethal()
-{
-}
-
-void AttackClosestLethal::init(void* agent)
+void AttackClosestNOK::init(void* agent)
 {
 	first = true;
 	PUnit* pUnit = (PUnit*)agent;
 	pUnit->attackClosestEnemyNonWorried();
 }
 
-BEHAVIOR_STATUS AttackClosestLethal::execute(void* agent)
+BEHAVIOR_STATUS AttackClosestNOK::execute(void* agent)
 {
 	PUnit* pUnit = (PUnit*)agent;
 	BWAPI::Unit unit = pUnit->unit;

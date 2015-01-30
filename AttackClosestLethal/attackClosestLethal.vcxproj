@@ -28,7 +28,7 @@
     <ProjectGuid>{A9BC283F-F0E2-4939-B55E-A3D01CEC4265}</ProjectGuid>
     <RootNamespace>ExampleAIModule</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>AttackClosestLethal</ProjectName>
+    <ProjectName>attack-closest-nok</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

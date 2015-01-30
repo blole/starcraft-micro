@@ -4,10 +4,6 @@
 
 using namespace BWAPI;
 
-Flee::Flee()
-{
-}
-
 void Flee::init(void* agent)
 {
 	first = true;
