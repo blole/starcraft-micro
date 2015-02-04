@@ -2,7 +2,7 @@
 #include <BWAPI.h>
 #include <list>
 #include "common/generalallunitssinglesquad.hpp"
-#include "InfluenceMap.hpp"
+#include "influencemap.hpp"
 
 class GeneralKiting : public GeneralAllUnitsSingleSquad
 {

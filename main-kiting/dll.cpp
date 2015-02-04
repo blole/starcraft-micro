@@ -2,9 +2,9 @@
 #include <windows.h>
 #include <BWAPI.h>
 #include "common/main.hpp"
-#include "behaviors/AttackClosest.hpp"
+#include "behaviors/attackclosest.hpp"
 #include "generalkiting.hpp"
-#include "Flee.hpp"
+#include "flee.hpp"
 
 extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
 BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved )

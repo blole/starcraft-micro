@@ -1,5 +1,5 @@
 #include "common/generalallunitssinglesquad.hpp"
-#include "common/PUnit.hpp"
+#include "common/punit.hpp"
 
 using namespace BWAPI;
 

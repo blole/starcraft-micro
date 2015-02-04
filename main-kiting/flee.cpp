@@ -1,6 +1,6 @@
-#include "Flee.hpp"
-#include "common/GameUnit.hpp"
-#include "common/PUnit.hpp"
+#include "flee.hpp"
+#include "common/gameunit.hpp"
+#include "common/punit.hpp"
 
 using namespace BWAPI;
 

@@ -4,18 +4,18 @@
     <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="InfluenceMap.cpp">
+    <ClCompile Include="influencemap.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="Flee.cpp">
+    <ClCompile Include="flee.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InfluenceMap.hpp">
+    <ClInclude Include="influencemap.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="Flee.hpp">
+    <ClInclude Include="flee.hpp">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="generalkiting.hpp">

@@ -1,8 +1,8 @@
 #pragma once
 #include <BWAPI.h>
 #include "common/squad.hpp"
-#include "common/GameUnit.hpp"
-#include "common/OUnit.hpp"
+#include "common/gameunit.hpp"
+#include "common/ounit.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
 
 class PUnit : public GameUnit

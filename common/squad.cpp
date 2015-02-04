@@ -1,5 +1,5 @@
 #include "common/squad.hpp"
-#include "common/PUnit.hpp"
+#include "common/punit.hpp"
 #include "behaviors/moverelative.hpp"
 
 using namespace BWAPI;

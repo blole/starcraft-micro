@@ -1,6 +1,6 @@
-#include "MoveSquadToPosition.hpp"
-#include "common/GameUnit.hpp"
-#include "common/PUnit.hpp"
+#include "movesquadtoposition.hpp"
+#include "common/gameunit.hpp"
+#include "common/punit.hpp"
 //#include <math.h>
 
 

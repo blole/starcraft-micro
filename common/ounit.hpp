@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include "common/GameUnit.hpp"
+#include "common/gameunit.hpp"
 
 class OUnit : public GameUnit
 {

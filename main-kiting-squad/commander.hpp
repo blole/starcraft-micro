@@ -1,10 +1,10 @@
 #pragma once
-#include "common/GameUnit.hpp"
-#include "common/PUnit.hpp"
-#include "common/OUnit.hpp"
+#include "common/gameunit.hpp"
+#include "common/punit.hpp"
+#include "common/ounit.hpp"
 #include <BWAPI.h>
 #include <lib/libbehavior/BehaviorTree.h>
-#include "SquadManager.hpp"
+#include "squadmanager.hpp"
 #include <set>
 
 

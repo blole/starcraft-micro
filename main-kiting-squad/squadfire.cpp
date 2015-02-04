@@ -1,7 +1,7 @@
-#include "SquadFire.hpp"
-#include "common/GameUnit.hpp"
-#include "common/PUnit.hpp"
-#include "SquadManager.hpp"
+#include "squadfire.hpp"
+#include "common/gameunit.hpp"
+#include "common/punit.hpp"
+#include "squadmanager.hpp"
 
 using namespace BWAPI;
 

@@ -1,4 +1,4 @@
-#include "common/OUnit.hpp"
+#include "common/ounit.hpp"
 #include <iostream>
 
 using namespace BWAPI;

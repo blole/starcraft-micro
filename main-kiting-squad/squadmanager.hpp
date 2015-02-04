@@ -1,9 +1,9 @@
 #pragma once
 #include <BWAPI.h>
 #include <set>
-#include "common/GameUnit.hpp"
-#include "common/OUnit.hpp"
-#include "common/PUnit.hpp"
+#include "common/gameunit.hpp"
+#include "common/ounit.hpp"
+#include "common/punit.hpp"
 #include "common/squad.hpp"
 
 class SquadManager : public Squad

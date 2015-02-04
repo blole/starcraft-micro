@@ -1,4 +1,4 @@
-#include "SquadManager.hpp"
+#include "squadmanager.hpp"
 #include <iostream>
 
 using namespace BWAPI;

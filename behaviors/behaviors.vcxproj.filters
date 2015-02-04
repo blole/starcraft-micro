@@ -14,7 +14,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AttackClosest.cpp">
+    <ClCompile Include="attackclosest.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="moverelative.cpp">
@@ -25,7 +25,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AttackClosest.hpp">
+    <ClInclude Include="attackclosest.hpp">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="moverelative.hpp">

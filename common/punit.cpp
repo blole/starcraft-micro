@@ -1,4 +1,4 @@
-#include "common/PUnit.hpp"
+#include "common/punit.hpp"
 #include <iostream>
 
 using namespace BWAPI;

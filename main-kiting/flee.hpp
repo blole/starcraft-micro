@@ -1,7 +1,7 @@
 #pragma once
 #include <lib/libbehavior/BehaviorTree.h>
 #include <BWAPI.h>
-#include "InfluenceMap.hpp"
+#include "influencemap.hpp"
 
 using namespace BehaviorTree;
 

@@ -1,7 +1,7 @@
 #include "BWAPI.h"
 #include "squad_abcd.hpp"
 #include "behaviors/moverelative.hpp"
-#include "common/PUnit.hpp"
+#include "common/punit.hpp"
 #include "search/gamestate.hpp"
 #include "search/actions/action.hpp"
 #include "search/searchers/searcherabcd.hpp"

@@ -1,6 +1,6 @@
 #include "behaviors/attackclosestnok.hpp"
-#include "common/GameUnit.hpp"
-#include "common/PUnit.hpp"
+#include "common/gameunit.hpp"
+#include "common/punit.hpp"
 
 using namespace BWAPI;
 

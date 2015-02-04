@@ -1,4 +1,4 @@
-#include "botSquad.hpp"
+#include "botsquad.hpp"
 #include <iostream>
 
 using namespace BWAPI;

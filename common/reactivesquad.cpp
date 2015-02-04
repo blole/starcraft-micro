@@ -1,6 +1,6 @@
 #include "common/reactivesquad.hpp"
 #include "behaviors/moverelative.hpp"
-#include "common/PUnit.hpp"
+#include "common/punit.hpp"
 #include <exception>
 
 using namespace BWAPI;

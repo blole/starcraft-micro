@@ -11,39 +11,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botSquad.cpp">
+    <ClCompile Include="squadmanager.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="Commander.cpp">
+    <ClCompile Include="botsquad.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="commander.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="MoveSquadToPosition.cpp">
+    <ClCompile Include="movesquadtoposition.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="SquadFire.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="SquadManager.cpp">
+    <ClCompile Include="squadfire.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="botSquad.hpp">
+    <ClInclude Include="botsquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="Commander.hpp">
+    <ClInclude Include="commander.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="MoveSquadToPosition.hpp">
+    <ClInclude Include="movesquadtoposition.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="SquadFire.hpp">
+    <ClInclude Include="squadfire.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="SquadManager.hpp">
+    <ClInclude Include="squadmanager.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

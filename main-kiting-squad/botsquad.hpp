@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include "Commander.hpp"
+#include "commander.hpp"
 
 class botSquad : public BWAPI::AIModule
 {

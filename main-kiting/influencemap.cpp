@@ -1,4 +1,4 @@
-#include "InfluenceMap.hpp"
+#include "influencemap.hpp"
 #include <iostream>
 #include <stdlib.h>
 

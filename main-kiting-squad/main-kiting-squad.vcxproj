@@ -22,19 +22,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botSquad.cpp" />
-    <ClCompile Include="Commander.cpp" />
+    <ClCompile Include="botsquad.cpp" />
+    <ClCompile Include="commander.cpp" />
     <ClCompile Include="dll.cpp" />
-    <ClCompile Include="MoveSquadToPosition.cpp" />
-    <ClCompile Include="SquadFire.cpp" />
-    <ClCompile Include="SquadManager.cpp" />
+    <ClCompile Include="movesquadtoposition.cpp" />
+    <ClCompile Include="squadfire.cpp" />
+    <ClCompile Include="squadmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="botSquad.hpp" />
-    <ClInclude Include="Commander.hpp" />
-    <ClInclude Include="MoveSquadToPosition.hpp" />
-    <ClInclude Include="SquadFire.hpp" />
-    <ClInclude Include="SquadManager.hpp" />
+    <ClInclude Include="botsquad.hpp" />
+    <ClInclude Include="commander.hpp" />
+    <ClInclude Include="movesquadtoposition.hpp" />
+    <ClInclude Include="squadfire.hpp" />
+    <ClInclude Include="squadmanager.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}</ProjectGuid>

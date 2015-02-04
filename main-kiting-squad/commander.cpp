@@ -1,6 +1,6 @@
-#include "Commander.hpp"
-#include "SquadFire.hpp"
-#include "MoveSquadToPosition.hpp"
+#include "commander.hpp"
+#include "squadfire.hpp"
+#include "movesquadtoposition.hpp"
 #include <iostream>
 
 using namespace BWAPI;
