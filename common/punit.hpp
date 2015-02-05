@@ -7,17 +7,16 @@
 
 class PUnit : public GameUnit
 {
-protected:
-	PUnit(BWAPI::Unit unit);
-
 public:
-	// Attributes
 	BehaviorTree::BehaviorTreeNode* brain;
 	BWAPI::PositionOrUnit target;
 	Squad* squad;
 	bool hasTarget;
-
-	// Methods
+	
+protected:
+	PUnit(BWAPI::Unit unit);
+	
+public:
 	bool isAttacking();
 	void setTarget(BWAPI::PositionOrUnit newTarget);
 	void attackTarget(BWAPI::PositionOrUnit newTarget, bool addToQueue);
@@ -27,7 +26,6 @@ public:
 
 	
 public:
-	static std::map<int, PUnit*> units;
-public:
+	static std::unordered_map<int, PUnit*> units;
 	static PUnit* get(BWAPI::Unit unit);
 };

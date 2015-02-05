@@ -4,12 +4,12 @@
 class GameUnit
 {
 public:
-	// Attributes
-	std::string name;
-	BWAPI::Unit unit;	
-	// Constructor
+	BWAPI::Unit unit;
+	
+public:
 	GameUnit(BWAPI::Unit unit);
-	// Methods
+	
+public:
 	int getHp();
 	float getDps();
 	BWAPI::Position getPosition();

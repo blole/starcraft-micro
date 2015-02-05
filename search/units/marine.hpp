@@ -22,7 +22,7 @@ namespace Bot { namespace Search
 
 			std::list<Action*> actions;
 
-			if (!this->groundWeaponCooldown)
+			if (!groundWeaponCooldown)
 			{
 				for each (const Unit* unit in state->enemyUnitsInRange(pos, range))
 				{
@@ -30,7 +30,7 @@ namespace Bot { namespace Search
 				}
 			}
 
-			if (!this->isAttackFrame && !this->isMoving)
+			if (!isAttackFrame && !isMoving)
 			{
 				//TODO: precalc all of these directional offsets..
 				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 2)

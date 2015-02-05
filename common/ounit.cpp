@@ -4,18 +4,20 @@
 using namespace BWAPI;
 using namespace Filter;
 
-std::map<int, OUnit*> OUnit::units;
+std::unordered_map<int, OUnit*> OUnit::units;
 
-	// Constructor
-OUnit::OUnit(BWAPI::Unit unit): GameUnit(unit), dammageAttributed(0.0), numberOfAttackers(0) 
+OUnit::OUnit(BWAPI::Unit unit)
+	: GameUnit(unit)
+	, dammageAttributed(0.0)
+	, numberOfAttackers(0) 
 {
+	OUnit::units[unit->getID()] = this;
 }
 	
-	// Methods
 bool OUnit::willDie()
 {
-	int dammage = (int)this->dammageAttributed;
-	return (this->unit->getHitPoints() < dammage);
+	int damage = (int)dammageAttributed;
+	return unit->getHitPoints() < damage;
 }
 
 OUnit* OUnit::get(BWAPI::Unit unit)
@@ -26,9 +28,5 @@ OUnit* OUnit::get(BWAPI::Unit unit)
 	if (iter != units.end())
 		return iter->second;
 	else
-	{
-		OUnit* u = new OUnit(unit);
-		OUnit::units[id] = u;
-		return u;
-	}
+		return new OUnit(unit);
 }

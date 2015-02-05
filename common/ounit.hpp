@@ -5,16 +5,17 @@
 class OUnit : public GameUnit
 {
 public:
-	// Attributes
 	float dammageAttributed;
 	int numberOfAttackers;
-	// Constructor
+	
+public:
 	OUnit(BWAPI::Unit unit);
-	// Methods
+	
+public:
 	bool willDie();
 
 public:
-	static std::map<int, OUnit*> units;
+	static std::unordered_map<int, OUnit*> units;
 public:
 	static OUnit* get(BWAPI::Unit unit);
 	

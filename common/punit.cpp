@@ -4,7 +4,7 @@
 using namespace BWAPI;
 using namespace Filter;
 
-std::map<int, PUnit*> PUnit::units;
+std::unordered_map<int, PUnit*> PUnit::units;
 
 PUnit::PUnit(Unit unit)
 	: GameUnit(unit)
@@ -13,13 +13,13 @@ PUnit::PUnit(Unit unit)
 	, squad(nullptr)
 	, hasTarget(false)
 {
+	PUnit::units[unit->getID()] = this;
 }
 
-	// Methods
 bool PUnit::isAttacking()
 {
-	//	return (this->unit->isAttacking());
-	return (this->unit->isAttackFrame() || (this->unit->getGroundWeaponCooldown() != 0) || this->unit->isAttacking());
+	//	return (unit->isAttacking());
+	return (unit->isAttackFrame() || (unit->getGroundWeaponCooldown() != 0) || unit->isAttacking());
 }
 
 void PUnit::setTarget(PositionOrUnit newTarget)
@@ -30,13 +30,13 @@ void PUnit::setTarget(PositionOrUnit newTarget)
 
 void PUnit::attackTarget(PositionOrUnit newTarget, bool addToQueue = false)
 {
-	this->setTarget(newTarget);
-	this->unit->attack(target,addToQueue);
+	setTarget(newTarget);
+	unit->attack(target,addToQueue);
 }
 
 Unit PUnit::getClosestEnemy()
 {
-	return this->unit->getClosestUnit(Filter::IsEnemy);
+	return unit->getClosestUnit(Filter::IsEnemy);
 }
 
 
@@ -52,7 +52,7 @@ void PUnit::attackClosestEnemyNonWorried()
 		OUnit* potentialEnemy = i->second;
 		if(!(potentialEnemy->willDie()))
 		{
-			double distI = potentialEnemy->unit->getPosition().getApproxDistance(this->getPosition());
+			double distI = potentialEnemy->unit->getPosition().getApproxDistance(getPosition());
 			if(distI < bestDist)
 			{
 				bestDist = distI;
@@ -70,31 +70,31 @@ void PUnit::attackClosestEnemyNonWorried()
 	// Attack the new target
 	if(!hasTarget)
 	{
-		this->target = bestTarget->unit;
+		target = bestTarget->unit;
 		bestTarget->dammageAttributed += Broodwar->getDamageFrom(
-						this->unit->getType(),this->target.getUnit()->getType());
-		this->unit->attack(this->target);
+						unit->getType(),target.getUnit()->getType());
+		unit->attack(target);
 		hasTarget = true;
 	}
-	else if(this->target.getUnit() != bestTarget->unit)
+	else if(target.getUnit() != bestTarget->unit)
 	{
 		// Update previous target
-		OUnit* previousTarget = OUnit::get(this->target.getUnit());
+		OUnit* previousTarget = OUnit::get(target.getUnit());
 		previousTarget->dammageAttributed -= Broodwar->getDamageFrom(
-						this->unit->getType(),this->target.getUnit()->getType());
+						unit->getType(),target.getUnit()->getType());
 	
 		// Update new target
-		this->target = bestTarget->unit;
+		target = bestTarget->unit;
 		bestTarget->dammageAttributed += Broodwar->getDamageFrom(
-						this->unit->getType(),this->target.getUnit()->getType());
-		this->unit->attack(this->target);
+						unit->getType(),target.getUnit()->getType());
+		unit->attack(target);
 		hasTarget = true;
 	}
 }
 
 bool PUnit::isUnderAttack()
 {
-	return this->unit->isUnderAttack();
+	return unit->isUnderAttack();
 }
 
 
@@ -106,9 +106,5 @@ PUnit* PUnit::get(BWAPI::Unit unit)
 	if (iter != units.end())
 		return iter->second;
 	else
-	{
-		PUnit* u = new PUnit(unit);
-		PUnit::units[id] = u;
-		return u;
-	}
+		return new PUnit(unit);
 }
