@@ -30,6 +30,6 @@ void ReactiveSquad::onFrame()
 {
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });
 
-	for each(PUnit* unit in units)
+	for (PUnit* unit : units)
 		unit->brain->execute(unit);
 }

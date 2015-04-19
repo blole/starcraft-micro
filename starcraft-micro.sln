@@ -12,17 +12,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "search", "search\search.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "heuristic", "heuristic\heuristic.vcxproj", "{DA71CE34-62DC-46BB-B0C5-DC1597185F96}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = ".main-kiting-squad", "main-kiting-squad\main-kiting-squad.vcxproj", "{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main-kiting-squad", "main-kiting-squad\main-kiting-squad.vcxproj", "{C5D890E4-35F1-454F-AEFB-93B3F0EEA5EA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = ".main-attack-closest", "main-attack-closest\main-attack-clostest.vcxproj", "{70A9681A-02BD-43B9-B17F-291BD1F0A26A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main-attack-closest", "main-attack-closest\main-attack-clostest.vcxproj", "{70A9681A-02BD-43B9-B17F-291BD1F0A26A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = ".main-attack-closest-nok", "main-attack-closest-nok\main-attack-clostest-nok.vcxproj", "{A9BC283F-F0E2-4939-B55E-A3D01CEC4265}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main-attack-closest-nok", "main-attack-closest-nok\main-attack-clostest-nok.vcxproj", "{A9BC283F-F0E2-4939-B55E-A3D01CEC4265}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = ".main-abcd", "main-abcd\main-abcd.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main-abcd", "main-abcd\main-abcd.vcxproj", "{2E63AE74-758A-4607-9DE4-D28E814A6E13}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = ".main-kiting", "main-kiting\main-kiting.vcxproj", "{B00F666A-BDF3-46A3-AF97-B34DD3410783}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main-kiting", "main-kiting\main-kiting.vcxproj", "{B00F666A-BDF3-46A3-AF97-B34DD3410783}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = ".main-mcts", "main-mcts\main-mcts.vcxproj", "{F956096F-4030-468C-92CF-F7DD683BDC62}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main-mcts", "main-mcts\main-mcts.vcxproj", "{F956096F-4030-468C-92CF-F7DD683BDC62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

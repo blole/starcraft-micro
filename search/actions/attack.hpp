@@ -53,7 +53,8 @@ namespace Bot { namespace Search
 			BWAPI::Unit unit = state->getBwapiUnit(unitID);
 			BWAPI::Unit target = state->getBwapiUnit(targetID);
 			
-			unit->attack(target);
+			if (!unit->isStartingAttack()) //TODO: this line shouldn't be needed
+				unit->attack(target);
 
 			BWAPI::Broodwar->drawLineMap(unit->getPosition(), target->getPosition(),
 				unit->getPlayer() == BWAPI::Broodwar->self() ?

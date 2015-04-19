@@ -17,7 +17,7 @@ namespace Bot { namespace Search
 			std::list<std::vector<Action*>> matrixOfActions;
 			const std::vector<const Unit*>& units = gamestate->getUnits();
 
-			for each(const Unit* unit in units)
+			for (const Unit* unit : units)
 			{
 				if (unit->isAlive() && unit->isPlayerUnit() == current_player)
 				{

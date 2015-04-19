@@ -23,10 +23,10 @@ void SquadABCD::onFrame()
 	std::vector<BWAPI::Unit> playerUnits;
 	std::vector<BWAPI::Unit> enemyUnits;
 
-	for each(PUnit* unit in units)
+	for (PUnit* unit : units)
 	{
 		playerUnits.push_back(unit->unit);
-		for each (BWAPI::Unit enemyUnit in unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
+		for (BWAPI::Unit enemyUnit : unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
 		{
 			if (std::find(enemyUnits.begin(), enemyUnits.end(), enemyUnit) == enemyUnits.end())
 				enemyUnits.push_back(enemyUnit);
@@ -41,7 +41,7 @@ void SquadABCD::onFrame()
 		try {
 			std::list<Action*> actions = searchAlgorithm->search(&state, possibleActions);
 
-			for each (Action* action in actions)
+			for (Action* action : actions)
 			{
 				if (action->isPlayerAction(&state))
 					action->executeOrder(&state);

@@ -7,30 +7,35 @@
 #include "search/units/unit.hpp"
 #include "search/actions/action.hpp"
 
-namespace Bot { namespace Search
+namespace Bot { namespace Search { namespace UCT
 {
-	class NodeUCT;
+	class Node;
 
-	class NodeChild
+	class ActionNodePair
 	{
 	public:
 		Action* action;
-		NodeUCT* node;
+		Node* node;
 
-		NodeChild(Action* action, NodeUCT* node = nullptr)
+		ActionNodePair(Action* action, Node* node = nullptr)
 			: action(action)
 			, node(node)
 		{}
+		~ActionNodePair()
+		{
+			delete action;
+			delete node;
+		}
 	};
 
 
 
-	class NodeUCT
+	class Node
 	{
 	public:
-		NodeUCT* const parent;
+		Node* const parent;
 		GameState* const gamestate;
-		std::vector<NodeChild> children;
+		std::vector<ActionNodePair> children;
 
 		int visits;
 		double totalReward;
@@ -41,7 +46,7 @@ namespace Bot { namespace Search
 		bool checkedForTerminal;
 
 	public:
-		NodeUCT(NodeUCT* const parent, GameState* const gamestate, ActionLister* actionlister)
+		Node(Node* const parent, GameState* const gamestate, ActionLister* actionlister)
 			: parent(parent)
 			, gamestate(gamestate)
 			, visits(0)
@@ -63,22 +68,16 @@ namespace Bot { namespace Search
 				else
 				{
 					children.reserve(actions.size());
-					for each (Action* action in actions)
-						children.push_back(NodeChild(action));
+					for (Action* action : actions)
+						children.emplace_back(action);
 					break;
 				}
 			}
 		}
 
-		~NodeUCT()
+		~Node()
 		{
-			for each (NodeChild child in children)
-			{
-				delete child.node;
-				delete child.action;
-			}
-
-			if (parent != nullptr)
+			if (!isRoot())
 				delete gamestate;
 		}
 
@@ -93,7 +92,12 @@ namespace Bot { namespace Search
 			return terminal;
 		}
 
-		double UCB(NodeUCT* parent)
+		bool isRoot() const
+		{
+			return parent == nullptr;
+		}
+
+		double UCB(Node* parent)
 		{
 			return totalReward/visits + std::sqrt(std::log((double)parent->visits)/visits);
 		}
@@ -114,20 +118,21 @@ namespace Bot { namespace Search
 			this->actionlister = actionlister;
 
 			DummyPlayerAction rootAction(gamestate);
-			NodeUCT root(nullptr, gamestate, actionlister);
-			NodeChild rootChild(&rootAction, &root);
+			Node root(nullptr, gamestate, actionlister);
+			ActionNodePair rootChild(&rootAction, &root);
 
 			//TODO: constrain in time instead
-			for (int i = 0; i < 3000; i++)
+			for (int i = 0; i < 1000; i++)
 			{
 				traverse(rootChild);
 			}
 			
-			NodeUCT* node = &root;
+			//get root actions
+			Node* node = &root;
 			std::list<Action*> bestActions;
 			while (node->gamestate->getFrame() == 0)
 			{
-				NodeChild child = selectChild(node);
+				const ActionNodePair& child = selectChild(node);
 				bestActions.push_back(child.action->clone());
 				node = child.node;
 			}
@@ -139,7 +144,7 @@ namespace Bot { namespace Search
 		}
 
 	private:
-		double traverse(NodeChild node)
+		double traverse(ActionNodePair node) const
 		{
 			double score;
 
@@ -163,17 +168,17 @@ namespace Bot { namespace Search
 
 		}
 
-		NodeChild selectChild(NodeUCT* parent)
+		const ActionNodePair& selectChild(Node* parent) const
 		{
 			if (!parent->fullyExpanded)
 			{
 				//try to find unexpanded child
 				for (unsigned int i=0; i<parent->children.size(); i++)
 				{
-					NodeChild& child = parent->children[i];
+					ActionNodePair& child = parent->children[i];
 					if (child.node == nullptr)
 					{
-						child.node = new NodeUCT(parent, new GameState(parent->gamestate, child.action), actionlister);
+						child.node = new Node(parent, new GameState(parent->gamestate, child.action), actionlister);
 						return child;
 					}
 				}
@@ -184,45 +189,45 @@ namespace Bot { namespace Search
 			return bestChild(parent);
 		}
 		
-		NodeChild bestChild(NodeUCT* parent)
+		const ActionNodePair& bestChild(Node* parent) const
 		{
 			assert(parent->fullyExpanded);
 
-			NodeChild best = parent->children[0];
+			ActionNodePair& best = parent->children[0];
 			double bestUCB = best.node->UCB(parent);
 
 			for (unsigned int i=1; i<parent->children.size(); i++)
 			{
-				NodeChild child = parent->children[i];
+				ActionNodePair& child = parent->children[i];
 				double ucb = child.node->UCB(parent);
 				if (bestUCB < ucb)
 				{
-					best = child;
 					bestUCB = ucb;
+					best = child;
 				}
 			}
 			
 			return best;
 		}
 
-		double playout(GameState* gamestate)
+		double playout(GameState* gamestate) const
 		{
 			//TODO: handle if node is terminal and step through nodes
 			return evaluate(gamestate);
 		}
 
-		double evaluate(GameState* gamestate)
+		double evaluate(GameState* gamestate) const
 		{
 			double sum = 0;
 
-			for each (const Unit* unit in gamestate->playerUnits())
+			for (const Unit* unit : gamestate->playerUnits())
 			{
 				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
 				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
 				sum += std::sqrt((double)unit->hp)*dmg / cd;
 			}
 
-			for each (const Unit* unit in gamestate->enemyUnits())
+			for (const Unit* unit : gamestate->enemyUnits())
 			{
 				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
 				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
@@ -232,4 +237,4 @@ namespace Bot { namespace Search
 			return sum;
 		}
 	};
-}}
+}}}

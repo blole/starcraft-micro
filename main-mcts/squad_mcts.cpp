@@ -15,7 +15,7 @@ using namespace Bot::Search;
 
 void SquadMCTS::onFrame()
 {
-	static Searcher* searchAlgorithm = new SearcherUCT();
+	static Searcher* searchAlgorithm = new UCT::SearcherUCT();
 	static ActionLister* actionlister = new BranchOnUnit();
 
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });
@@ -23,13 +23,13 @@ void SquadMCTS::onFrame()
 	std::vector<BWAPI::Unit> playerUnits;
 	std::vector<BWAPI::Unit> enemyUnits;
 
-	for each(PUnit* unit in units)
+	for (PUnit* unit : units)
 	{
 		playerUnits.push_back(unit->unit);
-		for each (BWAPI::Unit enemyUnit in unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
+		for (auto& u : unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
 		{
-			if (std::find(enemyUnits.begin(), enemyUnits.end(), enemyUnit) == enemyUnits.end())
-				enemyUnits.push_back(enemyUnit);
+			if (std::find(enemyUnits.begin(), enemyUnits.end(), u) == enemyUnits.end())
+				enemyUnits.push_back(u);
 		}
 	}
 
@@ -41,7 +41,7 @@ void SquadMCTS::onFrame()
 			int gameframe = BWAPI::Broodwar->getFrameCount();
 			std::list<Action*> actions = searchAlgorithm->search(&state, actionlister);
 
-			for each (Action* action in actions)
+			for (Action* action : actions)
 			{
 				if (action->isPlayerAction(&state))
 					action->executeOrder(&state);

@@ -12,7 +12,7 @@ Unit::Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	, isAttackFrame(false)
 	, groundWeaponCooldown(false)
 {
-	if (bwapiUnit->isAttackFrame() ||
+	if (bwapiUnit->isAttackFrame() || bwapiUnit->isStartingAttack() ||
 		(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 		 bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))
 	{

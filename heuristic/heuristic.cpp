@@ -2,23 +2,17 @@
 
 using namespace Bot::Search;
 
-Heuristic::Heuristic()
-{}
-
-HitPointDifference::HitPointDifference() : Heuristic()
-{}
-
 float HitPointDifference::value(GameState* pGameState)
 {
 	auto playerUnits = pGameState->playerUnits();
 	auto opponentUnits = pGameState->enemyUnits();
 	float value = 0;
-	for each(auto unit in playerUnits)
+	for (auto unit : playerUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 		value += currentUnit->getHitPoints();
 	}
-	for each(auto unit in opponentUnits)
+	for (auto unit : opponentUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 		value -= currentUnit->getHitPoints();
@@ -26,15 +20,12 @@ float HitPointDifference::value(GameState* pGameState)
 	return value;
 }
 
-LifeTimeDamage1::LifeTimeDamage1() : Heuristic()
-{}
-
 float LifeTimeDamage1::value(GameState* pGameState)
 {
 	float value = 0;
 	auto playerUnits = pGameState->playerUnits();
 	auto opponentUnits = pGameState->enemyUnits();
-	for each(auto unit in playerUnits)
+	for (auto unit : playerUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
@@ -45,7 +36,7 @@ float LifeTimeDamage1::value(GameState* pGameState)
 
 		value += dpf * currentUnit->getHitPoints();
 	}
-	for each(auto unit in opponentUnits)
+	for (auto unit : opponentUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
@@ -59,15 +50,12 @@ float LifeTimeDamage1::value(GameState* pGameState)
 	return value;
 }
 
-LifeTimeDamage2::LifeTimeDamage2() : Heuristic()
-{}
-
 float LifeTimeDamage2::value(GameState* pGameState)
 {
 	auto playerUnits = pGameState->playerUnits();
 	auto opponentUnits = pGameState->enemyUnits();
 	float value = 0;
-	for each(auto unit in playerUnits)
+	for (auto unit : playerUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			
@@ -78,7 +66,7 @@ float LifeTimeDamage2::value(GameState* pGameState)
 
 		value += dpf * std::sqrt((float)currentUnit->getHitPoints());
 	}
-	for each(auto unit in opponentUnits)
+	for (auto unit : opponentUnits)
 	{
 		BWAPI::Unit currentUnit = pGameState->getBwapiUnit(unit);
 			

@@ -25,10 +25,10 @@ GameState::GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Un
 
 	id_t id = 0;
 
-	for each (BWAPI::Unit playerUnit in playerUnits)
+	for (BWAPI::Unit playerUnit : playerUnits)
 		units.push_back(Unit::create(this, playerUnit, id++));
 
-	for each (BWAPI::Unit enemyUnit in enemyUnits)
+	for (BWAPI::Unit enemyUnit : enemyUnits)
 		units.push_back(Unit::create(this, enemyUnit, id++));
 }
 
@@ -40,7 +40,7 @@ std::list<const Unit*> GameState::unitsInRange(const std::list<const Unit*>& out
 {
 	std::list<const Unit*> inRange;
 
-	for each (const Unit* unit in outOf)
+	for (const Unit* unit : outOf)
 	{
 		if (!unit->isAlive())
 			continue;
@@ -100,7 +100,7 @@ void GameState::advanceFrames(unsigned int framesToAdvance)
 		frame++;
 		auto effects = pendingEffects.getEffects(i);
 		pendingEffects.advanceFrames(1);
-		for each (auto effect in effects)
+		for (auto effect : effects)
 			effect->applyTo(this);
 	}
 }
@@ -116,7 +116,7 @@ void GameState::addEffect(int frameOffset, Action* action)
 bool GameState::isTerminal()
 {
 	bool anyFriendlyAlive = false;
-	for each (const Unit* unit in playerUnits())
+	for (const Unit* unit : playerUnits())
 	{
 		if (unit->isAlive())
 		{
@@ -126,7 +126,7 @@ bool GameState::isTerminal()
 	}
 
 	bool anyEnemyAlive = false;
-	for each (const Unit* unit in enemyUnits())
+	for (const Unit* unit : enemyUnits())
 	{
 		if (unit->isAlive())
 		{

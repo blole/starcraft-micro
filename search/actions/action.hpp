@@ -42,14 +42,14 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state, int frameOffset)
 		{
-			for each (Action* action in actions)
+			for (Action* action : actions)
 				action->applyTo(state, frameOffset);
 		}
 
 		virtual void executeOrder(GameState* state)
 		{
 			BWAPI::Broodwar << "Will execute : " << actions.size() << " actions." << std::endl;
-			for each (Action* action in actions)
+			for (Action* action : actions)
 				action->executeOrder(state);
 		}
 

@@ -5,7 +5,7 @@ using namespace BWAPI;
 
 void GeneralAllUnitsSingleSquad::onFrame()
 {
-	for each (BWAPI::Unit u in Broodwar->self()->getUnits())
+	for (BWAPI::Unit u : Broodwar->self()->getUnits())
 	{
 		if (!u->exists() || !u->getType().canAttack() ||
 			u->getType().isWorker() || u->getType().isBuilding() ||
@@ -23,13 +23,13 @@ void GeneralAllUnitsSingleSquad::onFrame()
 		}
 	}
 	
-	for each (Squad* squad in squads)
+	for (Squad* squad : squads)
 		squad->onFrame();
 	
 	//text overlay
 	Broodwar->drawTextScreen(1, 0, "squads: %d", squads.size());
 	int i = 0;
-	for each (Squad* squad in squads)
+	for (Squad* squad : squads)
 	{
 		Broodwar->drawTextScreen(1, (i+1)*15, "squad %d: %d units", i, squad->units.size());
 		i++;

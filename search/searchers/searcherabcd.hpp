@@ -55,7 +55,7 @@ namespace Bot { namespace Search
 			actions = actionlister->actions(gamestate);
 
 			children.reserve(actions.size());
-			for each (Action* action in actions)
+			for (Action* action : actions)
 				children.push_back(NodeChild(action));
 		}
 
@@ -97,7 +97,7 @@ namespace Bot { namespace Search
 				return std::list<Action*>();
 			else
 			{
-				for each(auto child in root->children)
+				for (auto child : root->children)
 				{
 					auto childGenerated = new NodeABCD(root, new GameState(root->gamestate, child.action), actionlister);
 					valueChildren.push_back(alphabeta(childGenerated,20,-10000,10000,false,this->actionlister));
@@ -133,7 +133,7 @@ namespace Bot { namespace Search
 
 			if(!node->children.empty()) // "normal" alpha-beta !
 			{
-				for each(auto child in node->children)
+				for (auto child : node->children)
 				{
 					((BranchOnPlayer*)actionlister)->switchPlayer(!player);
 					auto childGenerated = new NodeABCD(node, new GameState(node->gamestate, child.action), actionlister);
@@ -178,14 +178,14 @@ namespace Bot { namespace Search
 		{
 			double sum = 0;
 
-			for each (const Unit* unit in gamestate->playerUnits())
+			for (const Unit* unit : gamestate->playerUnits())
 			{
 				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
 				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
 				sum += std::sqrt((double)unit->hp)*dmg / cd;
 			}
 
-			for each (const Unit* unit in gamestate->enemyUnits())
+			for (const Unit* unit : gamestate->enemyUnits())
 			{
 				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
 				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();

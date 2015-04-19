@@ -24,7 +24,7 @@ namespace Bot { namespace Search
 
 			if (!groundWeaponCooldown)
 			{
-				for each (const Unit* unit in state->enemyUnitsInRange(pos, range))
+				for (const Unit* unit : state->enemyUnitsInRange(pos, range))
 				{
 					actions.push_back(new Attack<6>(state, this, unit));
 				}
