@@ -8,10 +8,11 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(BWAPI_DIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BWAPI_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+	  
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPI$(DebugSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(BWAPI_ROOT)/lib/BWAPI$(DebugSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
