@@ -23,6 +23,7 @@
     <ClInclude Include="..\search\units\unit.hpp" />
     <ClInclude Include="actionlisters\branchonplayer.hpp" />
     <ClInclude Include="actions\attack.hpp" />
+    <ClInclude Include="actions\effect.hpp" />
     <ClInclude Include="actions\move.hpp" />
     <ClInclude Include="actions\sync.hpp" />
     <ClInclude Include="pendingeffects.hpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="actionlisters\branchonunit.hpp" />
     <ClCompile Include="..\search\gamestate.cpp" />
     <ClCompile Include="..\search\units\unit.cpp" />
+    <ClCompile Include="actions\effect.cpp" />
     <ClCompile Include="units\marine.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

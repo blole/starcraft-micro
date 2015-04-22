@@ -9,6 +9,7 @@ typedef int id_t;
 
 namespace Bot { namespace Search
 {
+	template <int,class> class Effect;
 	class Action;
 	class Unit;
 
@@ -33,6 +34,8 @@ namespace Bot { namespace Search
 		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);
+		template <template<int, class> class Eff, int A, class B, typename = std::enable_if<std::is_base_of<Effect<A, B>, Eff<A, B>>::value>::type>
+		void queueEffect(int frameOffset, Eff<A, B>* action) {}
 		void addEffect(int frameOffset, Action* action);
 
 		std::list<const Unit*> playerUnits() const;

@@ -105,6 +105,16 @@ void GameState::advanceFrames(unsigned int framesToAdvance)
 	}
 }
 
+
+//template <template<int, class> class Eff, int A, class B, typename std::enable_if<std::is_base_of<Effect<A, B>, Eff<A, B>>::value>::type>
+//void GameState::addEffect(int frameOffset, Eff<A, B>* effect)
+//{
+	//if (frameOffset == 0)
+	//	effect->applyTo(this);
+	//else
+	//	pendingEffects.addEffect(frameOffset, effect);
+//}
+
 void GameState::addEffect(int frameOffset, Action* action)
 {
 	if (frameOffset == 0)
