@@ -1,16 +1,15 @@
 #pragma once
 #include <BWAPI.h>
 #include <vector>
+#include <deque>
 #include <list>
 #include <map>
-#include "search/pendingeffects.hpp"
 
 typedef int id_t;
 
 namespace Bot { namespace Search
 {
-	template <int,class> class Effect;
-	class Action;
+	class Effect;
 	class Unit;
 
 	class GameState
@@ -19,14 +18,18 @@ namespace Bot { namespace Search
 	private:
 		static std::vector<BWAPI::Unit> bwapiUnits;
 		static int playerUnitCount;
-
+	public:
+		static BWAPI::Unit getBwapiUnit(const id_t id) { return bwapiUnits[id]; }
+		
+		
+		
+	private:
 		std::vector<Unit*> units;
-		PendingEffects pendingEffects;
+		std::deque<std::vector<Effect*>> pendingEffects;
 		unsigned int frame;
 
 	public:
 		GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Unit> enemyUnits);
-		GameState(const GameState* parent, Action* action);
 		~GameState();
 
 	public:
@@ -34,18 +37,14 @@ namespace Bot { namespace Search
 		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);
-		template <template<int, class> class Eff, int A, class B, typename = std::enable_if<std::is_base_of<Effect<A, B>, Eff<A, B>>::value>::type>
-		void queueEffect(int frameOffset, Eff<A, B>* action) {}
-		void addEffect(int frameOffset, Action* action);
+		void queueEffect(unsigned int frameOffset, Effect* effect);
 
 		std::list<const Unit*> playerUnits() const;
 		std::list<const Unit*> enemyUnits() const;
 		const std::vector<const Unit*>& getUnits() const;
 
-		const Unit* getUnit(id_t id) const;
-		Unit* getUnitModifiable(id_t id);
-		BWAPI::Unit getBwapiUnit(id_t id) const;
-		BWAPI::Unit getBwapiUnit(const Unit* unit) const;
+		const Unit* getUnit(const id_t id) const;
+		Unit* getUnitModifiable(const id_t id);
 
 		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int maxRange) const;
 		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const;

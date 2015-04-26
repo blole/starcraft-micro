@@ -1,14 +1,15 @@
 #pragma once
 #include <BWAPI.h>
 #include <vector>
-#include <list>
-#include "search/gamestate.hpp"
 
 namespace Bot { namespace Search
 {
+	class Effect;
+	class GameState;
+
 	class ActionLister
 	{
 	public:
-		virtual std::list<Action*> actions(const GameState* gamestate) const = 0;
+		virtual std::vector<Effect*> actions(const GameState* gamestate) const = 0;
 	};
 }}

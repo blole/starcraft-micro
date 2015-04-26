@@ -1,74 +1,86 @@
 #pragma once
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
-#include "search/actions/action.hpp"
+#include "search/actions/effect.hpp"
 #include <BWAPI.h>
 
 namespace Bot { namespace Search
 {
-	template<int AttackFrames> //TODO: weapon cooldown
-	class Attack : public TwoUnitAction
+	template<int offset = 0, class NextEffect = void>
+	class BeginAttack : public TwoUnitEffect<offset, NextEffect>
 	{
 	public:
-		Attack(const GameState* state, const Unit* unit, const Unit* target)
-			: TwoUnitAction(state, unit, target)
+		BeginAttack(const id_t unitID, const id_t targetID)
+			: TwoUnitEffect(unitID, targetID)
 		{}
 
-		virtual void applyTo(GameState* state, int frameOffset)
+		virtual void applyTo(GameState* state) const override
 		{
-			switch (frameOffset)
-			{
-			case 0:
-				{
-					Unit* unit = state->getUnitModifiable(unitID);
-					unit->isAttackFrame = true;
-					unit->groundWeaponCooldown = true;
-
-					state->addEffect(1, this);
-					state->addEffect(AttackFrames, this);
-					state->addEffect(state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown(), this);
-					return;
-				}
-			case 1:
-				if (state->getUnit(unitID)->isAlive())
-				{
-					Unit* target = state->getUnitModifiable(targetID);
-					target->hp -= state->getBwapiUnit(unitID)->getType().groundWeapon().damageAmount();
-				}
-				return;
-			case AttackFrames:
-				Unit* unit = state->getUnitModifiable(unitID);
-				unit->isAttackFrame = false;
-				return;
-			}
-			if (frameOffset == state->getBwapiUnit(unitID)->getType().groundWeapon().damageCooldown())
-			{
-				Unit* unit = state->getUnitModifiable(unitID);
-				unit->groundWeaponCooldown = false;
-			}
+			Unit* unit = state->getUnitModifiable(unitID);
+			unit->isAttackFrame = true;
+			unit->groundWeaponCooldown = true;
+			queueNext(state);
 		}
-
-		virtual void executeOrder(GameState* state)
+		
+		virtual void executeOrder(GameState* state) const override
 		{
 			BWAPI::Unit unit = state->getBwapiUnit(unitID);
 			BWAPI::Unit target = state->getBwapiUnit(targetID);
-			
+
 			if (!unit->isStartingAttack()) //TODO: this line shouldn't be needed
 				unit->attack(target);
 
 			BWAPI::Broodwar->drawLineMap(unit->getPosition(), target->getPosition(),
 				unit->getPlayer() == BWAPI::Broodwar->self() ?
-					BWAPI::Colors::Red : BWAPI::Colors::Blue);
+				BWAPI::Colors::Red : BWAPI::Colors::Blue);
 		}
-
-		virtual bool isPlayerAction(const GameState* state) const
+	};
+	
+	
+	template<int damage, int offset = 0, class NextEffect = void>
+	class ApplyDamage : public TwoUnitEffect<offset, NextEffect>
+	{
+	public:
+		ApplyDamage(const id_t unitID, const id_t targetID)
+			: TwoUnitEffect(unitID, targetID)
+		{}
+		
+		virtual void applyTo(GameState* state) const override
 		{
-			return state->getUnit(unitID)->isPlayerUnit();
+			state->getUnitModifiable(targetID)->hp -= damage;
+			queueNext(state);
 		}
+	};
+	
+	
+	template <int offset = 0, class NextEffect = void>
+	class ClearAttackFrame : public SingleUnitEffect<offset, NextEffect>
+	{
+	public:
+		ClearAttackFrame(const id_t unitID)
+			: SingleUnitEffect(unitID)
+		{}
 
-		virtual Attack* clone() const
+		virtual void applyTo(GameState* state) const override
 		{
-			return new Attack(*this);
+			state->getUnitModifiable(unitID)->isAttackFrame = false;
+			queueNext(state);
+		}
+	};
+
+	
+	template <int offset = 0, class NextEffect = void>
+	class ClearGroundWeaponCooldown : public SingleUnitEffect<offset, NextEffect>
+	{
+	public:
+		ClearGroundWeaponCooldown(const id_t unitID)
+			: SingleUnitEffect(unitID)
+		{}
+		
+		virtual void applyTo(GameState* state) const override
+		{
+			state->getUnitModifiable(unitID)->groundWeaponCooldown = false;
+			queueNext(state);
 		}
 	};
 }}

@@ -3,7 +3,7 @@
 #include "behaviors/moverelative.hpp"
 #include "common/punit.hpp"
 #include "search/gamestate.hpp"
-#include "search/actions/action.hpp"
+#include "search/actions/effect.hpp"
 #include "search/searchers/searcheruct.hpp"
 #include "search/actionlisters/branchonunit.hpp"
 #include <exception>
@@ -39,9 +39,9 @@ void SquadMCTS::onFrame()
 	{
 		try {
 			int gameframe = BWAPI::Broodwar->getFrameCount();
-			std::list<Action*> actions = searchAlgorithm->search(&state, actionlister);
+			std::vector<Effect*> actions = searchAlgorithm->search(&state, actionlister);
 
-			for (Action* action : actions)
+			for (Effect* action : actions)
 			{
 				if (action->isPlayerAction(&state))
 					action->executeOrder(&state);

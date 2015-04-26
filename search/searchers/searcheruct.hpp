@@ -5,7 +5,8 @@
 #include <cassert>
 #include "search/searchers/searcher.hpp"
 #include "search/units/unit.hpp"
-#include "search/actions/action.hpp"
+#include "search/actions/effect.hpp"
+#include <boost/ptr_container/clone_allocator.hpp>
 
 namespace Bot { namespace Search { namespace UCT
 {
@@ -14,10 +15,10 @@ namespace Bot { namespace Search { namespace UCT
 	class ActionNodePair
 	{
 	public:
-		Action* action;
+		Effect* action;
 		Node* node;
 
-		ActionNodePair(Action* action, Node* node = nullptr)
+		ActionNodePair(Effect* action, Node* node = nullptr)
 			: action(action)
 			, node(node)
 		{}
@@ -55,7 +56,7 @@ namespace Bot { namespace Search { namespace UCT
 			, terminal(false)
 			, checkedForTerminal(false)
 		{
-			std::list<Action*> actions;
+			std::vector<Effect*> actions;
 			while (!gamestate->isTerminal())
 			{
 				//advance while we have not reached a terminal state and
@@ -68,7 +69,7 @@ namespace Bot { namespace Search { namespace UCT
 				else
 				{
 					children.reserve(actions.size());
-					for (Action* action : actions)
+					for (Effect* action : actions)
 						children.emplace_back(action);
 					break;
 				}
@@ -111,29 +112,28 @@ namespace Bot { namespace Search { namespace UCT
 		ActionLister* actionlister;
 
 	public:
-		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
+		std::vector<Effect*> search(GameState* gamestate, ActionLister* actionlister)
 		{
 			assert(!gamestate->isTerminal());
 
 			this->actionlister = actionlister;
 
-			DummyPlayerAction rootAction(gamestate);
+			NoEffect noEffect;
 			Node root(nullptr, gamestate, actionlister);
-			ActionNodePair rootChild(&rootAction, &root);
+			ActionNodePair rootChild(&noEffect, &root);
 
 			//TODO: constrain in time instead
 			for (int i = 0; i < 1000; i++)
-			{
 				traverse(rootChild);
-			}
 			
 			//get root actions
 			Node* node = &root;
-			std::list<Action*> bestActions;
+			std::vector<Effect*> bestActions;
 			while (node->gamestate->getFrame() == 0)
 			{
-				const ActionNodePair& child = selectChild(node);
-				bestActions.push_back(child.action->clone());
+				ActionNodePair& child = selectChild(node);
+				child.action = nullptr;
+				bestActions.push_back(child.action);
 				node = child.node;
 			}
 
@@ -168,7 +168,7 @@ namespace Bot { namespace Search { namespace UCT
 
 		}
 
-		const ActionNodePair& selectChild(Node* parent) const
+		ActionNodePair& selectChild(Node* parent) const
 		{
 			if (!parent->fullyExpanded)
 			{
@@ -178,7 +178,7 @@ namespace Bot { namespace Search { namespace UCT
 					ActionNodePair& child = parent->children[i];
 					if (child.node == nullptr)
 					{
-						child.node = new Node(parent, new GameState(parent->gamestate, child.action), actionlister);
+						child.node = new Node(parent, new GameState(*parent->gamestate), actionlister);
 						return child;
 					}
 				}
@@ -189,7 +189,7 @@ namespace Bot { namespace Search { namespace UCT
 			return bestChild(parent);
 		}
 		
-		const ActionNodePair& bestChild(Node* parent) const
+		ActionNodePair& bestChild(Node* parent) const
 		{
 			assert(parent->fullyExpanded);
 
@@ -222,15 +222,15 @@ namespace Bot { namespace Search { namespace UCT
 
 			for (const Unit* unit : gamestate->playerUnits())
 			{
-				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
-				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
+				double cd = unit->getBwapiUnit()->getType().groundWeapon().damageCooldown();
+				double dmg = unit->getBwapiUnit()->getType().groundWeapon().damageAmount();
 				sum += std::sqrt((double)unit->hp)*dmg / cd;
 			}
 
 			for (const Unit* unit : gamestate->enemyUnits())
 			{
-				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
-				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
+				double cd = unit->getBwapiUnit()->getType().groundWeapon().damageCooldown();
+				double dmg = unit->getBwapiUnit()->getType().groundWeapon().damageAmount();
 				sum -= std::sqrt((double)unit->hp)*dmg / cd;
 			}
 

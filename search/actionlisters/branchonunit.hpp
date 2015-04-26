@@ -7,14 +7,14 @@ namespace Bot { namespace Search
 	class BranchOnUnit : public ActionLister
 	{
 	public:
-		virtual std::list<Action*> actions(const GameState* gamestate) const
+		virtual std::vector<Effect*> actions(const GameState* gamestate) const
 		{
 			const std::vector<const Unit*>& units = gamestate->getUnits();
 			for (const Unit* unit : units)
 			{
 				if (unit->isAlive())
 				{
-					std::list<Action*> actions = unit->possibleActions(gamestate);
+					std::vector<Effect*> actions = unit->possibleActions(gamestate);
 
 					/*if (actions.size() > 2)
 					{
@@ -28,7 +28,7 @@ namespace Bot { namespace Search
 				}
 			}
 
-			return std::list<Action*>();
+			return std::vector<Effect*>();
 		}
 	};
 }}

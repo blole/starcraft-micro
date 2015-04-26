@@ -1,19 +1,11 @@
 #include "search/gamestate.hpp"
-#include "search/actions/action.hpp"
 #include "search/units/unit.hpp"
+#include "search/actions/effect.hpp"
 
 using namespace Bot::Search;
 
 std::vector<BWAPI::Unit> GameState::bwapiUnits;
 int GameState::playerUnitCount = -1;
-
-GameState::GameState(const GameState* parent, Action* action)
-	: frame(parent->frame)
-	, units(parent->units)
-	, pendingEffects(parent->pendingEffects)
-{
-	action->applyTo(this);
-}
 
 GameState::GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Unit> enemyUnits)
 	: frame(0)
@@ -72,55 +64,39 @@ std::list<const Unit*> GameState::enemyUnitsInRange(BWAPI::Position origin, int 
 	return enemyUnitsInRange(origin, 0, maxRange);
 }
 
-const Unit* GameState::getUnit(id_t id) const
+const Unit* GameState::getUnit(const id_t id) const
 {
 	return units[id];
 }
 
-Unit* GameState::getUnitModifiable(id_t id)
+Unit* GameState::getUnitModifiable(const id_t id)
 {
 	units[id] = units[id]->clone();
 	return units[id];
 }
 
-BWAPI::Unit GameState::getBwapiUnit(id_t id) const
-{
-	return bwapiUnits[id];
-}
-
-BWAPI::Unit GameState::getBwapiUnit(const Unit* unit) const
-{
-	return bwapiUnits[unit->id];
-}
-
 void GameState::advanceFrames(unsigned int framesToAdvance)
 {
-	for (unsigned int i = 1; i<=framesToAdvance; i++)
+	for (unsigned int i=0; i<framesToAdvance; i++)
 	{
 		frame++;
-		auto effects = pendingEffects.getEffects(i);
-		pendingEffects.advanceFrames(1);
-		for (auto effect : effects)
+		std::vector<Effect*>& effects = pendingEffects.front();
+		for (Effect* effect : effects)
 			effect->applyTo(this);
+		pendingEffects.pop_front();
 	}
 }
 
-
-//template <template<int, class> class Eff, int A, class B, typename std::enable_if<std::is_base_of<Effect<A, B>, Eff<A, B>>::value>::type>
-//void GameState::addEffect(int frameOffset, Eff<A, B>* effect)
-//{
-	//if (frameOffset == 0)
-	//	effect->applyTo(this);
-	//else
-	//	pendingEffects.addEffect(frameOffset, effect);
-//}
-
-void GameState::addEffect(int frameOffset, Action* action)
+void GameState::queueEffect(unsigned int frameOffset, Effect* effect)
 {
 	if (frameOffset == 0)
-		action->applyTo(this);
+		effect->applyTo(this);
 	else
-		pendingEffects.addEffect(frameOffset, action);
+	{
+		if (pendingEffects.size() < frameOffset)
+			pendingEffects.resize(frameOffset);
+		pendingEffects[frameOffset-1].push_back(effect);
+	}
 }
 
 bool GameState::isTerminal()

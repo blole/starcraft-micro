@@ -13,10 +13,10 @@ namespace Bot { namespace Search
 
 	struct NodeChild
 	{
-		Action* const action;
+		Effect* const action;
 		NodeABCD* node;
 
-		NodeChild(Action* const action)
+		NodeChild(Effect* const action)
 			: action(action)
 			, node(nullptr)
 		{}
@@ -51,11 +51,11 @@ namespace Bot { namespace Search
 		{
 			NodeABCD::countNode++;
 
-			std::list<Action*> actions;
+			std::vector<Effect*> actions;
 			actions = actionlister->actions(gamestate);
 
 			children.reserve(actions.size());
-			for (Action* action : actions)
+			for (Effect* action : actions)
 				children.push_back(NodeChild(action));
 		}
 
@@ -82,7 +82,7 @@ namespace Bot { namespace Search
 		int nbFrameAdvanced;
 
 	public:
-		std::list<Action*> search(GameState* gamestate, ActionLister* actionlister)
+		std::vector<Effect*> search(GameState* gamestate, ActionLister* actionlister)
 		{
 			this->actionlister = actionlister;
 			((BranchOnPlayer*)this->actionlister)->switchPlayer(true); //
@@ -94,12 +94,14 @@ namespace Bot { namespace Search
 			nbFrameAdvanced = 0;
 			NodeABCD::countNode = 0;
 			if(root->children.empty())
-				return std::list<Action*>();
+				return std::vector<Effect*>();
 			else
 			{
 				for (auto child : root->children)
 				{
-					auto childGenerated = new NodeABCD(root, new GameState(root->gamestate, child.action), actionlister);
+					GameState* newState = new GameState(*root->gamestate);
+					newState->queueEffect(0, child.action);
+					auto childGenerated = new NodeABCD(root, newState, actionlister);
 					valueChildren.push_back(alphabeta(childGenerated,20,-10000,10000,false,this->actionlister));
 				}
 			}
@@ -115,7 +117,7 @@ namespace Bot { namespace Search
 				}
 			}
 
-			std::list<Action*> result;
+			std::vector<Effect*> result;
 			result.push_back(root->children.at(bestindex).action);
 			BWAPI::Broodwar << "Alpha-beta been called: " << nbcall << " and pruned " << nbPrune << " states." << std::endl;
 			BWAPI::Broodwar << NodeABCD::countNode << " node created." << std::endl;
@@ -136,7 +138,9 @@ namespace Bot { namespace Search
 				for (auto child : node->children)
 				{
 					((BranchOnPlayer*)actionlister)->switchPlayer(!player);
-					auto childGenerated = new NodeABCD(node, new GameState(node->gamestate, child.action), actionlister);
+					GameState* newState = new GameState(*node->gamestate);
+					newState->queueEffect(0, child.action);
+					auto childGenerated = new NodeABCD(node, newState, actionlister);
 					double v = alphabeta(childGenerated, depth-1,alpha,beta,!player, actionlister);
 					if(player && v > alpha) 
 						alpha = v;
@@ -180,15 +184,15 @@ namespace Bot { namespace Search
 
 			for (const Unit* unit : gamestate->playerUnits())
 			{
-				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
-				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
+				double cd = unit->getBwapiUnit()->getType().groundWeapon().damageCooldown();
+				double dmg = unit->getBwapiUnit()->getType().groundWeapon().damageAmount();
 				sum += std::sqrt((double)unit->hp)*dmg / cd;
 			}
 
 			for (const Unit* unit : gamestate->enemyUnits())
 			{
-				double cd = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageCooldown();
-				double dmg = gamestate->getBwapiUnit(unit)->getType().groundWeapon().damageAmount();
+				double cd = unit->getBwapiUnit()->getType().groundWeapon().damageCooldown();
+				double dmg = unit->getBwapiUnit()->getType().groundWeapon().damageAmount();
 				sum -= std::sqrt((double)unit->hp)*dmg / cd;
 			}
 

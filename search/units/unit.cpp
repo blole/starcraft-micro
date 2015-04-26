@@ -1,6 +1,6 @@
 #include "search/units/unit.hpp"
 #include "search/gamestate.hpp"
-#include "search/actions/sync.hpp"
+#include "search/actions/attack.hpp"
 #include "search/units/marine.hpp"
 
 using namespace Bot::Search;
@@ -18,19 +18,19 @@ Unit::Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	{
 		isAttackFrame = true;
 		//TODO: set correct move cooldown
-		state->addEffect(6, new AttackAnimationDone(state, this));
+		state->queueEffect(6, new ClearAttackFrame<>(id));
 	}
 
 	if (bwapiUnit->getGroundWeaponCooldown() != 0)
 	{
 		groundWeaponCooldown = true;
-		state->addEffect(bwapiUnit->getGroundWeaponCooldown(), new GroundWeaponReloaded(state, this));
+		state->queueEffect(bwapiUnit->getGroundWeaponCooldown(), new ClearGroundWeaponCooldown<>(id));
 	}
 	else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 			 bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
 	{
 		groundWeaponCooldown = true;
-		state->addEffect(14, new GroundWeaponReloaded(state, this));
+		state->queueEffect(14, new ClearGroundWeaponCooldown<>(id));
 	}
 }
 

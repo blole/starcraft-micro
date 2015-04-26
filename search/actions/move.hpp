@@ -1,43 +1,45 @@
 #pragma once
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
-#include "search/actions/action.hpp"
 #include <BWAPI.h>
 
 namespace Bot { namespace Search
 {
-	class Move : public SingleUnitAction
+	class Move
+		: public SingleUnitEffect<0, void>
 	{
 		static const int moveQuanta = 25;
 		const BWAPI::Position moveOffset;
 	public:
-		Move(const GameState* state, const Unit* unit, float direction)
-			: SingleUnitAction(state, unit)
-			, moveOffset(
-				BWAPI::Position(
-					(int)(std::cos(direction)*state->getBwapiUnit(unit)->getType().topSpeed()),
-					(int)(std::sin(direction)*state->getBwapiUnit(unit)->getType().topSpeed())))
+		Move(const Unit* unit, float direction)
+			: Move(unitID, BWAPI::Position(
+				(int)(std::cos(direction) * unit->getBwapiUnit()->getType().topSpeed()),
+				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed())))
 		{}
 
-		virtual void applyTo(GameState* state, int frameOffset)
+		Move(const id_t unitID, const BWAPI::Position moveOffset)
+			: SingleUnitEffect(unitID)
+			, moveOffset(moveOffset)
+		{}
+
+		virtual void applyTo(GameState* state) const override
 		{
 			Unit* unit = state->getUnitModifiable(unitID);
-			if (!unit->isAlive() || unit->isAttackFrame || frameOffset >= moveQuanta)
+			if (!unit->isAlive() || unit->isAttackFrame)
 			{
 				unit->isMoving = false;
 			}
 			else
 			{
-				state->addEffect(1, this);
+				state->queueEffect(1, new Move(unitID, moveOffset));
 
-				if (frameOffset == 0)
-					unit->isMoving = true;
-				else
+				if (unit->isMoving)
 					unit->pos += moveOffset;
+				unit->isMoving = true;
 			}
 		}
 
-		virtual void executeOrder(GameState* state)
+		virtual void executeOrder(GameState* state) const override
 		{
 			BWAPI::Unit unit = state->getBwapiUnit(unitID);
 
@@ -46,14 +48,9 @@ namespace Bot { namespace Search
 			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + moveOffset*10, BWAPI::Colors::Grey);
 		}
 
-		virtual bool isPlayerAction(const GameState* state) const
+		virtual bool isPlayerAction(const GameState* state) const override
 		{
 			return state->getUnit(unitID)->isPlayerUnit();
-		}
-
-		virtual Move* clone() const
-		{
-			return new Move(*this);
 		}
 	};
 }}

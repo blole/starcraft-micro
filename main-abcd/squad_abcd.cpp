@@ -3,7 +3,7 @@
 #include "behaviors/moverelative.hpp"
 #include "common/punit.hpp"
 #include "search/gamestate.hpp"
-#include "search/actions/action.hpp"
+#include "search/actions/effect.hpp"
 #include "search/searchers/searcherabcd.hpp"
 #include "search/actionlisters/branchonplayer.hpp"
 #include <exception>
@@ -39,18 +39,18 @@ void SquadABCD::onFrame()
 	if (!state.isTerminal())
 	{
 		try {
-			std::list<Action*> actions = searchAlgorithm->search(&state, possibleActions);
+			std::vector<Effect*> actions = searchAlgorithm->search(&state, possibleActions);
 
-			for (Action* action : actions)
+			for (Effect* action : actions)
 			{
 				if (action->isPlayerAction(&state))
 					action->executeOrder(&state);
 			}
-		} catch(const std::runtime_error&) {
+		} catch (const std::runtime_error&) {
 			throw;
-		} catch(const std::exception&) {
+		} catch (const std::exception&) {
 			throw;
-		} catch(...) {
+		} catch (...) {
 			abort();
 		}
 	}

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <!--<Filter Include="Resource Files">
@@ -45,9 +45,6 @@
     <ClInclude Include="..\search\actionlisters\actionlister.hpp">
       <Filter>actionlisters</Filter>
     </ClInclude>
-    <ClInclude Include="..\search\actions\action.hpp">
-      <Filter>actions</Filter>
-    </ClInclude>
     <ClInclude Include="..\search\units\unit.hpp">
       <Filter>units</Filter>
     </ClInclude>
@@ -57,13 +54,7 @@
     <ClInclude Include="actions\move.hpp">
       <Filter>actions</Filter>
     </ClInclude>
-    <ClInclude Include="pendingeffects.hpp">
-      <Filter>gamestate</Filter>
-    </ClInclude>
     <ClInclude Include="actions\attack.hpp">
-      <Filter>actions</Filter>
-    </ClInclude>
-    <ClInclude Include="actions\sync.hpp">
       <Filter>actions</Filter>
     </ClInclude>
     <ClInclude Include="searchers\searcheruct.hpp">
@@ -76,6 +67,9 @@
       <Filter>searchers</Filter>
     </ClInclude>
     <ClInclude Include="actions\effect.hpp">
+      <Filter>actions</Filter>
+    </ClInclude>
+    <ClInclude Include="actions\compositeeffect.hpp">
       <Filter>actions</Filter>
     </ClInclude>
   </ItemGroup>
