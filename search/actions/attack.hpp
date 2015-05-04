@@ -6,12 +6,12 @@
 
 namespace Bot { namespace Search
 {
-	template<int offset = 0, class NextEffect = void>
-	class BeginAttack : public TwoUnitEffect<offset, NextEffect>
+	template<class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
+	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<offset, NextEffect>
 	{
 	public:
-		BeginAttack(const id_t unitID, const id_t targetID)
-			: TwoUnitEffect(unitID, targetID)
+		BeginAttack(const Data& data)
+			: TwoUnitEffect(data)
 		{}
 
 		virtual void applyTo(GameState* state) const override
@@ -19,7 +19,7 @@ namespace Bot { namespace Search
 			Unit* unit = state->getUnitModifiable(unitID);
 			unit->isAttackFrame = true;
 			unit->groundWeaponCooldown = true;
-			queueNext(state);
+			queueNext(state, data);
 		}
 		
 		virtual void executeOrder(GameState* state) const override
@@ -37,50 +37,50 @@ namespace Bot { namespace Search
 	};
 	
 	
-	template<int damage, int offset = 0, class NextEffect = void>
-	class ApplyDamage : public TwoUnitEffect<offset, NextEffect>
+	template <int damage, class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
+	class ApplyDamage : public TwoUnitEffect<Data>, public EffectChain<offset, NextEffect>
 	{
 	public:
-		ApplyDamage(const id_t unitID, const id_t targetID)
-			: TwoUnitEffect(unitID, targetID)
+		ApplyDamage(const Data& data)
+			: TwoUnitEffect(data)
 		{}
 		
 		virtual void applyTo(GameState* state) const override
 		{
 			state->getUnitModifiable(targetID)->hp -= damage;
-			queueNext(state);
+			queueNext(state, data);
 		}
 	};
 	
 	
-	template <int offset = 0, class NextEffect = void>
-	class ClearAttackFrame : public SingleUnitEffect<offset, NextEffect>
+	template <class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
+	class ClearAttackFrame : public OneUnitEffect<Data>, public EffectChain<offset, NextEffect>
 	{
 	public:
-		ClearAttackFrame(const id_t unitID)
-			: SingleUnitEffect(unitID)
+		ClearAttackFrame(const Data& data)
+			: OneUnitEffect(data)
 		{}
 
 		virtual void applyTo(GameState* state) const override
 		{
 			state->getUnitModifiable(unitID)->isAttackFrame = false;
-			queueNext(state);
+			queueNext(state, data);
 		}
 	};
-
 	
-	template <int offset = 0, class NextEffect = void>
-	class ClearGroundWeaponCooldown : public SingleUnitEffect<offset, NextEffect>
+	
+	template <class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
+	class ClearGroundWeaponCooldown : public OneUnitEffect<Data>, public EffectChain<offset, NextEffect>
 	{
 	public:
-		ClearGroundWeaponCooldown(const id_t unitID)
-			: SingleUnitEffect(unitID)
+		ClearGroundWeaponCooldown(const Data& data)
+			: OneUnitEffect(data)
 		{}
-		
+
 		virtual void applyTo(GameState* state) const override
 		{
 			state->getUnitModifiable(unitID)->groundWeaponCooldown = false;
-			queueNext(state);
+			queueNext(state, data);
 		}
 	};
 }}

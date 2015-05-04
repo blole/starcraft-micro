@@ -9,12 +9,19 @@ namespace Bot { namespace Search
 {
 	class Terran_Marine : public Unit
 	{
-		//typedef BeginAttack <> Attack;
-		//typedef ApplyDamage <8> Attack;
+		//typedef ClearAttackFrame <OneUnitEffectData> Attack;
+		//typedef ClearAttackFrame <OneUnitEffectData, 7, ClearAttackFrame<OneUnitEffectData>> Attack;
+		//typedef BeginAttack <TwoUnitEffectData> Attack;
+		//typedef BeginAttack <TwoUnitEffectData, 7, BeginAttack<TwoUnitEffectData>> Attack;
+		//typedef BeginAttack <TwoUnitEffectData, 7, ClearAttackFrame<TwoUnitEffectData>> Attack;
+		//typedef BeginAttack <TwoUnitEffectData, 1, ApplyDamage <8, TwoUnitEffectData>> Attack;
+		//typedef ApplyDamage <8, 5, ClearAttackFrame<>> Attack;
 		//typedef ClearAttackFrame<> Attack;
-		//1, ApplyDamage < 8 >> Attack;
-		//5, ClearAttackFrame<
-		//10, ClearGroundWeaponCooldown<>>>> Attack;
+		typedef BeginAttack<TwoUnitEffectData, 
+				1, ApplyDamage<8, TwoUnitEffectData,
+				5, ClearAttackFrame<TwoUnitEffectData, 
+				10, ClearGroundWeaponCooldown<TwoUnitEffectData
+			>>>> Attack;
 
 	public:
 		Terran_Marine(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
@@ -32,7 +39,7 @@ namespace Bot { namespace Search
 			if (!groundWeaponCooldown)
 			{
 				for (const Unit* enemy : state->enemyUnitsInRange(pos, range))
-					actions.push_back(new Attack(id, enemy->id));
+					actions.push_back(new Attack(TwoUnitEffectData(id, enemy->id)));
 			}
 
 			if (!isAttackFrame && !isMoving)

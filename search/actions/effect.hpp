@@ -44,6 +44,7 @@ namespace Bot { namespace Search
 		: public Effect<offset, S<nextOffset, NextNextEffect>>
 	*/
 
+
 	class Effect
 	{
 	public:
@@ -52,7 +53,7 @@ namespace Bot { namespace Search
 		virtual void executeOrder(GameState* state) const {}
 		virtual bool isPlayerAction(const GameState* state) const { return true; }
 	};
-
+	
 	class NoEffect final : public Effect
 	{
 	public:
@@ -60,132 +61,131 @@ namespace Bot { namespace Search
 		{}
 	};
 
-
-
-
-
-	template <int offset = 0, class NextEffect = void, class Enable = void>
-	class EffectQueue
-		: public Effect
+	template <class Data>
+	class EffectWithData : public Effect
 	{
 	protected:
-		virtual NextEffect* newNext() const;
-		virtual void queueNext(GameState* state) const
-		{
-			state->queueEffect(offset, newNext());
-		}
+		Data data;
+	public:
+		EffectWithData(const Data& data)
+			: data(data)
+		{}
 	};
-	
-	template <int offset, class NextEffect>
-	class EffectQueue<offset, NextEffect,
-		typename std::enable_if<std::is_default_constructible<NextEffect>::value>::type>
-		: public Effect
+
+	template <int offset = 0, class NextEffect = void>
+	class EffectChain
 	{
-	protected:
-		virtual NextEffect* newNext() const
+	public:
+		template <class Data>
+		void queueNext(GameState* state, const Data& data) const
 		{
-			return new NextEffect();
-		}
-		virtual void queueNext(GameState* state) const
-		{
-			state->queueEffect(offset, newNext());
+			state->queueEffect(offset, new NextEffect(data));
 		}
 	};
-	
-	// last Effect in queue
 	template <>
-	class EffectQueue<0, void>
-		: public Effect
+	class EffectChain<0, void>
+	{
+	public:
+		template <class Data>
+		void queueNext(GameState* state, const Data& data) const
+		{}
+	};
+	
+	template <class Data = nullptr_t>
+	class OneUnitEffect : public EffectWithData<Data>
 	{
 	protected:
-		virtual void queueNext(GameState* state) const {}
+		const id_t& unitID;
+	public:
+		OneUnitEffect(const Data& data)
+			: EffectWithData(data)
+			, unitID(data.unitID)
+		{}
 	};
 
-
-
-
-
-	template <int offset = 0, class NextEffect = void>
-	class SingleUnitEffect
-		: public EffectQueue<offset, NextEffect>
+	template <class Data = nullptr_t>
+	class TwoUnitEffect : public EffectWithData<Data>
 	{
 	protected:
-		const id_t unitID;
+		const id_t& unitID;
+		const id_t& targetID;
 	public:
-		SingleUnitEffect(const id_t unitID)
+		TwoUnitEffect(const Data& data)
+			: EffectWithData(data)
+			, unitID(data.unitID)
+			, targetID(data.targetID)
+		{}
+	};
+
+	struct OneUnitEffectData
+	{
+		id_t unitID;
+		OneUnitEffectData(const id_t& unitID)
 			: unitID(unitID)
 		{}
 	};
 
-	template <int offset, template<int,class> class NextEffect, int A, class B>
-	class SingleUnitEffect<offset, NextEffect<A, B>>
-		: public EffectQueue<offset, NextEffect<A, B>>
+	struct TwoUnitEffectData : OneUnitEffectData
 	{
-	protected:
-		virtual NextEffect<A, B>* //typename std::enable_if<std::is_base_of<SingleUnitEffect<A, B>, NextEffect<A, B>>::value, NextEffect<A, B>*>::type
-		newNext() const override
-		{
-			return new NextEffect<A, B>(unitID);
-		}
-	protected:
-		const id_t unitID;
-	public:
-		SingleUnitEffect(const id_t unitID)
-			: unitID(unitID)
-		{}
-	};
-
-
-
-	template <int offset = 0, class NextEffect = void>
-	class TwoUnitEffect
-		: public SingleUnitEffect<offset, NextEffect>
-	{
-	protected:
-		const id_t targetID;
-	public:
-		TwoUnitEffect(const id_t unitID, const id_t targetID)
-			: SingleUnitEffect(unitID)
+		id_t targetID;
+		TwoUnitEffectData(const id_t& unitID, const id_t& targetID)
+			: OneUnitEffectData(unitID)
 			, targetID(targetID)
 		{}
 	};
 
-	template <int offset, template<int, class> class NextEffect, int A, class B>
-	class TwoUnitEffect<offset, NextEffect<A,B>>
-		: public SingleUnitEffect<offset, NextEffect<A,B>>
+	/*template <class Derived, class Base,
+		typename std::enable_if<std::is_default_constructible<Derived>::value>::type>
+	Derived* getNew(const Base* base)
 	{
-		typedef typename std::enable_if<std::is_base_of<TwoUnitEffect<A, B>, NextEffect<A, B>>::value>::type check;
-	protected:
-		virtual NextEffect<A,B>* newNext() const override
+		return new Derived();
+	}
+
+	template <class Derived, int A, class B>
+	typename std::enable_if<std::is_base_of<SingleUnitEffect<A, B>, Derived>::value, Derived*>::type
+		getNew(const SingleUnitEffect<A, B>* base)
+	{
+		return new Derived(base->unitID);
+	}
+
+	template <class Derived, int A, class B>
+	typename std::enable_if<std::is_base_of<TwoUnitEffect<A, B>, Derived>::value, Derived*>::type
+		getNew(const TwoUnitEffect<A, B>* base)
+	{
+		return new Derived(base->unitID);
+	}*/
+
+
+
+	/*template <class NextEffect>
+	struct queue_next
+	{
+		template <class PrevEffect>
+		static void lol(const PrevEffect* const prev, GameState* state, int offset)
 		{
-			return new NextEffect<A,B>(unitID, targetID);
+			state->queueEffect(offset, new NextEffect());
 		}
-	protected:
-		const id_t targetID;
-	public:
-		TwoUnitEffect(const id_t unitID, const id_t targetID)
-			: SingleUnitEffect(unitID)
-			, targetID(targetID)
-		{}
+		template<int A, class B>
+		static void lol<SingleUnitEffect<A, B>>(const SingleUnitEffect<A, B>* const prev, GameState* state, int offset)
+		{
+			state->queueEffect(offset, new NextEffect(prev->unitID));
+		}
 	};
 
-	/*template <int offset, template<int, class, class=void> class NextEffect, int A, class B>
-	class TwoUnitEffect<offset, NextEffect<A,B>,
-		typename std::enable_if<std::is_base_of<SingleUnitEffect<A,B>, NextEffect<A,B>>::value>::type>
-		: public SingleUnitEffect<offset, NextEffect<A,B>>
+	template<int A, class B>
+	struct queue_next<SingleUnitEffect<A,B>>
 	{
-	protected:
-		const id_t targetID;
-	public:
-		TwoUnitEffect(const id_t unitID, const id_t targetID)
-			: SingleUnitEffect(unitID)
-			, targetID(targetID)
-		{}
-
-	protected:
-		virtual NextEffect<A,B>* newNext() const override
+		static void lol<SingleUnitEffect<A, B>>(const SingleUnitEffect<A, B>* const prev, GameState* state, int offset)
 		{
-			return new NextEffect<A,B>(unitID);
+			state->queueEffect(offset, new NextEffect(prev->unitID));
 		}
+	};
+	
+	template <>
+	struct queue_next<void>
+	{
+		template <class PrevEffect>
+		static void lol(const PrevEffect* const prev, GameState* state, int offset)
+		{}
 	};*/
 }}

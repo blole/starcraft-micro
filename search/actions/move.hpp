@@ -5,21 +5,30 @@
 
 namespace Bot { namespace Search
 {
+	struct MoveData : public OneUnitEffectData
+	{
+		BWAPI::Position moveOffset;
+		MoveData(const id_t& unitID, const BWAPI::Position& moveOffset)
+			: OneUnitEffectData(unitID)
+			, moveOffset(moveOffset)
+		{}
+	};
+
 	class Move
-		: public SingleUnitEffect<0, void>
+		: public OneUnitEffect<MoveData>
 	{
 		static const int moveQuanta = 25;
-		const BWAPI::Position moveOffset;
+		const BWAPI::Position& moveOffset;
 	public:
 		Move(const Unit* unit, float direction)
-			: Move(unitID, BWAPI::Position(
+			: Move(MoveData(unitID, BWAPI::Position(
 				(int)(std::cos(direction) * unit->getBwapiUnit()->getType().topSpeed()),
-				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed())))
+				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed()))))
 		{}
 
-		Move(const id_t unitID, const BWAPI::Position moveOffset)
-			: SingleUnitEffect(unitID)
-			, moveOffset(moveOffset)
+		Move(const MoveData& data)
+			: OneUnitEffect(data)
+			, moveOffset(data.moveOffset)
 		{}
 
 		virtual void applyTo(GameState* state) const override
@@ -31,7 +40,7 @@ namespace Bot { namespace Search
 			}
 			else
 			{
-				state->queueEffect(1, new Move(unitID, moveOffset));
+				state->queueEffect(1, new Move(data));
 
 				if (unit->isMoving)
 					unit->pos += moveOffset;
