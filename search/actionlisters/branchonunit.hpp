@@ -16,12 +16,12 @@ namespace Bot { namespace Search
 				{
 					std::vector<Effect*> actions = unit->possibleActions(gamestate);
 
-					/*if (actions.size() > 2)
+					if (actions.size() > 2)
 					{
-						std::list<Action*>::iterator element2 = actions.begin();
+						std::vector<Effect*>::iterator element2 = actions.begin();
 						std::advance(element2, 2);
 						actions.erase(element2, actions.end());
-					}*/
+					}
 
 					if (!actions.empty())
 						return actions;

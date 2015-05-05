@@ -30,8 +30,9 @@ namespace Bot { namespace Search
 		virtual Unit* clone() const = 0;
 
 	protected:
-		Unit(GameState* state, BWAPI::Unit bwapiUnit, id_t id);
-
+		Unit(BWAPI::Unit bwapiUnit, id_t id);
+		virtual ~Unit() {}
+		virtual void firstFrameInitToAddAlreadyActiveEffects(GameState* state) = 0;
 	public:
 		static Unit* create(GameState* state, BWAPI::Unit bwapiUnit, id_t id);
 	};

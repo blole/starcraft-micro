@@ -24,11 +24,9 @@ namespace Bot { namespace Search
 			>>>> Attack;
 
 	public:
-		Terran_Marine(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
-			: Unit(state, bwapiUnit, id)
-		{
-
-		}
+		Terran_Marine(BWAPI::Unit bwapiUnit, id_t id)
+			: Unit(bwapiUnit, id)
+		{}
 
 		virtual std::vector<Effect*> possibleActions(const GameState* state) const
 		{
@@ -51,7 +49,34 @@ namespace Bot { namespace Search
 
 			return actions;
 		}
+		
+		void firstFrameInitToAddAlreadyActiveEffects(GameState* state) override
+		{
+			BWAPI::Unit bwapiUnit = getBwapiUnit();
 
+			if (bwapiUnit->isAttackFrame() || bwapiUnit->isStartingAttack() ||
+				(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
+				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))
+			{
+				isAttackFrame = true;
+				//TODO: set correct move cooldown
+				state->queueEffect(6, new ClearAttackFrame<OneUnitEffectData>(OneUnitEffectData(id)));
+			}
+
+			if (bwapiUnit->getGroundWeaponCooldown() != 0)
+			{
+				groundWeaponCooldown = true;
+				state->queueEffect(bwapiUnit->getGroundWeaponCooldown(), new ClearGroundWeaponCooldown<OneUnitEffectData>(OneUnitEffectData(id)));
+			}
+			else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
+				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
+			{
+				groundWeaponCooldown = true;
+				state->queueEffect(14, new ClearGroundWeaponCooldown<OneUnitEffectData>(OneUnitEffectData(id)));
+			}
+		}
+		
+	public:
 		virtual Unit* clone() const
 		{
 			return new Terran_Marine(*this);
