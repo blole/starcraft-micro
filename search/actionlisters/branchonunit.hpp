@@ -1,5 +1,6 @@
 #pragma once
 #include "search/actionlisters/actionlister.hpp"
+#include "search/actions/effect.hpp"
 #include "search/units/unit.hpp"
 
 namespace Bot { namespace Search
@@ -28,7 +29,7 @@ namespace Bot { namespace Search
 				}
 			}
 
-			return std::vector<Effect*>();
+			return { new AdvanceFrameEffect(1) };
 		}
 	};
 }}

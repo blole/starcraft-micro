@@ -5,7 +5,10 @@
 #include "search/gamestate.hpp"
 #include "search/actions/effect.hpp"
 #include "search/searchers/searcheruct.hpp"
+#include "search/actionlisters/selecters.hpp"
+#include "search/actionlisters/simulaters.hpp"
 #include "search/actionlisters/branchonunit.hpp"
+#include "search/actionlisters/heuristicfunctions.hpp"
 #include <exception>
 #include <vector>
 #include <set>
@@ -15,8 +18,11 @@ using namespace Bot::Search;
 
 void SquadMCTS::onFrame()
 {
-	static Searcher* searchAlgorithm = new UCT::SearcherUCT();
-	static ActionLister* actionlister = new BranchOnUnit();
+	static Searcher* searchAlgorithm = new UCT::SearcherMCTS<UCT::NodeUCT>(
+		new BranchOnUnit(),
+		new Selecters::UCB<UCT::NodeUCT>(),
+		new Simulaters::HeuristicFunctionWrapper(new HeuristicFunctions::SqrtHp_Dps()),
+		nullptr);
 
 	units.remove_if([](PUnit* unit){ return !unit->exists(); });
 	
@@ -39,7 +45,7 @@ void SquadMCTS::onFrame()
 	{
 		try {
 			int gameframe = BWAPI::Broodwar->getFrameCount();
-			std::vector<Effect*> actions = searchAlgorithm->search(&state, actionlister);
+			std::vector<Effect*> actions = searchAlgorithm->search(&state);
 
 			for (Effect* action : actions)
 			{

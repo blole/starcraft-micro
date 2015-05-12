@@ -5,15 +5,6 @@
 
 using namespace Bot::Search;
 
-Unit::Unit(BWAPI::Unit bwapiUnit, id_t id)
-	: id(id)
-	, hp(bwapiUnit->getHitPoints())
-	, isMoving(false)
-	, isAttackFrame(false)
-	, groundWeaponCooldown(false)
-{
-}
-
 Unit* Unit::create(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 {
 	Unit* unit;

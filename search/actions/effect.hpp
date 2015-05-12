@@ -26,6 +26,19 @@ namespace Bot { namespace Search
 		{}
 	};
 
+	class AdvanceFrameEffect : public Effect
+	{
+		const int frames;
+	public:
+		AdvanceFrameEffect(int frames)
+			: frames(frames)
+		{}
+		virtual void applyTo(GameState* state) const override
+		{
+			state->advanceFrames(frames);
+		}
+	};
+
 	template <class Data>
 	class EffectWithData : public Effect
 	{

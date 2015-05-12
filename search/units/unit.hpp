@@ -30,7 +30,13 @@ namespace Bot { namespace Search
 		virtual Unit* clone() const = 0;
 
 	protected:
-		Unit(BWAPI::Unit bwapiUnit, id_t id);
+		Unit(BWAPI::Unit bwapiUnit, id_t id)
+			: id(id)
+			, hp(bwapiUnit->getHitPoints())
+			, isMoving(false)
+			, isAttackFrame(false)
+			, groundWeaponCooldown(false)
+		{}
 		virtual ~Unit() {}
 		virtual void firstFrameInitToAddAlreadyActiveEffects(GameState* state) = 0;
 	public:

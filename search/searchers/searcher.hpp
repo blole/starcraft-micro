@@ -8,12 +8,10 @@ namespace Bot { namespace Search
 	class Effect;
 
 	template<class NT>
-	class EffectNodePair
+	struct EffectNodePair
 	{
-	public:
 		Effect* effect;
 		NT* node;
-	public:
 		EffectNodePair(Effect* effect, NT* node = nullptr)
 			: effect(effect)
 			, node(node)
@@ -45,6 +43,6 @@ namespace Bot { namespace Search
 	class Searcher
 	{
 	public:
-		virtual std::vector<Effect*> search(GameState* gamestate, ActionLister* possibleActions) = 0;
+		virtual std::vector<Effect*> search(GameState* gamestate) = 0;
 	};
 }}

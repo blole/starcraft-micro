@@ -17,6 +17,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\search\actionlisters\actionlister.hpp" />
+    <ClInclude Include="actionlisters\backpropagaters.hpp" />
+    <ClInclude Include="actionlisters\heuristicfunctions.hpp" />
+    <ClInclude Include="actionlisters\selecters.hpp" />
+    <ClInclude Include="actionlisters\simulaters.hpp" />
     <ClInclude Include="actions\compositeeffect.hpp" />
     <ClInclude Include="..\search\gamestate.hpp" />
     <ClInclude Include="..\search\searchers\searcher.hpp" />
