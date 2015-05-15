@@ -4,8 +4,9 @@
 
 using namespace BWAPI;
 using namespace Filter;
+using namespace Bot;
 
-Main::Main(General* general)
+Main::Main(std::shared_ptr<General> general)
 	: general(general)
 {
 }

@@ -8,20 +8,21 @@
 #include <set>
 
 
-using namespace BehaviorTree;
-
-class Commander
+namespace Bot
 {
-public:
-	// Attributes
-	std::set<PUnit*> pAllUnits;
-	std::set<OUnit*> oAllUnits;
-	std::set<SquadManager*> squads;
-	// Methods
-	void init();
-	void update();
-	void destroyUnit(BWAPI::Unit unit);
+	class Commander
+	{
+	public:
+		// Attributes
+		std::set<PUnit*> pAllUnits;
+		std::set<OUnit*> oAllUnits;
+		std::set<SquadManager*> squads;
+		// Methods
+		void init();
+		void update();
+		void destroyUnit(BWAPI::Unit unit);
 
-private:
-	const static int nbUnitPerSquad = 5;
-};
+	private:
+		const static int nbUnitPerSquad = 5;
+	};
+}

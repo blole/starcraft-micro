@@ -1,6 +1,10 @@
 #include "behaviors/moverelative.hpp"
+#include "common/punit.hpp"
 
 using namespace BWAPI;
+using namespace Bot;
+using namespace Bot::Behaviors;
+using namespace BehaviorTree;
 
 MoveRelative::MoveRelative(int x, int y)
 	: offset(x,y)

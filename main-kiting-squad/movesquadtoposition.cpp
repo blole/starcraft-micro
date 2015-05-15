@@ -5,6 +5,7 @@
 
 
 using namespace BWAPI;
+using namespace Bot;
 
 MoveSquadToPosition::MoveSquadToPosition()
 {

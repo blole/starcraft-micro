@@ -3,6 +3,7 @@
 #include "common/punit.hpp"
 
 using namespace BWAPI;
+using namespace Bot;
 
 void Flee::init(void* agent)
 {

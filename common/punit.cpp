@@ -1,8 +1,10 @@
 #include "common/punit.hpp"
 #include <iostream>
+#include "common/squad.hpp"
 
 using namespace BWAPI;
 using namespace Filter;
+using namespace Bot;
 
 std::unordered_map<int, PUnit*> PUnit::units;
 

@@ -2,15 +2,16 @@
 #include <lib/libbehavior/BehaviorTree.h>
 #include <BWAPI.h>
 
-using namespace BehaviorTree;
-
-class AttackClosest : public BehaviorTreeNode
+namespace Bot { namespace Behaviors
 {
-public:
-	void init(void* agent);
-	BEHAVIOR_STATUS execute(void* agent);
-	
-private:
-	bool first;
-	bool hasStartAttack;
-};
+	class AttackClosest : public BehaviorTree::BehaviorTreeNode
+	{
+	public:
+		virtual void init(void* agent) override;
+		virtual BehaviorTree::BEHAVIOR_STATUS execute(void* agent) override;
+
+	private:
+		bool first;
+		bool hasStartAttack;
+	};
+}}

@@ -1,5 +1,6 @@
 #define WIN32_LEAN_AND_MEAN	// Exclude rarely-used stuff from Windows headers
 #include <windows.h>
+#include <memory>
 #include <BWAPI.h>
 #include "common/main.hpp"
 #include "behaviors/attackclosest.hpp"
@@ -21,12 +22,15 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
-	std::function<BehaviorTreeNode*()> unitBrain = []{
+	using namespace std;
+	using namespace Bot;
+
+	function<BehaviorTreeNode*()> unitBrain = []{
 		return (new SequentialNode())
 			->addChild(new Flee())
-			->addChild(new AttackClosest());
+			->addChild(new Behaviors::AttackClosest());
 	};
-	General* general = new GeneralKiting(unitBrain);
-
+	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad>(unitBrain);
+	
 	return new Main(general);
 }

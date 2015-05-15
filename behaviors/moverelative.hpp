@@ -3,17 +3,18 @@
 #include "common/punit.hpp"
 #include <BWAPI.h>
 
-using namespace BehaviorTree;
-
-class MoveRelative : public BehaviorTreeNodeFirstSubsequent<PUnit>
+namespace Bot { namespace Behaviors
 {
-public:
-	MoveRelative(int x, int y);
+	class MoveRelative : public BehaviorTree::BehaviorTreeNodeFirstSubsequent<PUnit>
+	{
+	public:
+		MoveRelative(int x, int y);
 
-	BEHAVIOR_STATUS firstExecute(PUnit* unit);
-	BEHAVIOR_STATUS subsequentExecute(PUnit* unit);
+		virtual BehaviorTree::BEHAVIOR_STATUS firstExecute(PUnit* unit) override;
+		virtual BehaviorTree::BEHAVIOR_STATUS subsequentExecute(PUnit* unit) override;
 
-private:
-	BWAPI::Position origin;
-	BWAPI::Position offset;
-};
+	private:
+		BWAPI::Position origin;
+		BWAPI::Position offset;
+	};
+}}

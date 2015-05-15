@@ -3,6 +3,9 @@
 #include "common/punit.hpp"
 
 using namespace BWAPI;
+using namespace Bot;
+using namespace Bot::Behaviors;
+using namespace BehaviorTree;
 
 void AttackClosest::init(void* agent)
 {

@@ -4,27 +4,30 @@
 #include "common/generalallunitssinglesquad.hpp"
 #include "influencemap.hpp"
 
-class GeneralKiting : public GeneralAllUnitsSingleSquad
+namespace Bot
 {
-public:
-	explicit GeneralKiting(std::function<Squad*()>& newSquad)
-		: GeneralAllUnitsSingleSquad(newSquad)
-	{}
-	explicit GeneralKiting(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
-		: GeneralAllUnitsSingleSquad(unitBrain)
-	{}
-	
-	
-public:
-	virtual void GeneralKiting::onInit()
+	class GeneralKiting : public GeneralAllUnitsSingleSquad
 	{
-		InfluenceMap::init();
-		GeneralAllUnitsSingleSquad::onStart();
-	}
+	public:
+		explicit GeneralKiting(std::function<Squad*()>& newSquad)
+			: GeneralAllUnitsSingleSquad(newSquad)
+		{}
+		explicit GeneralKiting(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
+			: GeneralAllUnitsSingleSquad(unitBrain)
+		{}
+	
+	
+	public:
+		virtual void GeneralKiting::onInit()
+		{
+			InfluenceMap::init();
+			GeneralAllUnitsSingleSquad::onStart();
+		}
 
-	virtual void GeneralKiting::onFrame()
-	{
-		InfluenceMap::update();
-		GeneralAllUnitsSingleSquad::onFrame();
-	}
-};
+		virtual void GeneralKiting::onFrame()
+		{
+			InfluenceMap::update();
+			GeneralAllUnitsSingleSquad::onFrame();
+		}
+	};
+}

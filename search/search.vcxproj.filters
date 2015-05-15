@@ -84,5 +84,6 @@
     <ClInclude Include="actionlisters\selecters.hpp">
       <Filter>actionlisters</Filter>
     </ClInclude>
+    <ClInclude Include="searchingsquad.hpp" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 #include <stdlib.h>     /* srand, rand */
 #include <vector>
 
-namespace Bot { namespace Search
+namespace Bot { namespace Search { namespace ActionListers
 {
 	class BranchOnPlayer : public ActionLister
 	{
@@ -56,4 +56,4 @@ namespace Bot { namespace Search
 		bool current_player;
 		const static int nbPermMax = 12;
 	};
-}}
+}}}

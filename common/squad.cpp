@@ -3,6 +3,7 @@
 #include "behaviors/moverelative.hpp"
 
 using namespace BWAPI;
+using namespace Bot;
 
 void Squad::addUnit(PUnit* unit)
 {

@@ -12,11 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gameunit.cpp" />
-    <ClCompile Include="generalallunitssinglesquad.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ounit.cpp" />
     <ClCompile Include="punit.cpp" />
-    <ClCompile Include="reactivesquad.cpp" />
     <ClCompile Include="squad.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 using namespace BWAPI;
+using namespace Bot;
 
 std::map<BWAPI::UnitType,double**> InfluenceMap::matrixInfluence;
 std::map<BWAPI::UnitType,double> InfluenceMap::mapSpeed;

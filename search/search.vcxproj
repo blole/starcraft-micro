@@ -31,6 +31,7 @@
     <ClInclude Include="actions\move.hpp" />
     <ClInclude Include="searchers\searcherabcd.hpp" />
     <ClInclude Include="searchers\searcheruct.hpp" />
+    <ClInclude Include="searchingsquad.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="actionlisters\branchonunit.hpp" />

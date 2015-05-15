@@ -3,6 +3,7 @@
 
 using namespace BWAPI;
 using namespace Filter;
+using namespace Bot;
 
 std::unordered_map<int, OUnit*> OUnit::units;
 

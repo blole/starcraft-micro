@@ -2,21 +2,24 @@
 #include <BWAPI.h>
 #include "common/gameunit.hpp"
 
-class OUnit : public GameUnit
+namespace Bot
 {
-public:
-	float dammageAttributed;
-	int numberOfAttackers;
+	class OUnit : public GameUnit
+	{
+	public:
+		float dammageAttributed;
+		int numberOfAttackers;
 	
-public:
-	OUnit(BWAPI::Unit unit);
+	public:
+		OUnit(BWAPI::Unit unit);
 	
-public:
-	bool willDie();
+	public:
+		bool willDie();
 
-public:
-	static std::unordered_map<int, OUnit*> units;
-public:
-	static OUnit* get(BWAPI::Unit unit);
+	public:
+		static std::unordered_map<int, OUnit*> units;
+	public:
+		static OUnit* get(BWAPI::Unit unit);
 	
-};
+	};
+}

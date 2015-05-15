@@ -1,18 +1,21 @@
 #pragma once
 #include <BWAPI.h>
 
-class GameUnit
+namespace Bot
 {
-public:
-	BWAPI::Unit unit;
+	class GameUnit
+	{
+	public:
+		BWAPI::Unit unit;
 	
-public:
-	GameUnit(BWAPI::Unit unit);
+	public:
+		GameUnit(BWAPI::Unit unit);
 	
-public:
-	int getHp();
-	float getDps();
-	BWAPI::Position getPosition();
-	bool exists();
-	int getID();
-};
+	public:
+		int getHp();
+		float getDps();
+		BWAPI::Position getPosition();
+		bool exists();
+		int getID();
+	};
+}

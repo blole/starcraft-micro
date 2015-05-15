@@ -12,10 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dll.cpp" />
-    <ClCompile Include="squad_mcts.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="squad_mcts.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\behaviors\behaviors.vcxproj">

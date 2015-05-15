@@ -3,6 +3,7 @@
 
 using namespace BWAPI;
 using namespace Filter;
+using namespace Bot;
 
 	// Constructor
 SquadManager::SquadManager()

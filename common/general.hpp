@@ -5,24 +5,27 @@
 #include "common/reactivesquad.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
 
-class General
+namespace Bot
 {
-protected:
-	std::function<Squad*()> newSquad;
-public:
-	std::list<Squad*> squads;
+	class General
+	{
+	protected:
+		std::function<Squad*()> newSquad;
+	public:
+		std::list<Squad*> squads;
 	
 	
-public:
-	General(std::function<Squad*()>& newSquad)
-		: newSquad(newSquad)
-	{}
-	General(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
-		: newSquad([=]{ return new ReactiveSquad(unitBrain); })
-	{}
+	public:
+		General(std::function<Squad*()>& newSquad)
+			: newSquad(newSquad)
+		{}
+		General(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
+			: newSquad([=]{ return new ReactiveSquad(unitBrain); })
+		{}
 	
 	
-public:
-	virtual void onStart() {}
-	virtual void onFrame() = 0;
-};
+	public:
+		virtual void onStart() {}
+		virtual void onFrame() = 0;
+	};
+}

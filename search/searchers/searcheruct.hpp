@@ -8,7 +8,7 @@
 #include "search/actions/effect.hpp"
 #include <boost/ptr_container/clone_allocator.hpp>
 
-namespace Bot { namespace Search { namespace UCT
+namespace Bot { namespace Search
 {
 	template<class NT>
 	class NodeMCTS : public Node<NT>
@@ -36,24 +36,26 @@ namespace Bot { namespace Search { namespace UCT
 		{}
 	};
 
-
-	class NodeUCT : public NodeMCTS<NodeUCT>
+	namespace UCT
 	{
-	public:
-		bool fullyExpanded;
-		bool terminal;
-
-	public:
-		NodeUCT(NodeUCT* const parent)
-			: NodeMCTS(parent)
-			, fullyExpanded(false)
-			, terminal(false)
+		class NodeUCT : public NodeMCTS<NodeUCT>
 		{
-			std::vector<Effect*> actions;
-		}
+		public:
+			bool fullyExpanded;
+			bool terminal;
 
-	public:
-	};
+		public:
+			NodeUCT(NodeUCT* const parent)
+				: NodeMCTS(parent)
+				, fullyExpanded(false)
+				, terminal(false)
+			{
+				std::vector<Effect*> actions;
+			}
+
+		public:
+		};
+	}
 
 
 	template<class NT>
@@ -95,7 +97,7 @@ namespace Bot { namespace Search { namespace UCT
 						if (next.effect != nullptr) //state->isTerrminal() returned true
 						{
 							state.queueEffect(0, next.effect);
-							node = next.node = new NodeUCT(node);
+							node = next.node = new NT(node);
 						}
 						break;
 					}
@@ -104,10 +106,10 @@ namespace Bot { namespace Search { namespace UCT
 				}
 
 				//simulation
-				double value = simulater->simulate(&state);
+				double score = simulater->simulate(&state);
 
 				//backpropagation
-				backpropagater->backpropagate(node);
+				backpropagater->backpropagate(node, score);
 
 				//NodeStatePair<NodeUCT>* node = rootChild;
 				//traverse(rootChild, state);
@@ -171,4 +173,4 @@ namespace Bot { namespace Search { namespace UCT
 
 		}
 	};
-}}}
+}}

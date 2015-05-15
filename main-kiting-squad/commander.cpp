@@ -5,6 +5,7 @@
 
 using namespace BWAPI;
 using namespace Filter;
+using namespace Bot;
 
 
 		// Methods

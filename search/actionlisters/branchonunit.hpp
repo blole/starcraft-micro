@@ -3,7 +3,7 @@
 #include "search/actions/effect.hpp"
 #include "search/units/unit.hpp"
 
-namespace Bot { namespace Search
+namespace Bot { namespace Search { namespace ActionListers
 {
 	class BranchOnUnit : public ActionLister
 	{
@@ -32,4 +32,4 @@ namespace Bot { namespace Search
 			return { new AdvanceFrameEffect(1) };
 		}
 	};
-}}
+}}}

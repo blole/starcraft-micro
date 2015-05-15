@@ -18,13 +18,5 @@
     <ClCompile Include="dll.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="squad_mcts.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="squad_mcts.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

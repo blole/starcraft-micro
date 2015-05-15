@@ -22,7 +22,7 @@ namespace Bot { namespace Search
 	template<class NT>
 	struct Backpropagater
 	{
-		virtual void backpropagate(NT* node) const = 0;
+		virtual void backpropagate(NT* node, double score) const = 0;
 	};
 
 	struct Simulater

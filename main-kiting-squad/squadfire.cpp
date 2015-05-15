@@ -4,6 +4,7 @@
 #include "squadmanager.hpp"
 
 using namespace BWAPI;
+using namespace Bot;
 
 SquadFire::SquadFire()
 {

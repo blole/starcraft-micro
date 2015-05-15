@@ -3,6 +3,7 @@
 
 using namespace BWAPI;
 using namespace Filter;
+using namespace Bot;
 
 GameUnit::GameUnit(BWAPI::Unit unit)
 	: unit(unit)
