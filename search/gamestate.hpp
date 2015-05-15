@@ -20,6 +20,7 @@ namespace Bot { namespace Search
 		static int playerUnitCount;
 	public:
 		static BWAPI::Unit getBwapiUnit(const id_t id) { return bwapiUnits[id]; }
+		static bool isPlayerUnit(const id_t id) { return id < GameState::playerUnitCount; }
 		
 		
 		

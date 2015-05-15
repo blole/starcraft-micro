@@ -50,7 +50,7 @@ namespace Bot { namespace Search
 
 					for (Effect* action : actions)
 					{
-						if (action->isPlayerAction(&state))
+						if (action->isPlayerEffect())
 							action->executeOrder(&state);
 						delete action;
 					}

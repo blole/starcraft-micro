@@ -16,8 +16,8 @@ namespace Bot { namespace Search
 	public:
 		int visits;
 		double totalReward;
-		NodeMCTS(NT* parent, int visits = 0, double totalReward = 0)
-			: Node(parent)
+		NodeMCTS(NT* parent, Effect* effect, int visits = 0, double totalReward = 0)
+			: Node(parent, effect)
 			, visits(visits)
 			, totalReward(totalReward)
 		{}
@@ -45,13 +45,11 @@ namespace Bot { namespace Search
 			bool terminal;
 
 		public:
-			NodeUCT(NodeUCT* const parent)
-				: NodeMCTS(parent)
+			NodeUCT(NodeUCT* parent, Effect* effect)
+				: NodeMCTS(parent, effect)
 				, fullyExpanded(false)
 				, terminal(false)
-			{
-				std::vector<Effect*> actions;
-			}
+			{}
 
 		public:
 		};
@@ -66,7 +64,7 @@ namespace Bot { namespace Search
 		Selecter<NT>* selecter;
 		Simulater* simulater;
 		Backpropagater<NT>* backpropagater;
-
+		
 	public:
 		SearcherMCTS(ActionLister* actionlister, Selecter<NT>* selecter, Simulater* simulater, Backpropagater<NT>* backpropagater)
 			: actionlister(actionlister)
@@ -74,12 +72,12 @@ namespace Bot { namespace Search
 			, simulater(simulater)
 			, backpropagater(backpropagater)
 		{}
-
+		
 		NT* searchTree(GameState* rootState)
 		{
 			assert(!rootState->isTerminal());
 
-			NT* root = new NT(nullptr);
+			NT* root = new NT(nullptr, nullptr);
 
 			//TODO: constrain in time instead
 			for (int i = 0; i < 1000; i++)
@@ -97,7 +95,7 @@ namespace Bot { namespace Search
 						if (next.effect != nullptr) //state->isTerrminal() returned true
 						{
 							state.queueEffect(0, next.effect);
-							node = next.node = new NT(node);
+							node = next.node = new NT(node, next.effect);
 						}
 						break;
 					}
@@ -132,7 +130,7 @@ namespace Bot { namespace Search
 				EffectNodePair<NT>& next = selecter->select(*node, state);
 				if (next.node == nullptr)
 					break;
-				if (next.effect->isPlayerAction(&state))
+				if (next.effect->isPlayerEffect())
 				{
 					bestActions.push_back(next.effect);
 					next.effect = nullptr;

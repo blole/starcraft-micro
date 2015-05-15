@@ -1,4 +1,5 @@
 #pragma once
+#include "search/actions/effect.hpp"
 #include "search/actionlisters/actionlister.hpp"
 
 namespace Bot { namespace Search { 	namespace Backpropagaters
@@ -11,7 +12,10 @@ namespace Bot { namespace Search { 	namespace Backpropagaters
 			while (node->parent != nullptr)
 			{
 				node->visits++;
-				node->totalReward += score;
+				if (node->effect->isPlayerEffect())
+					node->totalReward += score;
+				else
+					node->totalReward -= score;
 				node = node->parent;
 			}
 		}

@@ -27,13 +27,13 @@ namespace Bot { namespace Search
 	class Node
 	{
 	public:
-		typedef EffectNodePair<NT> Child;
-	public:
 		NT* parent;
-		std::vector<Child> children;
+		Effect* effect;
+		std::vector<EffectNodePair<NT>> children;
 	public:
-		Node(NT* parent)
+		Node(NT* parent, Effect* effect)
 			: parent(parent)
+			, effect(effect)
 		{}
 
 		virtual ~Node()

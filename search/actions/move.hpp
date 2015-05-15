@@ -56,10 +56,5 @@ namespace Bot { namespace Search
 			
 			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + moveOffset*10, BWAPI::Colors::Grey);
 		}
-
-		virtual bool isPlayerAction(const GameState* state) const override
-		{
-			return state->getUnit(unitID)->isPlayerUnit();
-		}
 	};
 }}
