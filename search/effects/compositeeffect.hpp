@@ -1,7 +1,6 @@
 #pragma once
-#include "search/actions/effect.hpp"
+#include "search/effect.hpp"
 #include <cassert>
-#include <vector>
 
 namespace Bot { namespace Search
 {

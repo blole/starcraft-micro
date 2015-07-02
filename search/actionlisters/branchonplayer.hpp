@@ -1,16 +1,15 @@
 #pragma once
-#include "search/actionlisters/actionlister.hpp"
-#include "search/actions/compositeeffect.hpp"
-#include "search/units/unit.hpp"
-#include <stdlib.h>     /* srand, rand */
-#include <vector>
+#include "search/actionlister.hpp"
+#include "search/effect.hpp"
+#include "search/effects/compositeeffect.hpp"
+#include "search/unit.hpp"
 
 namespace Bot { namespace Search { namespace ActionListers
 {
 	class BranchOnPlayer : public ActionLister
 	{
 	public:
-		std::vector<Effect*> actions(const GameState* gamestate) const
+		virtual std::vector<Effect*> actions(const GameState* gamestate) const override
 		{
 
 			std::vector<Effect*> setOfActions; // Output of the function

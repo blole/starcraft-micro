@@ -1,6 +1,5 @@
-#include "search/units/unit.hpp"
+#include "search/unit.hpp"
 #include "search/gamestate.hpp"
-#include "search/actions/attack.hpp"
 #include "search/units/marine.hpp"
 
 using namespace Bot::Search;

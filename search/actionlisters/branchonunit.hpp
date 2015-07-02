@@ -1,7 +1,7 @@
 #pragma once
-#include "search/actionlisters/actionlister.hpp"
-#include "search/actions/effect.hpp"
-#include "search/units/unit.hpp"
+#include "search/actionlister.hpp"
+#include "search/effect.hpp"
+#include "search/unit.hpp"
 
 namespace Bot { namespace Search { namespace ActionListers
 {

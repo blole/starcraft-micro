@@ -1,9 +1,9 @@
 #pragma once
-#include "search/units/unit.hpp"
+#include "search/unit.hpp"
 #include "search/gamestate.hpp"
-#include "search/actions/effect.hpp"
-#include "search/actions/attack.hpp"
-#include "search/actions/move.hpp"
+#include "search/effect.hpp"
+#include "search/effects/attack.hpp"
+#include "search/effects/move.hpp"
 
 namespace Bot { namespace Search
 {

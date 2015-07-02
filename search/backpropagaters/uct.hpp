@@ -1,6 +1,6 @@
 #pragma once
-#include "search/actions/effect.hpp"
-#include "search/actionlisters/actionlister.hpp"
+#include "search/effect.hpp"
+#include "search/backpropagater.hpp"
 
 namespace Bot { namespace Search { 	namespace Backpropagaters
 {

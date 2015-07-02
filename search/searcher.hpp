@@ -1,7 +1,6 @@
 #pragma once
 #include <list>
 #include "search/gamestate.hpp"
-#include "search/actionlisters/actionlister.hpp"
 
 namespace Bot { namespace Search
 {

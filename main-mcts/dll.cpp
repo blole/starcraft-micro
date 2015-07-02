@@ -5,11 +5,12 @@
 #include "common/main.hpp"
 #include "common/generalallunitssinglesquad.hpp"
 #include "search/searchingsquad.hpp"
-#include "search/actionlisters/selecters.hpp"
-#include "search/actionlisters/simulaters.hpp"
+#include "search/selecters/ucb.hpp"
+#include "search/simulaters/heuristicwrapper.hpp"
 #include "search/actionlisters/branchonunit.hpp"
-#include "search/actionlisters/backpropagaters.hpp"
-#include "search/actionlisters/heuristicfunctions.hpp"
+#include "search/searchers/searchermcts.hpp"
+#include "search/backpropagaters/uct.hpp"
+#include "search/heuristics/sqrthp_dps.hpp"
 
 
 extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }
@@ -35,7 +36,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		static shared_ptr<Searcher> searcher = make_shared<SearcherMCTS<UCT::NodeUCT>>(
 			new ActionListers::BranchOnUnit(),
 			new Selecters::UCB<UCT::NodeUCT>(),
-			new Simulaters::HeuristicFunctionWrapper(new HeuristicFunctions::SqrtHp_Dps()),
+			new Simulaters::HeuristicWrapper(new Heuristics::SqrtHp_Dps()),
 			new Backpropagaters::UCT<UCT::NodeUCT>());
 		return new SearchingSquad(searcher);
 	};

@@ -16,29 +16,35 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\search\actionlisters\actionlister.hpp" />
-    <ClInclude Include="actionlisters\backpropagaters.hpp" />
-    <ClInclude Include="actionlisters\heuristicfunctions.hpp" />
-    <ClInclude Include="actionlisters\selecters.hpp" />
-    <ClInclude Include="actionlisters\simulaters.hpp" />
-    <ClInclude Include="actions\compositeeffect.hpp" />
-    <ClInclude Include="..\search\gamestate.hpp" />
-    <ClInclude Include="..\search\searchers\searcher.hpp" />
-    <ClInclude Include="..\search\units\unit.hpp" />
+    <ClInclude Include="actionlister.hpp" />
     <ClInclude Include="actionlisters\branchonplayer.hpp" />
-    <ClInclude Include="actions\attack.hpp" />
-    <ClInclude Include="actions\effect.hpp" />
-    <ClInclude Include="actions\move.hpp" />
+    <ClInclude Include="actionlisters\branchonunit.hpp" />
+    <ClInclude Include="backpropagater.hpp" />
+    <ClInclude Include="backpropagaters\uct.hpp" />
+    <ClInclude Include="effect.hpp" />
+    <ClInclude Include="effects\attack.hpp" />
+    <ClInclude Include="effects\compositeeffect.hpp" />
+    <ClInclude Include="effects\move.hpp" />
+    <ClInclude Include="gamestate.hpp" />
+    <ClInclude Include="heuristic.hpp" />
+    <ClInclude Include="heuristics\hp.hpp" />
+    <ClInclude Include="heuristics\sqrthp.hpp" />
+    <ClInclude Include="heuristics\sqrthp_dps.hpp" />
+    <ClInclude Include="searcher.hpp" />
     <ClInclude Include="searchers\searcherabcd.hpp" />
-    <ClInclude Include="searchers\searcheruct.hpp" />
+    <ClInclude Include="searchers\searchermcts.hpp" />
     <ClInclude Include="searchingsquad.hpp" />
+    <ClInclude Include="selecter.hpp" />
+    <ClInclude Include="selecters\ucb.hpp" />
+    <ClInclude Include="simulater.hpp" />
+    <ClInclude Include="simulaters\heuristicwrapper.hpp" />
+    <ClInclude Include="unit.hpp" />
+    <ClInclude Include="units\marine.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="actionlisters\branchonunit.hpp" />
-    <ClCompile Include="..\search\gamestate.cpp" />
-    <ClCompile Include="..\search\units\unit.cpp" />
-    <ClCompile Include="actions\effect.cpp" />
-    <ClCompile Include="units\marine.hpp" />
+    <ClCompile Include="gamestate.cpp" />
+    <ClCompile Include="test.cpp" />
+    <ClCompile Include="unit.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E039051D-F5E1-44BB-91E2-98C1AB33E0DB}</ProjectGuid>

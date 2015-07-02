@@ -3,9 +3,13 @@
 #include <vector>
 #include <list>
 #include <cassert>
-#include "search/searchers/searcher.hpp"
-#include "search/units/unit.hpp"
-#include "search/actions/effect.hpp"
+#include "search/searcher.hpp"
+#include "search/actionlister.hpp"
+#include "search/selecter.hpp"
+#include "search/simulater.hpp"
+#include "search/backpropagater.hpp"
+#include "search/unit.hpp"
+#include "search/effect.hpp"
 #include <boost/ptr_container/clone_allocator.hpp>
 
 namespace Bot { namespace Search

@@ -1,6 +1,6 @@
 #pragma once
 #include "search/gamestate.hpp"
-#include "search/units/unit.hpp"
+#include "search/unit.hpp"
 #include <BWAPI.h>
 #include <cassert>
 #include <boost/mpl/assert.hpp>

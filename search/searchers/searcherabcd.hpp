@@ -3,8 +3,8 @@
 #include <vector>
 #include <list>
 #include <cassert>
-#include "search/searchers/searcher.hpp"
-#include "search/units/unit.hpp"
+#include "search/searcher.hpp"
+#include "search/unit.hpp"
 #include "search/actionlisters/branchonplayer.hpp"
 
 namespace Bot { namespace Search
