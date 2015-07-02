@@ -34,10 +34,10 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 
 	function<Squad*()> newSquad = []{
 		static shared_ptr<Searcher> searcher = make_shared<SearcherMCTS<UCT::NodeUCT>>(
-			new ActionListers::BranchOnUnit(),
-			new Selecters::UCB<UCT::NodeUCT>(),
-			new Simulaters::HeuristicWrapper(new Heuristics::SqrtHp_Dps()),
-			new Backpropagaters::UCT<UCT::NodeUCT>());
+			make_shared<ActionListers::BranchOnUnit>(),
+			make_shared<Selecters::UCB<UCT::NodeUCT>>(),
+			make_shared<Simulaters::HeuristicWrapper>(make_shared<Heuristics::SqrtHp_Dps>()),
+			make_shared<Backpropagaters::UCT<UCT::NodeUCT>>());
 		return new SearchingSquad(searcher);
 	};
 	

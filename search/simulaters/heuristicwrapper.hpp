@@ -6,15 +6,11 @@ namespace Bot { namespace Search { 	namespace Simulaters
 {
 	struct HeuristicWrapper : public Simulater
 	{
-		Heuristic* const heuristic;
-		HeuristicWrapper(Heuristic* heuristic)
+		std::shared_ptr<Heuristic> heuristic;
+		HeuristicWrapper(std::shared_ptr<Heuristic> heuristic)
 			: heuristic(heuristic)
 		{}
-		~HeuristicWrapper()
-		{
-			delete heuristic;
-		}
-
+		
 		virtual double simulate(GameState* state) const override
 		{
 			return heuristic->value(state);

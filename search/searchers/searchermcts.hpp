@@ -64,13 +64,17 @@ namespace Bot { namespace Search
 	class SearcherMCTS : public Searcher
 	{
 	private:
-		ActionLister* actionlister;
-		Selecter<NT>* selecter;
-		Simulater* simulater;
-		Backpropagater<NT>* backpropagater;
+		std::shared_ptr<ActionLister> actionlister;
+		std::shared_ptr<Selecter<NT>> selecter;
+		std::shared_ptr<Simulater> simulater;
+		std::shared_ptr<Backpropagater<NT>> backpropagater;
 		
 	public:
-		SearcherMCTS(ActionLister* actionlister, Selecter<NT>* selecter, Simulater* simulater, Backpropagater<NT>* backpropagater)
+		SearcherMCTS(
+			std::shared_ptr<ActionLister> actionlister,
+			std::shared_ptr<Selecter<NT>> selecter,
+			std::shared_ptr<Simulater> simulater,
+			std::shared_ptr<Backpropagater<NT>> backpropagater)
 			: actionlister(actionlister)
 			, selecter(selecter)
 			, simulater(simulater)
