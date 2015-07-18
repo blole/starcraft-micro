@@ -1,6 +1,6 @@
 #pragma once
 #include <algorithm>
-#include "search/selecter.hpp"
+#include "search/selecters/selecter.hpp"
 
 namespace Bot { namespace Search { 	namespace Selecters
 {

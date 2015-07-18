@@ -1,6 +1,6 @@
 #include "search/gamestate.hpp"
-#include "search/unit.hpp"
-#include "search/effect.hpp"
+#include "search/units/unit.hpp"
+#include "search/effects/effect.hpp"
 
 using namespace Bot::Search;
 

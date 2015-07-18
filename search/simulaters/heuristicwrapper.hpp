@@ -1,6 +1,6 @@
 #pragma once
-#include "search/simulater.hpp"
-#include "search/heuristic.hpp"
+#include "search/simulaters/simulater.hpp"
+#include "search/heuristics/heuristic.hpp"
 
 namespace Bot { namespace Search { 	namespace Simulaters
 {

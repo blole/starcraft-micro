@@ -1,6 +1,6 @@
 #pragma once
 #include "search/gamestate.hpp"
-#include "search/unit.hpp"
+#include "search/units/unit.hpp"
 #include <BWAPI.h>
 
 namespace Bot { namespace Search

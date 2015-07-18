@@ -32,16 +32,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="actionlister.hpp" />
-    <ClInclude Include="backpropagater.hpp" />
-    <ClInclude Include="effect.hpp" />
     <ClInclude Include="gamestate.hpp" />
-    <ClInclude Include="heuristic.hpp" />
-    <ClInclude Include="searcher.hpp" />
     <ClInclude Include="searchingsquad.hpp" />
-    <ClInclude Include="selecter.hpp" />
-    <ClInclude Include="simulater.hpp" />
-    <ClInclude Include="unit.hpp" />
     <ClInclude Include="effects\attack.hpp">
       <Filter>effects</Filter>
     </ClInclude>
@@ -85,10 +77,36 @@
       <Filter>searchers</Filter>
     </ClInclude>
     <ClInclude Include="node.hpp" />
+    <ClInclude Include="effects\effect.hpp">
+      <Filter>effects</Filter>
+    </ClInclude>
+    <ClInclude Include="actionlisters\actionlister.hpp">
+      <Filter>actionlisters</Filter>
+    </ClInclude>
+    <ClInclude Include="backpropagaters\backpropagater.hpp">
+      <Filter>backpropagaters</Filter>
+    </ClInclude>
+    <ClInclude Include="heuristics\heuristic.hpp">
+      <Filter>heuristics</Filter>
+    </ClInclude>
+    <ClInclude Include="searchers\searcher.hpp">
+      <Filter>searchers</Filter>
+    </ClInclude>
+    <ClInclude Include="selecters\selecter.hpp">
+      <Filter>selecters</Filter>
+    </ClInclude>
+    <ClInclude Include="simulaters\simulater.hpp">
+      <Filter>simulaters</Filter>
+    </ClInclude>
+    <ClInclude Include="units\unit.hpp">
+      <Filter>units</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />
     <ClCompile Include="test.cpp" />
-    <ClCompile Include="unit.cpp" />
+    <ClCompile Include="units\unit.cpp">
+      <Filter>units</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

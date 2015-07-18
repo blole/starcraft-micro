@@ -1,7 +1,7 @@
 #pragma once
-#include "search/unit.hpp"
+#include "search/units/unit.hpp"
 #include "search/gamestate.hpp"
-#include "search/effect.hpp"
+#include "search/effects/effect.hpp"
 #include "search/effects/attack.hpp"
 #include "search/effects/move.hpp"
 

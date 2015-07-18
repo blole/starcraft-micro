@@ -4,8 +4,8 @@
 #include <BWAPI.h>
 #include "common/punit.hpp"
 #include "search/gamestate.hpp"
-#include "search/effect.hpp"
-#include "search/searcher.hpp"
+#include "search/effects/effect.hpp"
+#include "search/searchers/searcher.hpp"
 #include <exception>
 #include <vector>
 #include <set>
