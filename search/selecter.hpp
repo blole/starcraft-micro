@@ -8,6 +8,6 @@ namespace Bot { namespace Search
 	template<class NT>
 	struct Selecter
 	{
-		virtual EffectNodePair<NT> select(NT* node, const GameState& state) const = 0;
+		virtual NT& select(NT* node, const GameState& state) const = 0;
 	};
 }}

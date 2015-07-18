@@ -86,7 +86,7 @@ namespace Bot { namespace Search
 						if (!state.isTerminal())
 						{
 							for (Effect* effect : actionlister->actions(&state))
-								node->children.emplace_back(effect, new NT(node, effect));
+								node->children.emplace_back(node, effect);
 						}
 
 						if (node->children.empty())
@@ -97,9 +97,8 @@ namespace Bot { namespace Search
 					}
 
 					//selection
-					EffectNodePair<NT>& next = selecter->select(node, state);
-					state.queueEffect(0, next.effect);
-					node = next.node;
+					node = &selecter->select(node, state);
+					state.queueEffect(0, node->effect);
 				}
 
 				//simulation
@@ -123,16 +122,15 @@ namespace Bot { namespace Search
 			//TODO: select best, not regular selection
 			while (state.getFrame() == 0)
 			{
-				EffectNodePair<NT>& next = selecter->select(node, state);
-				if (next.node == nullptr)
+				node = &selecter->select(node, state);
+				if (node->children.empty())
 					break;
-				if (next.effect->isPlayerEffect())
+				if (node->effect->isPlayerEffect())
 				{
-					bestActions.push_back(next.effect);
-					next.effect = nullptr;
+					bestActions.push_back(node->effect);
+					node->effect = nullptr; //don't delete these effects when deleting root
 				}
-				state.queueEffect(0, next.effect);
-				node = next.node;
+				state.queueEffect(0, node->effect);
 			}
 			
 			BWAPI::Broodwar->drawTextScreen(200, 75,  "number of taken actions: %d", bestActions.size());
