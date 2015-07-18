@@ -10,6 +10,7 @@
 #include "search/backpropagater.hpp"
 #include "search/unit.hpp"
 #include "search/effect.hpp"
+#include "search/node.hpp"
 #include <boost/ptr_container/clone_allocator.hpp>
 
 namespace Bot { namespace Search
@@ -20,6 +21,7 @@ namespace Bot { namespace Search
 	public:
 		int visits;
 		double totalReward;
+	public:
 		NodeMCTS(NT* parent, Effect* effect, int visits = 0, double totalReward = 0)
 			: Node(parent, effect)
 			, visits(visits)
@@ -28,34 +30,17 @@ namespace Bot { namespace Search
 	};
 
 
-	template<class NT>
-	struct NodeStatePair
-	{
-		NT& node;
-		GameState& state;
-
-		NodeStatePair(NT& node, GameState& state)
-			: node(node)
-			, state(state)
-		{}
-	};
-
 	namespace UCT
 	{
 		class NodeUCT : public NodeMCTS<NodeUCT>
 		{
 		public:
-			bool fullyExpanded;
 			bool terminal;
-
 		public:
 			NodeUCT(NodeUCT* parent, Effect* effect)
 				: NodeMCTS(parent, effect)
-				, fullyExpanded(false)
 				, terminal(false)
 			{}
-
-		public:
 		};
 	}
 
@@ -81,7 +66,7 @@ namespace Bot { namespace Search
 			, backpropagater(backpropagater)
 		{}
 		
-		NT* searchTree(GameState* rootState)
+		NT* buildTree(GameState* rootState)
 		{
 			assert(!rootState->isTerminal());
 
@@ -93,20 +78,26 @@ namespace Bot { namespace Search
 				NT* node = root;
 				GameState state(*rootState);
 
-				//selection
-				while (true)
+				while (!node->terminal)
 				{
-					EffectNodePair<NT>& next = selecter->select(*node, state);
-					if (next.node == nullptr)
+					//expansion
+					if (node->children.empty())
 					{
-						//expansion
-						if (next.effect != nullptr) //state->isTerrminal() returned true
+						if (!state.isTerminal())
 						{
-							state.queueEffect(0, next.effect);
-							node = next.node = new NT(node, next.effect);
+							for (Effect* effect : actionlister->actions(&state))
+								node->children.emplace_back(effect, new NT(node, effect));
 						}
-						break;
+
+						if (node->children.empty())
+						{
+							node->terminal = true;
+							break;
+						}
 					}
+
+					//selection
+					EffectNodePair<NT>& next = selecter->select(node, state);
 					state.queueEffect(0, next.effect);
 					node = next.node;
 				}
@@ -116,9 +107,6 @@ namespace Bot { namespace Search
 
 				//backpropagation
 				backpropagater->backpropagate(node, score);
-
-				//NodeStatePair<NodeUCT>* node = rootChild;
-				//traverse(rootChild, state);
 			}
 
 			return root;
@@ -126,7 +114,7 @@ namespace Bot { namespace Search
 
 		std::vector<Effect*> search(GameState* rootState) override
 		{
-			NT* const root = searchTree(rootState);
+			NT* const root = buildTree(rootState);
 			NT* node = root;
 			GameState state(*rootState);
 			
@@ -135,7 +123,7 @@ namespace Bot { namespace Search
 			//TODO: select best, not regular selection
 			while (state.getFrame() == 0)
 			{
-				EffectNodePair<NT>& next = selecter->select(*node, state);
+				EffectNodePair<NT>& next = selecter->select(node, state);
 				if (next.node == nullptr)
 					break;
 				if (next.effect->isPlayerEffect())
@@ -152,31 +140,6 @@ namespace Bot { namespace Search
 			BWAPI::Broodwar->drawTextScreen(0, 30, "root.visits: %d", root->visits);
 			delete root;
 			return bestActions;
-		}
-
-	private:
-		double traverse(EffectNodePair<NT> node, GameState& state) const
-		{
-			double score;
-
-			if (node.node->visits == 0)
-				score = playout(state);
-			else if (!node.node->isTerminal())
-				score = traverse(selectChild(node.node));
-			else //already visited terminal state
-				score = node.node->totalReward/node.node->visits;
-			
-			node.node->visits++;
-			node.node->totalReward += score;
-			if (node.effect->isPlayerAction(&state))
-			{
-				return -score;
-			}
-			else
-			{
-				return score;
-			}
-
 		}
 	};
 }}

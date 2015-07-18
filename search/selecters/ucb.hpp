@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include "search/selecter.hpp"
 
 namespace Bot { namespace Search { 	namespace Selecters
@@ -6,43 +7,18 @@ namespace Bot { namespace Search { 	namespace Selecters
 	template <class NT>
 	struct UCB : public Selecter<NT>
 	{
-		virtual EffectNodePair<NT>& select(NT& node, const GameState& state) const override
+		virtual EffectNodePair<NT> select(NT* node, const GameState& state) const override
 		{
-			if (!node.fullyExpanded)
-			{
-				//try to find unexpanded child
-				for (unsigned int i = 0; i<node.children.size(); i++)
-				{
-					EffectNodePair<NT>& next = node.children[i];
-					if (next.node == nullptr)
-					{
-						next.node = new NT(node);
-						return next;
-					}
-				}
-
-				node.fullyExpanded = true;
-			}
-
-			EffectNodePair<NT>* best = &node.children[0];
-			double bestUCB = getUCB(best->node);
-
-			for (unsigned int i = 1; i<node.children.size(); i++)
-			{
-				EffectNodePair<NT>& next = node.children[i];
-				double ucb = getUCB(next.node);
-				if (bestUCB < ucb)
-				{
-					bestUCB = ucb;
-					best = &next;
-				}
-			}
-
-			return *best;
+			return *std::max_element(node->children.begin(), node->children.end(), bestUCB);
 		}
 
 	private:
-		static double getUCB(NT* node)
+		static bool bestUCB(EffectNodePair<NT> a, EffectNodePair<NT> b)
+		{
+			return ucb(a.node) < ucb(b.node);
+		}
+
+		static double ucb(NT* node)
 		{
 			return node->totalReward / node->visits + std::sqrt(std::log((double)node->parent->visits) / node->visits);
 		}

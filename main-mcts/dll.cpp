@@ -32,12 +32,14 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 	using namespace Bot;
 	using namespace Bot::Search;
 
+	typedef UCT::NodeUCT NT;
+
 	function<Squad*()> newSquad = []{
-		static shared_ptr<Searcher> searcher = make_shared<SearcherMCTS<UCT::NodeUCT>>(
+		static shared_ptr<Searcher> searcher = make_shared<SearcherMCTS<NT>>(
 			make_shared<ActionListers::BranchOnUnit>(),
-			make_shared<Selecters::UCB<UCT::NodeUCT>>(),
+			make_shared<Selecters::UCB<NT>>(),
 			make_shared<Simulaters::HeuristicWrapper>(make_shared<Heuristics::SqrtHp_Dps>()),
-			make_shared<Backpropagaters::UCT<UCT::NodeUCT>>());
+			make_shared<Backpropagaters::UCT<NT>>());
 		return new SearchingSquad(searcher);
 	};
 	

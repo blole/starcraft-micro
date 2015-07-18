@@ -30,6 +30,7 @@
     <ClInclude Include="heuristics\hp.hpp" />
     <ClInclude Include="heuristics\sqrthp.hpp" />
     <ClInclude Include="heuristics\sqrthp_dps.hpp" />
+    <ClInclude Include="node.hpp" />
     <ClInclude Include="searcher.hpp" />
     <ClInclude Include="searchers\searcherabcd.hpp" />
     <ClInclude Include="searchers\searchermcts.hpp" />

@@ -84,6 +84,7 @@
     <ClInclude Include="searchers\searchermcts.hpp">
       <Filter>searchers</Filter>
     </ClInclude>
+    <ClInclude Include="node.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />
