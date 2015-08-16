@@ -53,12 +53,14 @@
     <Import Project="..\bwapi.props" />
     <Import Project="..\output.props" />
     <Import Project="..\boost.props" />
+    <Import Project="..\debug-starcraft-bot.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\bwapi.props" />
     <Import Project="..\output.props" />
     <Import Project="..\boost.props" />
+    <Import Project="..\debug-starcraft-bot.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
