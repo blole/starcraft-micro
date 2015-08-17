@@ -7,7 +7,7 @@
 
 namespace Bot { namespace Search
 {
-	class Terran_Marine : public Unit
+	class_Unit(Terran_Marine)
 	{
 		//typedef ClearAttackFrame <OneUnitEffectData> Attack;
 		//typedef ClearAttackFrame <OneUnitEffectData, 7, ClearAttackFrame<OneUnitEffectData>> Attack;
@@ -25,10 +25,10 @@ namespace Bot { namespace Search
 
 	public:
 		Terran_Marine(BWAPI::Unit bwapiUnit, id_t id)
-			: Unit(bwapiUnit, id)
+			: Base(bwapiUnit, id)
 		{}
 
-		virtual std::vector<Effect*> possibleActions(const GameState* state) const
+		virtual std::vector<Effect*> possibleActions(const GameState* state) const override
 		{
 			static const int range = BWAPI::UnitTypes::Terran_Marine.groundWeapon().maxRange();
 
@@ -74,12 +74,6 @@ namespace Bot { namespace Search
 				groundWeaponCooldown = true;
 				state->queueEffect(14, new ClearGroundWeaponCooldown<OneUnitEffectData>(OneUnitEffectData(id)));
 			}
-		}
-		
-	public:
-		virtual Unit* clone() const
-		{
-			return new Terran_Marine(*this);
 		}
 	};
 }}

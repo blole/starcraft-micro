@@ -42,4 +42,22 @@ namespace Bot { namespace Search
 	public:
 		static Unit* create(GameState* state, BWAPI::Unit bwapiUnit, id_t id);
 	};
+
+	template <typename Derived>
+	class Unit_CRTP : public Unit
+	{
+	public:
+		Unit_CRTP(BWAPI::Unit bwapiUnit, id_t id)
+			: Unit(bwapiUnit, id)
+		{}
+
+		typedef Unit_CRTP<Derived> Base;
+
+		virtual Unit* clone() const final override
+		{
+			return new Derived(static_cast<Derived const&>(*this));
+		}
+	};
+
+	#define class_Unit(Type) class Type : public Unit_CRTP<Type>
 }}
