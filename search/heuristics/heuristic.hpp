@@ -6,6 +6,7 @@ namespace Bot { namespace Search
 	
 	struct Heuristic
 	{
+		virtual ~Heuristic() {}
 		virtual double value(const GameState* state) const = 0;
 	};
 }}

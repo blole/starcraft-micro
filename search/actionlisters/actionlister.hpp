@@ -8,6 +8,7 @@ namespace Bot { namespace Search
 
 	struct ActionLister
 	{
+		virtual ~ActionLister() {}
 		virtual std::vector<Effect*> actions(const GameState* gamestate) const = 0;
 	};
 }}

@@ -8,7 +8,7 @@ namespace Bot { namespace Search { namespace ActionListers
 	class BranchOnUnit : public ActionLister
 	{
 	public:
-		virtual std::vector<Effect*> actions(const GameState* gamestate) const
+		virtual std::vector<Effect*> actions(const GameState* gamestate) const override
 		{
 			const std::vector<const Unit*>& units = gamestate->getUnits();
 			for (const Unit* unit : units)

@@ -1,5 +1,5 @@
 #pragma once
-#include "search/effect.hpp"
+#include "search/effects/effect.hpp"
 #include <cassert>
 
 namespace Bot { namespace Search

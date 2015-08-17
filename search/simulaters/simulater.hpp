@@ -6,6 +6,7 @@ namespace Bot { namespace Search
 
 	struct Simulater
 	{
+		virtual ~Simulater() {}
 		virtual double simulate(GameState* state) const = 0;
 	};
 }}

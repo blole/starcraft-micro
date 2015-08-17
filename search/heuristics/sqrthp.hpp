@@ -1,7 +1,7 @@
 #pragma once
 #include "search/gamestate.hpp"
-#include "search/unit.hpp"
-#include "search/heuristic.hpp"
+#include "search/units/unit.hpp"
+#include "search/heuristics/heuristic.hpp"
 
 namespace Bot { namespace Search { namespace Heuristics
 {

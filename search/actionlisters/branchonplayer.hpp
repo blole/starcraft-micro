@@ -1,8 +1,8 @@
 #pragma once
-#include "search/actionlister.hpp"
-#include "search/effect.hpp"
+#include "search/actionlisters/actionlister.hpp"
+#include "search/effects/effect.hpp"
 #include "search/effects/compositeeffect.hpp"
-#include "search/unit.hpp"
+#include "search/units/unit.hpp"
 
 namespace Bot { namespace Search { namespace ActionListers
 {
