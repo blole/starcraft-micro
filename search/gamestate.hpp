@@ -43,8 +43,7 @@ namespace Bot { namespace Search
 		std::list<const Unit*> enemyUnits() const;
 		const std::vector<const Unit*>& getUnits() const;
 
-		const Unit* getUnit(const id_t id) const;
-		Unit* getUnitModifiable(const id_t id);
+		Unit* getUnit(const id_t id) const;
 
 		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int maxRange) const;
 		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const;

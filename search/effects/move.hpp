@@ -33,11 +33,9 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			Unit* unit = state->getUnitModifiable(unitID());
+			Unit* unit = state->getUnit(unitID());
 			if (!unit->isAlive() || unit->isAttackFrame)
-			{
 				unit->isMoving = false;
-			}
 			else
 			{
 				state->queueEffect(1, new Move(data));

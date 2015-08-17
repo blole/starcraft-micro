@@ -64,14 +64,8 @@ std::list<const Unit*> GameState::enemyUnitsInRange(BWAPI::Position origin, int 
 	return enemyUnitsInRange(origin, 0, maxRange);
 }
 
-const Unit* GameState::getUnit(const id_t id) const
+Unit* GameState::getUnit(const id_t id) const
 {
-	return units[id];
-}
-
-Unit* GameState::getUnitModifiable(const id_t id)
-{
-	units[id] = units[id]->clone();
 	return units[id];
 }
 
