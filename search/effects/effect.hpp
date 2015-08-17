@@ -73,36 +73,27 @@ namespace Bot { namespace Search
 	class OneUnitEffect : public EffectWithData<Data>
 	{
 	protected:
-		const id_t& unitID;
+		id_t unitID() const { return data.unitID; }
 	public:
 		OneUnitEffect(const Data& data)
 			: EffectWithData(data)
-			, unitID(data.unitID)
 		{}
 
 		virtual bool isPlayerEffect() const override
 		{
-			return GameState::isPlayerUnit(unitID);
+			return GameState::isPlayerUnit(unitID());
 		}
 	};
 
 	template <class Data = nullptr_t>
-	class TwoUnitEffect : public EffectWithData<Data>
+	class TwoUnitEffect : public OneUnitEffect<Data>
 	{
 	protected:
-		const id_t& unitID;
-		const id_t& targetID;
+		id_t targetID() const { return data.targetID; }
 	public:
-		TwoUnitEffect(const Data& data)
-			: EffectWithData(data)
-			, unitID(data.unitID)
-			, targetID(data.targetID)
+		TwoUnitEffect(Data data)
+			: OneUnitEffect<Data>(data)
 		{}
-
-		virtual bool isPlayerEffect() const override
-		{
-			return GameState::isPlayerUnit(unitID);
-		}
 	};
 
 	struct OneUnitEffectData

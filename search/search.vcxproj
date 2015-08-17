@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="units\unit.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

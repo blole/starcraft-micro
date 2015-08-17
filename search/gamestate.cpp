@@ -80,10 +80,11 @@ void GameState::advanceFrames(unsigned int framesToAdvance)
 	for (unsigned int i=0; i<framesToAdvance; i++)
 	{
 		frame++;
-		std::vector<Effect*>& effects = pendingEffects.front();
+		std::vector<Effect*> effects = pendingEffects.front();
+		pendingEffects.pop_front();
+
 		for (Effect* effect : effects)
 			effect->applyTo(this);
-		pendingEffects.pop_front();
 	}
 }
 

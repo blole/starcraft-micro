@@ -10,13 +10,13 @@ namespace Bot { namespace Search
 	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<offset, NextEffect>
 	{
 	public:
-		BeginAttack(const Data& data)
-			: TwoUnitEffect(data)
+		BeginAttack(Data data)
+			: TwoUnitEffect<Data>(data)
 		{}
 
 		virtual void applyTo(GameState* state) const override
 		{
-			Unit* unit = state->getUnitModifiable(unitID);
+			Unit* unit = state->getUnitModifiable(unitID());
 			unit->isAttackFrame = true;
 			unit->groundWeaponCooldown = true;
 			queueNext(state, data);
@@ -24,8 +24,8 @@ namespace Bot { namespace Search
 		
 		virtual void executeOrder(GameState* state) const override
 		{
-			BWAPI::Unit unit = state->getBwapiUnit(unitID);
-			BWAPI::Unit target = state->getBwapiUnit(targetID);
+			BWAPI::Unit unit = state->getBwapiUnit(unitID());
+			BWAPI::Unit target = state->getBwapiUnit(targetID());
 
 			if (!unit->isStartingAttack()) //TODO: this line shouldn't be needed
 				unit->attack(target);
@@ -47,7 +47,7 @@ namespace Bot { namespace Search
 		
 		virtual void applyTo(GameState* state) const override
 		{
-			state->getUnitModifiable(targetID)->hp -= damage;
+			state->getUnitModifiable(targetID())->hp -= damage;
 			queueNext(state, data);
 		}
 	};
@@ -63,7 +63,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			state->getUnitModifiable(unitID)->isAttackFrame = false;
+			state->getUnitModifiable(unitID())->isAttackFrame = false;
 			queueNext(state, data);
 		}
 	};
@@ -79,7 +79,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			state->getUnitModifiable(unitID)->groundWeaponCooldown = false;
+			state->getUnitModifiable(unitID())->groundWeaponCooldown = false;
 			queueNext(state, data);
 		}
 	};

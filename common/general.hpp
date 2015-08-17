@@ -22,6 +22,8 @@ namespace Bot
 		General(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
 			: newSquad([=]{ return new ReactiveSquad(unitBrain); })
 		{}
+		virtual ~General()
+		{}
 	
 	
 	public:

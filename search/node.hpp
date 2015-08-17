@@ -11,7 +11,7 @@ namespace Bot { namespace Search
 	public:
 		NT* parent;
 		Effect* effect;
-		std::vector<NT> children;
+		std::vector<NT*> children;
 	public:
 		Node(NT* parent, Effect* effect)
 			: parent(parent)

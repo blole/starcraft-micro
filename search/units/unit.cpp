@@ -10,6 +10,7 @@ Unit* Unit::create(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 	{
 	case BWAPI::UnitTypes::Enum::Terran_Marine:
 		unit = new Terran_Marine(bwapiUnit, id);
+		break;
 	default:
 		throw std::runtime_error("only marines supported for MCTS so far.");
 	}

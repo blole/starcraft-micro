@@ -24,14 +24,13 @@ void Main::onStart()
 
 void Main::onFrame()
 {
+	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
+		return;
+
 	Broodwar->drawTextScreen(200, 0, "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
 	Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
 	Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
 	//Broodwar->drawTextScreen(100, 0, "Bot behavior is: %s", MainDescription);
-
-	// Return if the game is a replay or is paused
-	if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
-		return;
 
 	general->onFrame();
 }

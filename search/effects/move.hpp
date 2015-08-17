@@ -21,7 +21,7 @@ namespace Bot { namespace Search
 		const BWAPI::Position& moveOffset;
 	public:
 		Move(const Unit* unit, float direction)
-			: Move(MoveData(unitID, BWAPI::Position(
+			: Move(MoveData(unit->id, BWAPI::Position(
 				(int)(std::cos(direction) * unit->getBwapiUnit()->getType().topSpeed()),
 				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed()))))
 		{}
@@ -33,7 +33,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			Unit* unit = state->getUnitModifiable(unitID);
+			Unit* unit = state->getUnitModifiable(unitID());
 			if (!unit->isAlive() || unit->isAttackFrame)
 			{
 				unit->isMoving = false;
@@ -50,7 +50,7 @@ namespace Bot { namespace Search
 
 		virtual void executeOrder(GameState* state) const override
 		{
-			BWAPI::Unit unit = state->getBwapiUnit(unitID);
+			BWAPI::Unit unit = state->getBwapiUnit(unitID());
 
 			unit->move(unit->getPosition() + moveOffset * 10);
 			

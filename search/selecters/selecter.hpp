@@ -1,5 +1,4 @@
 #pragma once
-#include "search/node.hpp"
 
 namespace Bot { namespace Search
 {
@@ -8,6 +7,7 @@ namespace Bot { namespace Search
 	template<class NT>
 	struct Selecter
 	{
-		virtual NT& select(NT* node, const GameState& state) const = 0;
+		virtual ~Selecter() {}
+		virtual NT* select(NT* node, const GameState& state) const = 0;
 	};
 }}
