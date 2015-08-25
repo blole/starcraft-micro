@@ -1,8 +1,7 @@
 #pragma once
 #include <BWAPI.h>
-#include <vector>
-#include <list>
 #include <cassert>
+
 #include "search/searchers/searcher.hpp"
 #include "search/actionlisters/actionlister.hpp"
 #include "search/selecters/selecter.hpp"
@@ -11,7 +10,7 @@
 #include "search/units/unit.hpp"
 #include "search/effects/effect.hpp"
 #include "search/node.hpp"
-#include <boost/ptr_container/clone_allocator.hpp>
+#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {
@@ -49,17 +48,17 @@ namespace Bot { namespace Search
 	class SearcherMCTS : public Searcher
 	{
 	private:
-		std::shared_ptr<ActionLister> actionlister;
-		std::shared_ptr<Selecter<NT>> selecter;
-		std::shared_ptr<Simulater> simulater;
-		std::shared_ptr<Backpropagater<NT>> backpropagater;
+		shared_ptr<ActionLister> actionlister;
+		shared_ptr<Selecter<NT>> selecter;
+		shared_ptr<Simulater> simulater;
+		shared_ptr<Backpropagater<NT>> backpropagater;
 		
 	public:
 		SearcherMCTS(
-			std::shared_ptr<ActionLister> actionlister,
-			std::shared_ptr<Selecter<NT>> selecter,
-			std::shared_ptr<Simulater> simulater,
-			std::shared_ptr<Backpropagater<NT>> backpropagater)
+			shared_ptr<ActionLister> actionlister,
+			shared_ptr<Selecter<NT>> selecter,
+			shared_ptr<Simulater> simulater,
+			shared_ptr<Backpropagater<NT>> backpropagater)
 			: actionlister(actionlister)
 			, selecter(selecter)
 			, simulater(simulater)
@@ -111,13 +110,13 @@ namespace Bot { namespace Search
 			return root;
 		}
 
-		std::vector<Effect*> search(GameState* rootState) override
+		vector<Effect*> search(GameState* rootState) override
 		{
 			NT* const root = buildTree(rootState);
 			NT* node = root;
 			GameState state(*rootState);
 			
-			std::vector<Effect*> bestActions;
+			vector<Effect*> bestActions;
 
 			//TODO: select best, not regular selection
 			while (state.getFrame() == 0)

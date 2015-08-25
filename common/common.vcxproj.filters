@@ -59,5 +59,8 @@
     <ClInclude Include="reactivesquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
+    <ClInclude Include="common.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

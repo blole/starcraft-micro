@@ -36,8 +36,11 @@ namespace Bot { namespace Search
 
 			if (!groundWeaponCooldown)
 			{
-				for (const Unit* enemy : state->enemyUnitsInRange(pos, range))
-					actions.push_back(new Attack(TwoUnitEffectData(id, enemy->id)));
+				for (auto& unit : state->teamunits(!isPlayerUnit()))
+				{
+					if (unit->isAlive() && pos.getDistance(unit->pos) <= range)
+						actions.push_back(new Attack(TwoUnitEffectData(id, unit->id)));
+				}
 			}
 
 			if (!isAttackFrame && !isMoving)

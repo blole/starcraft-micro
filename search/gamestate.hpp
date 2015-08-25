@@ -1,21 +1,20 @@
 #pragma once
 #include <BWAPI.h>
-#include <vector>
-#include <deque>
-#include <list>
+#include "common/common.hpp"
+#include "search/units/unit.hpp"
+#include <boost/range.hpp>
 
 typedef int id_t;
 
 namespace Bot { namespace Search
 {
 	class Effect;
-	class Unit;
 
 	class GameState
 	{
 		friend class Unit;
 	private:
-		static std::vector<BWAPI::Unit> bwapiUnits;
+		static vector<BWAPI::Unit> bwapiUnits;
 		static int playerUnitCount;
 	public:
 		static BWAPI::Unit getBwapiUnit(const id_t id) { return bwapiUnits[id]; }
@@ -24,32 +23,46 @@ namespace Bot { namespace Search
 		
 		
 	private:
-		std::vector<Unit*> units;
-		std::deque<std::vector<Effect*>> pendingEffects;
+		deque<vector<Effect*>> pendingEffects;
 		unsigned int frame;
+	public:
+		vector<unique_ptr<Unit>> units;
 
 	public:
-		GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Unit> enemyUnits);
-		~GameState();
-
+		GameState(vector<BWAPI::Unit> playerUnits, vector<BWAPI::Unit> enemyUnits);
+		GameState(const GameState& o)
+			: frame(o.frame)
+		{
+			for (auto& unit : o.units)
+				units.emplace_back(unit->clone());
+			for (auto& o_frameEffects : o.pendingEffects)
+			{
+				pendingEffects.emplace_back();
+				for (auto& effect : o_frameEffects)
+					pendingEffects.back().push_back(effect);
+			}
+		}
+		~GameState() {}
+		sub_range<const vector<unique_ptr<Unit>>> playerUnits() const
+		{
+			return sub_range<const vector<unique_ptr<Unit>>>(units.begin(), units.begin()+playerUnitCount);
+		}
+		sub_range<const vector<unique_ptr<Unit>>> enemyUnits() const
+		{
+			return sub_range<const vector<unique_ptr<Unit>>>(units.begin() + playerUnitCount, units.end());
+		}
+		sub_range<const vector<unique_ptr<Unit>>> teamunits(bool player) const
+		{
+			if (player)
+				return playerUnits();
+			else
+				return enemyUnits();
+		}
 	public:
 		unsigned int getFrame() const { return frame; }
 		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);
 		void queueEffect(unsigned int frameOffset, Effect* effect);
-
-		std::list<const Unit*> playerUnits() const;
-		std::list<const Unit*> enemyUnits() const;
-		const std::vector<const Unit*>& getUnits() const;
-
-		Unit* getUnit(const id_t id) const;
-
-		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int maxRange) const;
-		std::list<const Unit*> enemyUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const;
-		std::list<const Unit*> playerUnitsInRange(BWAPI::Position origin, int maxRange) const;
-		std::list<const Unit*> playerUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const;
-	private:
-		std::list<const Unit*> unitsInRange(const std::list<const Unit*>& outOf, BWAPI::Position origin, int minRange, int maxRange) const;
 	};
 }}

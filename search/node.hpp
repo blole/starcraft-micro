@@ -21,6 +21,9 @@ namespace Bot { namespace Search
 		virtual ~Node()
 		{
 			delete effect;
+			for (NT* node : children)
+				delete node;
+			children.clear();
 		}
 	};
 }}

@@ -16,7 +16,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			Unit* unit = state->getUnit(unitID());
+			auto& unit = state->units[unitID()];
 			unit->isAttackFrame = true;
 			unit->groundWeaponCooldown = true;
 			queueNext(state, data);
@@ -47,7 +47,7 @@ namespace Bot { namespace Search
 		
 		virtual void applyTo(GameState* state) const override
 		{
-			state->getUnit(targetID())->hp -= damage;
+			state->units[targetID()]->hp -= damage;
 			queueNext(state, data);
 		}
 	};
@@ -63,7 +63,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			state->getUnit(unitID())->isAttackFrame = false;
+			state->units[unitID()]->isAttackFrame = false;
 			queueNext(state, data);
 		}
 	};
@@ -79,7 +79,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			state->getUnit(unitID())->groundWeaponCooldown = false;
+			state->units[unitID()]->groundWeaponCooldown = false;
 			queueNext(state, data);
 		}
 	};

@@ -2,20 +2,34 @@
 #include "search/units/marine.hpp"
 
 using namespace Bot::Search;
+using namespace std;
 
-Unit* Unit::create(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
+unique_ptr<Unit> Unit::create(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
 {
-	Unit* unit;
+	unique_ptr<Unit> unit;
 	switch (bwapiUnit->getType().getID())
 	{
 	case BWAPI::UnitTypes::Enum::Terran_Marine:
-		unit = new Terran_Marine(bwapiUnit, id);
+		unit = make_unique<Terran_Marine>(bwapiUnit, id);
 		break;
 	default:
-		throw std::runtime_error("only marines supported for MCTS so far.");
+		throw runtime_error("only marines supported for MCTS so far.");
 	}
 
 	unit->firstFrameInitToAddAlreadyActiveEffects(state);
 
 	return unit;
+}
+
+bool Unit::isPlayerUnit() const
+{
+	return id < GameState::playerUnitCount;
+}
+bool Unit::isEnemyUnit() const
+{
+	return id >= GameState::playerUnitCount;
+}
+BWAPI::Unit Unit::getBwapiUnit() const
+{
+	return GameState::getBwapiUnit(id);
 }

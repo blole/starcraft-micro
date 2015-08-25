@@ -10,8 +10,7 @@ namespace Bot { namespace Search { namespace ActionListers
 	public:
 		virtual std::vector<Effect*> actions(const GameState* gamestate) const override
 		{
-			const std::vector<const Unit*>& units = gamestate->getUnits();
-			for (const Unit* unit : units)
+			for (auto& unit : gamestate->units)
 			{
 				if (unit->isAlive())
 				{
@@ -28,7 +27,7 @@ namespace Bot { namespace Search { namespace ActionListers
 						return actions;
 				}
 			}
-
+			
 			return { new AdvanceFrameEffect(1) };
 		}
 	};

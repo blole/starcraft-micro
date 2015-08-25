@@ -33,7 +33,7 @@ namespace Bot { namespace Search
 
 		virtual void applyTo(GameState* state) const override
 		{
-			Unit* unit = state->getUnit(unitID());
+			auto& unit = state->units[unitID()];
 			if (!unit->isAlive() || unit->isAttackFrame)
 				unit->isMoving = false;
 			else

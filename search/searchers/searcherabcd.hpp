@@ -1,11 +1,9 @@
 #pragma once
 #include <BWAPI.h>
-#include <vector>
-#include <list>
-#include <cassert>
 #include "search/searchers/searcher.hpp"
 #include "search/units/unit.hpp"
 #include "search/actionlisters/branchonplayer.hpp"
+#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {

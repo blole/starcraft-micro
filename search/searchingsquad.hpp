@@ -17,9 +17,9 @@ namespace Bot { namespace Search
 	{
 	public:
 		static const int radius = 400;
-		std::shared_ptr<Searcher> searcher;
+		shared_ptr<Searcher> searcher;
 		
-		SearchingSquad(std::shared_ptr<Searcher> searcher)
+		SearchingSquad(shared_ptr<Searcher> searcher)
 			: searcher(searcher)
 		{}
 		
@@ -27,8 +27,8 @@ namespace Bot { namespace Search
 		{
 			units.remove_if([](PUnit* unit){ return !unit->exists(); });
 			
-			std::vector<BWAPI::Unit> playerUnits;
-			std::vector<BWAPI::Unit> enemyUnits;
+			vector<BWAPI::Unit> playerUnits;
+			vector<BWAPI::Unit> enemyUnits;
 			
 			for (PUnit* unit : units)
 			{
@@ -46,7 +46,7 @@ namespace Bot { namespace Search
 			{
 				try {
 					int gameframe = BWAPI::Broodwar->getFrameCount();
-					std::vector<Effect*> actions = searcher->search(&state);
+					vector<Effect*> actions = searcher->search(&state);
 
 					for (Effect* action : actions)
 					{

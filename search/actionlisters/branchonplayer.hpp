@@ -16,9 +16,8 @@ namespace Bot { namespace Search { namespace ActionListers
 
 			// Create matrix of all possible actions
 			std::list<std::vector<Effect*>> matrixOfActions;
-			const std::vector<const Unit*>& units = gamestate->getUnits();
 
-			for (const Unit* unit : units)
+			for (auto& unit : gamestate->units)
 			{
 				if (unit->isAlive() && unit->isPlayerUnit() == current_player)
 				{

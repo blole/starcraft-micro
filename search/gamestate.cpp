@@ -4,69 +4,24 @@
 
 using namespace Bot::Search;
 
-std::vector<BWAPI::Unit> GameState::bwapiUnits;
+vector<BWAPI::Unit> GameState::bwapiUnits;
 int GameState::playerUnitCount = -1;
 
-GameState::GameState(std::vector<BWAPI::Unit> playerUnits, std::vector<BWAPI::Unit> enemyUnits)
+GameState::GameState(vector<BWAPI::Unit> playerBwapiUnits, vector<BWAPI::Unit> enemyBwapiUnits)
 	: frame(0)
 {
 	GameState::bwapiUnits.clear();
-	GameState::playerUnitCount = playerUnits.size();
-	std::copy(playerUnits.begin(), playerUnits.end(), std::back_inserter(bwapiUnits));
-	std::copy(enemyUnits.begin(), enemyUnits.end(), std::back_inserter(bwapiUnits));
+	GameState::playerUnitCount = playerBwapiUnits.size();
+	std::copy(playerBwapiUnits.begin(), playerBwapiUnits.end(), std::back_inserter(bwapiUnits));
+	std::copy(enemyBwapiUnits.begin(), enemyBwapiUnits.end(), std::back_inserter(bwapiUnits));
 
 	id_t id = 0;
 
-	for (BWAPI::Unit playerUnit : playerUnits)
+	for (BWAPI::Unit playerUnit : playerBwapiUnits)
 		units.push_back(Unit::create(this, playerUnit, id++));
 
-	for (BWAPI::Unit enemyUnit : enemyUnits)
+	for (BWAPI::Unit enemyUnit : enemyBwapiUnits)
 		units.push_back(Unit::create(this, enemyUnit, id++));
-}
-
-GameState::~GameState()
-{
-}
-
-std::list<const Unit*> GameState::unitsInRange(const std::list<const Unit*>& outOf, BWAPI::Position origin, int minRange, int maxRange) const
-{
-	std::list<const Unit*> inRange;
-
-	for (const Unit* unit : outOf)
-	{
-		if (!unit->isAlive())
-			continue;
-		double distance = origin.getDistance(unit->pos);
-		if (minRange <= distance && distance <= maxRange)
-			inRange.push_back(unit);
-	}
-
-	return inRange;
-}
-
-std::list<const Unit*> GameState::playerUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const
-{
-	return unitsInRange(playerUnits(), origin, minRange, maxRange);
-}
-
-std::list<const Unit*> GameState::playerUnitsInRange(BWAPI::Position origin, int maxRange) const
-{
-	return playerUnitsInRange(origin, 0, maxRange);
-}
-
-std::list<const Unit*> GameState::enemyUnitsInRange(BWAPI::Position origin, int minRange, int maxRange) const
-{
-	return unitsInRange(enemyUnits(), origin, minRange, maxRange);
-}
-
-std::list<const Unit*> GameState::enemyUnitsInRange(BWAPI::Position origin, int maxRange) const
-{
-	return enemyUnitsInRange(origin, 0, maxRange);
-}
-
-Unit* GameState::getUnit(const id_t id) const
-{
-	return units[id];
 }
 
 void GameState::advanceFrames(unsigned int framesToAdvance)
@@ -74,7 +29,7 @@ void GameState::advanceFrames(unsigned int framesToAdvance)
 	for (unsigned int i=0; i<framesToAdvance; i++)
 	{
 		frame++;
-		std::vector<Effect*> effects = pendingEffects.front();
+		vector<Effect*> effects = pendingEffects.front();
 		pendingEffects.pop_front();
 
 		for (Effect* effect : effects)
@@ -97,7 +52,7 @@ void GameState::queueEffect(unsigned int frameOffset, Effect* effect)
 bool GameState::isTerminal()
 {
 	bool anyFriendlyAlive = false;
-	for (const Unit* unit : playerUnits())
+	for (auto& unit : playerUnits())
 	{
 		if (unit->isAlive())
 		{
@@ -107,7 +62,7 @@ bool GameState::isTerminal()
 	}
 
 	bool anyEnemyAlive = false;
-	for (const Unit* unit : enemyUnits())
+	for (auto& unit : enemyUnits())
 	{
 		if (unit->isAlive())
 		{
@@ -116,20 +71,5 @@ bool GameState::isTerminal()
 		}
 	}
 
-	return !(anyFriendlyAlive && anyEnemyAlive);
-}
-
-std::list<const Unit*> GameState::playerUnits() const
-{
-	return std::list<const Unit*>(getUnits().begin(), getUnits().begin() + playerUnitCount);
-}
-
-std::list<const Unit*> GameState::enemyUnits() const
-{
-	return std::list<const Unit*>(getUnits().begin() + playerUnitCount, getUnits().end());
-}
-
-const std::vector<const Unit*>& GameState::getUnits() const
-{
-	return (std::vector<const Unit*>&)units;
+	return !anyFriendlyAlive || !anyEnemyAlive;
 }

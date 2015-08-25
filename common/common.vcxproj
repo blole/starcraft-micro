@@ -18,6 +18,7 @@
     <ClCompile Include="squad.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common.hpp" />
     <ClInclude Include="gameunit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="general.hpp" />
