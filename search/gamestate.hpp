@@ -23,26 +23,17 @@ namespace Bot { namespace Search
 		
 		
 	private:
-		deque<vector<Effect*>> pendingEffects;
+		deque<vector<shared_ptr<Effect>>> pendingEffects;
 		unsigned int frame;
 	public:
 		vector<unique_ptr<Unit>> units;
 
 	public:
 		GameState(vector<BWAPI::Unit> playerUnits, vector<BWAPI::Unit> enemyUnits);
-		GameState(const GameState& o)
-			: frame(o.frame)
-		{
-			for (auto& unit : o.units)
-				units.emplace_back(unit->clone());
-			for (auto& o_frameEffects : o.pendingEffects)
-			{
-				pendingEffects.emplace_back();
-				for (auto& effect : o_frameEffects)
-					pendingEffects.back().push_back(effect);
-			}
-		}
+		GameState(const GameState& o);
 		~GameState() {}
+		
+	public:
 		sub_range<const vector<unique_ptr<Unit>>> playerUnits() const
 		{
 			return sub_range<const vector<unique_ptr<Unit>>>(units.begin(), units.begin()+playerUnitCount);
@@ -58,11 +49,12 @@ namespace Bot { namespace Search
 			else
 				return enemyUnits();
 		}
+
 	public:
 		unsigned int getFrame() const { return frame; }
 		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);
-		void queueEffect(unsigned int frameOffset, Effect* effect);
+		void queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect);
 	};
 }}

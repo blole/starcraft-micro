@@ -21,8 +21,8 @@ namespace Bot { namespace Search
 		int visits;
 		double totalReward;
 	public:
-		NodeMCTS(NT* parent, Effect* effect, int visits = 0, double totalReward = 0)
-			: Node(parent, effect)
+		NodeMCTS(NT* parent, shared_ptr<Effect> effect, int visits = 0, double totalReward = 0)
+			: Node(parent, std::move(effect))
 			, visits(visits)
 			, totalReward(totalReward)
 		{}
@@ -36,8 +36,8 @@ namespace Bot { namespace Search
 		public:
 			bool terminal;
 		public:
-			NodeUCT(NodeUCT* parent, Effect* effect)
-				: NodeMCTS(parent, effect)
+			NodeUCT(NodeUCT* parent, shared_ptr<Effect> effect)
+				: NodeMCTS(parent, std::move(effect))
 				, terminal(false)
 			{}
 		};
@@ -84,8 +84,8 @@ namespace Bot { namespace Search
 					{
 						if (!state.isTerminal())
 						{
-							for (Effect* effect : actionlister->actions(&state))
-								node->children.push_back(new NT(node, effect));
+							for (shared_ptr<Effect>& effect : actionlister->actions(&state))
+								node->children.push_back(std::make_unique<NT>(node, effect));
 						}
 
 						if (node->children.empty())
@@ -110,13 +110,13 @@ namespace Bot { namespace Search
 			return root;
 		}
 
-		vector<Effect*> search(GameState* rootState) override
+		vector<shared_ptr<Effect>> search(GameState* rootState) override
 		{
-			NT* const root = buildTree(rootState);
-			NT* node = root;
+			unique_ptr<NT> root = unique_ptr<NT>(buildTree(rootState));
+			NT* node = root.get();
 			GameState state(*rootState);
 			
-			vector<Effect*> bestActions;
+			vector<shared_ptr<Effect>> bestActions;
 
 			//TODO: select best, not regular selection
 			while (state.getFrame() == 0)
@@ -128,16 +128,12 @@ namespace Bot { namespace Search
 				state.queueEffect(0, node->effect);
 				
 				if (node->effect->isPlayerEffect())
-				{
 					bestActions.push_back(node->effect);
-					node->effect = nullptr; //don't delete these effects when deleting root
-				}
 			}
 			
 			BWAPI::Broodwar->drawTextScreen(200, 75,  "number of taken actions: %d", bestActions.size());
 			BWAPI::Broodwar->drawTextScreen(200, 100, "root average reward: %.3f", root->totalReward / root->visits);
 			BWAPI::Broodwar->drawTextScreen(0, 30, "root.visits: %d", root->visits);
-			delete root;
 			return bestActions;
 		}
 	};

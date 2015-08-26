@@ -1,12 +1,7 @@
 #pragma once
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
-#include <BWAPI.h>
-#include <cassert>
-#include <boost/mpl/assert.hpp>
-#include <boost/static_assert.hpp>
-#include <boost/type_traits.hpp>
-#include <boost/concept/requires.hpp>
+#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {
@@ -22,7 +17,7 @@ namespace Bot { namespace Search
 	class NoEffect final : public Effect
 	{
 	public:
-		virtual void applyTo(GameState* state) const override
+		virtual void applyTo(GameState* state) const final override
 		{}
 	};
 
@@ -57,7 +52,7 @@ namespace Bot { namespace Search
 		template <class Data>
 		void queueNext(GameState* state, const Data& data) const
 		{
-			state->queueEffect(offset, new NextEffect(data));
+			state->queueEffect(offset, std::make_shared<NextEffect>(data));
 		}
 	};
 	template <>
@@ -69,7 +64,7 @@ namespace Bot { namespace Search
 		{}
 	};
 	
-	template <class Data = nullptr_t>
+	template <class Data>
 	class OneUnitEffect : public EffectWithData<Data>
 	{
 	protected:
@@ -85,7 +80,7 @@ namespace Bot { namespace Search
 		}
 	};
 
-	template <class Data = nullptr_t>
+	template <class Data>
 	class TwoUnitEffect : public OneUnitEffect<Data>
 	{
 	protected:

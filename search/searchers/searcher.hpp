@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {
@@ -10,6 +10,6 @@ namespace Bot { namespace Search
 	{
 	public:
 		virtual ~Searcher() {}
-		virtual std::vector<Effect*> search(GameState* gamestate) = 0;
+		virtual vector<shared_ptr<Effect>> search(GameState* gamestate) = 0;
 	};
 }}

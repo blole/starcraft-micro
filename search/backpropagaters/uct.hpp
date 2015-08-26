@@ -9,9 +9,9 @@ namespace Bot { namespace Search { 	namespace Backpropagaters
 	{
 		virtual void backpropagate(NT* node, double score) const override
 		{
-			while (node->parent != nullptr)
+			while (node->parent)
 			{
-				node->visits++;
+				++node->visits;
 				if (node->effect->isPlayerEffect())
 					node->totalReward += score;
 				else

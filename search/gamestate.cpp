@@ -24,20 +24,33 @@ GameState::GameState(vector<BWAPI::Unit> playerBwapiUnits, vector<BWAPI::Unit> e
 		units.push_back(Unit::create(this, enemyUnit, id++));
 }
 
+GameState::GameState(const GameState& o)
+	: frame(o.frame)
+{
+	for (auto& unit : o.units)
+		units.emplace_back(unit->clone());
+	for (const vector<shared_ptr<Effect>>& o_frameEffects : o.pendingEffects)
+	{
+		pendingEffects.emplace_back();
+		for (const shared_ptr<Effect>& effect : o_frameEffects)
+			pendingEffects.back().emplace_back(effect);
+	}
+}
+
 void GameState::advanceFrames(unsigned int framesToAdvance)
 {
 	for (unsigned int i=0; i<framesToAdvance; i++)
 	{
 		frame++;
-		vector<Effect*> effects = pendingEffects.front();
+		vector<shared_ptr<Effect>> effects = pendingEffects.front();
 		pendingEffects.pop_front();
 
-		for (Effect* effect : effects)
+		for (auto& effect : effects)
 			effect->applyTo(this);
 	}
 }
 
-void GameState::queueEffect(unsigned int frameOffset, Effect* effect)
+void GameState::queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect)
 {
 	if (frameOffset == 0)
 		effect->applyTo(this);

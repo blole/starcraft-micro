@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {
@@ -9,21 +9,15 @@ namespace Bot { namespace Search
 	class Node
 	{
 	public:
-		NT* parent;
-		Effect* effect;
-		std::vector<NT*> children;
+		NT* const parent;
+		shared_ptr<Effect> effect;
+		vector<unique_ptr<NT>> children;
 	public:
-		Node(NT* parent, Effect* effect)
+		Node(NT* parent, shared_ptr<Effect> effect)
 			: parent(parent)
 			, effect(effect)
 		{}
 
-		virtual ~Node()
-		{
-			delete effect;
-			for (NT* node : children)
-				delete node;
-			children.clear();
-		}
+		virtual ~Node() {}
 	};
 }}

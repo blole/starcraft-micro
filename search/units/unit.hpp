@@ -1,5 +1,4 @@
 #pragma once
-#include <BWAPI.h>
 #include "common/common.hpp"
 
 typedef int id_t;
@@ -26,7 +25,7 @@ namespace Bot { namespace Search
 		
 		BWAPI::Unit getBwapiUnit() const;
 		
-		virtual vector<Effect*> possibleActions(const GameState* state) const = 0;
+		virtual vector<shared_ptr<Effect>> possibleActions(const GameState* state) const = 0;
 		virtual Unit* clone() const = 0;
 
 	protected:

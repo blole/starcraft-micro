@@ -38,7 +38,7 @@ namespace Bot { namespace Search
 				unit->isMoving = false;
 			else
 			{
-				state->queueEffect(1, new Move(data));
+				state->queueEffect(1, std::make_shared<Move>(data));
 
 				if (unit->isMoving)
 					unit->pos += moveOffset;
