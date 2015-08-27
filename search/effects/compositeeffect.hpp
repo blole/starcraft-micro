@@ -1,6 +1,6 @@
 #pragma once
+#include "common/common.hpp"
 #include "search/effects/effect.hpp"
-#include <cassert>
 
 namespace Bot { namespace Search
 {
@@ -9,24 +9,24 @@ namespace Bot { namespace Search
 	class CompositeEffect : public Effect
 	{
 	protected:
-		std::vector<Effect*> actions;
+		vector<shared_ptr<Effect>> actions;
 	public:
 
-		CompositeEffect(std::vector<Effect*> actions)
+		CompositeEffect(const vector<shared_ptr<Effect>>& actions)
 			: actions(actions)
 		{
 			assert(!actions.empty());
 		}
 
-		virtual void applyTo(GameState* state) const override
+		virtual void applyTo(GameState& state) const override
 		{
-			for (Effect* action : actions)
+			for (auto& action : actions)
 				action->applyTo(state);
 		}
 
-		virtual void executeOrder(GameState* state) const override
+		virtual void executeOrder(GameState& state) const override
 		{
-			for (Effect* action : actions)
+			for (auto& action : actions)
 				action->executeOrder(state);
 		}
 	};

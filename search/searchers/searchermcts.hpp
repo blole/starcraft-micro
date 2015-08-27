@@ -1,7 +1,5 @@
 #pragma once
-#include <BWAPI.h>
-#include <cassert>
-
+#include "common/common.hpp"
 #include "search/searchers/searcher.hpp"
 #include "search/actionlisters/actionlister.hpp"
 #include "search/selecters/selecter.hpp"
@@ -10,7 +8,6 @@
 #include "search/units/unit.hpp"
 #include "search/effects/effect.hpp"
 #include "search/node.hpp"
-#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {
@@ -65,9 +62,9 @@ namespace Bot { namespace Search
 			, backpropagater(backpropagater)
 		{}
 		
-		unique_ptr<NT> buildTree(GameState* rootState)
+		unique_ptr<NT> buildTree(GameState& rootState)
 		{
-			assert(!rootState->isTerminal());
+			assert(!rootState.isTerminal());
 
 			unique_ptr<NT> root = std::make_unique<NT>(nullptr, nullptr);
 
@@ -75,7 +72,7 @@ namespace Bot { namespace Search
 			for (int i = 0; i < 100; i++)
 			{
 				NT* node = root.get();
-				GameState state(*rootState);
+				GameState state(rootState);
 
 				while (!node->terminal)
 				{
@@ -84,7 +81,7 @@ namespace Bot { namespace Search
 					{
 						if (!state.isTerminal())
 						{
-							for (shared_ptr<Effect>& effect : actionlister->actions(&state))
+							for (shared_ptr<Effect>& effect : actionlister->actions(state))
 								node->children.push_back(std::make_unique<NT>(node, effect));
 						}
 
@@ -101,7 +98,7 @@ namespace Bot { namespace Search
 				}
 
 				//simulation
-				double score = simulater->simulate(&state);
+				double score = simulater->simulate(state);
 
 				//backpropagation
 				backpropagater->backpropagate(node, score);
@@ -110,11 +107,11 @@ namespace Bot { namespace Search
 			return root;
 		}
 
-		vector<shared_ptr<Effect>> search(GameState* rootState) override
+		vector<shared_ptr<Effect>> search(GameState& rootState) override
 		{
 			unique_ptr<NT> root = buildTree(rootState);
 			NT* node = root.get();
-			GameState state(*rootState);
+			GameState state(rootState);
 			
 			vector<shared_ptr<Effect>> bestActions;
 

@@ -28,7 +28,7 @@ namespace Bot { namespace Search
 			: Base(bwapiUnit, id)
 		{}
 
-		virtual std::vector<shared_ptr<Effect>> possibleActions(const GameState* state) const override
+		virtual std::vector<shared_ptr<Effect>> possibleActions(const GameState& state) const override
 		{
 			static const int range = BWAPI::UnitTypes::Terran_Marine.groundWeapon().maxRange();
 
@@ -36,7 +36,7 @@ namespace Bot { namespace Search
 
 			if (!groundWeaponCooldown)
 			{
-				for (auto& unit : state->teamunits(!isPlayerUnit()))
+				for (auto& unit : state.teamunits(!isPlayerUnit()))
 				{
 					if (unit->isAlive() && pos.getDistance(unit->pos) <= range)
 						actions.push_back(std::make_shared<Attack>(TwoUnitEffectData(id, unit->id)));
@@ -53,7 +53,7 @@ namespace Bot { namespace Search
 			return actions;
 		}
 		
-		void firstFrameInitToAddAlreadyActiveEffects(GameState* state) override
+		void firstFrameInitToAddAlreadyActiveEffects(GameState& state) override
 		{
 			BWAPI::Unit bwapiUnit = getBwapiUnit();
 
@@ -63,19 +63,19 @@ namespace Bot { namespace Search
 			{
 				isAttackFrame = true;
 				//TODO: set correct move cooldown
-				state->queueEffect(6, std::make_shared<ClearAttackFrame<OneUnitEffectData>>(OneUnitEffectData(id)));
+				state.queueEffect(6, std::make_shared<ClearAttackFrame<OneUnitEffectData>>(OneUnitEffectData(id)));
 			}
 
 			if (bwapiUnit->getGroundWeaponCooldown() != 0)
 			{
 				groundWeaponCooldown = true;
-				state->queueEffect(bwapiUnit->getGroundWeaponCooldown(), std::make_shared<ClearGroundWeaponCooldown<OneUnitEffectData>>(OneUnitEffectData(id)));
+				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), std::make_shared<ClearGroundWeaponCooldown<OneUnitEffectData>>(OneUnitEffectData(id)));
 			}
 			else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
 			{
 				groundWeaponCooldown = true;
-				state->queueEffect(14, std::make_shared<ClearGroundWeaponCooldown<OneUnitEffectData>>(OneUnitEffectData(id)));
+				state.queueEffect(14, std::make_shared<ClearGroundWeaponCooldown<OneUnitEffectData>>(OneUnitEffectData(id)));
 			}
 		}
 	};

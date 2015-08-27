@@ -8,9 +8,9 @@ namespace Bot { namespace Search { namespace ActionListers
 	class BranchOnUnit : public ActionLister
 	{
 	public:
-		virtual vector<shared_ptr<Effect>> actions(const GameState* gamestate) const override
+		virtual vector<shared_ptr<Effect>> actions(const GameState& gamestate) const override
 		{
-			for (auto& unit : gamestate->units)
+			for (auto& unit : gamestate.units)
 			{
 				if (unit->isAlive())
 				{

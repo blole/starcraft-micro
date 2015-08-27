@@ -32,14 +32,14 @@ namespace Bot { namespace Search
 				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed()))))
 		{}
 
-		virtual void applyTo(GameState* state) const override
+		virtual void applyTo(GameState& state) const override
 		{
-			auto& unit = state->units[unitID()];
+			auto& unit = state.units[unitID()];
 			if (!unit->isAlive() || unit->isAttackFrame)
 				unit->isMoving = false;
 			else
 			{
-				state->queueEffect(1, std::make_shared<Move>(data));
+				state.queueEffect(1, std::make_shared<Move>(data));
 
 				if (unit->isMoving)
 					unit->pos += moveOffset();
@@ -47,9 +47,9 @@ namespace Bot { namespace Search
 			}
 		}
 
-		virtual void executeOrder(GameState* state) const override
+		virtual void executeOrder(GameState& state) const override
 		{
-			BWAPI::Unit unit = state->getBwapiUnit(unitID());
+			BWAPI::Unit unit = state.getBwapiUnit(unitID());
 
 			unit->move(unit->getPosition() + moveOffset() * 10);
 			

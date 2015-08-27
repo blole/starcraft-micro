@@ -4,7 +4,7 @@
 using namespace Bot::Search;
 using namespace std;
 
-unique_ptr<Unit> Unit::create(GameState* state, BWAPI::Unit bwapiUnit, id_t id)
+unique_ptr<Unit> Unit::create(GameState& state, BWAPI::Unit bwapiUnit, id_t id)
 {
 	unique_ptr<Unit> unit;
 	switch (bwapiUnit->getType().getID())

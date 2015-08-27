@@ -7,15 +7,15 @@ namespace Bot { namespace Search { namespace Heuristics
 {
 	struct SqrtHp : Heuristic
 	{
-		virtual double value(const GameState* state) const override
+		virtual double value(const GameState& state) const override
 		{
 			double sum = 0;
 
-			for (const Unit* unit : state->playerUnits())
-				sum += std::sqrt((double)unit->hp);
+			for (auto& unit : state.playerUnits())
+				sum += sqrt((double)unit->hp);
 
-			for (const Unit* unit : state->enemyUnits())
-				sum -= std::sqrt((double)unit->hp);
+			for (auto& unit : state.enemyUnits())
+				sum -= sqrt((double)unit->hp);
 
 			return sum;
 		}

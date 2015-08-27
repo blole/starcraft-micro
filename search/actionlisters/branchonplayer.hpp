@@ -9,7 +9,7 @@ namespace Bot { namespace Search { namespace ActionListers
 	class BranchOnPlayer : public ActionLister
 	{
 	public:
-		virtual std::vector<Effect*> actions(const GameState* gamestate) const override
+		virtual std::vector<Effect*> actions(const GameState& gamestate) const override
 		{
 
 			std::vector<Effect*> setOfActions; // Output of the function
@@ -17,7 +17,7 @@ namespace Bot { namespace Search { namespace ActionListers
 			// Create matrix of all possible actions
 			std::list<std::vector<Effect*>> matrixOfActions;
 
-			for (auto& unit : gamestate->units)
+			for (auto& unit : gamestate.units)
 			{
 				if (unit->isAlive() && unit->isPlayerUnit() == current_player)
 				{

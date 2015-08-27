@@ -25,7 +25,7 @@ namespace Bot { namespace Search
 		
 		BWAPI::Unit getBwapiUnit() const;
 		
-		virtual vector<shared_ptr<Effect>> possibleActions(const GameState* state) const = 0;
+		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual Unit* clone() const = 0;
 
 	protected:
@@ -36,12 +36,12 @@ namespace Bot { namespace Search
 			, isAttackFrame(false)
 			, groundWeaponCooldown(false)
 		{}
-		virtual void firstFrameInitToAddAlreadyActiveEffects(GameState* state) = 0;
+		virtual void firstFrameInitToAddAlreadyActiveEffects(GameState& state) = 0;
 	public:
 		virtual ~Unit() {}
 
 	public:
-		static unique_ptr<Unit> create(GameState* state, BWAPI::Unit bwapiUnit, id_t id);
+		static unique_ptr<Unit> create(GameState& state, BWAPI::Unit bwapiUnit, id_t id);
 	};
 
 	template <typename Derived>

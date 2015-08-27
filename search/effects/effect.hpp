@@ -9,15 +9,15 @@ namespace Bot { namespace Search
 	{
 	public:
 		virtual ~Effect() {}
-		virtual void applyTo(GameState* state) const = 0;
-		virtual void executeOrder(GameState* state) const {}
+		virtual void applyTo(GameState& state) const = 0;
+		virtual void executeOrder(GameState& state) const {}
 		virtual bool isPlayerEffect() const { return false; }
 	};
 	
 	class NoEffect final : public Effect
 	{
 	public:
-		virtual void applyTo(GameState* state) const final override
+		virtual void applyTo(GameState& state) const final override
 		{}
 	};
 
@@ -28,9 +28,9 @@ namespace Bot { namespace Search
 		AdvanceFrameEffect(int frames)
 			: frames(frames)
 		{}
-		virtual void applyTo(GameState* state) const override
+		virtual void applyTo(GameState& state) const override
 		{
-			state->advanceFrames(frames);
+			state.advanceFrames(frames);
 		}
 	};
 
@@ -50,9 +50,9 @@ namespace Bot { namespace Search
 	{
 	public:
 		template <class Data>
-		void queueNext(GameState* state, const Data& data) const
+		void queueNext(GameState& state, const Data& data) const
 		{
-			state->queueEffect(offset, std::make_shared<NextEffect>(data));
+			state.queueEffect(offset, std::make_shared<NextEffect>(data));
 		}
 	};
 	template <>
@@ -60,7 +60,7 @@ namespace Bot { namespace Search
 	{
 	public:
 		template <class Data>
-		void queueNext(GameState* state, const Data& data) const
+		void queueNext(GameState& state, const Data& data) const
 		{}
 	};
 	

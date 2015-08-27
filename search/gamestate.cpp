@@ -18,10 +18,10 @@ GameState::GameState(vector<BWAPI::Unit> playerBwapiUnits, vector<BWAPI::Unit> e
 	id_t id = 0;
 
 	for (BWAPI::Unit playerUnit : playerBwapiUnits)
-		units.push_back(Unit::create(this, playerUnit, id++));
+		units.push_back(Unit::create(*this, playerUnit, id++));
 
 	for (BWAPI::Unit enemyUnit : enemyBwapiUnits)
-		units.push_back(Unit::create(this, enemyUnit, id++));
+		units.push_back(Unit::create(*this, enemyUnit, id++));
 }
 
 GameState::GameState(const GameState& o)
@@ -46,14 +46,14 @@ void GameState::advanceFrames(unsigned int framesToAdvance)
 		pendingEffects.pop_front();
 
 		for (auto& effect : effects)
-			effect->applyTo(this);
+			effect->applyTo(*this);
 	}
 }
 
 void GameState::queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect)
 {
 	if (frameOffset == 0)
-		effect->applyTo(this);
+		effect->applyTo(*this);
 	else
 	{
 		if (pendingEffects.size() < frameOffset)
