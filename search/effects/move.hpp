@@ -17,18 +17,19 @@ namespace Bot { namespace Search
 	class Move
 		: public OneUnitEffect<MoveData>
 	{
-		static const int moveQuanta = 25;
-		const BWAPI::Position& moveOffset;
 	public:
+		static const int moveQuanta = 25;
+		const BWAPI::Position& moveOffset() const { return data.moveOffset; }
+
+	public:
+		Move(const MoveData& data)
+			: OneUnitEffect(data)
+		{}
+
 		Move(const Unit* unit, float direction)
 			: Move(MoveData(unit->id, BWAPI::Position(
 				(int)(std::cos(direction) * unit->getBwapiUnit()->getType().topSpeed()),
 				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed()))))
-		{}
-
-		Move(const MoveData& data)
-			: OneUnitEffect(data)
-			, moveOffset(data.moveOffset)
 		{}
 
 		virtual void applyTo(GameState* state) const override
@@ -41,7 +42,7 @@ namespace Bot { namespace Search
 				state->queueEffect(1, std::make_shared<Move>(data));
 
 				if (unit->isMoving)
-					unit->pos += moveOffset;
+					unit->pos += moveOffset();
 				unit->isMoving = true;
 			}
 		}
@@ -50,9 +51,9 @@ namespace Bot { namespace Search
 		{
 			BWAPI::Unit unit = state->getBwapiUnit(unitID());
 
-			unit->move(unit->getPosition() + moveOffset * 10);
+			unit->move(unit->getPosition() + moveOffset() * 10);
 			
-			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + moveOffset*10, BWAPI::Colors::Grey);
+			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + moveOffset()*10, BWAPI::Colors::Grey);
 		}
 	};
 }}

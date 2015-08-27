@@ -65,16 +65,16 @@ namespace Bot { namespace Search
 			, backpropagater(backpropagater)
 		{}
 		
-		NT* buildTree(GameState* rootState)
+		unique_ptr<NT> buildTree(GameState* rootState)
 		{
 			assert(!rootState->isTerminal());
 
-			NT* root = new NT(nullptr, nullptr);
+			unique_ptr<NT> root = std::make_unique<NT>(nullptr, nullptr);
 
 			//TODO: constrain in time instead
-			for (int i = 0; i < 1000; i++)
+			for (int i = 0; i < 100; i++)
 			{
-				NT* node = root;
+				NT* node = root.get();
 				GameState state(*rootState);
 
 				while (!node->terminal)
@@ -112,19 +112,16 @@ namespace Bot { namespace Search
 
 		vector<shared_ptr<Effect>> search(GameState* rootState) override
 		{
-			unique_ptr<NT> root = unique_ptr<NT>(buildTree(rootState));
+			unique_ptr<NT> root = buildTree(rootState);
 			NT* node = root.get();
 			GameState state(*rootState);
 			
 			vector<shared_ptr<Effect>> bestActions;
 
 			//TODO: select best, not regular selection
-			while (state.getFrame() == 0)
+			while (state.getFrame() == 0 && !node->children.empty())
 			{
 				node = selecter->select(node, state);
-				if (node->children.empty())
-					break;
-
 				state.queueEffect(0, node->effect);
 				
 				if (node->effect->isPlayerEffect())

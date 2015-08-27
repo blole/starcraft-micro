@@ -64,25 +64,9 @@ void GameState::queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect)
 
 bool GameState::isTerminal()
 {
-	bool anyFriendlyAlive = false;
-	for (auto& unit : playerUnits())
-	{
-		if (unit->isAlive())
-		{
-			anyFriendlyAlive = true;
-			break;
-		}
-	}
-
-	bool anyEnemyAlive = false;
-	for (auto& unit : enemyUnits())
-	{
-		if (unit->isAlive())
-		{
-			anyEnemyAlive = true;
-			break;
-		}
-	}
-
-	return !anyFriendlyAlive || !anyEnemyAlive;
+	static auto isAlive = [](const unique_ptr<Unit>& u) {return u->isAlive();};
+	return
+		getFrame() > 100 ||
+		std::none_of(playerUnits().begin(), playerUnits().end(), isAlive) ||
+		std::none_of(enemyUnits().begin(),  enemyUnits().end(),  isAlive);
 }
