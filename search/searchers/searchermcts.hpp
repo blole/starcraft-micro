@@ -5,6 +5,7 @@
 #include "search/selecters/selecter.hpp"
 #include "search/simulaters/simulater.hpp"
 #include "search/backpropagaters/backpropagater.hpp"
+#include "search/terminalcheckers/terminalchecker.hpp"
 #include "search/units/unit.hpp"
 #include "search/effects/effect.hpp"
 #include "search/node.hpp"
@@ -49,23 +50,24 @@ namespace Bot { namespace Search
 		shared_ptr<Selecter<NT>> select;
 		shared_ptr<Simulater> simulate;
 		shared_ptr<Backpropagater<NT>> backpropagate;
-		
+		shared_ptr<TerminalChecker> isTerminal;
+
 	public:
 		SearcherMCTS(
 			shared_ptr<ActionLister> actionlister,
 			shared_ptr<Selecter<NT>> selecter,
 			shared_ptr<Simulater> simulater,
-			shared_ptr<Backpropagater<NT>> backpropagater)
+			shared_ptr<Backpropagater<NT>> backpropagater,
+			shared_ptr<TerminalChecker> isTerminal)
 			: actions(actionlister)
 			, select(selecter)
 			, simulate(simulater)
 			, backpropagate(backpropagater)
+			, isTerminal(isTerminal)
 		{}
 		
 		unique_ptr<NT> buildTree(GameState& rootState)
 		{
-			assert(!rootState.isTerminal());
-
 			unique_ptr<NT> root = std::make_unique<NT>(nullptr, nullptr);
 
 			//TODO: constrain in time instead
@@ -79,7 +81,7 @@ namespace Bot { namespace Search
 					//expansion
 					if (node->children.empty())
 					{
-						if (!state.isTerminal())
+						if (!(*isTerminal)(state))
 						{
 							for (shared_ptr<Effect>& effect : (*actions)(state))
 								node->children.push_back(std::make_unique<NT>(node, effect));

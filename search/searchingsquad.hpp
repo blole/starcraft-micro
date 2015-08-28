@@ -42,28 +42,20 @@ namespace Bot { namespace Search
 			
 			GameState state(playerUnits, enemyUnits);
 			
-			if (!state.isTerminal())
+			try
 			{
-				try {
-					int gameframe = BWAPI::Broodwar->getFrameCount();
-					vector<shared_ptr<Effect>> actions = (*searcher)(state);
+				int gameframe = BWAPI::Broodwar->getFrameCount();
+				vector<shared_ptr<Effect>> actions = (*searcher)(state);
 
-					for (shared_ptr<Effect>& action : actions)
-					{
-						if (action->isPlayerEffect(state))
-							action->executeOrder(state);
-					}
-				}
-				catch (const std::runtime_error&) {
-					throw;
-				}
-				catch (const std::exception&) {
-					throw;
-				}
-				catch (...) {
-					abort();
+				for (shared_ptr<Effect>& action : actions)
+				{
+					if (action->isPlayerEffect(state))
+						action->executeOrder(state);
 				}
 			}
+			catch (const std::runtime_error&)	{ throw; }
+			catch (const std::exception&)		{ throw; }
+			catch (...)							{ throw; }
 		}
 	};
 }}

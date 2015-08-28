@@ -46,7 +46,6 @@ namespace Bot { namespace Search
 
 	public:
 		unsigned int frame() const { return frame_; }
-		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);
 		void queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect);

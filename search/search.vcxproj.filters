@@ -30,6 +30,11 @@
       <UniqueIdentifier>{9c271fd9-a7e9-4b6d-aa47-eb0b16b55dea}</UniqueIdentifier>
       <Extensions>heuristics/*</Extensions>
     </Filter>
+    <Filter Include="terminalcheckers">
+      <UniqueIdentifier>{78895e6a-ad67-4b4a-a2cd-58bfca5f9be2}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gamestate.hpp" />
@@ -100,6 +105,15 @@
     </ClInclude>
     <ClInclude Include="units\unit.hpp">
       <Filter>units</Filter>
+    </ClInclude>
+    <ClInclude Include="terminalcheckers\terminalchecker.hpp">
+      <Filter>terminalcheckers</Filter>
+    </ClInclude>
+    <ClInclude Include="terminalcheckers\standard.hpp">
+      <Filter>terminalcheckers</Filter>
+    </ClInclude>
+    <ClInclude Include="terminalcheckers\framelimited.hpp">
+      <Filter>terminalcheckers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 #include "search/actionlisters/branchonunit.hpp"
 #include "search/searchers/searchermcts.hpp"
 #include "search/backpropagaters/uct.hpp"
+#include "search/terminalcheckers/framelimited.hpp"
 #include "search/heuristics/sqrthp_dps.hpp"
 
 
@@ -39,7 +40,8 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 			make_shared<ActionListers::BranchOnUnit>(),
 			make_shared<Selecters::UCB<NT>>(),
 			make_shared<Simulaters::HeuristicWrapper>(make_shared<Heuristics::SqrtHp_Dps>()),
-			make_shared<Backpropagaters::UCT<NT>>());
+			make_shared<Backpropagaters::UCT<NT>>(),
+			make_shared<TerminalCheckers::FrameLimited>(100));
 		return new SearchingSquad(searcher);
 	};
 	

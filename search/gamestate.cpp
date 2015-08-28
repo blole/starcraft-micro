@@ -63,12 +63,3 @@ void GameState::queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect)
 		pendingEffects[frameOffset-1].push_back(effect);
 	}
 }
-
-bool GameState::isTerminal()
-{
-	static auto isAlive = [](const unique_ptr<Unit>& u) {return u->isAlive();};
-	return
-		frame() > 100 ||
-		std::none_of(playerUnits().begin(), playerUnits().end(), isAlive) ||
-		std::none_of(enemyUnits().begin(),  enemyUnits().end(),  isAlive);
-}

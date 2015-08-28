@@ -39,6 +39,9 @@
     <ClInclude Include="selecters\ucb.hpp" />
     <ClInclude Include="simulaters\heuristicwrapper.hpp" />
     <ClInclude Include="simulaters\simulater.hpp" />
+    <ClInclude Include="terminalcheckers\framelimited.hpp" />
+    <ClInclude Include="terminalcheckers\standard.hpp" />
+    <ClInclude Include="terminalcheckers\terminalchecker.hpp" />
     <ClInclude Include="units\marine.hpp" />
     <ClInclude Include="units\unit.hpp" />
   </ItemGroup>
