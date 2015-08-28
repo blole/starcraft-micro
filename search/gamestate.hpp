@@ -10,24 +10,27 @@ namespace Bot { namespace Search
 {
 	class Effect;
 
-	class GameState
+	class GameState final
 	{
 	private:
-		const int playerUnitCount;
+		unsigned int frame_;
+		const unsigned int playerUnitCount;
 		deque<vector<shared_ptr<Effect>>> pendingEffects;
-		unsigned int frame;
-	public:
-		vector<unique_ptr<Unit>> units;
 
 	public:
-		GameState(vector<BWAPI::Unit> playerUnits, vector<BWAPI::Unit> enemyUnits);
-		GameState(const GameState& o);
+		const vector<unique_ptr<Unit>> units;
+
+	private:
+		GameState(unsigned int frame_, unsigned int playerUnitCount, vector<unique_ptr<Unit>> units);
+	public:
+		GameState(const vector<BWAPI::Unit>& playerUnits, const vector<BWAPI::Unit>& enemyUnits);
+		GameState(const GameState& other);
 		~GameState() {}
 		
 	public:
 		sub_range<const vector<unique_ptr<Unit>>> playerUnits() const
 		{
-			return sub_range<const vector<unique_ptr<Unit>>>(units.begin(), units.begin()+playerUnitCount);
+			return sub_range<const vector<unique_ptr<Unit>>>(units.begin(), units.begin() + playerUnitCount);
 		}
 		sub_range<const vector<unique_ptr<Unit>>> enemyUnits() const
 		{
@@ -42,7 +45,7 @@ namespace Bot { namespace Search
 		}
 
 	public:
-		unsigned int getFrame() const { return frame; }
+		unsigned int frame() const { return frame_; }
 		bool isTerminal();
 
 		void advanceFrames(unsigned int framesToAdvance);

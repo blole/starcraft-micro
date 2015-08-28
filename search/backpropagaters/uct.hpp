@@ -11,7 +11,7 @@ namespace Bot { namespace Search { 	namespace Backpropagaters
 		{
 			while (node->parent)
 			{
-				++node->visits;
+				node->visits++;
 				if (node->effect->isPlayerEffect(state))
 					node->totalReward += score;
 				else

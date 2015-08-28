@@ -116,7 +116,7 @@ namespace Bot { namespace Search
 			vector<shared_ptr<Effect>> bestActions;
 
 			//TODO: select best, not regular selection
-			while (state.getFrame() == 0 && !node->children.empty())
+			while (state.frame() == 0 && !node->children.empty())
 			{
 				node = (*select)(node, state);
 				state.queueEffect(0, node->effect);

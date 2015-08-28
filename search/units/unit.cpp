@@ -4,7 +4,7 @@
 using namespace Bot::Search;
 using namespace std;
 
-unique_ptr<Unit> Unit::create(GameState& state, BWAPI::Unit bwapiUnit, id_t id)
+unique_ptr<Unit> Unit::create(const GameState& state, BWAPI::Unit bwapiUnit, id_t id)
 {
 	unique_ptr<Unit> unit;
 	switch (bwapiUnit->getType().getID())
@@ -15,8 +15,6 @@ unique_ptr<Unit> Unit::create(GameState& state, BWAPI::Unit bwapiUnit, id_t id)
 	default:
 		throw runtime_error("only marines supported for MCTS so far.");
 	}
-
-	unit->firstFrameInitToAddAlreadyActiveEffects(state);
 
 	return unit;
 }

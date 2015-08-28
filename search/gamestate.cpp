@@ -4,38 +4,46 @@
 
 using namespace Bot::Search;
 
-GameState::GameState(vector<BWAPI::Unit> playerBwapiUnits, vector<BWAPI::Unit> enemyBwapiUnits)
-	: frame(0)
-	, playerUnitCount(playerBwapiUnits.size())
+vector<unique_ptr<Unit>> createUnits(const GameState& state, const vector<BWAPI::Unit>& playerBwapiUnits, const vector<BWAPI::Unit>& enemyBwapiUnits)
 {
 	id_t id = 0;
+	vector<unique_ptr<Unit>> units;
+	units.reserve(playerBwapiUnits.size() + enemyBwapiUnits.size());
 
 	for (BWAPI::Unit playerUnit : playerBwapiUnits)
-		units.push_back(Unit::create(*this, playerUnit, id++));
-
+		units.push_back(Unit::create(state, playerUnit, id++));
 	for (BWAPI::Unit enemyUnit : enemyBwapiUnits)
-		units.push_back(Unit::create(*this, enemyUnit, id++));
+		units.push_back(Unit::create(state, enemyUnit, id++));
+
+	return units;
 }
 
-GameState::GameState(const GameState& o)
-	: frame(o.frame)
-	, playerUnitCount(o.playerUnitCount)
+// private constructor
+GameState::GameState(unsigned int frame_, unsigned int playerUnitCount, vector<unique_ptr<Unit>> units)
+	: frame_(frame_)
+	, units(std::move(units))
+	, playerUnitCount(playerUnitCount)
 {
-	for (auto& unit : o.units)
-		units.emplace_back(unit->clone());
-	for (const vector<shared_ptr<Effect>>& o_frameEffects : o.pendingEffects)
-	{
-		pendingEffects.emplace_back();
-		for (const shared_ptr<Effect>& effect : o_frameEffects)
-			pendingEffects.back().emplace_back(effect);
-	}
+}
+
+// public constructors
+GameState::GameState(const vector<BWAPI::Unit>& playerBwapiUnits, const vector<BWAPI::Unit>& enemyBwapiUnits)
+	: GameState(0, playerBwapiUnits.size(), createUnits(*this, playerBwapiUnits, enemyBwapiUnits))
+{
+	for (auto& unit : units)
+		unit->firstFrameInitToAddAlreadyActiveEffects(*this);
+}
+GameState::GameState(const GameState& other)
+	: GameState(other.frame(), other.playerUnitCount, clone(other.units))
+{
+	pendingEffects = other.pendingEffects;
 }
 
 void GameState::advanceFrames(unsigned int framesToAdvance)
 {
 	for (unsigned int i=0; i<framesToAdvance; i++)
 	{
-		frame++;
+		frame_++;
 		vector<shared_ptr<Effect>> effects = pendingEffects.front();
 		pendingEffects.pop_front();
 
@@ -60,7 +68,7 @@ bool GameState::isTerminal()
 {
 	static auto isAlive = [](const unique_ptr<Unit>& u) {return u->isAlive();};
 	return
-		getFrame() > 100 ||
+		frame() > 100 ||
 		std::none_of(playerUnits().begin(), playerUnits().end(), isAlive) ||
 		std::none_of(enemyUnits().begin(),  enemyUnits().end(),  isAlive);
 }
