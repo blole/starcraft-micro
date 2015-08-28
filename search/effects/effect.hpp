@@ -45,25 +45,27 @@ namespace Bot { namespace Search
 		{}
 	};
 
-	template <int offset = 0, class NextEffect = void>
+
+
+	template <class Data, int offset = 0, class NextEffect = void>
 	class EffectChain
 	{
 	public:
-		template <class Data>
 		void queueNext(GameState& state, const Data& data) const
 		{
 			state.queueEffect(offset, std::make_shared<NextEffect>(data));
 		}
 	};
-	template <>
-	class EffectChain<0, void>
+	template <class Data>
+	class EffectChain<Data, 0, void>
 	{
 	public:
-		template <class Data>
 		void queueNext(GameState& state, const Data& data) const
 		{}
 	};
 	
+
+
 	template <class Data>
 	class OneUnitEffect : public EffectWithData<Data>
 	{
@@ -79,7 +81,6 @@ namespace Bot { namespace Search
 			return GameState::isPlayerUnit(unitID());
 		}
 	};
-
 	template <class Data>
 	class TwoUnitEffect : public OneUnitEffect<Data>
 	{
@@ -90,6 +91,8 @@ namespace Bot { namespace Search
 			: OneUnitEffect<Data>(data)
 		{}
 	};
+
+
 
 	struct OneUnitEffectData
 	{

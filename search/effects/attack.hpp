@@ -7,7 +7,7 @@
 namespace Bot { namespace Search
 {
 	template<class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
-	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<offset, NextEffect>
+	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
 		BeginAttack(Data data)
@@ -38,7 +38,7 @@ namespace Bot { namespace Search
 	
 	
 	template <int damage, class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
-	class ApplyDamage : public TwoUnitEffect<Data>, public EffectChain<offset, NextEffect>
+	class ApplyDamage : public TwoUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
 		ApplyDamage(const Data& data)
@@ -54,7 +54,7 @@ namespace Bot { namespace Search
 	
 	
 	template <class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
-	class ClearAttackFrame : public OneUnitEffect<Data>, public EffectChain<offset, NextEffect>
+	class ClearAttackFrame : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
 		ClearAttackFrame(const Data& data)
@@ -70,7 +70,7 @@ namespace Bot { namespace Search
 	
 	
 	template <class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
-	class ClearGroundWeaponCooldown : public OneUnitEffect<Data>, public EffectChain<offset, NextEffect>
+	class ClearGroundWeaponCooldown : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
 		ClearGroundWeaponCooldown(const Data& data)
