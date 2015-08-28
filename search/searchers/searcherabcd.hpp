@@ -182,15 +182,15 @@ namespace Bot { namespace Search
 
 			for (const Unit* unit : gamestate->playerUnits())
 			{
-				double cd = unit->getBwapiUnit()->getType().groundWeapon().damageCooldown();
-				double dmg = unit->getBwapiUnit()->getType().groundWeapon().damageAmount();
+				double cd = unit->bwapiUnit()->getType().groundWeapon().damageCooldown();
+				double dmg = unit->bwapiUnit()->getType().groundWeapon().damageAmount();
 				sum += std::sqrt((double)unit->hp)*dmg / cd;
 			}
 
 			for (const Unit* unit : gamestate->enemyUnits())
 			{
-				double cd = unit->getBwapiUnit()->getType().groundWeapon().damageCooldown();
-				double dmg = unit->getBwapiUnit()->getType().groundWeapon().damageAmount();
+				double cd = unit->bwapiUnit()->getType().groundWeapon().damageCooldown();
+				double dmg = unit->bwapiUnit()->getType().groundWeapon().damageAmount();
 				sum -= std::sqrt((double)unit->hp)*dmg / cd;
 			}
 

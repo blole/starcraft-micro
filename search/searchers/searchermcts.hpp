@@ -101,7 +101,7 @@ namespace Bot { namespace Search
 				double score = (*simulate)(state);
 
 				//backpropagation
-				(*backpropagate)(node, score);
+				(*backpropagate)(state, node, score);
 			}
 
 			return root;
@@ -121,7 +121,7 @@ namespace Bot { namespace Search
 				node = (*select)(node, state);
 				state.queueEffect(0, node->effect);
 				
-				if (node->effect->isPlayerEffect())
+				if (node->effect->isPlayerEffect(state))
 					bestActions.push_back(node->effect);
 			}
 			

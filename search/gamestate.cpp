@@ -4,17 +4,10 @@
 
 using namespace Bot::Search;
 
-vector<BWAPI::Unit> GameState::bwapiUnits;
-int GameState::playerUnitCount = -1;
-
 GameState::GameState(vector<BWAPI::Unit> playerBwapiUnits, vector<BWAPI::Unit> enemyBwapiUnits)
 	: frame(0)
+	, playerUnitCount(playerBwapiUnits.size())
 {
-	GameState::bwapiUnits.clear();
-	GameState::playerUnitCount = playerBwapiUnits.size();
-	std::copy(playerBwapiUnits.begin(), playerBwapiUnits.end(), std::back_inserter(bwapiUnits));
-	std::copy(enemyBwapiUnits.begin(), enemyBwapiUnits.end(), std::back_inserter(bwapiUnits));
-
 	id_t id = 0;
 
 	for (BWAPI::Unit playerUnit : playerBwapiUnits)
@@ -26,6 +19,7 @@ GameState::GameState(vector<BWAPI::Unit> playerBwapiUnits, vector<BWAPI::Unit> e
 
 GameState::GameState(const GameState& o)
 	: frame(o.frame)
+	, playerUnitCount(o.playerUnitCount)
 {
 	for (auto& unit : o.units)
 		units.emplace_back(unit->clone());

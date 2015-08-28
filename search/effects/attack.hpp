@@ -24,8 +24,8 @@ namespace Bot { namespace Search
 		
 		virtual void executeOrder(GameState& state) const override
 		{
-			BWAPI::Unit unit = state.getBwapiUnit(unitID());
-			BWAPI::Unit target = state.getBwapiUnit(targetID());
+			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
+			BWAPI::Unit target = state.units[targetID()]->bwapiUnit;
 
 			if (!unit->isStartingAttack()) //TODO: this line shouldn't be needed
 				unit->attack(target);

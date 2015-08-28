@@ -36,7 +36,7 @@ namespace Bot { namespace Search
 
 			if (!groundWeaponCooldown)
 			{
-				for (auto& unit : state.teamunits(!isPlayerUnit()))
+				for (auto& unit : state.teamunits(!isPlayer))
 				{
 					if (unit->isAlive() && pos.getDistance(unit->pos) <= range)
 						actions.push_back(std::make_shared<Attack>(TwoUnitEffectData(id, unit->id)));
@@ -47,7 +47,7 @@ namespace Bot { namespace Search
 			{
 				//TODO: precalc all of these directional offsets..
 				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 2)
-					actions.push_back(std::make_shared<Move>(this, dir));
+					actions.push_back(std::make_shared<Move>(*this, dir));
 			}
 
 			return actions;
@@ -55,8 +55,6 @@ namespace Bot { namespace Search
 		
 		void firstFrameInitToAddAlreadyActiveEffects(GameState& state) override
 		{
-			BWAPI::Unit bwapiUnit = getBwapiUnit();
-
 			if (bwapiUnit->isAttackFrame() || bwapiUnit->isStartingAttack() ||
 				(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))

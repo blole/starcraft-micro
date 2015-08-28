@@ -8,6 +8,6 @@ namespace Bot { namespace Search
 	struct Backpropagater
 	{
 		virtual ~Backpropagater() {}
-		virtual void operator()(NT* node, double score) const = 0;
+		virtual void operator()(const GameState& state, NT* node, double score) const = 0;
 	};
 }}

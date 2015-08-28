@@ -26,10 +26,10 @@ namespace Bot { namespace Search
 			: OneUnitEffect(data)
 		{}
 
-		Move(const Unit* unit, float direction)
-			: Move(MoveData(unit->id, BWAPI::Position(
-				(int)(std::cos(direction) * unit->getBwapiUnit()->getType().topSpeed()),
-				(int)(std::sin(direction) * unit->getBwapiUnit()->getType().topSpeed()))))
+		Move(const Unit& unit, float direction)
+			: Move(MoveData(unit.id, BWAPI::Position(
+				(int)(std::cos(direction) * unit.bwapiUnit->getType().topSpeed()),
+				(int)(std::sin(direction) * unit.bwapiUnit->getType().topSpeed()))))
 		{}
 
 		virtual void applyTo(GameState& state) const override
@@ -49,7 +49,7 @@ namespace Bot { namespace Search
 
 		virtual void executeOrder(GameState& state) const override
 		{
-			BWAPI::Unit unit = state.getBwapiUnit(unitID());
+			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
 
 			unit->move(unit->getPosition() + moveOffset() * 10);
 			

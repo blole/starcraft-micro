@@ -20,16 +20,3 @@ unique_ptr<Unit> Unit::create(GameState& state, BWAPI::Unit bwapiUnit, id_t id)
 
 	return unit;
 }
-
-bool Unit::isPlayerUnit() const
-{
-	return id < GameState::playerUnitCount;
-}
-bool Unit::isEnemyUnit() const
-{
-	return id >= GameState::playerUnitCount;
-}
-BWAPI::Unit Unit::getBwapiUnit() const
-{
-	return GameState::getBwapiUnit(id);
-}

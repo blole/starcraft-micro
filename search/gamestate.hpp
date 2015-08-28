@@ -12,17 +12,8 @@ namespace Bot { namespace Search
 
 	class GameState
 	{
-		friend class Unit;
 	private:
-		static vector<BWAPI::Unit> bwapiUnits;
-		static int playerUnitCount;
-	public:
-		static BWAPI::Unit getBwapiUnit(const id_t id) { return bwapiUnits[id]; }
-		static bool isPlayerUnit(const id_t id) { return id < GameState::playerUnitCount; }
-		
-		
-		
-	private:
+		const int playerUnitCount;
 		deque<vector<shared_ptr<Effect>>> pendingEffects;
 		unsigned int frame;
 	public:

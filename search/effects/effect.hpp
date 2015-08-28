@@ -11,7 +11,7 @@ namespace Bot { namespace Search
 		virtual ~Effect() {}
 		virtual void applyTo(GameState& state) const = 0;
 		virtual void executeOrder(GameState& state) const {}
-		virtual bool isPlayerEffect() const { return false; }
+		virtual bool isPlayerEffect(const GameState& state) const { return false; }
 	};
 	
 	class NoEffect final : public Effect
@@ -76,9 +76,9 @@ namespace Bot { namespace Search
 			: EffectWithData(data)
 		{}
 
-		virtual bool isPlayerEffect() const override
+		virtual bool isPlayerEffect(const GameState& state) const override
 		{
-			return GameState::isPlayerUnit(unitID());
+			return state.units[unitID()]->isPlayer;
 		}
 	};
 	template <class Data>

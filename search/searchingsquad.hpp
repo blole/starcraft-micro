@@ -50,7 +50,7 @@ namespace Bot { namespace Search
 
 					for (shared_ptr<Effect>& action : actions)
 					{
-						if (action->isPlayerEffect())
+						if (action->isPlayerEffect(state))
 							action->executeOrder(state);
 					}
 				}

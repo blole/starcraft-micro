@@ -12,6 +12,9 @@ namespace Bot { namespace Search
 	{
 	public:
 		const id_t id;
+		const BWAPI::Unit bwapiUnit;
+		const bool isPlayer;
+		
 		BWAPI::Position pos;
 		int hp;
 		bool isMoving;
@@ -20,10 +23,6 @@ namespace Bot { namespace Search
 
 	public:
 		bool isAlive() const { return hp > 0; }
-		bool isPlayerUnit() const;
-		bool isEnemyUnit() const;
-		
-		BWAPI::Unit getBwapiUnit() const;
 		
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual Unit* clone() const = 0;
@@ -31,6 +30,8 @@ namespace Bot { namespace Search
 	protected:
 		Unit(BWAPI::Unit bwapiUnit, id_t id)
 			: id(id)
+			, bwapiUnit(bwapiUnit)
+			, isPlayer(bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
 			, hp(bwapiUnit->getHitPoints())
 			, isMoving(false)
 			, isAttackFrame(false)
