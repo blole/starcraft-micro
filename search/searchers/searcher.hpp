@@ -10,6 +10,6 @@ namespace Bot { namespace Search
 	{
 	public:
 		virtual ~Searcher() {}
-		virtual vector<shared_ptr<Effect>> search(GameState& gamestate) = 0;
+		virtual vector<shared_ptr<Effect>> operator()(GameState& gamestate) = 0;
 	};
 }}

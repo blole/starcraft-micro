@@ -7,7 +7,7 @@ namespace Bot { namespace Search { 	namespace Selecters
 	template <class NT>
 	struct UCB : public Selecter<NT>
 	{
-		virtual NT* select(NT* node, const GameState& state) const override
+		virtual NT* operator()(NT* node, const GameState& state) const override
 		{
 			return std::max_element(node->children.begin(), node->children.end(), bestUCB)->get();
 		}

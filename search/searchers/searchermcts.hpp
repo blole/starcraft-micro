@@ -45,10 +45,10 @@ namespace Bot { namespace Search
 	class SearcherMCTS : public Searcher
 	{
 	private:
-		shared_ptr<ActionLister> actionlister;
-		shared_ptr<Selecter<NT>> selecter;
-		shared_ptr<Simulater> simulater;
-		shared_ptr<Backpropagater<NT>> backpropagater;
+		shared_ptr<ActionLister> actions;
+		shared_ptr<Selecter<NT>> select;
+		shared_ptr<Simulater> simulate;
+		shared_ptr<Backpropagater<NT>> backpropagate;
 		
 	public:
 		SearcherMCTS(
@@ -56,10 +56,10 @@ namespace Bot { namespace Search
 			shared_ptr<Selecter<NT>> selecter,
 			shared_ptr<Simulater> simulater,
 			shared_ptr<Backpropagater<NT>> backpropagater)
-			: actionlister(actionlister)
-			, selecter(selecter)
-			, simulater(simulater)
-			, backpropagater(backpropagater)
+			: actions(actionlister)
+			, select(selecter)
+			, simulate(simulater)
+			, backpropagate(backpropagater)
 		{}
 		
 		unique_ptr<NT> buildTree(GameState& rootState)
@@ -81,7 +81,7 @@ namespace Bot { namespace Search
 					{
 						if (!state.isTerminal())
 						{
-							for (shared_ptr<Effect>& effect : actionlister->actions(state))
+							for (shared_ptr<Effect>& effect : (*actions)(state))
 								node->children.push_back(std::make_unique<NT>(node, effect));
 						}
 
@@ -93,21 +93,21 @@ namespace Bot { namespace Search
 					}
 
 					//selection
-					node = selecter->select(node, state);
+					node = (*select)(node, state);
 					state.queueEffect(0, node->effect);
 				}
 
 				//simulation
-				double score = simulater->simulate(state);
+				double score = (*simulate)(state);
 
 				//backpropagation
-				backpropagater->backpropagate(node, score);
+				(*backpropagate)(node, score);
 			}
 
 			return root;
 		}
 
-		vector<shared_ptr<Effect>> search(GameState& rootState) override
+		vector<shared_ptr<Effect>> operator()(GameState& rootState) override
 		{
 			unique_ptr<NT> root = buildTree(rootState);
 			NT* node = root.get();
@@ -118,7 +118,7 @@ namespace Bot { namespace Search
 			//TODO: select best, not regular selection
 			while (state.getFrame() == 0 && !node->children.empty())
 			{
-				node = selecter->select(node, state);
+				node = (*select)(node, state);
 				state.queueEffect(0, node->effect);
 				
 				if (node->effect->isPlayerEffect())

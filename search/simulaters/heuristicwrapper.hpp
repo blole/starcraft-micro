@@ -12,9 +12,9 @@ namespace Bot { namespace Search { 	namespace Simulaters
 			: heuristic(heuristic)
 		{}
 		
-		virtual double simulate(GameState& state) const override
+		virtual double operator()(GameState& state) const override
 		{
-			return heuristic->value(state);
+			return (*heuristic)(state);
 		}
 	};
 }}}

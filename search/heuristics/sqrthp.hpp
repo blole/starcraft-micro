@@ -7,7 +7,7 @@ namespace Bot { namespace Search { namespace Heuristics
 {
 	struct SqrtHp : Heuristic
 	{
-		virtual double value(const GameState& state) const override
+		virtual double operator()(const GameState& state) const override
 		{
 			double sum = 0;
 

@@ -80,7 +80,7 @@ namespace Bot { namespace Search
 		int nbFrameAdvanced;
 
 	public:
-		std::vector<Effect*> search(GameState* gamestate, ActionLister* actionlister)
+		std::vector<Effect*> operator()(GameState* gamestate, ActionLister* actionlister)
 		{
 			this->actionlister = actionlister;
 			((BranchOnPlayer*)this->actionlister)->switchPlayer(true); //

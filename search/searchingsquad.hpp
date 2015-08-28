@@ -46,7 +46,7 @@ namespace Bot { namespace Search
 			{
 				try {
 					int gameframe = BWAPI::Broodwar->getFrameCount();
-					vector<shared_ptr<Effect>> actions = searcher->search(state);
+					vector<shared_ptr<Effect>> actions = (*searcher)(state);
 
 					for (shared_ptr<Effect>& action : actions)
 					{
