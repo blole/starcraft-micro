@@ -69,15 +69,6 @@
     <ClInclude Include="backpropagaters\uct.hpp">
       <Filter>backpropagaters</Filter>
     </ClInclude>
-    <ClInclude Include="heuristics\hp.hpp">
-      <Filter>heuristics</Filter>
-    </ClInclude>
-    <ClInclude Include="heuristics\sqrthp.hpp">
-      <Filter>heuristics</Filter>
-    </ClInclude>
-    <ClInclude Include="heuristics\sqrthp_dps.hpp">
-      <Filter>heuristics</Filter>
-    </ClInclude>
     <ClInclude Include="searchers\searchermcts.hpp">
       <Filter>searchers</Filter>
     </ClInclude>
@@ -114,6 +105,9 @@
     </ClInclude>
     <ClInclude Include="terminalcheckers\framelimited.hpp">
       <Filter>terminalcheckers</Filter>
+    </ClInclude>
+    <ClInclude Include="heuristics\simple.hpp">
+      <Filter>heuristics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

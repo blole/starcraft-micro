@@ -11,7 +11,7 @@
 #include "search/searchers/searchermcts.hpp"
 #include "search/backpropagaters/uct.hpp"
 #include "search/terminalcheckers/framelimited.hpp"
-#include "search/heuristics/sqrthp_dps.hpp"
+#include "search/heuristics/simple.hpp"
 
 
 extern "C" __declspec(dllexport) void gameInit(BWAPI::Game* game) { BWAPI::BroodwarPtr = game; }

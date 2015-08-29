@@ -27,9 +27,7 @@
     <ClInclude Include="effects\move.hpp" />
     <ClInclude Include="gamestate.hpp" />
     <ClInclude Include="heuristics\heuristic.hpp" />
-    <ClInclude Include="heuristics\hp.hpp" />
-    <ClInclude Include="heuristics\sqrthp.hpp" />
-    <ClInclude Include="heuristics\sqrthp_dps.hpp" />
+    <ClInclude Include="heuristics\simple.hpp" />
     <ClInclude Include="node.hpp" />
     <ClInclude Include="searchers\searcher.hpp" />
     <ClInclude Include="searchers\searcherabcd.hpp" />
