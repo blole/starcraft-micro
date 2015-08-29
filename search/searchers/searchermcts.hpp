@@ -9,6 +9,7 @@
 #include "search/units/unit.hpp"
 #include "search/effects/effect.hpp"
 #include "search/node.hpp"
+#include <chrono>
 
 namespace Bot { namespace Search
 {
@@ -68,10 +69,13 @@ namespace Bot { namespace Search
 		
 		unique_ptr<NT> buildTree(GameState& rootState)
 		{
-			unique_ptr<NT> root = std::make_unique<NT>(nullptr, nullptr);
+			using namespace std::chrono;
+			auto timeout = steady_clock::now()+std::chrono::milliseconds(40);
 
-			//TODO: constrain in time instead
-			for (int i = 0; i < 100; i++)
+			unique_ptr<NT> root = std::make_unique<NT>(nullptr, std::make_shared<NoEffectPlayer<true>>());
+
+			int expansions = 0;
+			for (; expansions%10!=0 || steady_clock::now() < timeout; expansions++)
 			{
 				NT* node = root.get();
 				GameState state(rootState);
@@ -127,9 +131,9 @@ namespace Bot { namespace Search
 					bestActions.push_back(node->effect);
 			}
 			
-			BWAPI::Broodwar->drawTextScreen(200, 75,  "number of taken actions: %d", bestActions.size());
-			BWAPI::Broodwar->drawTextScreen(200, 100, "root average reward: %.3f", root->totalReward / root->visits);
-			BWAPI::Broodwar->drawTextScreen(0, 30, "root.visits: %d", root->visits);
+			BWAPI::Broodwar->drawTextScreen(200, 70,  "taken actions:  %d", bestActions.size());
+			BWAPI::Broodwar->drawTextScreen(200, 85,  "root.visits:    %d", root->visits);
+			BWAPI::Broodwar->drawTextScreen(200, 100, "root.avgReward: %.1f", root->totalReward / root->visits);
 			return bestActions;
 		}
 	};

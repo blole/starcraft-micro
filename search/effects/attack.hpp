@@ -47,7 +47,7 @@ namespace Bot { namespace Search
 		
 		virtual void applyTo(GameState& state) const override
 		{
-			state.units[targetID()]->hp -= damage;
+			state.units[targetID()]->takeDamage(damage);
 			queueNext(state, data);
 		}
 	};

@@ -13,12 +13,19 @@ namespace Bot { namespace Search
 		virtual void executeOrder(GameState& state) const {}
 		virtual bool isPlayerEffect(const GameState& state) const { return false; }
 	};
-	
-	class NoEffect final : public Effect
+
+	class NoEffect : public Effect
 	{
 	public:
 		virtual void applyTo(GameState& state) const final override
 		{}
+	};
+
+	template <bool isPlayer>
+	class NoEffectPlayer final : public NoEffect
+	{
+	public:
+		virtual bool isPlayerEffect(const GameState& state) const final override { return isPlayer; }
 	};
 
 	class AdvanceFrameEffect : public Effect

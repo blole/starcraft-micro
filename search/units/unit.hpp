@@ -10,19 +10,26 @@ namespace Bot { namespace Search
 
 	class Unit
 	{
+	private:
+		int hp_;
+
 	public:
 		const id_t id;
 		const BWAPI::Unit bwapiUnit;
 		const bool isPlayer;
 		
 		BWAPI::Position pos;
-		int hp;
 		bool isMoving;
 		bool isAttackFrame;
 		bool groundWeaponCooldown;
 
 	public:
-		bool isAlive() const { return hp > 0; }
+		bool isAlive() const { return hp_ > 0; }
+		unsigned int hp() const { return hp_; }
+		void takeDamage(int damage)
+		{
+			hp_ = std::max(hp_ - damage, 0);
+		}
 		
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual void firstFrameInitToAddAlreadyActiveEffects(GameState& state) = 0; //TODO: const GameState, return actions
@@ -33,7 +40,7 @@ namespace Bot { namespace Search
 			: id(id)
 			, bwapiUnit(bwapiUnit)
 			, isPlayer(bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
-			, hp(bwapiUnit->getHitPoints())
+			, hp_(bwapiUnit->getHitPoints())
 			, isMoving(false)
 			, isAttackFrame(false)
 			, groundWeaponCooldown(false)

@@ -9,7 +9,7 @@ namespace Bot { namespace Search { 	namespace Backpropagaters
 	{
 		virtual void operator()(const GameState& state, NT* node, double score) const override
 		{
-			while (node->parent)
+			do
 			{
 				node->visits++;
 				if (node->effect->isPlayerEffect(state))
@@ -18,6 +18,7 @@ namespace Bot { namespace Search { 	namespace Backpropagaters
 					node->totalReward -= score;
 				node = node->parent;
 			}
+			while (node);
 		}
 	};
 }}}

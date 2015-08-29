@@ -12,10 +12,10 @@ namespace Bot { namespace Search { namespace Heuristics
 			double sum = 0;
 
 			for (auto& unit : state.playerUnits())
-				sum += sqrt((double)unit->hp);
+				sum += sqrt(unit->hp());
 
 			for (auto& unit : state.enemyUnits())
-				sum -= sqrt((double)unit->hp);
+				sum -= sqrt(unit->hp());
 
 			return sum;
 		}
