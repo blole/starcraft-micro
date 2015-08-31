@@ -23,6 +23,9 @@
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
       <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\search\search.vcxproj">
+      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{70A9681A-02BD-43B9-B17F-291BD1F0A26A}</ProjectGuid>
@@ -50,12 +53,14 @@
     <Import Project="..\output.props" />
     <Import Project="..\bwapi.props" />
     <Import Project="..\boost.props" />
+    <Import Project="..\debug-starcraft-bot.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\output.props" />
     <Import Project="..\bwapi.props" />
     <Import Project="..\boost.props" />
+    <Import Project="..\debug-starcraft-bot.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>

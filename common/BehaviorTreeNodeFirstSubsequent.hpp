@@ -1,6 +1,5 @@
 #pragma once
 #include <lib/libbehavior/BehaviorTree.h>
-#include <BWAPI.h>
 
 namespace BehaviorTree
 {
@@ -12,9 +11,8 @@ namespace BehaviorTree
 		
 	public:
 		BehaviorTreeNodeFirstSubsequent()
-		{
-			first = true;
-		}
+			: first(true)
+		{}
 
 
 	public: //sealed

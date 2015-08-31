@@ -1,25 +1,24 @@
 #pragma once
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
+#include "search/effects/effect.hpp"
 #include <BWAPI.h>
 
 namespace Bot { namespace Search
 {
 	struct MoveData : public OneUnitEffectData
 	{
-		BWAPI::Position moveOffset;
-		MoveData(const id_t& unitID, const BWAPI::Position& moveOffset)
+		BWAPI::Position offset;
+		MoveData(const id_t& unitID, const BWAPI::Position& offset)
 			: OneUnitEffectData(unitID)
-			, moveOffset(moveOffset)
+			, offset(offset)
 		{}
 	};
 
-	class Move
-		: public OneUnitEffect<MoveData>
+	class Move : public OneUnitEffect<MoveData>
 	{
 	public:
-		static const int moveQuanta = 25;
-		const BWAPI::Position& moveOffset() const { return data.moveOffset; }
+		const BWAPI::Position& offset() const { return data.offset; }
 
 	public:
 		Move(const MoveData& data)
@@ -28,22 +27,32 @@ namespace Bot { namespace Search
 
 		Move(const Unit& unit, float direction)
 			: Move(MoveData(unit.id, BWAPI::Position(
-				(int)(std::cos(direction) * unit.bwapiUnit->getType().topSpeed()),
-				(int)(std::sin(direction) * unit.bwapiUnit->getType().topSpeed()))))
+				(int)(std::cos(direction) * unit.bwapiUnit->getType().topSpeed() * 10),
+				(int)(std::sin(direction) * unit.bwapiUnit->getType().topSpeed() * 10))))
 		{}
 
 		virtual void applyTo(GameState& state) const override
 		{
 			auto& unit = state.units[unitID()];
-			if (!unit->isAlive() || unit->isAttackFrame)
+			if (!unit->isAlive() || unit->isAttackFrame || offset() == BWAPI::Position(0,0)) //can't start/continue or done
 				unit->isMoving = false;
-			else
+			else if (!unit->isMoving) //starting
 			{
-				state.queueEffect(1, std::make_shared<Move>(data));
-
-				if (unit->isMoving)
-					unit->pos += moveOffset();
 				unit->isMoving = true;
+				state.queueEffect(1, std::make_shared<Move>(data));
+			}
+			else //continuing
+			{
+				double topSpeed = unit->bwapiUnit->getType().topSpeed();
+				double distanceLeft = offset().getLength();
+				double stepRatio = std::min(topSpeed / distanceLeft, 1.0);
+
+				BWAPI::Position step(int(offset().x*stepRatio), int(offset().y*stepRatio));
+				unit->pos += step;
+				unit->isMoving = true;
+				MoveData nextData(data);
+				nextData.offset -= step;
+				state.queueEffect(1, std::make_shared<Move>(nextData));
 			}
 		}
 
@@ -51,9 +60,9 @@ namespace Bot { namespace Search
 		{
 			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
 
-			unit->move(unit->getPosition() + moveOffset() * 10);
+			unit->move(unit->getPosition() + offset());
 			
-			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + moveOffset()*10, BWAPI::Colors::Grey);
+			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + offset(), BWAPI::Colors::Grey);
 		}
 	};
 }}

@@ -21,6 +21,9 @@
     <ClInclude Include="actionlisters\branchonunit.hpp" />
     <ClInclude Include="backpropagaters\backpropagater.hpp" />
     <ClInclude Include="backpropagaters\uct.hpp" />
+    <ClInclude Include="behaviors\attackclosest.hpp" />
+    <ClInclude Include="behaviors\behaviortreenode.hpp" />
+    <ClInclude Include="behaviors\moverelative.hpp" />
     <ClInclude Include="effects\attack.hpp" />
     <ClInclude Include="effects\compositeeffect.hpp" />
     <ClInclude Include="effects\effect.hpp" />
@@ -29,6 +32,7 @@
     <ClInclude Include="heuristics\heuristic.hpp" />
     <ClInclude Include="heuristics\simple.hpp" />
     <ClInclude Include="node.hpp" />
+    <ClInclude Include="searchers\scripted.hpp" />
     <ClInclude Include="searchers\searcher.hpp" />
     <ClInclude Include="searchers\searcherabcd.hpp" />
     <ClInclude Include="searchers\searchermcts.hpp" />

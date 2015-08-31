@@ -35,6 +35,9 @@
       <Extensions>
       </Extensions>
     </Filter>
+    <Filter Include="behaviors">
+      <UniqueIdentifier>{10ebc6fc-f6d8-4366-8caf-03f870ed4be5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gamestate.hpp" />
@@ -108,6 +111,18 @@
     </ClInclude>
     <ClInclude Include="heuristics\simple.hpp">
       <Filter>heuristics</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\attackclosest.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\moverelative.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="searchers\scripted.hpp">
+      <Filter>searchers</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\behaviortreenode.hpp">
+      <Filter>behaviors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

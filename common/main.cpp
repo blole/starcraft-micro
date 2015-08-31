@@ -1,12 +1,10 @@
 #include "common/main.hpp"
-#include <iostream>
-#include "common/reactivesquad.hpp"
 
 using namespace BWAPI;
 using namespace Filter;
 using namespace Bot;
 
-Main::Main(std::shared_ptr<General> general)
+Main::Main(shared_ptr<General> general)
 	: general(general)
 {
 }

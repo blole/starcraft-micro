@@ -1,5 +1,5 @@
 #pragma once
-#include <algorithm>
+#include "common/common.hpp"
 #include "search/selecters/selecter.hpp"
 
 namespace Bot { namespace Search { 	namespace Selecters
@@ -9,15 +9,10 @@ namespace Bot { namespace Search { 	namespace Selecters
 	{
 		virtual NT* operator()(NT* node, const GameState& state) const override
 		{
-			return std::max_element(node->children.begin(), node->children.end(), bestUCB)->get();
+			return std::max_element(node->children.begin(), node->children.end(), function<double(const unique_ptr<NT>&)>(ucb))->get();
 		}
 
 	private:
-		static bool bestUCB(const unique_ptr<NT>& a, const unique_ptr<NT>& b)
-		{
-			return ucb(a) < ucb(b);
-		}
-
 		static double ucb(const unique_ptr<NT>& node)
 		{
 			return node->totalReward / node->visits + std::sqrt(std::log((double)node->parent->visits) / node->visits);
