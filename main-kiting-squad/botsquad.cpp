@@ -5,7 +5,7 @@ using namespace BWAPI;
 using namespace Filter;
 using namespace Bot;
 
-void botSquad::onStart()
+void BotSquad::onStart()
 {
 	Broodwar->enableFlag(Flag::UserInput);
 	Broodwar->enableFlag(Flag::CompleteMapInformation);
@@ -15,7 +15,7 @@ void botSquad::onStart()
 		commander.init();
 }
 
-void botSquad::onFrame()
+void BotSquad::onFrame()
 {
 	static std::string botDescription = "Attack closest in squad";
 
@@ -25,64 +25,64 @@ void botSquad::onFrame()
 	commander.update();
 }
 
-void botSquad::onEnd(bool isWinner)
+void BotSquad::onEnd(bool isWinner)
 {
 }
 
-void botSquad::onSendText(std::string text)
+void BotSquad::onSendText(std::string text)
 {
 	Broodwar->sendText("%s", text.c_str());
 }
 
-void botSquad::onReceiveText(BWAPI::Player player, std::string text)
+void BotSquad::onReceiveText(BWAPI::Player player, std::string text)
 {
 }
 
-void botSquad::onPlayerLeft(BWAPI::Player player)
+void BotSquad::onPlayerLeft(BWAPI::Player player)
 {
 }
 
-void botSquad::onNukeDetect(BWAPI::Position target)
+void BotSquad::onNukeDetect(BWAPI::Position target)
 {
 }
 
-void botSquad::onUnitDiscover(BWAPI::Unit unit)
+void BotSquad::onUnitDiscover(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onUnitEvade(BWAPI::Unit unit)
+void BotSquad::onUnitEvade(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onUnitShow(BWAPI::Unit unit)
+void BotSquad::onUnitShow(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onUnitHide(BWAPI::Unit unit)
+void BotSquad::onUnitHide(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onUnitCreate(BWAPI::Unit unit)
+void BotSquad::onUnitCreate(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onUnitDestroy(BWAPI::Unit unit)
+void BotSquad::onUnitDestroy(BWAPI::Unit unit)
 {
 	commander.destroyUnit(unit);
 }
 
-void botSquad::onUnitMorph(BWAPI::Unit unit)
+void BotSquad::onUnitMorph(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onUnitRenegade(BWAPI::Unit unit)
+void BotSquad::onUnitRenegade(BWAPI::Unit unit)
 {
 }
 
-void botSquad::onSaveGame(std::string gameName)
+void BotSquad::onSaveGame(std::string gameName)
 {
 }
 
-void botSquad::onUnitComplete(BWAPI::Unit unit)
+void BotSquad::onUnitComplete(BWAPI::Unit unit)
 {
 }

@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.hpp" />
+    <ClInclude Include="dll.hpp" />
     <ClInclude Include="gameunit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="general.hpp" />

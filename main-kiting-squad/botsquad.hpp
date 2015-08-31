@@ -4,7 +4,7 @@
 
 namespace Bot
 {
-	class botSquad : public BWAPI::AIModule
+	class BotSquad : public BWAPI::AIModule
 	{
 	public:
 		// Virtual functions for callbacks, leave these as they are.
