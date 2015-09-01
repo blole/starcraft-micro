@@ -11,17 +11,16 @@ namespace Bot
 	class SquadManager : public Squad
 	{
 	public:
-		// Attributes
 		BWAPI::PositionOrUnit positionToAttack;
 		BWAPI::Position positionSquad;
 		std::set<PUnit*> squadUnits;
 		BehaviorTree::BehaviorTreeNode* brain;
 	
-		// constructor
+	public:
 		SquadManager();
 	
-		// Methods
-		void onFrame();
+	public:
+		virtual void onFrame() override;
 		void setTarget(BWAPI::PositionOrUnit target);
 		bool isInPosition();
 	};

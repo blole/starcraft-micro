@@ -1,15 +1,12 @@
 #pragma once
+#include "common/common.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
-#include <BWAPI.h>
-#include "influencemap.hpp"
 
-using namespace BehaviorTree;
-
-class Flee : public BehaviorTreeNode
+class Flee : public BehaviorTree::BehaviorTreeNode
 {
 public:
 	void init(void* agent);
-	BEHAVIOR_STATUS execute(void* agent);
+	BehaviorTree::BEHAVIOR_STATUS execute(void* agent);
 	
 private:
 	bool first;

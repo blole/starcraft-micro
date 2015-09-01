@@ -1,9 +1,11 @@
 #include "flee.hpp"
 #include "common/gameunit.hpp"
 #include "common/punit.hpp"
+#include "main-kiting/influencemap.hpp"
 
 using namespace BWAPI;
 using namespace Bot;
+using namespace BehaviorTree;
 
 void Flee::init(void* agent)
 {

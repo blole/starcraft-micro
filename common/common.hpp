@@ -1,6 +1,7 @@
 #pragma once
 
 #include <BWAPI.h>
+using BWAPI::Broodwar;
 
 #include <cassert>
 #include <memory>

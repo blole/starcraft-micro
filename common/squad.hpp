@@ -19,6 +19,9 @@ namespace Bot
 		std::list<PUnit*> units;
 
 	public:
+		virtual ~Squad() {}
+
+	public:
 		virtual void onFrame() = 0;
 	
 		virtual void addUnit(PUnit* unit);

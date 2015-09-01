@@ -16,17 +16,14 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 
 	typedef Nodes::MCTS NT;
 
-	function<Squad*()> newSquad = []{
-		static shared_ptr<Searcher> searcher = make_shared<Searchers::MCTS<NT>>(
-			make_shared<ActionListers::BranchOnUnit>(),
-			make_shared<Selecters::UCB<NT>>(),
-			make_shared<Heuristics::SqrtHp_Dps>(),
-			make_shared<Backpropagaters::UCT<NT>>(),
-			make_shared<TerminalCheckers::FrameLimited>(100));
-		return new SearchingSquad(searcher);
-	};
+	shared_ptr<Searcher> searcher = make_shared<Searchers::MCTS<NT>>(
+		make_shared<ActionListers::BranchOnUnit>(),
+		make_shared<Selecters::UCB<NT>>(),
+		make_shared<Heuristics::SqrtHp_Dps>(),
+		make_shared<Backpropagaters::UCT<NT>>(),
+		make_shared<TerminalCheckers::FrameLimited>(100));
 	
-	shared_ptr<GeneralAllUnitsSingleSquad> general = make_shared<GeneralAllUnitsSingleSquad>(newSquad);
+	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad<SearchingSquad>>(searcher);
 
 	return new Main(general);
 }

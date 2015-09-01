@@ -1,26 +1,19 @@
-#include "squadmanager.hpp"
-#include <iostream>
+#include "main-kiting-squad/squadmanager.hpp"
 
-using namespace BWAPI;
-using namespace Filter;
 using namespace Bot;
+using namespace BWAPI;
 
-	// Constructor
 SquadManager::SquadManager()
-	: Squad()
-	, positionToAttack(nullptr)
-	, brain(nullptr)
+	: brain(nullptr)
 {
 }
 
-	// Methods
 void SquadManager::onFrame()
 {	
 	Position newSquadPosition(0,0);
-	for(auto i=units.begin();i!=units.end();i++)
-	{
-		newSquadPosition += (*i)->getPosition();
-	}
+	for (auto& unit : units)
+		newSquadPosition += unit->getPosition();
+
 	newSquadPosition /= (units.size());
 	this->positionSquad = newSquadPosition;
 

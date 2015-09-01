@@ -1,7 +1,10 @@
 #include "common/dll.hpp"
-#include "botsquad.hpp"
+#include "common/main.hpp"
+#include "main-kiting-squad/commander.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
-	return new Bot::BotSquad();
+	using namespace Bot;
+
+	return new Main(make_shared<Commander>());
 }

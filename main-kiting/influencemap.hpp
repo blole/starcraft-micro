@@ -1,7 +1,5 @@
 #pragma once
-#include <BWAPI.h>
-#include "common/punit.hpp"
-#include "common/ounit.hpp"
+#include "common/common.hpp"
 
 class InfluenceMap
 {

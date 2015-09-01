@@ -6,28 +6,25 @@
 
 namespace Bot
 {
-	class GeneralKiting : public GeneralAllUnitsSingleSquad
+	template <class SquadType>
+	class GeneralKiting : public GeneralAllUnitsSingleSquad<SquadType>
 	{
 	public:
-		explicit GeneralKiting(std::function<Squad*()>& newSquad)
-			: GeneralAllUnitsSingleSquad(newSquad)
+		GeneralKiting(const SquadType& squad = SquadType())
+			: GeneralAllUnitsSingleSquad<SquadType>(squad)
 		{}
-		explicit GeneralKiting(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
-			: GeneralAllUnitsSingleSquad(unitBrain)
-		{}
-	
-	
+
 	public:
-		virtual void GeneralKiting::onInit()
+		virtual void onStart() override
 		{
 			InfluenceMap::init();
-			GeneralAllUnitsSingleSquad::onStart();
+			GeneralAllUnitsSingleSquad<SquadType>::onStart();
 		}
 
-		virtual void GeneralKiting::onFrame()
+		virtual void onFrame() override
 		{
 			InfluenceMap::update();
-			GeneralAllUnitsSingleSquad::onFrame();
+			GeneralAllUnitsSingleSquad<SquadType>::onFrame();
 		}
 	};
 }

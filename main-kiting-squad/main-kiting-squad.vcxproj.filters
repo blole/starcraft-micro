@@ -14,9 +14,6 @@
     <ClCompile Include="squadmanager.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="botsquad.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="commander.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -31,9 +28,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="botsquad.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="commander.hpp">
       <Filter>headers</Filter>
     </ClInclude>

@@ -1,28 +1,16 @@
 #pragma once
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
-#include "common/ounit.hpp"
-#include <BWAPI.h>
-#include <lib/libbehavior/BehaviorTree.h>
-#include "squadmanager.hpp"
-#include <set>
-
+#include "common/general.hpp"
+#include "main-kiting-squad/squadmanager.hpp"
 
 namespace Bot
 {
-	class Commander
+	class Commander : public GeneralWithSquads<SquadManager>
 	{
-	public:
-		// Attributes
-		std::set<PUnit*> pAllUnits;
-		std::set<OUnit*> oAllUnits;
-		std::set<SquadManager*> squads;
-		// Methods
-		void init();
-		void update();
-		void destroyUnit(BWAPI::Unit unit);
-
 	private:
 		const static int nbUnitPerSquad = 5;
+
+	public:
+		virtual void onStart() override;
+		virtual void onFrame() override;
 	};
 }

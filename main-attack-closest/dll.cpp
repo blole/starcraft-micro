@@ -11,13 +11,9 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 	using namespace Bot;
 	using namespace Bot::Search;
 
-	function<Squad*()> newSquad = [] {
-		static shared_ptr<Searcher> searcher = make_shared<Scripted>(
-			make_shared<Behaviors::AttackClosest>());
-		return new SearchingSquad(searcher);
-	};
+	shared_ptr<Searcher> searcher = make_shared<Scripted>(make_shared<Behaviors::AttackClosest>());
 
-	shared_ptr<GeneralAllUnitsSingleSquad> general = make_shared<GeneralAllUnitsSingleSquad>(newSquad);
+	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad<SearchingSquad>>(searcher);
 
 	return new Main(general);
 }

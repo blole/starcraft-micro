@@ -1,6 +1,6 @@
-#include "influencemap.hpp"
-#include <iostream>
-#include <stdlib.h>
+#include "main-kiting/influencemap.hpp"
+#include "common/punit.hpp"
+#include "common/ounit.hpp"
 
 using namespace BWAPI;
 using namespace Bot;

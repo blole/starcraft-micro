@@ -22,7 +22,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="botsquad.cpp" />
     <ClCompile Include="commander.cpp" />
     <ClCompile Include="dll.cpp" />
     <ClCompile Include="movesquadtoposition.cpp" />
@@ -30,7 +29,6 @@
     <ClCompile Include="squadmanager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="botsquad.hpp" />
     <ClInclude Include="commander.hpp" />
     <ClInclude Include="movesquadtoposition.hpp" />
     <ClInclude Include="squadfire.hpp" />

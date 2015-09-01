@@ -2,6 +2,7 @@
 #include "common/main.hpp"
 #include "common/generalallunitssinglesquad.hpp"
 #include "behaviors/attackclosestnok.hpp"
+#include "common/reactivesquad.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
@@ -12,7 +13,8 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		return (new SequentialNode())
 			->addChild(new Behaviors::AttackClosestNOK());
 	};
-	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad>(unitBrain);
+
+	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad<ReactiveSquad>>(unitBrain);
 
 	return new Main(general);
 }
