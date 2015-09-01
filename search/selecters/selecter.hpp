@@ -8,6 +8,6 @@ namespace Bot { namespace Search
 	struct Selecter
 	{
 		virtual ~Selecter() {}
-		virtual NT* operator()(NT* node, const GameState& state) const = 0;
+		virtual NT* operator()(const GameState& state, NT* node) const = 0;
 	};
 }}

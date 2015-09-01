@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dll.cpp" />
     <ClCompile Include="gameunit.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ounit.cpp" />

@@ -30,6 +30,9 @@
     <ClCompile Include="punit.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="dll.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameunit.hpp">

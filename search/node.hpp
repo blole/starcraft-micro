@@ -12,10 +12,12 @@ namespace Bot { namespace Search
 		NT* const parent;
 		shared_ptr<Effect> effect;
 		vector<unique_ptr<NT>> children;
+		bool terminal;
 	public:
 		Node(NT* parent, shared_ptr<Effect> effect)
 			: parent(parent)
 			, effect(effect)
+			, terminal(false)
 		{}
 
 		virtual ~Node() {}
