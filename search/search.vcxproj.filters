@@ -20,9 +20,6 @@
     <Filter Include="selecters">
       <UniqueIdentifier>{c2384406-b4d3-47de-8c1b-920f303ae489}</UniqueIdentifier>
     </Filter>
-    <Filter Include="simulaters">
-      <UniqueIdentifier>{871101b7-01bc-4763-b547-d6562f63ab77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="backpropagaters">
       <UniqueIdentifier>{9c50bfe3-d1f3-4767-80a7-ead049cd1463}</UniqueIdentifier>
     </Filter>
@@ -37,6 +34,9 @@
     </Filter>
     <Filter Include="behaviors">
       <UniqueIdentifier>{10ebc6fc-f6d8-4366-8caf-03f870ed4be5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stateevaluaters">
+      <UniqueIdentifier>{871101b7-01bc-4763-b547-d6562f63ab77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +63,6 @@
     <ClInclude Include="units\marine.hpp">
       <Filter>units</Filter>
     </ClInclude>
-    <ClInclude Include="simulaters\heuristicwrapper.hpp">
-      <Filter>simulaters</Filter>
-    </ClInclude>
     <ClInclude Include="selecters\ucb.hpp">
       <Filter>selecters</Filter>
     </ClInclude>
@@ -85,17 +82,11 @@
     <ClInclude Include="backpropagaters\backpropagater.hpp">
       <Filter>backpropagaters</Filter>
     </ClInclude>
-    <ClInclude Include="heuristics\heuristic.hpp">
-      <Filter>heuristics</Filter>
-    </ClInclude>
     <ClInclude Include="searchers\searcher.hpp">
       <Filter>searchers</Filter>
     </ClInclude>
     <ClInclude Include="selecters\selecter.hpp">
       <Filter>selecters</Filter>
-    </ClInclude>
-    <ClInclude Include="simulaters\simulater.hpp">
-      <Filter>simulaters</Filter>
     </ClInclude>
     <ClInclude Include="units\unit.hpp">
       <Filter>units</Filter>
@@ -109,9 +100,6 @@
     <ClInclude Include="terminalcheckers\framelimited.hpp">
       <Filter>terminalcheckers</Filter>
     </ClInclude>
-    <ClInclude Include="heuristics\simple.hpp">
-      <Filter>heuristics</Filter>
-    </ClInclude>
     <ClInclude Include="behaviors\attackclosest.hpp">
       <Filter>behaviors</Filter>
     </ClInclude>
@@ -123,6 +111,18 @@
     </ClInclude>
     <ClInclude Include="behaviors\behaviortreenode.hpp">
       <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="stateevaluaters\heuristic.hpp">
+      <Filter>stateevaluaters</Filter>
+    </ClInclude>
+    <ClInclude Include="stateevaluaters\simulater.hpp">
+      <Filter>stateevaluaters</Filter>
+    </ClInclude>
+    <ClInclude Include="stateevaluaters\stateevaluater.hpp">
+      <Filter>stateevaluaters</Filter>
+    </ClInclude>
+    <ClInclude Include="stateevaluaters\simpleheuristics.hpp">
+      <Filter>stateevaluaters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

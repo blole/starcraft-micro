@@ -3,12 +3,11 @@
 #include "common/generalallunitssinglesquad.hpp"
 #include "search/searchingsquad.hpp"
 #include "search/selecters/ucb.hpp"
-#include "search/simulaters/heuristicwrapper.hpp"
+#include "search/stateevaluaters/simpleheuristics.hpp"
 #include "search/actionlisters/branchonunit.hpp"
 #include "search/searchers/searchermcts.hpp"
 #include "search/backpropagaters/uct.hpp"
 #include "search/terminalcheckers/framelimited.hpp"
-#include "search/heuristics/simple.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
@@ -21,7 +20,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		static shared_ptr<Searcher> searcher = make_shared<SearcherMCTS<NT>>(
 			make_shared<ActionListers::BranchOnUnit>(),
 			make_shared<Selecters::UCB<NT>>(),
-			make_shared<Simulaters::HeuristicWrapper>(make_shared<Heuristics::SqrtHp_Dps>()),
+			make_shared<Heuristics::SqrtHp_Dps>(),
 			make_shared<Backpropagaters::UCT<NT>>(),
 			make_shared<TerminalCheckers::FrameLimited>(100));
 		return new SearchingSquad(searcher);

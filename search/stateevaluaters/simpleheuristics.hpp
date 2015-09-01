@@ -1,15 +1,15 @@
 #pragma once
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
-#include "search/heuristics/heuristic.hpp"
+#include "search/stateevaluaters/heuristic.hpp"
 
 namespace Bot { namespace Search { namespace Heuristics
 {
-	struct SimpleHeuristic : Heuristic
+	struct SimpleHeuristic : public Heuristic
 	{
 		virtual double unitValue(const unique_ptr<Unit>& unit) const = 0;
 
-		virtual double operator()(const GameState& state) const override
+		virtual double operator()(GameState& state) const override
 		{
 			double sum = 0;
 			for (auto& unit : state.playerUnits()) sum += unitValue(unit);

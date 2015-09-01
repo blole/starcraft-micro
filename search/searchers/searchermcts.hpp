@@ -3,7 +3,7 @@
 #include "search/searchers/searcher.hpp"
 #include "search/actionlisters/actionlister.hpp"
 #include "search/selecters/selecter.hpp"
-#include "search/simulaters/simulater.hpp"
+#include "search/stateevaluaters/stateevaluater.hpp"
 #include "search/backpropagaters/backpropagater.hpp"
 #include "search/terminalcheckers/terminalchecker.hpp"
 #include "search/units/unit.hpp"
@@ -49,7 +49,7 @@ namespace Bot { namespace Search
 	private:
 		shared_ptr<ActionLister> actions;
 		shared_ptr<Selecter<NT>> select;
-		shared_ptr<Simulater> simulate;
+		shared_ptr<StateEvaluater> evaluate;
 		shared_ptr<Backpropagater<NT>> backpropagate;
 		shared_ptr<TerminalChecker> isTerminal;
 
@@ -57,12 +57,12 @@ namespace Bot { namespace Search
 		SearcherMCTS(
 			shared_ptr<ActionLister> actionlister,
 			shared_ptr<Selecter<NT>> selecter,
-			shared_ptr<Simulater> simulater,
+			shared_ptr<StateEvaluater> evaluater,
 			shared_ptr<Backpropagater<NT>> backpropagater,
 			shared_ptr<TerminalChecker> isTerminal)
 			: actions(actionlister)
 			, select(selecter)
-			, simulate(simulater)
+			, evaluate(evaluater)
 			, backpropagate(backpropagater)
 			, isTerminal(isTerminal)
 		{}
@@ -104,7 +104,7 @@ namespace Bot { namespace Search
 				}
 
 				//simulation
-				double score = (*simulate)(state);
+				double score = (*evaluate)(state);
 
 				//backpropagation
 				(*backpropagate)(state, node, score);
