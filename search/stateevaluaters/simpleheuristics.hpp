@@ -1,11 +1,11 @@
 #pragma once
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
-#include "search/stateevaluaters/heuristic.hpp"
+#include "search/stateevaluaters/stateevaluater.hpp"
 
-namespace Bot { namespace Search { namespace Heuristics
+namespace Bot { namespace Search { namespace StateEvaluaters { namespace Heuristics
 {
-	struct SimpleHeuristic : public Heuristic
+	struct SimpleHeuristic : Heuristic
 	{
 		virtual double unitValue(const Unit& unit) const = 0;
 
@@ -18,7 +18,7 @@ namespace Bot { namespace Search { namespace Heuristics
 		}
 	};
 
-	struct Hp : public SimpleHeuristic
+	struct Hp : SimpleHeuristic
 	{
 		virtual double unitValue(const Unit& unit) const override
 		{
@@ -26,7 +26,7 @@ namespace Bot { namespace Search { namespace Heuristics
 		}
 	};
 
-	struct SqrtHp : public SimpleHeuristic
+	struct SqrtHp : SimpleHeuristic
 	{
 		virtual double unitValue(const Unit& unit) const override
 		{
@@ -34,7 +34,7 @@ namespace Bot { namespace Search { namespace Heuristics
 		}
 	};
 
-	struct SqrtHp_Dps : public SimpleHeuristic
+	struct SqrtHp_Dps : SimpleHeuristic
 	{
 		virtual double unitValue(const Unit& unit) const override
 		{
@@ -43,4 +43,4 @@ namespace Bot { namespace Search { namespace Heuristics
 			return sqrt(unit.hp()) * dmg*24/cd;
 		}
 	};
-}}}
+}}}}

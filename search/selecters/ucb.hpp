@@ -5,7 +5,7 @@
 namespace Bot { namespace Search { 	namespace Selecters
 {
 	template <class NT>
-	struct UCB : public Selecter<NT>
+	struct UCB : Selecter<NT>
 	{
 		virtual NT& operator()(const GameState& state, NT& node) const override
 		{

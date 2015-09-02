@@ -15,12 +15,11 @@ namespace Bot { namespace Search
 {
 	namespace Nodes
 	{
-		class MCTS : public Node<MCTS>
+		struct MCTS : Node<MCTS>
 		{
-		public:
 			int visits;
 			double totalReward;
-		public:
+		
 			MCTS(MCTS* parent, shared_ptr<Effect> effect)
 				: Node(parent, std::move(effect))
 				, visits(0)
@@ -33,7 +32,7 @@ namespace Bot { namespace Search
 	{
 		template<class NT, class ActionListerType, template <class> class SelecterType, class StateEvaluaterType,
 				template <class> class BackpropagaterType, class TerminalCheckerType>
-		class MCTS : public Player
+		struct MCTS : Player
 		{
 		private:
 			ActionListerType actions;

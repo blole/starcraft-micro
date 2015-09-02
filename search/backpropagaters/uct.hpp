@@ -5,7 +5,7 @@
 namespace Bot { namespace Search { 	namespace Backpropagaters
 {
 	template <class NT>
-	struct UCT : public Backpropagater<NT>
+	struct UCT : Backpropagater<NT>
 	{
 		virtual void operator()(const GameState& state, NT& node_, double score) const override
 		{

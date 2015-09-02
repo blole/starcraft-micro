@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include "common/common.hpp"
 
 namespace Bot { namespace Search
 {

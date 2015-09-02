@@ -6,7 +6,7 @@
 
 namespace Bot { namespace Search
 {
-	struct MoveData : public OneUnitEffectData
+	struct MoveData : OneUnitEffectData
 	{
 		BWAPI::Position offset;
 		MoveData(const id_t& unitID, const BWAPI::Position& offset)

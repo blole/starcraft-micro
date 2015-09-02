@@ -6,14 +6,13 @@ namespace Bot { namespace Search
 	class Effect;
 	
 	template<class NT>
-	class Node
+	struct Node
 	{
-	public:
 		NT* const parent;
 		shared_ptr<Effect> effect;
 		vector<NT> children;
 		bool terminal;
-	public:
+
 		Node(NT* parent, shared_ptr<Effect> effect)
 			: parent(parent)
 			, effect(effect)

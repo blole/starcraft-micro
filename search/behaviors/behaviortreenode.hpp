@@ -7,7 +7,7 @@ namespace Bot { namespace Search
 	const shared_ptr<Effect> running = std::make_shared<NoEffect>();
 	const shared_ptr<Effect> failure = std::make_shared<NoEffect>();
 
-	class BehaviorTreeNode
+	struct BehaviorTreeNode
 	{
 	private:
 		bool first;

@@ -18,7 +18,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		Nodes::MCTS,
 		ActionListers::BranchOnUnit,
 		Selecters::UCB,
-		Heuristics::SqrtHp_Dps,
+		StateEvaluaters::Heuristics::SqrtHp_Dps,
 		Backpropagaters::UCT,
 		TerminalCheckers::FrameLimited<100>
 	> SearcherType;

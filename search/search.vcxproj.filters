@@ -20,10 +20,6 @@
     <Filter Include="backpropagaters">
       <UniqueIdentifier>{9c50bfe3-d1f3-4767-80a7-ead049cd1463}</UniqueIdentifier>
     </Filter>
-    <Filter Include="heuristics">
-      <UniqueIdentifier>{9c271fd9-a7e9-4b6d-aa47-eb0b16b55dea}</UniqueIdentifier>
-      <Extensions>heuristics/*</Extensions>
-    </Filter>
     <Filter Include="terminalcheckers">
       <UniqueIdentifier>{78895e6a-ad67-4b4a-a2cd-58bfca5f9be2}</UniqueIdentifier>
       <Extensions>
@@ -50,9 +46,6 @@
     </ClInclude>
     <ClInclude Include="effects\move.hpp">
       <Filter>effects</Filter>
-    </ClInclude>
-    <ClInclude Include="actionlisters\branchonplayer.hpp">
-      <Filter>actionlisters</Filter>
     </ClInclude>
     <ClInclude Include="actionlisters\branchonunit.hpp">
       <Filter>actionlisters</Filter>
@@ -100,12 +93,6 @@
     <ClInclude Include="behaviors\behaviortreenode.hpp">
       <Filter>behaviors</Filter>
     </ClInclude>
-    <ClInclude Include="stateevaluaters\heuristic.hpp">
-      <Filter>stateevaluaters</Filter>
-    </ClInclude>
-    <ClInclude Include="stateevaluaters\simulater.hpp">
-      <Filter>stateevaluaters</Filter>
-    </ClInclude>
     <ClInclude Include="stateevaluaters\stateevaluater.hpp">
       <Filter>stateevaluaters</Filter>
     </ClInclude>
@@ -123,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="players\player.hpp">
       <Filter>players</Filter>
+    </ClInclude>
+    <ClInclude Include="actionlisters\branchonrandomcombinationofallunitsactions.hpp">
+      <Filter>actionlisters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

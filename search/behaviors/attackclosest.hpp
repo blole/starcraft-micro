@@ -5,9 +5,8 @@
 
 namespace Bot { namespace Search { namespace Behaviors
 {
-	class AttackClosest : public BehaviorTreeNode
+	struct AttackClosest : BehaviorTreeNode
 	{
-	public:
 		virtual shared_ptr<Effect> firstExecute(GameState& state, Unit& unit) override
 		{
 			if (!unit.groundWeaponCooldown) //TODO: wait for previous attack to finish?

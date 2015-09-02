@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actionlisters\actionlister.hpp" />
-    <ClInclude Include="actionlisters\branchonplayer.hpp" />
+    <ClInclude Include="actionlisters\branchonrandomcombinationofallunitsactions.hpp" />
     <ClInclude Include="actionlisters\branchonunit.hpp" />
     <ClInclude Include="backpropagaters\backpropagater.hpp" />
     <ClInclude Include="backpropagaters\uct.hpp" />
@@ -37,9 +37,7 @@
     <ClInclude Include="searchingsquad.hpp" />
     <ClInclude Include="selecters\selecter.hpp" />
     <ClInclude Include="selecters\ucb.hpp" />
-    <ClInclude Include="stateevaluaters\heuristic.hpp" />
     <ClInclude Include="stateevaluaters\simpleheuristics.hpp" />
-    <ClInclude Include="stateevaluaters\simulater.hpp" />
     <ClInclude Include="stateevaluaters\stateevaluater.hpp" />
     <ClInclude Include="terminalcheckers\framelimited.hpp" />
     <ClInclude Include="terminalcheckers\standard.hpp" />

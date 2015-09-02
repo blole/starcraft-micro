@@ -7,7 +7,7 @@
 
 namespace Bot { namespace Search { namespace Behaviors
 {
-	class MoveRelative : public BehaviorTreeNode
+	struct MoveRelative : BehaviorTreeNode
 	{
 	private:
 		const float direction;

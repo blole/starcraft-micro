@@ -7,7 +7,7 @@
 namespace Bot { namespace Search { namespace Players
 {
 	template <class BehaviorTreeType>
-	class Scripted : public Player
+	struct Scripted : Player
 	{
 	private:
 		BehaviorTreeType behaviorTree;

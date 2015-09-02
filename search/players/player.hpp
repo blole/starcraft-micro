@@ -6,9 +6,8 @@ namespace Bot { namespace Search
 	class Effect;
 	class GameState;
 
-	class Player
+	struct Player
 	{
-	public:
 		virtual ~Player() {}
 		virtual vector<shared_ptr<Effect>> operator()(GameState& gamestate) = 0;
 	};
