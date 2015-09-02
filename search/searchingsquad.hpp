@@ -4,7 +4,7 @@
 #include "common/punit.hpp"
 #include "search/gamestate.hpp"
 #include "search/effects/effect.hpp"
-#include "search/searchers/searcher.hpp"
+#include "search/players/player.hpp"
 
 
 namespace Bot { namespace Search

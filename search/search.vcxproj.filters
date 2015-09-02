@@ -5,9 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>-->
-    <Filter Include="searchers">
-      <UniqueIdentifier>{b88c9345-e466-4ad2-9a91-63ecf1681cf2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="units">
       <UniqueIdentifier>{f96b878f-ff3a-411a-9d98-f614c0d8a2f1}</UniqueIdentifier>
     </Filter>
@@ -38,6 +35,9 @@
     <Filter Include="stateevaluaters">
       <UniqueIdentifier>{871101b7-01bc-4763-b547-d6562f63ab77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="players">
+      <UniqueIdentifier>{b88c9345-e466-4ad2-9a91-63ecf1681cf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gamestate.hpp" />
@@ -57,9 +57,6 @@
     <ClInclude Include="actionlisters\branchonunit.hpp">
       <Filter>actionlisters</Filter>
     </ClInclude>
-    <ClInclude Include="searchers\searcherabcd.hpp">
-      <Filter>searchers</Filter>
-    </ClInclude>
     <ClInclude Include="units\marine.hpp">
       <Filter>units</Filter>
     </ClInclude>
@@ -68,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="backpropagaters\uct.hpp">
       <Filter>backpropagaters</Filter>
-    </ClInclude>
-    <ClInclude Include="searchers\searchermcts.hpp">
-      <Filter>searchers</Filter>
     </ClInclude>
     <ClInclude Include="node.hpp" />
     <ClInclude Include="effects\effect.hpp">
@@ -81,9 +75,6 @@
     </ClInclude>
     <ClInclude Include="backpropagaters\backpropagater.hpp">
       <Filter>backpropagaters</Filter>
-    </ClInclude>
-    <ClInclude Include="searchers\searcher.hpp">
-      <Filter>searchers</Filter>
     </ClInclude>
     <ClInclude Include="selecters\selecter.hpp">
       <Filter>selecters</Filter>
@@ -106,9 +97,6 @@
     <ClInclude Include="behaviors\moverelative.hpp">
       <Filter>behaviors</Filter>
     </ClInclude>
-    <ClInclude Include="searchers\scripted.hpp">
-      <Filter>searchers</Filter>
-    </ClInclude>
     <ClInclude Include="behaviors\behaviortreenode.hpp">
       <Filter>behaviors</Filter>
     </ClInclude>
@@ -123,6 +111,18 @@
     </ClInclude>
     <ClInclude Include="stateevaluaters\simpleheuristics.hpp">
       <Filter>stateevaluaters</Filter>
+    </ClInclude>
+    <ClInclude Include="players\scripted.hpp">
+      <Filter>players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\mcts.hpp">
+      <Filter>players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\abcd.hpp">
+      <Filter>players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\player.hpp">
+      <Filter>players</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 #include <BWAPI.h>
-#include "search/searchers/searcher.hpp"
+#include "search/players/player.hpp"
 #include "search/units/unit.hpp"
 #include "search/actionlisters/branchonplayer.hpp"
 #include "common/common.hpp"

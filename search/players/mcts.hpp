@@ -1,6 +1,6 @@
 #pragma once
 #include "common/common.hpp"
-#include "search/searchers/searcher.hpp"
+#include "search/players/player.hpp"
 #include "search/actionlisters/actionlister.hpp"
 #include "search/selecters/selecter.hpp"
 #include "search/stateevaluaters/stateevaluater.hpp"
@@ -29,11 +29,11 @@ namespace Bot { namespace Search
 		};
 	}
 
-	namespace Searchers
+	namespace Players
 	{
 		template<class NT, class ActionListerType, template <class NT> class SelecterType, class StateEvaluaterType,
 				template <class NT> class BackpropagaterType, class TerminalCheckerType>
-		class MCTS : public Searcher
+		class MCTS : public Player
 		{
 		private:
 			ActionListerType actions;

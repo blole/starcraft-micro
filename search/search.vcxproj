@@ -30,10 +30,10 @@
     <ClInclude Include="effects\move.hpp" />
     <ClInclude Include="gamestate.hpp" />
     <ClInclude Include="node.hpp" />
-    <ClInclude Include="searchers\scripted.hpp" />
-    <ClInclude Include="searchers\searcher.hpp" />
-    <ClInclude Include="searchers\searcherabcd.hpp" />
-    <ClInclude Include="searchers\searchermcts.hpp" />
+    <ClInclude Include="players\scripted.hpp" />
+    <ClInclude Include="players\player.hpp" />
+    <ClInclude Include="players\abcd.hpp" />
+    <ClInclude Include="players\mcts.hpp" />
     <ClInclude Include="searchingsquad.hpp" />
     <ClInclude Include="selecters\selecter.hpp" />
     <ClInclude Include="selecters\ucb.hpp" />
