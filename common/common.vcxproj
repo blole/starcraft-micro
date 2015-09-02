@@ -11,9 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dll.cpp" />
+    <ClCompile Include="commondll.cpp" />
     <ClCompile Include="gameunit.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="ounit.cpp" />
     <ClCompile Include="punit.cpp" />
     <ClCompile Include="squad.cpp" />

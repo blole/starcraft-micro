@@ -4,33 +4,46 @@
 
 namespace Bot
 {
+	template <class GeneralType>
 	class Main : public BWAPI::AIModule
 	{
 	private:
-		shared_ptr<General> general;
-	
+		GeneralType general;
+
 	public:
-		explicit Main(shared_ptr<General> general);
-	
-	
+		Main<GeneralType>(const GeneralType& general)
+			: general(general)
+		{}
+
 	public:
-		// Virtual functions for callbacks, leave these as they are.
-		virtual void onStart() override;
-		virtual void onEnd(bool isWinner) override;
-		virtual void onFrame() override;
-		virtual void onSendText(std::string text) override;
-		virtual void onReceiveText(BWAPI::Player player, std::string text) override;
-		virtual void onPlayerLeft(BWAPI::Player player) override;
-		virtual void onNukeDetect(BWAPI::Position target) override;
-		virtual void onUnitDiscover(BWAPI::Unit unit) override;
-		virtual void onUnitEvade(BWAPI::Unit unit) override;
-		virtual void onUnitShow(BWAPI::Unit unit) override;
-		virtual void onUnitHide(BWAPI::Unit unit) override;
-		virtual void onUnitCreate(BWAPI::Unit unit) override;
-		virtual void onUnitDestroy(BWAPI::Unit unit) override;
-		virtual void onUnitMorph(BWAPI::Unit unit) override;
-		virtual void onUnitRenegade(BWAPI::Unit unit) override;
-		virtual void onSaveGame(std::string gameName) override;
-		virtual void onUnitComplete(BWAPI::Unit unit) override;
+		virtual void onStart() override
+		{
+			Broodwar->enableFlag(BWAPI::Flag::UserInput);
+			Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
+			Broodwar->setLatCom(true);
+			//Broodwar->setCommandOptimizationLevel(2);
+
+			if (!Broodwar->isReplay())
+				general.onStart();
+		}
+
+		virtual void onFrame() override
+		{
+			if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
+				return;
+
+			Broodwar->drawTextScreen(200, 0, "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
+			Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
+			Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
+			//Broodwar->drawTextScreen(100, 0, "Bot behavior is: %s", MainDescription);
+
+			general.onFrame();
+		}
+
+		virtual void onSendText(string text) override
+		{
+			Broodwar->sendText("%s", text.c_str());
+		}
+
 	};
 }

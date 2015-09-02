@@ -13,7 +13,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 
 	shared_ptr<Searcher> searcher = make_shared<Scripted>(make_shared<Behaviors::AttackClosest>());
 
-	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad<SearchingSquad>>(searcher);
-
-	return new Main(general);
+	typedef GeneralAllUnitsSingleSquad<SearchingSquad> GeneralType;
+	GeneralType general(searcher);
+	return new Main<GeneralType>(general);
 }

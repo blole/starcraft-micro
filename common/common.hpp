@@ -25,6 +25,7 @@ using std::deque;
 using std::list;
 using std::function;
 using std::endl;
+using std::string;
 
 template <class T>
 vector<unique_ptr<T>> clone(const vector<unique_ptr<T>>& in)

@@ -14,7 +14,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 			->addChild(new Behaviors::AttackClosestNOK());
 	};
 
-	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad<ReactiveSquad>>(unitBrain);
-
-	return new Main(general);
+	typedef GeneralAllUnitsSingleSquad<ReactiveSquad> GeneralType;
+	GeneralType general(unitBrain);
+	return new Main<GeneralType>(general);
 }

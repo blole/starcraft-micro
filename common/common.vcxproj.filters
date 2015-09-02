@@ -18,9 +18,6 @@
     <ClCompile Include="squad.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="gameunit.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -30,7 +27,7 @@
     <ClCompile Include="punit.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="dll.cpp">
+    <ClCompile Include="commondll.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

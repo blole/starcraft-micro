@@ -23,7 +23,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		make_shared<Backpropagaters::UCT<NT>>(),
 		make_shared<TerminalCheckers::FrameLimited>(100));
 	
-	shared_ptr<General> general = make_shared<GeneralAllUnitsSingleSquad<SearchingSquad>>(searcher);
-
-	return new Main(general);
+	typedef GeneralAllUnitsSingleSquad<SearchingSquad> GeneralType;
+	GeneralType general(searcher);
+	return new Main<GeneralType>(general);
 }

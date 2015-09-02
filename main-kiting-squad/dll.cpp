@@ -6,5 +6,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
 
-	return new Main(make_shared<Commander>());
+	typedef Commander GeneralType;
+	GeneralType general;
+	return new Main<GeneralType>(general);
 }
