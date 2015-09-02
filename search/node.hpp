@@ -11,7 +11,7 @@ namespace Bot { namespace Search
 	public:
 		NT* const parent;
 		shared_ptr<Effect> effect;
-		vector<unique_ptr<NT>> children;
+		vector<NT> children;
 		bool terminal;
 	public:
 		Node(NT* parent, shared_ptr<Effect> effect)

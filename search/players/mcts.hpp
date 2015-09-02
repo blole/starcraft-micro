@@ -31,8 +31,8 @@ namespace Bot { namespace Search
 
 	namespace Players
 	{
-		template<class NT, class ActionListerType, template <class NT> class SelecterType, class StateEvaluaterType,
-				template <class NT> class BackpropagaterType, class TerminalCheckerType>
+		template<class NT, class ActionListerType, template <class> class SelecterType, class StateEvaluaterType,
+				template <class> class BackpropagaterType, class TerminalCheckerType>
 		class MCTS : public Player
 		{
 		private:
@@ -77,7 +77,7 @@ namespace Bot { namespace Search
 							if (!isTerminal(state))
 							{
 								for (shared_ptr<Effect>& effect : actions(state))
-									node->children.push_back(std::make_unique<NT>(node, effect));
+									node->children.emplace_back(node, effect);
 							}
 
 							if (node->children.empty())
@@ -88,7 +88,7 @@ namespace Bot { namespace Search
 						}
 
 						//selection
-						node = select(state, node);
+						node = &select(state, *node);
 						state.queueEffect(0, node->effect);
 					}
 
@@ -96,7 +96,7 @@ namespace Bot { namespace Search
 					double score = evaluate(state);
 
 					//backpropagation
-					backpropagate(state, node, score);
+					backpropagate(state, *node, score);
 				}
 
 				return root;
@@ -113,7 +113,7 @@ namespace Bot { namespace Search
 				while (state.frame() == 0 && !node->children.empty())
 				{
 					//TODO: select best, not regular selection
-					node = select(state, node);
+					node = &select(state, *node);
 					state.queueEffect(0, node->effect);
 
 					if (node->effect->isPlayerEffect(state))
