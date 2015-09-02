@@ -6,13 +6,14 @@
 
 namespace Bot { namespace Search
 {
+	template <class BehaviorTreeType>
 	class Scripted : public Searcher
 	{
 	private:
-		shared_ptr<BehaviorTreeNode> behaviorTree;
+		BehaviorTreeType behaviorTree;
 
 	public:
-		Scripted(shared_ptr<BehaviorTreeNode> behaviorTree)
+		Scripted(const BehaviorTreeType& behaviorTree = BehaviorTreeType())
 			: behaviorTree(behaviorTree)
 		{}
 
@@ -20,7 +21,7 @@ namespace Bot { namespace Search
 		{
 			vector<shared_ptr<Effect>> actions;
 			for (auto& unit : state.playerUnits())
-				actions.push_back(behaviorTree->execute(state, *unit));
+				actions.push_back(behaviorTree.execute(state, *unit));
 			return actions;
 		}
 	};

@@ -1,26 +1,23 @@
 #pragma once
+#include "common/common.hpp"
 #include "common/squad.hpp"
-#include <memory>
-#include <BWAPI.h>
 #include "common/punit.hpp"
 #include "search/gamestate.hpp"
 #include "search/effects/effect.hpp"
 #include "search/searchers/searcher.hpp"
-#include <exception>
-#include <vector>
-#include <set>
 
 
 namespace Bot { namespace Search
 {
+	template <class SearcherType>
 	class SearchingSquad : public Squad
 	{
 	public:
 		static const int radius = 400;
-		shared_ptr<Searcher> searcher;
+		SearcherType search;
 		
-		SearchingSquad(shared_ptr<Searcher> searcher)
-			: searcher(searcher)
+		SearchingSquad(const SearcherType& searcher = SearcherType())
+			: search(searcher)
 		{}
 		
 		virtual void onFrame() override
@@ -44,8 +41,7 @@ namespace Bot { namespace Search
 			
 			try
 			{
-				int gameframe = BWAPI::Broodwar->getFrameCount();
-				vector<shared_ptr<Effect>> actions = (*searcher)(state);
+				vector<shared_ptr<Effect>> actions = search(state);
 
 				for (shared_ptr<Effect>& action : actions)
 				{

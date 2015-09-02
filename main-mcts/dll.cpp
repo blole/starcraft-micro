@@ -14,16 +14,16 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 	using namespace Bot;
 	using namespace Bot::Search;
 
-	typedef Nodes::MCTS NT;
+	typedef Searchers::MCTS<
+		Nodes::MCTS,
+		ActionListers::BranchOnUnit,
+		Selecters::UCB,
+		Heuristics::SqrtHp_Dps,
+		Backpropagaters::UCT,
+		TerminalCheckers::FrameLimited<100>
+	> SearcherType;
+	typedef SearchingSquad<SearcherType> SquadType;
+	typedef GeneralAllUnitsSingleSquad<SquadType> GeneralType;
 
-	shared_ptr<Searcher> searcher = make_shared<Searchers::MCTS<NT>>(
-		make_shared<ActionListers::BranchOnUnit>(),
-		make_shared<Selecters::UCB<NT>>(),
-		make_shared<Heuristics::SqrtHp_Dps>(),
-		make_shared<Backpropagaters::UCT<NT>>(),
-		make_shared<TerminalCheckers::FrameLimited>(100));
-	
-	typedef GeneralAllUnitsSingleSquad<SearchingSquad> GeneralType;
-	GeneralType general(searcher);
-	return new Main<GeneralType>(general);
+	return new Main<GeneralType>;
 }

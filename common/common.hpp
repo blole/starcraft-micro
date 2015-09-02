@@ -39,14 +39,14 @@ vector<unique_ptr<T>> clone(const vector<unique_ptr<T>>& in)
 
 namespace std
 {
-	template<class ForwardIt, class R, class T = typename iterator_traits<ForwardIt>::reference>
-	ForwardIt min_element(ForwardIt first, ForwardIt last, function<R(T)> map)
+	template<class ForwardIt, class R, class T = typename iterator_traits<ForwardIt>::value_type>
+	ForwardIt min_element(ForwardIt first, ForwardIt last, const function<R(const T&)>& map)
 	{
-		return min_element(first, last, [&map](const T& a, const T& b) { return min(map(a), map(b)); });
+		return min_element(first, last, [&map](const T& a, const T& b) { return map(a) < map(b); });
 	}
-	template<class ForwardIt, class R, class T = typename iterator_traits<ForwardIt>::reference>
-	ForwardIt max_element(ForwardIt first, ForwardIt last, function<R(T)> map)
+	template<class ForwardIt, class R, class T = typename iterator_traits<ForwardIt>::value_type>
+	ForwardIt max_element(ForwardIt first, ForwardIt last, const function<R(const T&)>& map)
 	{
-		return max_element(first, last, [&map](const T& a, const T& b) { return max(map(a), map(b)); });
+		return max_element(first, last, [&map](const T& a, const T& b) { return map(a) < map(b); });
 	}
 }

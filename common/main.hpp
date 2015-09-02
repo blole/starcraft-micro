@@ -11,7 +11,7 @@ namespace Bot
 		GeneralType general;
 
 	public:
-		Main<GeneralType>(const GeneralType& general)
+		Main<GeneralType>(const GeneralType& general = GeneralType())
 			: general(general)
 		{}
 

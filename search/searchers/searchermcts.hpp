@@ -31,23 +31,24 @@ namespace Bot { namespace Search
 
 	namespace Searchers
 	{
-		template<class NT>
+		template<class NT, class ActionListerType, template <class NT> class SelecterType, class StateEvaluaterType,
+				template <class NT> class BackpropagaterType, class TerminalCheckerType>
 		class MCTS : public Searcher
 		{
 		private:
-			shared_ptr<ActionLister> actions;
-			shared_ptr<Selecter<NT>> select;
-			shared_ptr<StateEvaluater> evaluate;
-			shared_ptr<Backpropagater<NT>> backpropagate;
-			shared_ptr<TerminalChecker> isTerminal;
+			ActionListerType actions;
+			SelecterType<NT> select;
+			StateEvaluaterType evaluate;
+			BackpropagaterType<NT> backpropagate;
+			TerminalCheckerType isTerminal;
 
 		public:
 			MCTS(
-				shared_ptr<ActionLister> actionlister,
-				shared_ptr<Selecter<NT>> selecter,
-				shared_ptr<StateEvaluater> evaluater,
-				shared_ptr<Backpropagater<NT>> backpropagater,
-				shared_ptr<TerminalChecker> isTerminal)
+				const ActionListerType&			actionlister	= ActionListerType(),
+				const SelecterType<NT>&			selecter		= SelecterType<NT>(),
+				const StateEvaluaterType&		evaluater		= StateEvaluaterType(),
+				const BackpropagaterType<NT>&	backpropagater	= BackpropagaterType<NT>(),
+				const TerminalCheckerType&		isTerminal		= TerminalCheckerType())
 				: actions(actionlister)
 				, select(selecter)
 				, evaluate(evaluater)
@@ -73,9 +74,9 @@ namespace Bot { namespace Search
 						//expansion
 						if (node->children.empty())
 						{
-							if (!(*isTerminal)(state))
+							if (!isTerminal(state))
 							{
-								for (shared_ptr<Effect>& effect : (*actions)(state))
+								for (shared_ptr<Effect>& effect : actions(state))
 									node->children.push_back(std::make_unique<NT>(node, effect));
 							}
 
@@ -87,15 +88,15 @@ namespace Bot { namespace Search
 						}
 
 						//selection
-						node = (*select)(state, node);
+						node = select(state, node);
 						state.queueEffect(0, node->effect);
 					}
 
 					//simulation
-					double score = (*evaluate)(state);
+					double score = evaluate(state);
 
 					//backpropagation
-					(*backpropagate)(state, node, score);
+					backpropagate(state, node, score);
 				}
 
 				return root;
@@ -112,7 +113,7 @@ namespace Bot { namespace Search
 				while (state.frame() == 0 && !node->children.empty())
 				{
 					//TODO: select best, not regular selection
-					node = (*select)(state, node);
+					node = select(state, node);
 					state.queueEffect(0, node->effect);
 
 					if (node->effect->isPlayerEffect(state))
