@@ -32,7 +32,7 @@ namespace Bot { namespace Search
 			else
 				status = subsequentExecute(state, unit);
 
-			if (status != running)
+			if (status == success || status == failure)
 				first = true;
 
 			return status;

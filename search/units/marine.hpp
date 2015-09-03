@@ -61,19 +61,19 @@ namespace Bot { namespace Search
 			{
 				isAttackFrame = true;
 				//TODO: set correct move cooldown
-				state.queueEffect(6, std::make_shared<ClearAttackFrame<OneUnitEffectData>>(OneUnitEffectData(id)));
+				state.queueEffect(6, std::make_shared<ClearAttackFrame<>>(id));
 			}
 
 			if (bwapiUnit->getGroundWeaponCooldown() != 0)
 			{
 				groundWeaponCooldown = true;
-				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), std::make_shared<ClearGroundWeaponCooldown<OneUnitEffectData>>(OneUnitEffectData(id)));
+				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), make_shared<ClearGroundWeaponCooldown<>>(id));
 			}
 			else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
 			{
 				groundWeaponCooldown = true;
-				state.queueEffect(14, std::make_shared<ClearGroundWeaponCooldown<OneUnitEffectData>>(OneUnitEffectData(id)));
+				state.queueEffect(14, make_shared<ClearGroundWeaponCooldown<>>(id));
 			}
 		}
 	};

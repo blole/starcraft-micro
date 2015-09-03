@@ -15,7 +15,7 @@ namespace Bot { namespace Search { namespace Behaviors
 			{
 				Unit& target = **std::min_element(state.enemyUnits().begin(), state.enemyUnits().end(),
 					std::function<double(const unique_ptr<Unit>&)>(
-					                 [&](const unique_ptr<Unit>& enemy)
+					                 [&unit](const unique_ptr<Unit>& enemy)
 				{
 					return (unit.pos - enemy->pos).getLength();
 				}));

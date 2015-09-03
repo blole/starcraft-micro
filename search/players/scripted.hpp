@@ -3,6 +3,7 @@
 #include "search/players/player.hpp"
 #include "search/effects/effect.hpp"
 #include "search/behaviors/behaviortreenode.hpp"
+#include "search/terminalcheckers/standard.hpp"
 
 namespace Bot { namespace Search { namespace Players
 {
@@ -11,6 +12,7 @@ namespace Bot { namespace Search { namespace Players
 	{
 	private:
 		BehaviorTreeType behaviorTree;
+		TerminalCheckers::Standard isTerminal;
 
 	public:
 		Scripted(const BehaviorTreeType& behaviorTree = BehaviorTreeType())
@@ -20,8 +22,11 @@ namespace Bot { namespace Search { namespace Players
 		vector<shared_ptr<Effect>> operator()(GameState& state) override
 		{
 			vector<shared_ptr<Effect>> actions;
-			for (auto& unit : state.playerUnits())
-				actions.push_back(behaviorTree.execute(state, *unit));
+			if (!isTerminal(state))
+			{
+				for (auto& unit : state.playerUnits())
+					actions.push_back(behaviorTree.execute(state, *unit));
+			}
 			return actions;
 		}
 	};

@@ -19,7 +19,7 @@ namespace Bot
 		virtual void onStart() override
 		{
 			Broodwar->enableFlag(BWAPI::Flag::UserInput);
-			Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
+			//Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
 			Broodwar->setLatCom(true);
 			//Broodwar->setCommandOptimizationLevel(2);
 

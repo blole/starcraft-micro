@@ -41,6 +41,7 @@ namespace Bot { namespace Search
 			, bwapiUnit(bwapiUnit)
 			, isPlayer(bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
 			, hp_(bwapiUnit->getHitPoints())
+			, pos(bwapiUnit->getPosition())
 			, isMoving(false)
 			, isAttackFrame(false)
 			, groundWeaponCooldown(false)

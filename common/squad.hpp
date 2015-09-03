@@ -1,17 +1,9 @@
 #pragma once
-#include <BWAPI.h>
-#include <list>
+#include "common/common.hpp"
 
 namespace Bot
 {
 	class PUnit;
-
-	enum Objective
-	{
-		MOVING,
-		ATTACKING,
-		HOLDING
-	};
 
 	class Squad
 	{
@@ -22,15 +14,10 @@ namespace Bot
 		virtual ~Squad() {}
 
 	public:
-		virtual void onFrame() = 0;
-	
 		virtual void addUnit(PUnit* unit);
 		virtual void removeUnit(PUnit* unit);
 		virtual void displaySquadLinks();
 
-		//virtual void attack(BWAPI::PositionOrUnit positionOrUnit) = 0;
-		//virtual void moveTo(BWAPI::Position position) = 0;
-	
-		Objective getCurrentObjective();
+		virtual void onFrame() = 0;
 	};
 }

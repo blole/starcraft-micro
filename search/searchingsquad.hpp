@@ -38,7 +38,21 @@ namespace Bot { namespace Search
 			}
 			
 			GameState state(playerUnits, enemyUnits);
-			
+
+			for (auto& unit : state.playerUnits())
+			{
+				//Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,15), "isAttackFrame: %d", unit->isAttackFrame);
+				//Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 0), "isAttackFrame: %d", unit->bwapiUnit->isAttackFrame());
+
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,  0), "   starting: %d", unit->bwapiUnit->isStartingAttack());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 15), "attackFrame: %d", unit->bwapiUnit->isAttackFrame());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 30), "  attacking: %d", unit->bwapiUnit->isAttacking());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 45), "     target: %d", unit->bwapiUnit->getOrderTarget());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 60), "   accelera: %d", unit->bwapiUnit->isAccelerating());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
+
+			}
+
 			try
 			{
 				vector<shared_ptr<Effect>> actions = search(state);
