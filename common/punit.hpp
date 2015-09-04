@@ -1,7 +1,6 @@
 #pragma once
 #include <BWAPI.h>
 #include "common/gameunit.hpp"
-#include "common/ounit.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
 
 namespace Bot
@@ -23,9 +22,6 @@ namespace Bot
 		bool isAttacking();
 		void setTarget(BWAPI::PositionOrUnit newTarget);
 		void attackTarget(BWAPI::PositionOrUnit newTarget, bool addToQueue);
-		BWAPI::Unit getClosestEnemy();
-		void attackClosestEnemyNonWorried();
-		bool isUnderAttack();
 
 	
 	public:

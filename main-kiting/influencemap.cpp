@@ -1,6 +1,5 @@
 #include "main-kiting/influencemap.hpp"
 #include "common/punit.hpp"
-#include "common/ounit.hpp"
 
 using namespace BWAPI;
 using namespace Bot;
@@ -48,19 +47,21 @@ void InfluenceMap::init()
 	}
 
 	// Create informations map for each type of ennemy units
-	auto oUnits = OUnit::units;
-	for(auto u = oUnits.begin(); u!=oUnits.end(); u++)
+	for (auto& enemy : Broodwar->enemies())
 	{
-		auto type = u->second->unit->getType();
-		auto iter = mapSpeed.find(type);
-		if(! (iter != mapSpeed.end()))
+		for (auto& enemyUnit : enemy->getUnits())
 		{
-			// Update informations map
-			mapSpeed[type] = 4; //type.topSpeed();
-			mapAcceleration[type] = 2; //type.acceleration();
-			mapTurn[type] = 1; //type.turnRadius();
-			mapAttackTime[type] = 2; // TODO FIND A WAY TO COMPUTE THIS VALUE
-			mapAttackRange[type] = 15; //type.groundWeapon().maxRange();
+			auto type = enemyUnit->getType();
+			auto iter = mapSpeed.find(type);
+			if (!(iter != mapSpeed.end()))
+			{
+				// Update informations map
+				mapSpeed[type] = 4; //type.topSpeed();
+				mapAcceleration[type] = 2; //type.acceleration();
+				mapTurn[type] = 1; //type.turnRadius();
+				mapAttackTime[type] = 2; // TODO FIND A WAY TO COMPUTE THIS VALUE
+				mapAttackRange[type] = 15; //type.groundWeapon().maxRange();
+			}
 		}
 	}
 }
@@ -69,9 +70,6 @@ void InfluenceMap::init()
 	// Methods
 void InfluenceMap::update()
 {
-	// Retrieve all enemy units
-	auto oUnits = OUnit::units;
-
 	// Update the influence map of each unit type
 	for(auto currentMap = matrixInfluence.begin(); currentMap != matrixInfluence.end();++currentMap)
 	{
@@ -92,18 +90,20 @@ void InfluenceMap::update()
 				matrix[i][j] = 0;
 
 				// Recompute influence of all enemies
-				for(auto pairEnemy = oUnits.begin(); pairEnemy!=oUnits.end();pairEnemy++)
+				for (auto& enemy : Broodwar->enemies())
 				{
-					auto enemy = pairEnemy->second;
-					auto enemyType = enemy->unit->getType();
-					double dmax = mapAttackRange[type];
-									//+ k
-									//+ mapSpeed[enemyType] * kitingTime;
-					Position cellPosition(i*32,j*32);
-					double d = cellPosition.getApproxDistance(enemy->getPosition());
-					if(d < dmax)
+					for (auto& enemyUnit : enemy->getUnits())
 					{
-						matrix[i][j] += Broodwar->getDamageFrom(type,enemyType) / mapAttackTime[enemyType];
+						auto enemyType = enemyUnit->getType();
+						double dmax = mapAttackRange[type];
+						//+ k
+						//+ mapSpeed[enemyType] * kitingTime;
+						Position cellPosition(i * 32, j * 32);
+						double d = cellPosition.getApproxDistance(enemyUnit->getPosition());
+						if (d < dmax)
+						{
+							matrix[i][j] += Broodwar->getDamageFrom(type, enemyType) / mapAttackTime[enemyType];
+						}
 					}
 				}
 			}

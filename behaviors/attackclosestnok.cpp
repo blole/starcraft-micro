@@ -11,7 +11,7 @@ void AttackClosestNOK::init(void* agent)
 {
 	first = true;
 	PUnit* pUnit = (PUnit*)agent;
-	pUnit->attackClosestEnemyNonWorried();
+	//TODO: pUnit->attackClosestEnemyNonWorried();
 }
 
 BEHAVIOR_STATUS AttackClosestNOK::execute(void* agent)
@@ -40,7 +40,7 @@ BEHAVIOR_STATUS AttackClosestNOK::execute(void* agent)
 
 		if(!hasStartAttack)
 		{
-			pUnit->attackClosestEnemyNonWorried();
+			//TODO: pUnit->attackClosestEnemyNonWorried();
 		}
 		
 		if(pUnit->hasTarget)

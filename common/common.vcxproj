@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gameunit.cpp" />
-    <ClCompile Include="ounit.cpp" />
     <ClCompile Include="punit.cpp" />
     <ClCompile Include="squad.cpp" />
   </ItemGroup>
@@ -24,7 +23,6 @@
     <ClInclude Include="general.hpp" />
     <ClInclude Include="generalallunitssinglesquad.hpp" />
     <ClInclude Include="main.hpp" />
-    <ClInclude Include="ounit.hpp" />
     <ClInclude Include="punit.hpp" />
     <ClInclude Include="reactivesquad.hpp" />
     <ClInclude Include="squad.hpp" />

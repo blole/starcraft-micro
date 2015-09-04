@@ -21,9 +21,6 @@
     <ClCompile Include="gameunit.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="ounit.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
     <ClCompile Include="punit.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="generalallunitssinglesquad.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ounit.hpp">
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="punit.hpp">

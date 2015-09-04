@@ -34,7 +34,7 @@ BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 
 		if(!hasStartAttack)
 		{
-			PositionOrUnit target = pUnit->getClosestEnemy();
+			PositionOrUnit target = pUnit->unit->getClosestUnit(Filter::IsEnemy);
 			pUnit->attackTarget(target,false);
 		}
 		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));

@@ -2,7 +2,6 @@
 #include <BWAPI.h>
 #include <set>
 #include "common/gameunit.hpp"
-#include "common/ounit.hpp"
 #include "common/punit.hpp"
 #include "common/squad.hpp"
 
