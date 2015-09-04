@@ -1,6 +1,6 @@
 #pragma once
 #include "common/general.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 
 namespace Bot
 {
@@ -23,10 +23,10 @@ namespace Bot
 					!u->isCompleted())
 					continue;
 
-				PUnit* pUnit = PUnit::get(u);
+				Unit& unit = Unit::get(u);
 
-				if (pUnit->squad == nullptr)
-					squad.addUnit(pUnit);
+				if (unit.squad == nullptr)
+					squad.addUnit(unit);
 			}
 
 			squad.onFrame();

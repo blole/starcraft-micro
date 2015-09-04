@@ -1,6 +1,4 @@
 #include "squadfire.hpp"
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
 #include "squadmanager.hpp"
 
 using namespace BWAPI;
@@ -29,7 +27,7 @@ BEHAVIOR_STATUS SquadFire::execute(void* agent)
 			if((*i)->target.getUnit() != squad->positionToAttack.getUnit())
 			{
 				(*i)->attackTarget(squad->positionToAttack,true);
-				(*i)->unit->move((*i)->getPosition() + (*i)->getPosition() - (*i)->target.getPosition(),true);
+				(*i)->bwapiUnit->move((*i)->getPosition() + (*i)->getPosition() - (*i)->target.getPosition(),true);
 			}
 		}
 		return BT_RUNNING;

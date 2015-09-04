@@ -18,17 +18,11 @@
     <ClCompile Include="squad.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="gameunit.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="punit.cpp">
+    <ClCompile Include="unit.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameunit.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp">
       <Filter>headers</Filter>
     </ClInclude>
@@ -44,9 +38,6 @@
     <ClInclude Include="generalallunitssinglesquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="punit.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="reactivesquad.hpp">
       <Filter>headers</Filter>
     </ClInclude>
@@ -54,6 +45,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="dll.hpp">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="unit.hpp">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

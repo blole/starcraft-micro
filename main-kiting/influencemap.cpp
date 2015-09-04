@@ -1,5 +1,5 @@
 #include "main-kiting/influencemap.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 
 using namespace BWAPI;
 using namespace Bot;
@@ -19,10 +19,9 @@ void InfluenceMap::init()
 	mapHeight = Broodwar->mapHeight();
 
 	// Create a influence map for each type of my units
-	auto pUnits = PUnit::units;
-	for(auto u = pUnits.begin(); u!=pUnits.end(); u++)
+	for (auto& unit : Broodwar->self()->getUnits())
 	{
-		auto type = u->second->unit->getType();
+		auto type = unit->getType();
 		auto iter = matrixInfluence.find(type);
 		if(! (iter != matrixInfluence.end()))
 		{

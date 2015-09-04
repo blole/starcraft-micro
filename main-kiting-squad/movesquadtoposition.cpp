@@ -1,6 +1,5 @@
 #include "movesquadtoposition.hpp"
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 //#include <math.h>
 
 
@@ -54,7 +53,7 @@ BEHAVIOR_STATUS MoveSquadToPosition::execute(void* agent)
 			int xUnit = (int)(r0 * cos(thetaS) + r * sin(theta));
 			int yUnit = (int)(r0 * sin(thetaS) - r * cos(theta));
 			Broodwar->drawLineMap((*i)->getPosition(),Position(xUnit,yUnit),Color(0,255,255));
-			(*i)->unit->move(Position(xUnit,yUnit));
+			(*i)->bwapiUnit->move(Position(xUnit,yUnit));
 			theta += step;
  		}
 

@@ -11,19 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gameunit.cpp" />
-    <ClCompile Include="punit.cpp" />
+    <ClCompile Include="unit.cpp" />
     <ClCompile Include="squad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.hpp" />
     <ClInclude Include="dll.hpp" />
-    <ClInclude Include="gameunit.hpp" />
+    <ClInclude Include="unit.hpp" />
     <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="general.hpp" />
     <ClInclude Include="generalallunitssinglesquad.hpp" />
     <ClInclude Include="main.hpp" />
-    <ClInclude Include="punit.hpp" />
     <ClInclude Include="reactivesquad.hpp" />
     <ClInclude Include="squad.hpp" />
   </ItemGroup>

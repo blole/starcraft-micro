@@ -1,7 +1,7 @@
 #pragma once
 #include "common/common.hpp"
 #include "common/squad.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 #include "search/gamestate.hpp"
 #include "search/effects/effect.hpp"
 #include "search/players/player.hpp"
@@ -22,15 +22,15 @@ namespace Bot { namespace Search
 		
 		virtual void onFrame() override
 		{
-			units.remove_if([](PUnit* unit){ return !unit->exists(); });
+			units.remove_if([](Bot::Unit* unit){ return !unit->exists(); });
 			
 			vector<BWAPI::Unit> playerUnits;
 			vector<BWAPI::Unit> enemyUnits;
 			
-			for (PUnit* unit : units)
+			for (Bot::Unit* unit : units)
 			{
-				playerUnits.push_back(unit->unit);
-				for (auto& u : unit->unit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
+				playerUnits.push_back(unit->bwapiUnit);
+				for (auto& u : unit->bwapiUnit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
 				{
 					if (std::find(enemyUnits.begin(), enemyUnits.end(), u) == enemyUnits.end())
 						enemyUnits.push_back(u);

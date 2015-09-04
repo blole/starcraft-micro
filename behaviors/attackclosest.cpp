@@ -1,6 +1,5 @@
 #include "behaviors/attackclosest.hpp"
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 
 using namespace BWAPI;
 using namespace Bot;
@@ -15,29 +14,29 @@ void AttackClosest::init(void* agent)
 
 BEHAVIOR_STATUS AttackClosest::execute(void* agent)
 {
-	PUnit* pUnit = (PUnit*)agent;
+	Unit* unit = (Unit*)agent;
 
 	if(hasStartAttack)
 	{
-		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
-		if (!pUnit->unit->isAttackFrame()) //if (pUnit->target.getUnit()->exists())
+		Broodwar->drawLineMap(unit->getPosition(),unit->target.getUnit()->getPosition(),Color(255,0,0));
+		if (!unit->bwapiUnit->isAttackFrame()) //if (pUnit->target.getUnit()->exists())
 			return BT_SUCCESS;
 		else
 			return BT_RUNNING;
 	}
 	else
 	{
-		if(pUnit->unit->getGroundWeaponCooldown() != 0)
+		if(unit->bwapiUnit->getGroundWeaponCooldown() != 0)
 		{
 			hasStartAttack = true;
 		}
 
 		if(!hasStartAttack)
 		{
-			PositionOrUnit target = pUnit->unit->getClosestUnit(Filter::IsEnemy);
-			pUnit->attackTarget(target,false);
+			PositionOrUnit target = unit->bwapiUnit->getClosestUnit(Filter::IsEnemy);
+			unit->attackTarget(target,false);
 		}
-		Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
+		Broodwar->drawLineMap(unit->getPosition(),unit->target.getUnit()->getPosition(),Color(255,0,0));
 		return BT_RUNNING;
 	}
 }

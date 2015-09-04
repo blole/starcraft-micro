@@ -1,27 +1,25 @@
 #include "flee.hpp"
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 #include "main-kiting/influencemap.hpp"
 
-using namespace BWAPI;
 using namespace Bot;
 using namespace BehaviorTree;
 
 void Flee::init(void* agent)
 {
 	first = true;
-	PUnit* pUnit = (PUnit*)agent;
+	Unit* unit = (Unit*)agent;
 	lookForNewPos = true;
 }
 
 BEHAVIOR_STATUS Flee::execute(void* agent)
 {
-	PUnit* pUnit = (PUnit*)agent;
-	
-	auto type = pUnit->unit->getType();
+	Unit* unit = (Unit*)agent;
+
+	auto type = unit->bwapiUnit->getType();
 	auto matrixInfluence = (InfluenceMap::matrixInfluence.find(type))->second;
-	int iUnit = pUnit->getPosition().x/32;
-	int jUnit = pUnit->getPosition().y/32;
+	int iUnit = unit->getPosition().x/32;
+	int jUnit = unit->getPosition().y/32;
 	if(matrixInfluence[iUnit][jUnit] == 0)
 		return BT_SUCCESS;
 	else
@@ -39,8 +37,8 @@ BEHAVIOR_STATUS Flee::execute(void* agent)
 				{
 					if(matrixInfluence[i][j] == 0)
 					{
-						Position cellPos(i*32,j*32);
-						double dist = cellPos.getApproxDistance(pUnit->getPosition());
+						BWAPI::Position cellPos(i*32,j*32);
+						double dist = cellPos.getApproxDistance(unit->getPosition());
 						if(abs(dist-InfluenceMap::mapAttackRange[type]) < bestDist)
 						{
 							bestDist = abs(dist-InfluenceMap::mapAttackRange[type]);
@@ -51,8 +49,8 @@ BEHAVIOR_STATUS Flee::execute(void* agent)
 			}
 			lookForNewPos = false;
 		}
-		Broodwar->drawLineMap(pUnit->getPosition(),bestPos,Color(0,0,255));
-		pUnit->unit->move(bestPos);
+		Broodwar->drawLineMap(unit->getPosition(),bestPos, BWAPI::Color(0,0,255));
+		unit->bwapiUnit->move(bestPos);
 		return BT_RUNNING;
 	}
 }

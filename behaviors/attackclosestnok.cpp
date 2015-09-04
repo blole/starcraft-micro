@@ -1,6 +1,5 @@
 #include "behaviors/attackclosestnok.hpp"
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 
 using namespace BWAPI;
 using namespace Bot;
@@ -10,30 +9,29 @@ using namespace BehaviorTree;
 void AttackClosestNOK::init(void* agent)
 {
 	first = true;
-	PUnit* pUnit = (PUnit*)agent;
+	Unit* unit = (Unit*)agent;
 	//TODO: pUnit->attackClosestEnemyNonWorried();
 }
 
 BEHAVIOR_STATUS AttackClosestNOK::execute(void* agent)
 {
-	PUnit* pUnit = (PUnit*)agent;
-	BWAPI::Unit unit = pUnit->unit;
+	Unit* unit = (Unit*)agent;
 
 	static bool hasStartAttack = false;
 
 	if(hasStartAttack)
 	{
-		if(pUnit->hasTarget)
-			Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
+		if(unit->hasTarget)
+			Broodwar->drawLineMap(unit->getPosition(),unit->target.getUnit()->getPosition(),Color(255,0,0));
 		
-		if(!pUnit->target.getUnit()->exists()) //|| !pUnit->isAttacking())
+		if(!unit->target.getUnit()->exists()) //|| !pUnit->isAttacking())
 			return BT_SUCCESS;
 		
 		return BT_RUNNING;
 	}
 	else
 	{
-		if(pUnit->isAttacking())
+		if(unit->isAttacking())
 		{
 			hasStartAttack = true;
 		}
@@ -43,8 +41,8 @@ BEHAVIOR_STATUS AttackClosestNOK::execute(void* agent)
 			//TODO: pUnit->attackClosestEnemyNonWorried();
 		}
 		
-		if(pUnit->hasTarget)
-			Broodwar->drawLineMap(pUnit->getPosition(),pUnit->target.getUnit()->getPosition(),Color(255,0,0));
+		if(unit->hasTarget)
+			Broodwar->drawLineMap(unit->getPosition(),unit->target.getUnit()->getPosition(),Color(255,0,0));
 		
 		return BT_RUNNING;
 	}

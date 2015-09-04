@@ -3,19 +3,19 @@
 
 namespace Bot
 {
-	class PUnit;
+	class Unit;
 
 	class Squad
 	{
 	public:
-		std::list<PUnit*> units;
+		std::list<Unit*> units;
 
 	public:
 		virtual ~Squad() {}
 
 	public:
-		virtual void addUnit(PUnit* unit);
-		virtual void removeUnit(PUnit* unit);
+		virtual void addUnit(Unit& unit);
+		virtual void removeUnit(Unit& unit);
 		virtual void displaySquadLinks();
 
 		virtual void onFrame() = 0;

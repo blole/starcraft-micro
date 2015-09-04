@@ -1,8 +1,7 @@
 #pragma once
 #include <BWAPI.h>
 #include <set>
-#include "common/gameunit.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 #include "common/squad.hpp"
 
 namespace Bot
@@ -12,7 +11,7 @@ namespace Bot
 	public:
 		BWAPI::PositionOrUnit positionToAttack;
 		BWAPI::Position positionSquad;
-		std::set<PUnit*> squadUnits;
+		std::set<Unit*> squadUnits;
 		BehaviorTree::BehaviorTreeNode* brain;
 	
 	public:

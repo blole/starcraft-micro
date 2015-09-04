@@ -1,11 +1,9 @@
 #include "main-kiting-squad/commander.hpp"
 #include "main-kiting-squad/squadfire.hpp"
 #include "main-kiting-squad/movesquadtoposition.hpp"
-#include "common/punit.hpp"
+#include "common/unit.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
 
-using namespace BWAPI;
-using namespace Filter;
 using namespace Bot;
 
 
@@ -14,11 +12,11 @@ void Commander::onStart()
 	// Create squads of 'nbUnitPerSquad' units
 	for (auto& unit : Broodwar->self()->getUnits())
 	{
-		if (unit->getType()==UnitTypes::Terran_Marine)
+		if (unit->getType() == BWAPI::UnitTypes::Terran_Marine)
 		{
 			if (squads.empty() || squads.back().units.size() >= nbUnitPerSquad)
 				squads.emplace_back();
-			squads.back().addUnit(PUnit::get(unit));
+			squads.back().addUnit(Unit::get(unit));
 		}
 	}
 
