@@ -114,6 +114,15 @@
     <ClInclude Include="backpropagaters\uct.hpp">
       <Filter>backpropagaters</Filter>
     </ClInclude>
+    <ClInclude Include="behaviors\repeat.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\sequence.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\behaviortreebase.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
     <ClInclude Include="behaviors\behaviortree.hpp">
       <Filter>behaviors</Filter>
     </ClInclude>

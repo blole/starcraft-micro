@@ -11,7 +11,7 @@ namespace Bot { namespace Search { namespace Players
 	struct Scripted : Player
 	{
 	private:
-		BehaviorTreeType behaviorTreeTemplate;
+		Behaviors::Root<BehaviorTreeType> behaviorTreeTemplate;
 		TerminalCheckers::Standard isTerminal;
 
 	public:
@@ -26,7 +26,7 @@ namespace Bot { namespace Search { namespace Players
 			{
 				for (auto& unit : state.playerUnits())
 				{
-					BehaviorTreeType bt(behaviorTreeTemplate);
+					Behaviors::Root<BehaviorTreeType> bt(behaviorTreeTemplate);
 					actions.push_back(bt.execute(state, *unit));
 				}
 			}
