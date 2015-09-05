@@ -11,18 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="unit.cpp" />
-    <ClCompile Include="squad.cpp" />
+    <ClCompile Include="squads\squad.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.hpp" />
     <ClInclude Include="dll.hpp" />
+    <ClInclude Include="generals\limitedsquadsize.hpp" />
+    <ClInclude Include="generals\general.hpp" />
+    <ClInclude Include="generals\allunitssinglesquad.hpp" />
+    <ClInclude Include="squads\reactive.hpp" />
+    <ClInclude Include="squads\squad.hpp" />
     <ClInclude Include="unit.hpp" />
-    <ClInclude Include="general.hpp" />
-    <ClInclude Include="generalallunitssinglesquad.hpp" />
     <ClInclude Include="main.hpp" />
-    <ClInclude Include="reactivesquad.hpp" />
-    <ClInclude Include="squad.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">

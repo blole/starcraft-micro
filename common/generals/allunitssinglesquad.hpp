@@ -1,15 +1,17 @@
 #pragma once
-#include "common/general.hpp"
+#include "common/generals/general.hpp"
 #include "common/unit.hpp"
 
-namespace Bot
+namespace Bot { namespace Generals
 {
 	template <class SquadType>
-	class GeneralAllUnitsSingleSquad : public General
+	struct AllUnitsSingleSquad : General
 	{
+	private:
 		SquadType squad;
+
 	public:
-		GeneralAllUnitsSingleSquad(const SquadType& squad = SquadType())
+		AllUnitsSingleSquad(const SquadType& squad = SquadType())
 			: squad(squad)
 		{}
 
@@ -34,4 +36,4 @@ namespace Bot
 			Broodwar->drawTextScreen(1, 0, "%d units in squad", squad.units.size());
 		}
 	};
-}
+}}

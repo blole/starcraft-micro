@@ -1,4 +1,4 @@
-#include "common/squad.hpp"
+#include "common/squads/squad.hpp"
 #include "common/unit.hpp"
 
 using namespace Bot;
@@ -27,7 +27,7 @@ void Squad::displaySquadLinks()
 	{
 		for(auto j=units.begin(); j!=units.end();j++)
 		{
-			Broodwar->drawLineMap((*i)->getPosition(),(*j)->getPosition(),BWAPI::Color(0,255,0));
+			Broodwar->drawLineMap((*i)->bwapiUnit->getPosition(),(*j)->bwapiUnit->getPosition(),BWAPI::Color(0,255,0));
 		}
 	}
 }

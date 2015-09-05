@@ -1,6 +1,6 @@
 #pragma once
 #include "common/common.hpp"
-#include "common/general.hpp"
+#include "common/generals/general.hpp"
 
 namespace Bot
 {

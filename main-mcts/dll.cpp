@@ -1,6 +1,6 @@
 #include "common/dll.hpp"
 #include "common/main.hpp"
-#include "common/generalallunitssinglesquad.hpp"
+#include "common/generals/allunitssinglesquad.hpp"
 #include "search/searchingsquad.hpp"
 #include "search/selecters/ucb.hpp"
 #include "search/stateevaluaters/simpleheuristics.hpp"
@@ -22,8 +22,8 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		Backpropagaters::UCT,
 		TerminalCheckers::FrameLimited<100>
 	> SearcherType;
-	typedef SearchingSquad<SearcherType> SquadType;
-	typedef GeneralAllUnitsSingleSquad<SquadType> GeneralType;
+	typedef Squads::Searching<SearcherType> SquadType;
+	typedef Generals::AllUnitsSingleSquad<SquadType> GeneralType;
 
 	return new Main<GeneralType>;
 }

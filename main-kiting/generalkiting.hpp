@@ -1,30 +1,28 @@
 #pragma once
-#include <BWAPI.h>
-#include <list>
-#include "common/generalallunitssinglesquad.hpp"
+#include "common/generals/allunitssinglesquad.hpp"
 #include "influencemap.hpp"
 
-namespace Bot
+namespace Bot { namespace Generals
 {
 	template <class SquadType>
-	class GeneralKiting : public GeneralAllUnitsSingleSquad<SquadType>
+	class Kiting : public AllUnitsSingleSquad<SquadType>
 	{
 	public:
-		GeneralKiting(const SquadType& squad = SquadType())
-			: GeneralAllUnitsSingleSquad<SquadType>(squad)
+		Kiting(const SquadType& squad = SquadType())
+			: AllUnitsSingleSquad<SquadType>(squad)
 		{}
 
 	public:
 		virtual void onStart() override
 		{
 			InfluenceMap::init();
-			GeneralAllUnitsSingleSquad<SquadType>::onStart();
+			AllUnitsSingleSquad<SquadType>::onStart();
 		}
 
 		virtual void onFrame() override
 		{
 			InfluenceMap::update();
-			GeneralAllUnitsSingleSquad<SquadType>::onFrame();
+			AllUnitsSingleSquad<SquadType>::onFrame();
 		}
 	};
-}
+}}

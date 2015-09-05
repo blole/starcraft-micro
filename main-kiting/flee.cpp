@@ -7,16 +7,14 @@ using namespace BehaviorTree;
 
 void Flee::init(void* agent)
 {
-	first = true;
-	Unit* unit = (Unit*)agent;
 	lookForNewPos = true;
 }
 
 BEHAVIOR_STATUS Flee::execute(void* agent)
 {
-	Unit* unit = (Unit*)agent;
+	BWAPI::Unit unit = ((Unit*)agent)->bwapiUnit;
 
-	auto type = unit->bwapiUnit->getType();
+	auto type = unit->getType();
 	auto matrixInfluence = (InfluenceMap::matrixInfluence.find(type))->second;
 	int iUnit = unit->getPosition().x/32;
 	int jUnit = unit->getPosition().y/32;
@@ -50,7 +48,7 @@ BEHAVIOR_STATUS Flee::execute(void* agent)
 			lookForNewPos = false;
 		}
 		Broodwar->drawLineMap(unit->getPosition(),bestPos, BWAPI::Color(0,0,255));
-		unit->bwapiUnit->move(bestPos);
+		unit->move(bestPos);
 		return BT_RUNNING;
 	}
 }

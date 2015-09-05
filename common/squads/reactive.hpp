@@ -1,32 +1,30 @@
 #pragma once
-#include "common/squad.hpp"
+#include "common/squads/squad.hpp"
 #include "common/unit.hpp"
 #include <lib/libbehavior/BehaviorTree.h>
 #include <BWAPI.h>
 #include <list>
 
-namespace Bot
+namespace Bot { namespace Squads
 {
-	class ReactiveSquad : public Squad
+	struct Reactive : Squad
 	{
-	public:
-		std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain;
-	
-	public:
-		ReactiveSquad(std::function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
+		function<BehaviorTree::BehaviorTreeNode*()> unitBrain;
+
+
+		Reactive(function<BehaviorTree::BehaviorTreeNode*()> unitBrain)
 			: unitBrain(unitBrain)
 		{}
-	
-	
-	public:
+
+
 		void onFrame() override
 		{
-			units.remove_if([](Unit* unit){ return !unit->exists(); });
+			units.remove_if([](Unit* unit){ return !unit->bwapiUnit->exists(); });
 
 			for (Unit* unit : units)
 				unit->brain->execute(unit);
 		}
-	
+
 		virtual void addUnit(Unit& unit) override
 		{
 			Squad::addUnit(unit);
@@ -40,4 +38,4 @@ namespace Bot
 			unit.brain = nullptr;
 		}
 	};
-}
+}}

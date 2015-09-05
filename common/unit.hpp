@@ -4,7 +4,7 @@
 
 namespace Bot
 {
-	class Squad;
+	struct Squad;
 
 	class Unit
 	{
@@ -22,27 +22,13 @@ namespace Bot
 	public:
 		const BWAPI::Unit bwapiUnit;
 		BehaviorTree::BehaviorTreeNode* brain;
-		BWAPI::PositionOrUnit target;
 		Squad* squad;
-		bool hasTarget;
 
 	private:
 		Unit(BWAPI::Unit bwapiUnit)
 			: bwapiUnit(bwapiUnit)
 			, brain(nullptr)
-			, target(nullptr)
 			, squad(nullptr)
-			, hasTarget(false)
 		{}
-
-	public:
-		int getHp();
-		float getDps();
-		BWAPI::Position getPosition();
-		bool exists();
-
-		bool isAttacking();
-		void setTarget(BWAPI::PositionOrUnit newTarget);
-		void attackTarget(BWAPI::PositionOrUnit newTarget, bool addToQueue);
 	};
 }

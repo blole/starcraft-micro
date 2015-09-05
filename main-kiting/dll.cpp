@@ -1,7 +1,7 @@
 #include "common/dll.hpp"
 #include "common/main.hpp"
 #include "main-kiting/generalkiting.hpp"
-#include "common/reactivesquad.hpp"
+#include "common/squads/reactive.hpp"
 #include "search/behaviors/attackclosest.hpp"
 #include "main-kiting/flee.hpp"
 
@@ -17,7 +17,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		//	->addChild(new Behaviors::AttackClosest());
 	};
 
-	typedef GeneralKiting<ReactiveSquad> GeneralType;
+	typedef Generals::Kiting<Squads::Reactive> GeneralType;
 	GeneralType general(unitBrain);
 	return new Main<GeneralType>(general);
 }

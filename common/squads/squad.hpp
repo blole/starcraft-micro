@@ -5,15 +5,12 @@ namespace Bot
 {
 	class Unit;
 
-	class Squad
+	struct Squad
 	{
-	public:
 		std::list<Unit*> units;
 
-	public:
 		virtual ~Squad() {}
 
-	public:
 		virtual void addUnit(Unit& unit);
 		virtual void removeUnit(Unit& unit);
 		virtual void displaySquadLinks();

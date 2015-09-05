@@ -1,28 +1,28 @@
 #pragma once
 #include "common/common.hpp"
-#include "common/squad.hpp"
+#include "common/squads/squad.hpp"
 #include "common/unit.hpp"
 #include "search/gamestate.hpp"
 #include "search/effects/effect.hpp"
 #include "search/players/player.hpp"
 
 
-namespace Bot { namespace Search
+namespace Bot { namespace Search { namespace Squads
 {
 	template <class SearcherType>
-	class SearchingSquad : public Squad
+	class Searching : public Squad
 	{
 	public:
 		static const int radius = 400;
 		SearcherType search;
 		
-		SearchingSquad(const SearcherType& searcher = SearcherType())
+		Searching(const SearcherType& searcher = SearcherType())
 			: search(searcher)
 		{}
 		
 		virtual void onFrame() override
 		{
-			units.remove_if([](Bot::Unit* unit){ return !unit->exists(); });
+			units.remove_if([](Bot::Unit* unit){ return !unit->bwapiUnit->exists(); });
 			
 			vector<BWAPI::Unit> playerUnits;
 			vector<BWAPI::Unit> enemyUnits;
@@ -68,4 +68,4 @@ namespace Bot { namespace Search
 			catch (...)							{ throw; }
 		}
 	};
-}}
+}}}
