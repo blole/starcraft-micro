@@ -34,6 +34,9 @@
     <Filter Include="players">
       <UniqueIdentifier>{b88c9345-e466-4ad2-9a91-63ecf1681cf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="behaviortree">
+      <UniqueIdentifier>{ef32e1e9-131f-4bb4-82ed-cf603e08f403}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gamestate.hpp" />
@@ -114,17 +117,17 @@
     <ClInclude Include="backpropagaters\uct.hpp">
       <Filter>backpropagaters</Filter>
     </ClInclude>
-    <ClInclude Include="behaviors\repeat.hpp">
-      <Filter>behaviors</Filter>
+    <ClInclude Include="behaviortree\behaviortree.hpp">
+      <Filter>behaviortree</Filter>
     </ClInclude>
-    <ClInclude Include="behaviors\sequence.hpp">
-      <Filter>behaviors</Filter>
+    <ClInclude Include="behaviortree\behaviortreebase.hpp">
+      <Filter>behaviortree</Filter>
     </ClInclude>
-    <ClInclude Include="behaviors\behaviortreebase.hpp">
-      <Filter>behaviors</Filter>
+    <ClInclude Include="behaviortree\repeat.hpp">
+      <Filter>behaviortree</Filter>
     </ClInclude>
-    <ClInclude Include="behaviors\behaviortree.hpp">
-      <Filter>behaviors</Filter>
+    <ClInclude Include="behaviortree\sequence.hpp">
+      <Filter>behaviortree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 #include "common/common.hpp"
 #include "search/players/player.hpp"
 #include "search/effects/effect.hpp"
-#include "search/behaviors/behaviortree.hpp"
+#include "search/behaviortree/behaviortree.hpp"
 #include "search/terminalcheckers/standard.hpp"
 
 namespace Bot { namespace Search { namespace Players

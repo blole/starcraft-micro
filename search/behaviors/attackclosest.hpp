@@ -1,6 +1,6 @@
 #pragma once
 #include "common/common.hpp"
-#include "search/behaviors/behaviortree.hpp"
+#include "search/behaviortree/behaviortree.hpp"
 #include "search/effects/attack.hpp"
 
 namespace Bot { namespace Search { namespace Behaviors
