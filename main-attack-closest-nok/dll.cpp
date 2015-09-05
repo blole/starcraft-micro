@@ -1,7 +1,7 @@
 #include "common/dll.hpp"
 #include "common/main.hpp"
 #include "common/generalallunitssinglesquad.hpp"
-#include "behaviors/attackclosestnok.hpp"
+//#include "search/behaviors/attackclosestnok.hpp"
 #include "common/reactivesquad.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
@@ -10,8 +10,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 	using namespace BehaviorTree;
 
 	function<BehaviorTreeNode*()> unitBrain = []{
-		return (new SequentialNode())
-			->addChild(new Behaviors::AttackClosestNOK());
+		return nullptr; //TODO:return new Behaviors::AttackClosestNOK();
 	};
 
 	typedef GeneralAllUnitsSingleSquad<ReactiveSquad> GeneralType;

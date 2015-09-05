@@ -56,9 +56,6 @@
     <ClInclude Include="selecters\ucb.hpp">
       <Filter>selecters</Filter>
     </ClInclude>
-    <ClInclude Include="backpropagaters\uct.hpp">
-      <Filter>backpropagaters</Filter>
-    </ClInclude>
     <ClInclude Include="node.hpp" />
     <ClInclude Include="effects\effect.hpp">
       <Filter>effects</Filter>
@@ -87,12 +84,6 @@
     <ClInclude Include="behaviors\attackclosest.hpp">
       <Filter>behaviors</Filter>
     </ClInclude>
-    <ClInclude Include="behaviors\moverelative.hpp">
-      <Filter>behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="behaviors\behaviortreenode.hpp">
-      <Filter>behaviors</Filter>
-    </ClInclude>
     <ClInclude Include="stateevaluaters\stateevaluater.hpp">
       <Filter>stateevaluaters</Filter>
     </ClInclude>
@@ -113,6 +104,18 @@
     </ClInclude>
     <ClInclude Include="actionlisters\branchonrandomcombinationofallunitsactions.hpp">
       <Filter>actionlisters</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\waitforattackframe.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\moverelative.hpp">
+      <Filter>behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="backpropagaters\uct.hpp">
+      <Filter>backpropagaters</Filter>
+    </ClInclude>
+    <ClInclude Include="behaviors\behaviortree.hpp">
+      <Filter>behaviors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,9 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\behaviors\behaviors.vcxproj">
-      <Project>{244ed8c6-f017-4421-af42-14e2ed027e22}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\common\common.vcxproj">
       <Project>{7cfee4db-10dd-40d1-9175-5ea2f0913d17}</Project>
     </ProjectReference>

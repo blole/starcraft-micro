@@ -23,9 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp">
-      <Filter>headers</Filter>
-    </ClInclude>
     <ClInclude Include="squad.hpp">
       <Filter>headers</Filter>
     </ClInclude>

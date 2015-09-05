@@ -15,18 +15,19 @@ namespace Bot { namespace Search
 		{}
 	};
 
-	class Move : public OneUnitEffect<MoveData>
+	template <class Data = MoveData>
+	class Move : public OneUnitEffect<Data>
 	{
 	public:
 		const BWAPI::Position& offset() const { return data.offset; }
 
 	public:
-		Move(const MoveData& data)
+		Move(const Data& data)
 			: OneUnitEffect(data)
 		{}
 
 		Move(const Unit& unit, float direction)
-			: Move(MoveData(unit.id, BWAPI::Position(
+			: Move(Data(unit.id, BWAPI::Position(
 				(int)(std::cos(direction) * unit.bwapiUnit->getType().topSpeed() * 10),
 				(int)(std::sin(direction) * unit.bwapiUnit->getType().topSpeed() * 10))))
 		{}
@@ -39,7 +40,7 @@ namespace Bot { namespace Search
 			else if (!unit->isMoving) //starting
 			{
 				unit->isMoving = true;
-				state.queueEffect(1, std::make_shared<Move>(data));
+				state.queueEffect(1, std::make_shared<Move<Data>>(data));
 			}
 			else //continuing
 			{
@@ -50,9 +51,9 @@ namespace Bot { namespace Search
 				BWAPI::Position step(int(offset().x*stepRatio), int(offset().y*stepRatio));
 				unit->pos += step;
 				unit->isMoving = true;
-				MoveData nextData(data);
+				Data nextData(data);
 				nextData.offset -= step;
-				state.queueEffect(1, std::make_shared<Move>(nextData));
+				state.queueEffect(1, std::make_shared<Move<Data>>(nextData));
 			}
 		}
 
@@ -62,7 +63,7 @@ namespace Bot { namespace Search
 
 			unit->move(unit->getPosition() + offset());
 			
-			BWAPI::Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + offset(), BWAPI::Colors::Grey);
+			Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + offset(), BWAPI::Colors::Grey);
 		}
 	};
 }}

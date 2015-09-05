@@ -18,7 +18,6 @@
     <ClInclude Include="common.hpp" />
     <ClInclude Include="dll.hpp" />
     <ClInclude Include="unit.hpp" />
-    <ClInclude Include="BehaviorTreeNodeFirstSubsequent.hpp" />
     <ClInclude Include="general.hpp" />
     <ClInclude Include="generalallunitssinglesquad.hpp" />
     <ClInclude Include="main.hpp" />

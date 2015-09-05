@@ -47,7 +47,7 @@ namespace Bot { namespace Search
 			{
 				//TODO: precalc all of these directional offsets..
 				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 2)
-					actions.push_back(std::make_shared<Move>(*this, dir));
+					actions.push_back(make_shared<Move<>>(*this, dir));
 			}
 
 			return actions;

@@ -1,6 +1,5 @@
 #include "common/squad.hpp"
 #include "common/unit.hpp"
-#include "behaviors/moverelative.hpp"
 
 using namespace Bot;
 

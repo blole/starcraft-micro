@@ -65,7 +65,7 @@ namespace Bot { namespace Search
 
 		virtual Unit* clone() const final override
 		{
-			return new Derived(static_cast<Derived const&>(*this));
+			return new Derived(static_cast<const Derived&>(*this));
 		}
 	};
 

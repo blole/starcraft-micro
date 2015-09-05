@@ -1,31 +1,34 @@
 #pragma once
-#include "common/common.hpp"
-#include "search/behaviors/behaviortreenode.hpp"
-#include "search/gamestate.hpp"
-#include "search/units/unit.hpp"
+#include "search/behaviors/behaviortree.hpp"
 #include "search/effects/move.hpp"
 
 namespace Bot { namespace Search { namespace Behaviors
 {
-	struct MoveRelative : BehaviorTreeNode
+	struct MoveRelative : BehaviorTreeNode_CRTP<MoveRelative>
 	{
 	private:
-		const float direction;
+		const BWAPI::Position offset;
+		BWAPI::Position origin;
 
 	public:
-		MoveRelative(float direction)
-			: direction(direction)
+		MoveRelative(const BWAPI::Position offset)
+			: offset(offset)
+		{}
+		MoveRelative(int x, int y)
+			: MoveRelative(BWAPI::Position(x, y))
 		{}
 
-		virtual shared_ptr<Effect> firstExecute(GameState& state, Unit& unit) override
+		virtual void init(GameState& state, Unit& unit) override
 		{
-			return std::make_shared<Move>(unit, direction);
+			origin = unit.pos;
 		}
 
-		virtual shared_ptr<Effect> subsequentExecute(GameState& state, Unit& unit) override
+		virtual shared_ptr<Effect> execute(GameState& state, Unit& unit) override
 		{
-			if (!unit.isMoving)
+			if (unit.pos == origin + offset)
 				return success;
+			else if (!unit.isMoving)
+				return make_shared<Move<>>(MoveData(unit.id, offset));
 			else
 				return running;
 		}

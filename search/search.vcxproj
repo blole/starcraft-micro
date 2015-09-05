@@ -22,8 +22,9 @@
     <ClInclude Include="backpropagaters\backpropagater.hpp" />
     <ClInclude Include="backpropagaters\uct.hpp" />
     <ClInclude Include="behaviors\attackclosest.hpp" />
-    <ClInclude Include="behaviors\behaviortreenode.hpp" />
+    <ClInclude Include="behaviors\behaviortree.hpp" />
     <ClInclude Include="behaviors\moverelative.hpp" />
+    <ClInclude Include="behaviors\waitforattackframe.hpp" />
     <ClInclude Include="effects\attack.hpp" />
     <ClInclude Include="effects\compositeeffect.hpp" />
     <ClInclude Include="effects\effect.hpp" />
