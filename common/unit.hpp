@@ -11,12 +11,14 @@ namespace Bot
 	public:
 		static Unit& get(BWAPI::Unit bwapiUnit)
 		{
-			static std::unordered_map<int, unique_ptr<Unit>> units;
-			int id = bwapiUnit->getID();
-			auto iter = units.find(id);
-			if (iter == units.end())
-				iter = units.emplace(id, unique_ptr<Unit>(new Unit(bwapiUnit))).first;
-			return *iter->second;
+			static const int key = 87073;
+			void* ptr = bwapiUnit->getClientInfo(key);
+			if (!ptr)
+			{
+				ptr = new Unit(bwapiUnit);
+				bwapiUnit->setClientInfo(ptr, key);
+			}
+			return *static_cast<Unit*>(ptr);
 		}
 
 	public:

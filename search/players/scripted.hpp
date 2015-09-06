@@ -11,8 +11,9 @@ namespace Bot { namespace Search { namespace Players
 	struct Scripted : Player
 	{
 	private:
-		Behaviors::Root<BehaviorTreeType> behaviorTreeTemplate;
-		TerminalCheckers::Standard isTerminal;
+		const TerminalCheckers::Standard isTerminal;
+		const Behaviors::Root<BehaviorTreeType> behaviorTreeTemplate;
+		unordered_map<int, Behaviors::Root<BehaviorTreeType>> behaviorTrees;
 
 	public:
 		Scripted(const BehaviorTreeType& behaviorTreeTemplate = BehaviorTreeType())
@@ -26,8 +27,14 @@ namespace Bot { namespace Search { namespace Players
 			{
 				for (auto& unit : state.playerUnits())
 				{
-					Behaviors::Root<BehaviorTreeType> bt(behaviorTreeTemplate);
-					actions.push_back(bt.execute(state, *unit));
+					//each Search::Unit has it's own behaviorTree, find it
+					int id = unit->bwapiUnit->getID();
+					auto iter = behaviorTrees.find(id);
+					if (iter == behaviorTrees.end())
+						iter = behaviorTrees.emplace(id, behaviorTreeTemplate).first;
+					Behaviors::Root<BehaviorTreeType>& unitBehaviorTree = iter->second;
+
+					actions.push_back(unitBehaviorTree.execute(state, *unit));
 				}
 			}
 			return actions;

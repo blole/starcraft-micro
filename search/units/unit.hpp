@@ -1,5 +1,6 @@
 #pragma once
 #include "common/common.hpp"
+#include <common/unit.hpp>
 
 typedef int id_t;
 
@@ -16,6 +17,7 @@ namespace Bot { namespace Search
 	public:
 		const id_t id;
 		const BWAPI::Unit bwapiUnit;
+		Bot::Unit& botUnit;
 		const bool isPlayer;
 		
 		BWAPI::Position pos;
@@ -39,6 +41,7 @@ namespace Bot { namespace Search
 		Unit(BWAPI::Unit bwapiUnit, id_t id)
 			: id(id)
 			, bwapiUnit(bwapiUnit)
+			, botUnit(Bot::Unit::get(bwapiUnit))
 			, isPlayer(bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
 			, hp_(bwapiUnit->getHitPoints())
 			, pos(bwapiUnit->getPosition())

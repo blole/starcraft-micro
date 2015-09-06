@@ -16,6 +16,7 @@ using boost::sub_range;
 #include <vector>
 #include <deque>
 #include <list>
+#include <map>
 #include <functional>
 #include <iostream>
 #include <algorithm>
@@ -23,6 +24,8 @@ using boost::sub_range;
 using std::vector;
 using std::deque;
 using std::list;
+using std::map;
+using std::unordered_map;
 using std::function;
 using std::endl;
 using std::string;
