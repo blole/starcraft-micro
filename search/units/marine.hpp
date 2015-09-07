@@ -17,10 +17,10 @@ namespace Bot { namespace Search
 		//typedef BeginAttack <TwoUnitEffectData, 1, ApplyDamage <8, TwoUnitEffectData>> Attack;
 		//typedef ApplyDamage <8, 5, SetAttackFrame<>> Attack;
 		//typedef SetAttackFrame<> Attack;
-		typedef BeginAttack<TwoUnitEffectData, 
-				1, ApplyDamage<8, TwoUnitEffectData,
-				5, SetAttackFrame<false, TwoUnitEffectData, 
-				10, ClearGroundWeaponCooldown<TwoUnitEffectData
+		typedef Effects::BeginAttack<TwoUnitEffectData, 
+				1, Effects::ApplyDamage<8, TwoUnitEffectData,
+				5, Effects::SetAttackFrame<false, TwoUnitEffectData,
+				10, Effects::ClearGroundWeaponCooldown<TwoUnitEffectData
 			>>>> Attack;
 
 	public:
@@ -47,7 +47,7 @@ namespace Bot { namespace Search
 			{
 				//TODO: precalc all of these directional offsets..
 				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 2)
-					actions.push_back(make_shared<Move<>>(*this, dir));
+					actions.push_back(make_shared<Effects::Move<>>(*this, dir));
 			}
 
 			return actions;
@@ -61,19 +61,19 @@ namespace Bot { namespace Search
 			{
 				isAttackFrame = true;
 				//TODO: set correct move cooldown
-				state.queueEffect(6, std::make_shared<SetAttackFrame<false>>(id));
+				state.queueEffect(6, make_shared<Effects::SetAttackFrame<false>>(id));
 			}
 
 			if (bwapiUnit->getGroundWeaponCooldown() != 0)
 			{
 				groundWeaponCooldown = true;
-				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), make_shared<ClearGroundWeaponCooldown<>>(id));
+				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::ClearGroundWeaponCooldown<>>(id));
 			}
 			else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
 			{
 				groundWeaponCooldown = true;
-				state.queueEffect(14, make_shared<ClearGroundWeaponCooldown<>>(id));
+				state.queueEffect(14, make_shared<Effects::ClearGroundWeaponCooldown<>>(id));
 			}
 		}
 	};

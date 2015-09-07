@@ -1,10 +1,10 @@
 #pragma once
+#include "common/common.hpp"
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
 #include "search/effects/effect.hpp"
-#include <BWAPI.h>
 
-namespace Bot { namespace Search
+namespace Bot { namespace Search { namespace Effects
 {
 	struct MoveData : OneUnitEffectData
 	{
@@ -25,11 +25,13 @@ namespace Bot { namespace Search
 		Move(const Data& data)
 			: OneUnitEffect(data)
 		{}
-
+		Move(const Unit& unit, const BWAPI::Position& offset)
+			: Move(Data(unit.id, offset))
+		{}
 		Move(const Unit& unit, float direction)
-			: Move(Data(unit.id, BWAPI::Position(
+			: Move(unit, BWAPI::Position(
 				(int)(std::cos(direction) * unit.bwapiUnit->getType().topSpeed() * 10),
-				(int)(std::sin(direction) * unit.bwapiUnit->getType().topSpeed() * 10))))
+				(int)(std::sin(direction) * unit.bwapiUnit->getType().topSpeed() * 10)))
 		{}
 
 		virtual void applyTo(GameState& state) const override
@@ -62,8 +64,8 @@ namespace Bot { namespace Search
 			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
 
 			unit->move(unit->getPosition() + offset());
-			
+
 			Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + offset(), BWAPI::Colors::Grey);
 		}
 	};
-}}
+}}}

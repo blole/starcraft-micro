@@ -65,7 +65,7 @@ namespace Bot { namespace Search { namespace Behaviors
 			: children(::clone(other.children))
 		{}
 
-		virtual Derived& BehaviorTreeInternalNode::addChild(unique_ptr<BehaviorTreeNode>& child)
+		virtual Derived& BehaviorTreeInternalNode::addChild(unique_ptr<BehaviorTreeNode> child)
 		{
 			children.push_back(std::move(child));
 			return static_cast<Derived&>(*this);

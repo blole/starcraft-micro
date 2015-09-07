@@ -11,11 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
-      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="actionlisters\actionlister.hpp" />
     <ClInclude Include="actionlisters\branchonrandomcombinationofallunitsactions.hpp" />
     <ClInclude Include="actionlisters\branchonunit.hpp" />

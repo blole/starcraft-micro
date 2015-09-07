@@ -31,7 +31,7 @@ namespace Bot { namespace Search { namespace Behaviors
 						return (unit.pos - enemy->pos).getLength();
 					}));
 					fsm++;
-					return make_shared<BeginAttack<>>(TwoUnitEffectData(unit.id, target.id));
+					return make_shared<Effects::BeginAttack<>>(TwoUnitEffectData(unit.id, target.id));
 				}
 			case 1:
 				if (!unit.isAttackFrame)

@@ -1,23 +1,22 @@
-#include "common/dll.hpp"
 #include "common/main.hpp"
 #include "main-kiting/generalkiting.hpp"
-#include "common/squads/reactive.hpp"
+#include "search/searchingsquad.hpp"
 #include "search/behaviors/attackclosest.hpp"
 #include "main-kiting/flee.hpp"
+#include <search/players/scripted.hpp>
+#include "common/dll.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
-	using namespace BehaviorTree;
+	using namespace Bot::Search;
 
-	function<BehaviorTreeNode*()> unitBrain = []{
-		return nullptr;
-		//TODO: return (new SequentialNode())
-		//	->addChild(new Flee())
-		//	->addChild(new Behaviors::AttackClosest());
-	};
+	Behaviors::Sequence behavior;
+	behavior.addChild(make_unique<Behaviors::Flee>());
+	behavior.addChild(make_unique<Behaviors::AttackClosest>());
 
-	typedef Generals::Kiting<Squads::Reactive> GeneralType;
-	GeneralType general(unitBrain);
-	return new Main<GeneralType>(general);
+	typedef Players::Scripted<Behaviors::Sequence> PlayerType;
+	typedef Squads::Playing<PlayerType> SquadType;
+	typedef Generals::Kiting<SquadType> GeneralType;
+	return new Main<GeneralType>(GeneralType(SquadType(PlayerType(behavior))));
 }

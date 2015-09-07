@@ -2,9 +2,8 @@
 #include "search/gamestate.hpp"
 #include "search/units/unit.hpp"
 #include "search/effects/effect.hpp"
-#include <BWAPI.h>
 
-namespace Bot { namespace Search
+namespace Bot { namespace Search { namespace Effects
 {
 	template<class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
 	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
@@ -88,4 +87,4 @@ namespace Bot { namespace Search
 			queueNext(state, data);
 		}
 	};
-}}
+}}}

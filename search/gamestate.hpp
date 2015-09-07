@@ -1,5 +1,4 @@
 #pragma once
-#include <BWAPI.h>
 #include "common/common.hpp"
 #include "search/units/unit.hpp"
 #include <boost/range.hpp>
