@@ -9,17 +9,17 @@ namespace Bot { namespace Search
 {
 	class_Unit(Terran_Marine)
 	{
-		//typedef ClearAttackFrame <OneUnitEffectData> Attack;
-		//typedef ClearAttackFrame <OneUnitEffectData, 7, ClearAttackFrame<OneUnitEffectData>> Attack;
+		//typedef SetAttackFrame <OneUnitEffectData> Attack;
+		//typedef SetAttackFrame <OneUnitEffectData, 7, SetAttackFrame<OneUnitEffectData>> Attack;
 		//typedef BeginAttack <TwoUnitEffectData> Attack;
 		//typedef BeginAttack <TwoUnitEffectData, 7, BeginAttack<TwoUnitEffectData>> Attack;
-		//typedef BeginAttack <TwoUnitEffectData, 7, ClearAttackFrame<TwoUnitEffectData>> Attack;
+		//typedef BeginAttack <TwoUnitEffectData, 7, SetAttackFrame<TwoUnitEffectData>> Attack;
 		//typedef BeginAttack <TwoUnitEffectData, 1, ApplyDamage <8, TwoUnitEffectData>> Attack;
-		//typedef ApplyDamage <8, 5, ClearAttackFrame<>> Attack;
-		//typedef ClearAttackFrame<> Attack;
+		//typedef ApplyDamage <8, 5, SetAttackFrame<>> Attack;
+		//typedef SetAttackFrame<> Attack;
 		typedef BeginAttack<TwoUnitEffectData, 
 				1, ApplyDamage<8, TwoUnitEffectData,
-				5, ClearAttackFrame<TwoUnitEffectData, 
+				5, SetAttackFrame<false, TwoUnitEffectData, 
 				10, ClearGroundWeaponCooldown<TwoUnitEffectData
 			>>>> Attack;
 
@@ -28,7 +28,7 @@ namespace Bot { namespace Search
 			: Base(bwapiUnit, id)
 		{}
 
-		virtual std::vector<shared_ptr<Effect>> possibleActions(const GameState& state) const override
+		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const override
 		{
 			static const int range = BWAPI::UnitTypes::Terran_Marine.groundWeapon().maxRange();
 
@@ -55,13 +55,13 @@ namespace Bot { namespace Search
 		
 		void firstFrameInitToAddAlreadyActiveEffects(GameState& state) override
 		{
-			if (bwapiUnit->isAttackFrame() || bwapiUnit->isStartingAttack() ||
-				(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
-				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))
+			if (bwapiUnit->isAttackFrame())// ||
+				//(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
+				//bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))
 			{
 				isAttackFrame = true;
 				//TODO: set correct move cooldown
-				state.queueEffect(6, std::make_shared<ClearAttackFrame<>>(id));
+				state.queueEffect(6, std::make_shared<SetAttackFrame<false>>(id));
 			}
 
 			if (bwapiUnit->getGroundWeaponCooldown() != 0)

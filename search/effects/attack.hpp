@@ -27,9 +27,14 @@ namespace Bot { namespace Search
 			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
 			BWAPI::Unit target = state.units[targetID()]->bwapiUnit;
 
-			if (!unit->isStartingAttack()) //TODO: this line shouldn't be needed
+			Broodwar << Broodwar->getFrameCount() << ": attack order";
+			if (unit->getOrderTarget() != target) //TODO: this line shouldn't be needed
+			{
 				unit->attack(target);
-
+				Broodwar << " issued";
+			}
+			Broodwar << endl;
+			
 			BWAPI::Broodwar->drawLineMap(unit->getPosition(), target->getPosition(),
 				unit->getPlayer() == BWAPI::Broodwar->self() ?
 				BWAPI::Colors::Red : BWAPI::Colors::Blue);
@@ -53,17 +58,17 @@ namespace Bot { namespace Search
 	};
 	
 	
-	template <class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
-	class ClearAttackFrame : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
+	template <bool value, class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
+	class SetAttackFrame : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
-		ClearAttackFrame(const Data& data)
+		SetAttackFrame(const Data& data)
 			: OneUnitEffect(data)
 		{}
 
 		virtual void applyTo(GameState& state) const override
 		{
-			state.units[unitID()]->isAttackFrame = false;
+			state.units[unitID()]->isAttackFrame = value;
 			queueNext(state, data);
 		}
 	};
