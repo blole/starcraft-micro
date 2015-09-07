@@ -17,9 +17,6 @@
     <ProjectReference Include="..\common\common.vcxproj">
       <Project>{7cfee4db-10dd-40d1-9175-5ea2f0913d17}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\lib\libbehavior\BehaviorTree.vcxproj">
-      <Project>{18a56dae-2719-40c8-ade2-7c1bddbabb83}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\search\search.vcxproj">
       <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
     </ProjectReference>

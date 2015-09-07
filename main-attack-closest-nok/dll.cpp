@@ -1,19 +1,17 @@
-#include "common/dll.hpp"
 #include "common/main.hpp"
 #include "common/generals/allunitssinglesquad.hpp"
-//#include "search/behaviors/attackclosestnok.hpp"
-#include "common/squads/reactive.hpp"
+#include "search/players/scripted.hpp"
+#include "search/behaviors/attackclosest.hpp"
+#include "search/searchingsquad.hpp"
+#include "common/dll.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
-	using namespace BehaviorTree;
+	using namespace Bot::Search;
 
-	function<BehaviorTreeNode*()> unitBrain = []{
-		return nullptr; //TODO:return new Behaviors::AttackClosestNOK();
-	};
-
-	typedef Generals::AllUnitsSingleSquad<Squads::Reactive> GeneralType;
-	GeneralType general(unitBrain);
-	return new Main<GeneralType>(general);
+	typedef Players::Scripted<Behaviors::AttackClosest/*NOK*/> PlayerType;
+	typedef Squads::Playing<PlayerType> SquadType;
+	typedef Generals::AllUnitsSingleSquad<SquadType> GeneralType;
+	return new Main<GeneralType>;
 }

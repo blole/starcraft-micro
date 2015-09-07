@@ -29,8 +29,5 @@
     <ClInclude Include="generals\allunitssinglesquad.hpp">
       <Filter>generals</Filter>
     </ClInclude>
-    <ClInclude Include="squads\reactive.hpp">
-      <Filter>squads</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

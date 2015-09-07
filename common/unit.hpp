@@ -1,6 +1,5 @@
 #pragma once
 #include "common/common.hpp"
-#include <lib/libbehavior/BehaviorTree.h>
 
 namespace Bot
 {
@@ -23,13 +22,11 @@ namespace Bot
 
 	public:
 		const BWAPI::Unit bwapiUnit;
-		BehaviorTree::BehaviorTreeNode* brain;
 		Squad* squad;
 
 	private:
 		Unit(BWAPI::Unit bwapiUnit)
 			: bwapiUnit(bwapiUnit)
-			, brain(nullptr)
 			, squad(nullptr)
 		{}
 	};
