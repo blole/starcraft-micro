@@ -1,9 +1,9 @@
 #include "common/main.hpp"
 #include "main-kiting/generalkiting.hpp"
-#include "search/searchingsquad.hpp"
-#include "search/behaviors/attackclosest.hpp"
+#include "common/squads/playing.hpp"
+#include "common/behaviors/attackclosest.hpp"
 #include "main-kiting/flee.hpp"
-#include <search/players/scripted.hpp>
+#include "common/players/scripted.hpp"
 #include "common/dll.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()

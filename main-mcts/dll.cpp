@@ -1,13 +1,13 @@
 #include "common/dll.hpp"
 #include "common/main.hpp"
 #include "common/generals/allunitssinglesquad.hpp"
-#include "search/searchingsquad.hpp"
-#include "search/selecters/ucb.hpp"
-#include "search/stateevaluaters/simpleheuristics.hpp"
-#include "search/actionlisters/branchonunit.hpp"
-#include "search/players/mcts.hpp"
-#include "search/backpropagaters/uct.hpp"
-#include "search/terminalcheckers/framelimited.hpp"
+#include "common/squads/playing.hpp"
+#include "common/selecters/ucb.hpp"
+#include "common/stateevaluaters/simpleheuristics.hpp"
+#include "common/actionlisters/branchonunit.hpp"
+#include "common/players/mcts.hpp"
+#include "common/backpropagaters/uct.hpp"
+#include "common/terminalcheckers/framelimited.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {

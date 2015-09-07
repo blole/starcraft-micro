@@ -1,8 +1,8 @@
 #include "common/main.hpp"
 #include "common/generals/allunitssinglesquad.hpp"
-#include "search/players/scripted.hpp"
-#include "search/behaviors/attackclosest.hpp"
-#include "search/searchingsquad.hpp"
+#include "common/players/scripted.hpp"
+#include "common/behaviors/attackclosest.hpp"
+#include "common/squads/playing.hpp"
 #include "common/dll.hpp"
 
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()

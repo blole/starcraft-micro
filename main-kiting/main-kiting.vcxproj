@@ -23,9 +23,6 @@
     <ProjectReference Include="..\common\common.vcxproj">
       <Project>{7cfee4db-10dd-40d1-9175-5ea2f0913d17}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\search\search.vcxproj">
-      <Project>{e039051d-f5e1-44bb-91e2-98c1ab33e0db}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B00F666A-BDF3-46A3-AF97-B34DD3410783}</ProjectGuid>

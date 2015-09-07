@@ -1,33 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <!--<Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
-    </Filter>-->
-    <Filter Include="generals">
-      <UniqueIdentifier>{9a548427-2fd1-4c0b-8edd-37e9ad2283d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="squads">
-      <UniqueIdentifier>{6e6ab962-af96-44e5-a49f-15e41e3cf737}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="common.hpp" />
     <ClInclude Include="dll.hpp" />
     <ClInclude Include="main.hpp" />
     <ClInclude Include="unit.hpp" />
-    <ClInclude Include="generals\general.hpp">
-      <Filter>generals</Filter>
-    </ClInclude>
-    <ClInclude Include="squads\squad.hpp">
-      <Filter>squads</Filter>
-    </ClInclude>
-    <ClInclude Include="generals\limitedsquadsize.hpp">
-      <Filter>generals</Filter>
-    </ClInclude>
-    <ClInclude Include="generals\allunitssinglesquad.hpp">
-      <Filter>generals</Filter>
-    </ClInclude>
+    <ClInclude Include="node.hpp" />
+    <ClInclude Include="gamestate.hpp" />
+    <ClInclude Include="units\marine.hpp" />
+    <ClInclude Include="units\unit.hpp" />
+    <ClInclude Include="terminalcheckers\framelimited.hpp" />
+    <ClInclude Include="terminalcheckers\standard.hpp" />
+    <ClInclude Include="terminalcheckers\terminalchecker.hpp" />
+    <ClInclude Include="actionlisters\actionlister.hpp" />
+    <ClInclude Include="actionlisters\branchonrandomcombinationofallunitsactions.hpp" />
+    <ClInclude Include="actionlisters\branchonunit.hpp" />
+    <ClInclude Include="backpropagaters\backpropagater.hpp" />
+    <ClInclude Include="backpropagaters\uct.hpp" />
+    <ClInclude Include="behaviors\attackclosest.hpp" />
+    <ClInclude Include="behaviors\moverelative.hpp" />
+    <ClInclude Include="behaviors\waitforattackframe.hpp" />
+    <ClInclude Include="behaviortree\behaviortree.hpp" />
+    <ClInclude Include="behaviortree\behaviortreebase.hpp" />
+    <ClInclude Include="behaviortree\repeat.hpp" />
+    <ClInclude Include="behaviortree\sequence.hpp" />
+    <ClInclude Include="effects\attack.hpp" />
+    <ClInclude Include="effects\compositeeffect.hpp" />
+    <ClInclude Include="effects\effect.hpp" />
+    <ClInclude Include="effects\move.hpp" />
+    <ClInclude Include="players\abcd.hpp" />
+    <ClInclude Include="players\mcts.hpp" />
+    <ClInclude Include="players\player.hpp" />
+    <ClInclude Include="players\scripted.hpp" />
+    <ClInclude Include="selecters\selecter.hpp" />
+    <ClInclude Include="selecters\ucb.hpp" />
+    <ClInclude Include="squads\playing.hpp" />
+    <ClInclude Include="stateevaluaters\simpleheuristics.hpp" />
+    <ClInclude Include="stateevaluaters\stateevaluater.hpp" />
+    <ClInclude Include="generals\allunitssinglesquad.hpp" />
+    <ClInclude Include="generals\general.hpp" />
+    <ClInclude Include="generals\limitedsquadsize.hpp" />
+    <ClInclude Include="squads\squad.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gamestate.cpp" />
+    <ClCompile Include="units\unit.cpp" />
   </ItemGroup>
 </Project>
