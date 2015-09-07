@@ -1,20 +1,48 @@
 #pragma once
-#include "common/common.hpp"
+#include "common/unit.hpp"
 
 namespace Bot
 {
-	class Unit;
-
 	struct Squad
 	{
-		std::list<Unit*> units;
+	private:
+		list<Unit*> units_;
 
+	public:
 		virtual ~Squad() {}
 
-		virtual void addUnit(Unit& unit);
-		virtual void removeUnit(Unit& unit);
-		virtual void displaySquadLinks();
+		virtual void onFrame() = 0
+		{
+			for (auto& unit : units_)
+			{
+				if (!unit->bwapiUnit->exists())
+					remove(*unit);
+			}
+		}
 
-		virtual void onFrame() = 0;
+		const list<Unit*>& units() const
+		{
+			return units_;
+		}
+		virtual void add(Unit& unit)
+		{
+			assert(unit.squad == nullptr);
+			unit.squad = this;
+			units_.push_back(&unit);
+		}
+		virtual void remove(Unit& unit)
+		{
+			assert(unit.squad == this);
+			units_.remove(&unit);
+			unit.squad = nullptr;
+		}
+		void displaySquadLinks() const
+		{
+			for (auto& i : units())
+			{
+				for (auto& j : units())
+					Broodwar->drawLineMap(i->bwapiUnit->getPosition(), j->bwapiUnit->getPosition(), BWAPI::Colors::Green);
+			}
+		}
 	};
 }

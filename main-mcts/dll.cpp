@@ -21,8 +21,8 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		StateEvaluaters::Heuristics::SqrtHp_Dps,
 		Backpropagaters::UCT,
 		TerminalCheckers::FrameLimited<100>
-	> SearcherType;
-	typedef Squads::Searching<SearcherType> SquadType;
+	> PlayerType;
+	typedef Squads::Playing<PlayerType> SquadType;
 	typedef Generals::AllUnitsSingleSquad<SquadType> GeneralType;
 
 	return new Main<GeneralType>;

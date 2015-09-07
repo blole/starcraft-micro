@@ -9,25 +9,24 @@
 
 namespace Bot { namespace Search { namespace Squads
 {
-	template <class SearcherType>
-	class Searching : public Squad
+	template <class PlayerType>
+	struct Playing : Squad
 	{
-	public:
 		static const int radius = 400;
-		SearcherType search;
+		PlayerType play;
 		
-		Searching(const SearcherType& searcher = SearcherType())
-			: search(searcher)
+		Playing(const PlayerType& player = PlayerType())
+			: play(player)
 		{}
 		
 		virtual void onFrame() override
 		{
-			units.remove_if([](Bot::Unit* unit){ return !unit->bwapiUnit->exists(); });
+			Squad::onFrame();
 			
 			vector<BWAPI::Unit> playerUnits;
 			vector<BWAPI::Unit> enemyUnits;
 			
-			for (Bot::Unit* unit : units)
+			for (Bot::Unit* unit : units())
 			{
 				playerUnits.push_back(unit->bwapiUnit);
 				for (auto& u : unit->bwapiUnit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
@@ -50,14 +49,11 @@ namespace Bot { namespace Search { namespace Squads
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 45), "     target: %d", unit->bwapiUnit->getOrderTarget());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 60), "   accelera: %d", unit->bwapiUnit->isAccelerating());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
-
 			}
 
 			try
 			{
-				vector<shared_ptr<Effect>> actions = search(state);
-
-				for (shared_ptr<Effect>& action : actions)
+				for (shared_ptr<Effect>& action : play(state))
 				{
 					if (action->isPlayerEffect(state))
 						action->executeOrder(state);

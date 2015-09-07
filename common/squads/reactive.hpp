@@ -19,21 +19,21 @@ namespace Bot { namespace Squads
 
 		void onFrame() override
 		{
-			units.remove_if([](Unit* unit){ return !unit->bwapiUnit->exists(); });
+			Squad::onFrame();
 
-			for (Unit* unit : units)
+			for (Unit* unit : units())
 				unit->brain->execute(unit);
 		}
 
-		virtual void addUnit(Unit& unit) override
+		virtual void add(Unit& unit) override
 		{
-			Squad::addUnit(unit);
+			Squad::add(unit);
 			delete unit.brain;
 			unit.brain = unitBrain();
 		}
-		virtual void removeUnit(Unit& unit) override
+		virtual void remove(Unit& unit) override
 		{
-			Squad::removeUnit(unit);
+			Squad::remove(unit);
 			delete unit.brain;
 			unit.brain = nullptr;
 		}

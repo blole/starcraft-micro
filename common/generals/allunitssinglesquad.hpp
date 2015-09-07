@@ -28,12 +28,12 @@ namespace Bot { namespace Generals
 				Unit& unit = Unit::get(u);
 
 				if (unit.squad == nullptr)
-					squad.addUnit(unit);
+					squad.add(unit);
 			}
 
 			squad.onFrame();
 
-			Broodwar->drawTextScreen(1, 0, "%d units in squad", squad.units.size());
+			Broodwar->drawTextScreen(1, 0, "%d units in squad", squad.units().size());
 		}
 	};
 }}

@@ -11,9 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="squads\squad.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="common.hpp" />
     <ClInclude Include="dll.hpp" />
     <ClInclude Include="generals\limitedsquadsize.hpp" />

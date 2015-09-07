@@ -18,13 +18,15 @@ namespace Bot
 	public:
 		virtual void onStart() override
 		{
+			if (Broodwar->isReplay())
+				return;
+
 			Broodwar->enableFlag(BWAPI::Flag::UserInput);
 			//Broodwar->enableFlag(BWAPI::Flag::CompleteMapInformation);
 			Broodwar->setLatCom(true);
 			//Broodwar->setCommandOptimizationLevel(2);
 
-			if (!Broodwar->isReplay())
-				general.onStart();
+			general.onStart();
 		}
 
 		virtual void onFrame() override
@@ -44,6 +46,5 @@ namespace Bot
 		{
 			Broodwar->sendText("%s", text.c_str());
 		}
-
 	};
 }

@@ -13,11 +13,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="squads\squad.cpp">
-      <Filter>squads</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="common.hpp" />
     <ClInclude Include="dll.hpp" />
     <ClInclude Include="main.hpp" />
