@@ -25,7 +25,7 @@ namespace Bot { namespace Search { namespace Players
 			vector<shared_ptr<Effect>> actions;
 			if (!isTerminal(state))
 			{
-				for (auto& unit : state.playerUnits())
+				for (auto& unit : state.playerUnits)
 				{
 					//each Search::Unit has it's own behaviorTree, find it
 					int id = unit->bwapiUnit->getID();

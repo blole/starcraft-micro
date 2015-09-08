@@ -1,12 +1,12 @@
 #pragma once
-#include "common/unit.hpp"
+#include "common/units/unit.hpp"
 
 namespace Bot
 {
 	struct Squad
 	{
 	private:
-		list<Unit*> units_;
+		list<Search::Unit*> units_;
 
 	public:
 		virtual ~Squad() {}
@@ -20,17 +20,17 @@ namespace Bot
 			}
 		}
 
-		const list<Unit*>& units() const
+		const list<Search::Unit*>& units() const
 		{
 			return units_;
 		}
-		virtual void add(Unit& unit)
+		virtual void add(Search::Unit& unit)
 		{
 			assert(unit.squad == nullptr);
 			unit.squad = this;
 			units_.push_back(&unit);
 		}
-		virtual void remove(Unit& unit)
+		virtual void remove(Search::Unit& unit)
 		{
 			assert(unit.squad == this);
 			units_.remove(&unit);

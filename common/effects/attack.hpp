@@ -15,28 +15,24 @@ namespace Bot { namespace Search { namespace Effects
 
 		virtual void applyTo(GameState& state) const override
 		{
-			auto& unit = state.units[unitID()];
-			unit->isAttackFrame = true;
-			unit->groundWeaponCooldown = true;
+			Unit& unit = Unit::get(bwapiUnit());
+			unit.isAttackFrame = true;
+			unit.groundWeaponCooldown = true;
 			queueNext(state, data);
 		}
 		
 		virtual void executeOrder(GameState& state) const override
 		{
-			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
-			BWAPI::Unit target = state.units[targetID()]->bwapiUnit;
-
 			Broodwar << Broodwar->getFrameCount() << ": attack order";
-			if (unit->getOrderTarget() != target) //TODO: this line shouldn't be needed
+			if (bwapiUnit()->getOrderTarget() != bwapiTarget()) //TODO: this line shouldn't be needed
 			{
-				unit->attack(target);
+				bwapiUnit()->attack(bwapiTarget());
 				Broodwar << " issued";
 			}
 			Broodwar << endl;
 			
-			BWAPI::Broodwar->drawLineMap(unit->getPosition(), target->getPosition(),
-				unit->getPlayer() == BWAPI::Broodwar->self() ?
-				BWAPI::Colors::Red : BWAPI::Colors::Blue);
+			Broodwar->drawLineMap(bwapiUnit()->getPosition(), bwapiTarget()->getPosition(),
+				bwapiUnit()->getPlayer() == Broodwar->self() ? BWAPI::Colors::Red : BWAPI::Colors::Blue);
 		}
 	};
 	
@@ -51,7 +47,7 @@ namespace Bot { namespace Search { namespace Effects
 		
 		virtual void applyTo(GameState& state) const override
 		{
-			state.units[targetID()]->takeDamage(damage);
+			state.get(bwapiTarget()).takeDamage(damage);
 			queueNext(state, data);
 		}
 	};
@@ -67,7 +63,7 @@ namespace Bot { namespace Search { namespace Effects
 
 		virtual void applyTo(GameState& state) const override
 		{
-			state.units[unitID()]->isAttackFrame = value;
+			state.get(bwapiUnit()).isAttackFrame = value;
 			queueNext(state, data);
 		}
 	};
@@ -83,7 +79,7 @@ namespace Bot { namespace Search { namespace Effects
 
 		virtual void applyTo(GameState& state) const override
 		{
-			state.units[unitID()]->groundWeaponCooldown = false;
+			state.get(bwapiUnit()).groundWeaponCooldown = false;
 			queueNext(state, data);
 		}
 	};

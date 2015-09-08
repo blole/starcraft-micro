@@ -45,7 +45,7 @@ namespace Bot { namespace Search
 	class EffectWithData : public Effect
 	{
 	protected:
-		Data data;
+		const Data data;
 	public:
 		EffectWithData(const Data& data)
 			: data(data)
@@ -77,7 +77,7 @@ namespace Bot { namespace Search
 	class OneUnitEffect : public EffectWithData<Data>
 	{
 	protected:
-		id_t unitID() const { return data.unitID; }
+		const BWAPI::Unit& bwapiUnit() const { return data.bwapiUnit; }
 	public:
 		OneUnitEffect(const Data& data)
 			: EffectWithData(data)
@@ -85,14 +85,14 @@ namespace Bot { namespace Search
 
 		virtual bool isPlayerEffect(const GameState& state) const override
 		{
-			return state.units[unitID()]->isPlayer;
+			return bwapiUnit()->getPlayer() == Broodwar->self();
 		}
 	};
 	template <class Data>
 	class TwoUnitEffect : public OneUnitEffect<Data>
 	{
 	protected:
-		id_t targetID() const { return data.targetID; }
+		const BWAPI::Unit& bwapiTarget() const { return data.bwapiTarget; }
 	public:
 		TwoUnitEffect(Data data)
 			: OneUnitEffect<Data>(data)
@@ -103,18 +103,18 @@ namespace Bot { namespace Search
 
 	struct OneUnitEffectData
 	{
-		id_t unitID;
-		OneUnitEffectData(const id_t& unitID)
-			: unitID(unitID)
+		BWAPI::Unit const bwapiUnit;
+		OneUnitEffectData(const Unit& unit)
+			: bwapiUnit(unit.bwapiUnit)
 		{}
 	};
 
 	struct TwoUnitEffectData : OneUnitEffectData
 	{
-		id_t targetID;
-		TwoUnitEffectData(const id_t& unitID, const id_t& targetID)
-			: OneUnitEffectData(unitID)
-			, targetID(targetID)
+		BWAPI::Unit const bwapiTarget;
+		TwoUnitEffectData(const Unit& unit, const Unit& target)
+			: OneUnitEffectData(unit)
+			, bwapiTarget(target.bwapiUnit)
 		{}
 	};
 }}

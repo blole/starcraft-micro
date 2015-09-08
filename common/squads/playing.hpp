@@ -1,7 +1,7 @@
 #pragma once
 #include "common/common.hpp"
 #include "common/squads/squad.hpp"
-#include "common/unit.hpp"
+#include "common/units/unit.hpp"
 #include "common/gamestate.hpp"
 #include "common/effects/effect.hpp"
 #include "common/players/player.hpp"
@@ -23,25 +23,26 @@ namespace Bot { namespace Search { namespace Squads
 		{
 			Squad::onFrame();
 			
-			vector<BWAPI::Unit> playerUnits;
-			vector<BWAPI::Unit> enemyUnits;
+			vector<Unit*> playerUnits;
+			vector<Unit*> enemyUnits;
 			
-			for (Bot::Unit* unit : units())
+			for (Unit* unit : units())
 			{
-				playerUnits.push_back(unit->bwapiUnit);
-				for (auto& u : unit->bwapiUnit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
+				playerUnits.push_back(unit);
+				for (auto& enemyBwapi : unit->bwapiUnit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
 				{
-					if (std::find(enemyUnits.begin(), enemyUnits.end(), u) == enemyUnits.end())
-						enemyUnits.push_back(u);
+					Unit* enemy = &Unit::get(enemyBwapi);
+					if (std::find(enemyUnits.begin(), enemyUnits.end(), enemy) == enemyUnits.end())
+						enemyUnits.push_back(enemy);
 				}
 			}
 			
 			GameState state(playerUnits, enemyUnits);
 
-			for (auto& unit : state.playerUnits())
+			for (auto& unit : state.playerUnits)
 			{
-				//Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,15), "isAttackFrame: %d", unit->isAttackFrame);
-				//Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 0), "isAttackFrame: %d", unit->bwapiUnit->isAttackFrame());
+				//Broodwar->drawTextMap(bwapiUnit->pos - BWAPI::Position(0,15), "isAttackFrame: %d", bwapiUnit->isAttackFrame);
+				//Broodwar->drawTextMap(bwapiUnit->pos - BWAPI::Position(0, 0), "isAttackFrame: %d", bwapiUnit->bwapiUnit->isAttackFrame());
 
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,  0), "   starting: %d", unit->bwapiUnit->isStartingAttack());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 15), "attackFrame: %d", unit->bwapiUnit->isAttackFrame());

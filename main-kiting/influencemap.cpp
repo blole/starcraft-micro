@@ -1,15 +1,13 @@
 #include "main-kiting/influencemap.hpp"
-#include "common/unit.hpp"
 
-using namespace BWAPI;
 using namespace Bot;
 
-std::map<BWAPI::UnitType,double**> InfluenceMap::matrixInfluence;
-std::map<BWAPI::UnitType,double> InfluenceMap::mapSpeed;
-std::map<BWAPI::UnitType,double> InfluenceMap::mapAcceleration;
-std::map<BWAPI::UnitType,double> InfluenceMap::mapTurn;
-std::map<BWAPI::UnitType,double> InfluenceMap::mapAttackTime;
-std::map<BWAPI::UnitType,double> InfluenceMap::mapAttackRange;
+map<BWAPI::UnitType,double**> InfluenceMap::matrixInfluence;
+map<BWAPI::UnitType,double> InfluenceMap::mapSpeed;
+map<BWAPI::UnitType,double> InfluenceMap::mapAcceleration;
+map<BWAPI::UnitType,double> InfluenceMap::mapTurn;
+map<BWAPI::UnitType,double> InfluenceMap::mapAttackTime;
+map<BWAPI::UnitType,double> InfluenceMap::mapAttackRange;
 int InfluenceMap::mapWidth;
 int InfluenceMap::mapHeight;
 
@@ -97,7 +95,7 @@ void InfluenceMap::update()
 						double dmax = mapAttackRange[type];
 						//+ k
 						//+ mapSpeed[enemyType] * kitingTime;
-						Position cellPosition(i * 32, j * 32);
+						BWAPI::Position cellPosition(i * 32, j * 32);
 						double d = cellPosition.getApproxDistance(enemyUnit->getPosition());
 						if (d < dmax)
 						{
@@ -155,9 +153,9 @@ void InfluenceMap::debugDisplayInfluence()
 				double radius = 16*matrix[i][j] / max;
 				if(radius > 0)
 				{
-					Position cellPosition(i*32,j*32);
+					BWAPI::Position cellPosition(i*32,j*32);
 					//Broodwar->drawTextMap(cellPosition,"%f",matrix[i][j]);
-					Broodwar->drawEllipseMap(cellPosition, (int)radius, (int)radius, Color((int)(radius*(255.0 / unitKind)), 0, 0), false);
+					Broodwar->drawEllipseMap(cellPosition, (int)radius, (int)radius, BWAPI::Color((int)(radius*(255.0 / unitKind)), 0, 0), false);
 					//Broodwar->drawBoxMap(cellPosition-Position(16,16),cellPosition+Position(16,16),Color(radius*(255/max),0,0),true);
 				}
 			}

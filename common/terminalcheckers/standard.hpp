@@ -9,10 +9,10 @@ namespace Bot { namespace Search { namespace TerminalCheckers
 	{
 		virtual bool operator()(const GameState& state) const override
 		{
-			static auto isAlive = [](const unique_ptr<Unit>& u) {return u->isAlive();};
+			static auto isAlive = [](const Unit* u) {return u->isAlive();};
 			return
-				std::none_of(state.playerUnits().begin(), state.playerUnits().end(), isAlive) ||
-				std::none_of(state.enemyUnits().begin(),  state.enemyUnits().end(),  isAlive);
+				std::none_of(state.playerUnits.begin(), state.playerUnits.end(), isAlive) ||
+				std::none_of(state.enemyUnits.begin(),  state.enemyUnits.end(),  isAlive);
 		}
 	};
 }}}

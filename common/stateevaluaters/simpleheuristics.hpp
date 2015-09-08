@@ -12,8 +12,8 @@ namespace Bot { namespace Search { namespace StateEvaluaters { namespace Heurist
 		virtual double operator()(GameState& state) const override
 		{
 			double sum = 0;
-			for (auto& unit : state.playerUnits()) sum += unitValue(*unit);
-			for (auto& unit : state.enemyUnits())  sum -= unitValue(*unit);
+			for (auto& unit : state.playerUnits) sum += unitValue(*unit);
+			for (auto& unit : state.enemyUnits)  sum -= unitValue(*unit);
 			return sum;
 		}
 	};

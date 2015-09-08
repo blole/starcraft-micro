@@ -1,6 +1,6 @@
 #pragma once
 #include "common/generals/general.hpp"
-#include "common/unit.hpp"
+#include "common/units/unit.hpp"
 
 namespace Bot { namespace Generals
 {
@@ -25,7 +25,7 @@ namespace Bot { namespace Generals
 					!u->isCompleted())
 					continue;
 
-				Unit& unit = Unit::get(u);
+				Search::Unit& unit = Search::Unit::get(u);
 
 				if (unit.squad == nullptr)
 					squad.add(unit);

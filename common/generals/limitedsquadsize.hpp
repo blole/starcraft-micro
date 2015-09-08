@@ -11,12 +11,9 @@ namespace Bot { namespace Generals
 			// Create squads of 'units_per_squad' units
 			for (auto& unit : Broodwar->self()->getUnits())
 			{
-				if (unit->getType() == BWAPI::UnitTypes::Terran_Marine)
-				{
-					if (squads.empty() || squads.back().units.size() >= units_per_squad)
-						squads.emplace_back();
-					squads.back().addUnit(Unit::get(unit));
-				}
+				if (squads.empty() || squads.back().units.size() >= units_per_squad)
+					squads.emplace_back();
+				squads.back().addUnit(Unit::get(unit));
 			}
 		}
 

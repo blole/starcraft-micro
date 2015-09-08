@@ -103,11 +103,10 @@ namespace Bot { namespace Search
 
 			vector<shared_ptr<Effect>> operator()(GameState& rootState) override
 			{
+				vector<shared_ptr<Effect>> bestActions;
 				unique_ptr<NT> root = buildTree(rootState);
 				NT* node = root.get();
 				GameState state(rootState);
-
-				vector<shared_ptr<Effect>> bestActions;
 
 				while (state.frame() == 0 && !node->children.empty())
 				{
@@ -119,9 +118,9 @@ namespace Bot { namespace Search
 						bestActions.push_back(node->effect);
 				}
 
-				BWAPI::Broodwar->drawTextScreen(200, 70, "taken actions:  %d", bestActions.size());
-				BWAPI::Broodwar->drawTextScreen(200, 85, "root.visits:    %d", root->visits);
-				BWAPI::Broodwar->drawTextScreen(200, 100, "root.avgReward: %.1f", root->totalReward / root->visits);
+				Broodwar->drawTextScreen(200, 70, "taken actions:  %d", bestActions.size());
+				Broodwar->drawTextScreen(200, 85, "root.visits:    %d", root->visits);
+				Broodwar->drawTextScreen(200, 100, "root.avgReward: %.1f", root->totalReward / root->visits);
 				return bestActions;
 			}
 		};

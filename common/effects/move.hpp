@@ -9,8 +9,8 @@ namespace Bot { namespace Search { namespace Effects
 	struct MoveData : OneUnitEffectData
 	{
 		BWAPI::Position offset;
-		MoveData(const id_t& unitID, const BWAPI::Position& offset)
-			: OneUnitEffectData(unitID)
+		MoveData(const Unit& unit, const BWAPI::Position& offset)
+			: OneUnitEffectData(unit)
 			, offset(offset)
 		{}
 	};
@@ -26,7 +26,7 @@ namespace Bot { namespace Search { namespace Effects
 			: OneUnitEffect(data)
 		{}
 		Move(const Unit& unit, const BWAPI::Position& offset)
-			: Move(Data(unit.id, offset))
+			: Move(Data(unit, offset))
 		{}
 		Move(const Unit& unit, float direction)
 			: Move(unit, BWAPI::Position(
@@ -36,23 +36,23 @@ namespace Bot { namespace Search { namespace Effects
 
 		virtual void applyTo(GameState& state) const override
 		{
-			auto& unit = state.units[unitID()];
-			if (!unit->isAlive() || unit->isAttackFrame || offset() == BWAPI::Position(0,0)) //can't start/continue or done
-				unit->isMoving = false;
-			else if (!unit->isMoving) //starting
+			Unit& unit = state.get(bwapiUnit());
+			if (!unit.isAlive() || unit.isAttackFrame || offset() == BWAPI::Position(0,0)) //can't start/continue or done
+				unit.isMoving = false;
+			else if (!unit.isMoving) //starting
 			{
-				unit->isMoving = true;
+				unit.isMoving = true;
 				state.queueEffect(1, std::make_shared<Move<Data>>(data));
 			}
 			else //continuing
 			{
-				double topSpeed = unit->bwapiUnit->getType().topSpeed();
+				double topSpeed = unit.bwapiUnit->getType().topSpeed();
 				double distanceLeft = offset().getLength();
 				double stepRatio = std::min(topSpeed / distanceLeft, 1.0);
 
 				BWAPI::Position step(int(offset().x*stepRatio), int(offset().y*stepRatio));
-				unit->pos += step;
-				unit->isMoving = true;
+				unit.pos += step;
+				unit.isMoving = true;
 				Data nextData(data);
 				nextData.offset -= step;
 				state.queueEffect(1, std::make_shared<Move<Data>>(nextData));
@@ -61,11 +61,9 @@ namespace Bot { namespace Search { namespace Effects
 
 		virtual void executeOrder(GameState& state) const override
 		{
-			BWAPI::Unit unit = state.units[unitID()]->bwapiUnit;
+			bwapiUnit()->move(bwapiUnit()->getPosition() + offset());
 
-			unit->move(unit->getPosition() + offset());
-
-			Broodwar->drawLineMap(unit->getPosition(), unit->getPosition() + offset(), BWAPI::Colors::Grey);
+			Broodwar->drawLineMap(bwapiUnit()->getPosition(), bwapiUnit()->getPosition() + offset(), BWAPI::Colors::Grey);
 		}
 	};
 }}}

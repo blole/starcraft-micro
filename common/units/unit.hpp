@@ -1,10 +1,9 @@
 #pragma once
 #include "common/common.hpp"
-#include <common/unit.hpp>
 
-typedef int id_t;
-
-namespace Bot { namespace Search
+namespace Bot {
+	struct Squad;
+	namespace Search
 {
 	class Effect;
 	class GameState;
@@ -15,11 +14,11 @@ namespace Bot { namespace Search
 		int hp_;
 
 	public:
-		const id_t id;
+		const int id;
 		const BWAPI::Unit bwapiUnit;
-		Bot::Unit& botUnit;
 		const bool isPlayer;
 		
+		Squad* squad;
 		BWAPI::Position pos;
 		bool isMoving;
 		bool isAttackFrame;
@@ -38,39 +37,53 @@ namespace Bot { namespace Search
 		virtual Unit* clone() const = 0;
 
 	protected:
-		Unit(BWAPI::Unit bwapiUnit, id_t id)
-			: id(id)
+		Unit(BWAPI::Unit bwapiUnit)
+			: id(bwapiUnit->getID())
 			, bwapiUnit(bwapiUnit)
-			, botUnit(Bot::Unit::get(bwapiUnit))
-			, isPlayer(bwapiUnit->getPlayer() == BWAPI::Broodwar->self())
-			, hp_(bwapiUnit->getHitPoints())
-			, pos(bwapiUnit->getPosition())
-			, isMoving(false)
-			, isAttackFrame(false)
-			, groundWeaponCooldown(false)
-		{}
+			, isPlayer(bwapiUnit->getPlayer() == Broodwar->self())
+			, squad(nullptr)
+		{
+			update();
+		}
 	public:
 		virtual ~Unit() {}
 
+		virtual void update()
+		{
+			hp_ = bwapiUnit->getHitPoints();
+			pos = bwapiUnit->getPosition();
+			isMoving = bwapiUnit->isMoving();
+			isAttackFrame = bwapiUnit->isAttackFrame();
+			groundWeaponCooldown = bwapiUnit->getGroundWeaponCooldown()>0; //TODO: use the int?
+		}
+
 	public:
-		static unique_ptr<Unit> create(const GameState& state, BWAPI::Unit bwapiUnit, id_t id);
+		static Unit& get(BWAPI::Unit bwapiUnit)
+		{
+			static const int key = 87073;
+			void* ptr = bwapiUnit->getClientInfo(key);
+			if (!ptr)
+			{
+				ptr = Unit::create(bwapiUnit);
+				bwapiUnit->setClientInfo(ptr, key);
+			}
+			return *static_cast<Unit*>(ptr);
+		}
+	private:
+		static Unit* create(BWAPI::Unit bwapiUnit);
 	};
 
 	template <typename Derived>
 	class Unit_CRTP : public Unit
 	{
 	public:
-		Unit_CRTP(BWAPI::Unit bwapiUnit, id_t id)
-			: Unit(bwapiUnit, id)
+		Unit_CRTP(BWAPI::Unit bwapiUnit)
+			: Unit(bwapiUnit)
 		{}
-
-		typedef Unit_CRTP<Derived> Base;
 
 		virtual Unit* clone() const final override
 		{
 			return new Derived(static_cast<const Derived&>(*this));
 		}
 	};
-
-	#define class_Unit(Type) class Type : public Unit_CRTP<Type>
 }}

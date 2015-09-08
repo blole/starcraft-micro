@@ -4,17 +4,13 @@
 using namespace Bot::Search;
 using namespace std;
 
-unique_ptr<Unit> Unit::create(const GameState& state, BWAPI::Unit bwapiUnit, id_t id)
+Unit* Unit::create(BWAPI::Unit bwapiUnit)
 {
-	unique_ptr<Unit> unit;
 	switch (bwapiUnit->getType().getID())
 	{
 	case BWAPI::UnitTypes::Enum::Terran_Marine:
-		unit = make_unique<Terran_Marine>(bwapiUnit, id);
-		break;
+		return new Terran_Marine(bwapiUnit);
 	default:
 		throw runtime_error("only marines supported for MCTS so far.");
 	}
-
-	return unit;
 }

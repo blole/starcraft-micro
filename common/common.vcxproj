@@ -47,7 +47,6 @@
     <ClInclude Include="terminalcheckers\framelimited.hpp" />
     <ClInclude Include="terminalcheckers\standard.hpp" />
     <ClInclude Include="terminalcheckers\terminalchecker.hpp" />
-    <ClInclude Include="unit.hpp" />
     <ClInclude Include="main.hpp" />
     <ClInclude Include="units\marine.hpp" />
     <ClInclude Include="units\unit.hpp" />

@@ -20,18 +20,18 @@ namespace Bot { namespace Search { namespace Behaviors
 			switch (fsm)
 			{
 			case 0:
-				if (state.enemyUnits().empty())
+				if (state.enemyUnits.empty())
 					return failure;
 				else
 				{
-					Unit& target = **std::min_element(state.enemyUnits().begin(), state.enemyUnits().end(),
-						std::function<double(const unique_ptr<Unit>&)>(
-							[&unit](const unique_ptr<Unit>& enemy)
+					Unit& target = **std::min_element(state.enemyUnits.begin(), state.enemyUnits.end(),
+						std::function<double(const Unit*)>(
+							[&unit](const Unit* enemy)
 					{
 						return (unit.pos - enemy->pos).getLength();
 					}));
 					fsm++;
-					return make_shared<Effects::BeginAttack<>>(TwoUnitEffectData(unit.id, target.id));
+					return make_shared<Effects::BeginAttack<>>(TwoUnitEffectData(unit, target));
 				}
 			case 1:
 				if (!unit.isAttackFrame)

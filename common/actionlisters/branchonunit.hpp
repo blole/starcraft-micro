@@ -7,13 +7,13 @@ namespace Bot { namespace Search { namespace ActionListers
 {
 	struct BranchOnUnit : ActionLister
 	{
-		virtual vector<shared_ptr<Effect>> operator()(const GameState& gamestate) const override
+		virtual vector<shared_ptr<Effect>> operator()(const GameState& state) const override
 		{
-			for (auto& unit : gamestate.units)
+			for (auto& unit : state.units)
 			{
 				if (unit->isAlive())
 				{
-					vector<shared_ptr<Effect>> actions = unit->possibleActions(gamestate);
+					vector<shared_ptr<Effect>> actions = unit->possibleActions(state);
 
 					if (actions.size() > 2)
 						actions.erase(actions.begin()+2, actions.end());

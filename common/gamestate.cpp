@@ -4,39 +4,45 @@
 
 using namespace Bot::Search;
 
-vector<unique_ptr<Unit>> createUnits(const GameState& state, const vector<BWAPI::Unit>& playerBwapiUnits, const vector<BWAPI::Unit>& enemyBwapiUnits)
+GameState::GameStateUnitContainer::GameStateUnitContainer(const vector<Unit*>& playerUnits_, const vector<Unit*>& enemyUnits_)
 {
-	id_t id = 0;
-	vector<unique_ptr<Unit>> units;
-	units.reserve(playerBwapiUnits.size() + enemyBwapiUnits.size());
-
-	for (BWAPI::Unit playerUnit : playerBwapiUnits)
-		units.push_back(Unit::create(state, playerUnit, id++));
-	for (BWAPI::Unit enemyUnit : enemyBwapiUnits)
-		units.push_back(Unit::create(state, enemyUnit, id++));
-
-	return units;
+	for (auto& unit : playerUnits_)
+	{
+		Unit* clone = unit->clone();
+		units.emplace_back(clone);
+		playerUnits.emplace_back(clone);
+		unitMap.emplace(clone->bwapiUnit, clone);
+	}
+	for (auto& unit : enemyUnits_)
+	{
+		Unit* clone = unit->clone();
+		units.emplace_back(clone);
+		enemyUnits.emplace_back(clone);
+		unitMap.emplace(clone->bwapiUnit, clone);
+	}
 }
 
 // private constructor
-GameState::GameState(unsigned int frame_, unsigned int playerUnitCount, vector<unique_ptr<Unit>> units)
+GameState::GameState(GameStateUnitContainer uc, unsigned int frame_)
 	: frame_(frame_)
-	, units(std::move(units))
-	, playerUnitCount(playerUnitCount)
+	, unitMap(uc.unitMap)
+	, units(std::move(uc.units))
+	, playerUnits(uc.playerUnits)
+	, enemyUnits(uc.enemyUnits)
 {
 }
 
 // public constructors
-GameState::GameState(const vector<BWAPI::Unit>& playerBwapiUnits, const vector<BWAPI::Unit>& enemyBwapiUnits)
-	: GameState(0, playerBwapiUnits.size(), createUnits(*this, playerBwapiUnits, enemyBwapiUnits))
+GameState::GameState(const vector<Unit*>& playerUnits, const vector<Unit*>& enemyUnits)
+	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), 0)
 {
 	for (auto& unit : units)
 		unit->firstFrameInitToAddAlreadyActiveEffects(*this);
 }
-GameState::GameState(const GameState& other)
-	: GameState(other.frame(), other.playerUnitCount, clone(other.units))
+GameState::GameState(const GameState& o)
+	: GameState(GameStateUnitContainer(o.playerUnits, o.enemyUnits), o.frame_)
 {
-	pendingEffects = other.pendingEffects;
+	pendingEffects = o.pendingEffects;
 }
 
 void GameState::advanceFrames(unsigned int framesToAdvance)
@@ -44,11 +50,14 @@ void GameState::advanceFrames(unsigned int framesToAdvance)
 	for (unsigned int i=0; i<framesToAdvance; i++)
 	{
 		frame_++;
-		vector<shared_ptr<Effect>> effects = pendingEffects.front();
-		pendingEffects.pop_front();
+		if (!pendingEffects.empty())
+		{
+			vector<shared_ptr<Effect>> effects = pendingEffects.front();
+			pendingEffects.pop_front();
 
-		for (auto& effect : effects)
-			effect->applyTo(*this);
+			for (auto& effect : effects)
+				effect->applyTo(*this);
+		}
 	}
 }
 

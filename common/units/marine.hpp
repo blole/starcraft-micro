@@ -7,7 +7,7 @@
 
 namespace Bot { namespace Search
 {
-	class_Unit(Terran_Marine)
+	struct Terran_Marine : Unit_CRTP<Terran_Marine>
 	{
 		//typedef SetAttackFrame <OneUnitEffectData> Attack;
 		//typedef SetAttackFrame <OneUnitEffectData, 7, SetAttackFrame<OneUnitEffectData>> Attack;
@@ -24,8 +24,8 @@ namespace Bot { namespace Search
 			>>>> Attack;
 
 	public:
-		Terran_Marine(BWAPI::Unit bwapiUnit, id_t id)
-			: Base(bwapiUnit, id)
+		Terran_Marine(BWAPI::Unit bwapiUnit)
+			: Unit_CRTP<Terran_Marine>(bwapiUnit)
 		{}
 
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const override
@@ -39,7 +39,7 @@ namespace Bot { namespace Search
 				for (auto& unit : state.teamunits(!isPlayer))
 				{
 					if (unit->isAlive() && pos.getDistance(unit->pos) <= range)
-						actions.push_back(std::make_shared<Attack>(TwoUnitEffectData(id, unit->id)));
+						actions.push_back(make_shared<Attack>(TwoUnitEffectData(*this, *unit)));
 				}
 			}
 
@@ -61,19 +61,19 @@ namespace Bot { namespace Search
 			{
 				isAttackFrame = true;
 				//TODO: set correct move cooldown
-				state.queueEffect(6, make_shared<Effects::SetAttackFrame<false>>(id));
+				state.queueEffect(6, make_shared<Effects::SetAttackFrame<false>>(*this));
 			}
 
 			if (bwapiUnit->getGroundWeaponCooldown() != 0)
 			{
 				groundWeaponCooldown = true;
-				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::ClearGroundWeaponCooldown<>>(id));
+				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::ClearGroundWeaponCooldown<>>(*this));
 			}
 			else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
 				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
 			{
 				groundWeaponCooldown = true;
-				state.queueEffect(14, make_shared<Effects::ClearGroundWeaponCooldown<>>(id));
+				state.queueEffect(14, make_shared<Effects::ClearGroundWeaponCooldown<>>(*this));
 			}
 		}
 	};

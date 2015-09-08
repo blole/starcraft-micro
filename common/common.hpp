@@ -10,9 +10,6 @@ using std::unique_ptr;
 using std::make_shared;
 using std::make_unique;
 
-#include <boost/range.hpp>
-using boost::sub_range;
-
 #include <vector>
 #include <deque>
 #include <list>
@@ -42,14 +39,14 @@ vector<unique_ptr<T>> clone(const vector<unique_ptr<T>>& in)
 
 namespace std
 {
-	template<class ForwardIt, class R, class T = typename iterator_traits<ForwardIt>::value_type>
-	ForwardIt min_element(ForwardIt first, ForwardIt last, const function<R(const T&)>& map)
+	template<class ForwardIt, class R, class T>
+	ForwardIt min_element(ForwardIt first, ForwardIt last, const function<R(T)>& map)
 	{
-		return min_element(first, last, [&map](const T& a, const T& b) { return map(a) < map(b); });
+		return min_element(first, last, [&map](T a, T b) { return map(a) < map(b); });
 	}
-	template<class ForwardIt, class R, class T = typename iterator_traits<ForwardIt>::value_type>
-	ForwardIt max_element(ForwardIt first, ForwardIt last, const function<R(const T&)>& map)
+	template<class ForwardIt, class R, class T>
+	ForwardIt max_element(ForwardIt first, ForwardIt last, const function<R(T)>& map)
 	{
-		return max_element(first, last, [&map](const T& a, const T& b) { return map(a) < map(b); });
+		return max_element(first, last, [&map](T a, T b) { return map(a) < map(b); });
 	}
 }
