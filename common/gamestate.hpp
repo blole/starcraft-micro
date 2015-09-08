@@ -15,7 +15,7 @@ namespace Bot
 			vector<unique_ptr<Unit>> units;
 			vector<Unit*> playerUnits;
 			vector<Unit*> enemyUnits;
-			GameStateUnitContainer(const vector<Unit*>& playerUnits, const vector<Unit*>& enemyUnits);
+			GameStateUnitContainer(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits);
 			GameStateUnitContainer(GameStateUnitContainer&& other)
 				: unitMap(other.unitMap)
 				, units(std::move(other.units))
@@ -42,7 +42,7 @@ namespace Bot
 	private:
 		GameState(GameStateUnitContainer u, unsigned int frame_);
 	public:
-		GameState(const vector<Unit*>& playerUnits, const vector<Unit*>& enemyUnits);
+		GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits);
 		GameState(const GameState& other);
 		~GameState() {}
 		

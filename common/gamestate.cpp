@@ -4,7 +4,7 @@
 
 using namespace Bot;
 
-GameState::GameStateUnitContainer::GameStateUnitContainer(const vector<Unit*>& playerUnits_, const vector<Unit*>& enemyUnits_)
+GameState::GameStateUnitContainer::GameStateUnitContainer(const vector<const Unit*>& playerUnits_, const vector<const Unit*>& enemyUnits_)
 {
 	for (auto& unit : playerUnits_)
 	{
@@ -33,14 +33,17 @@ GameState::GameState(GameStateUnitContainer uc, unsigned int frame_)
 }
 
 // public constructors
-GameState::GameState(const vector<Unit*>& playerUnits, const vector<Unit*>& enemyUnits)
+GameState::GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits)
 	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), 0)
 {
 	for (auto& unit : units)
 		unit->firstFrameInitToAddAlreadyActiveEffects(*this);
 }
 GameState::GameState(const GameState& o)
-	: GameState(GameStateUnitContainer(o.playerUnits, o.enemyUnits), o.frame_)
+	: GameState(GameStateUnitContainer(
+		reinterpret_cast<const vector<const Unit*>&>(o.playerUnits),
+		reinterpret_cast<const vector<const Unit*>&>(o.enemyUnits)),
+		o.frame_)
 {
 	pendingEffects = o.pendingEffects;
 }

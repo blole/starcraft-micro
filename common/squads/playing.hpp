@@ -23,15 +23,15 @@ namespace Bot { namespace Squads
 		{
 			Squad::onFrame();
 			
-			vector<Unit*> playerUnits;
-			vector<Unit*> enemyUnits;
+			vector<const Unit*> playerUnits;
+			vector<const Unit*> enemyUnits;
 			
 			for (Unit* unit : units())
 			{
 				playerUnits.push_back(unit);
 				for (auto& enemyBwapi : unit->bwapiUnit->getUnitsInRadius(radius, BWAPI::Filter::IsEnemy))
 				{
-					Unit* enemy = &Unit::get(enemyBwapi);
+					const Unit* enemy = &Unit::get(enemyBwapi);
 					if (std::find(enemyUnits.begin(), enemyUnits.end(), enemy) == enemyUnits.end())
 						enemyUnits.push_back(enemy);
 				}

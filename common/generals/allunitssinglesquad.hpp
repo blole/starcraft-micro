@@ -25,7 +25,7 @@ namespace Bot { namespace Generals
 					!u->isCompleted())
 					continue;
 
-				Unit& unit = Unit::get(u);
+				Unit& unit = Unit::getModifiable(u);
 
 				if (unit.squad == nullptr)
 					squad.add(unit);

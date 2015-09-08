@@ -24,6 +24,9 @@ namespace Bot
 				else
 					++i;
 			}
+
+			for (auto& unit : units())
+				unit->update();
 		}
 
 		const list<Unit*>& units() const

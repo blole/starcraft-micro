@@ -15,7 +15,7 @@ namespace Bot { namespace Effects
 
 		virtual void applyTo(GameState& state) const override
 		{
-			Unit& unit = Unit::get(bwapiUnit());
+			Unit& unit = state.get(bwapiUnit());
 			unit.isAttackFrame = true;
 			unit.groundWeaponCooldown = true;
 			queueNext(state, data);
