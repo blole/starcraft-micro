@@ -36,8 +36,6 @@ GameState::GameState(GameStateUnitContainer uc, unsigned int frame_)
 GameState::GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits)
 	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), 0)
 {
-	for (auto& unit : units)
-		unit->firstFrameInitToAddAlreadyActiveEffects(*this);
 }
 GameState::GameState(const GameState& o)
 	: GameState(GameStateUnitContainer(

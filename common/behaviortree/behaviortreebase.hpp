@@ -72,10 +72,15 @@ namespace Bot { namespace Behaviors
 		};
 	};
 
-	// Always returns the given template status
-	template <const shared_ptr<Effect>& status>
-	struct Always : BehaviorTreeNode_CRTP<Always<status>>
+	// Always returns the given status
+	struct Always : BehaviorTreeNode_CRTP<Always>
 	{
+	protected:
+		const shared_ptr<Effect> status;
+	public:
+		Always(const shared_ptr<Effect>& status)
+			: status(status)
+		{}
 		virtual shared_ptr<Effect> execute(GameState& state, Unit& unit) override
 		{
 			return status;

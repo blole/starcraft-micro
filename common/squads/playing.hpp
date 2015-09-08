@@ -39,6 +39,10 @@ namespace Bot { namespace Squads
 			
 			GameState state(playerUnits, enemyUnits);
 
+			for (auto& unit : state.units)
+				unit->firstFrameInitToAddAlreadyActiveEffects(state);
+
+
 			for (auto& unit : state.playerUnits)
 			{
 				//Broodwar->drawTextMap(bwapiUnit->pos - BWAPI::Position(0,15), "isAttackFrame: %d", bwapiUnit->isAttackFrame);
@@ -49,7 +53,8 @@ namespace Bot { namespace Squads
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 30), "  attacking: %d", unit->bwapiUnit->isAttacking());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 45), "     target: %d", unit->bwapiUnit->getOrderTarget());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 60), "   accelera: %d", unit->bwapiUnit->isAccelerating());
-				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   isMoving: %d", unit->bwapiUnit->isMoving());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 90), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
 			}
 
 			try
