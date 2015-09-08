@@ -6,7 +6,7 @@ namespace Bot
 	struct Squad
 	{
 	private:
-		list<Search::Unit*> units_;
+		list<Unit*> units_;
 
 	public:
 		virtual ~Squad() {}
@@ -20,17 +20,17 @@ namespace Bot
 			}
 		}
 
-		const list<Search::Unit*>& units() const
+		const list<Unit*>& units() const
 		{
 			return units_;
 		}
-		virtual void add(Search::Unit& unit)
+		virtual void add(Unit& unit)
 		{
 			assert(unit.squad == nullptr);
 			unit.squad = this;
 			units_.push_back(&unit);
 		}
-		virtual void remove(Search::Unit& unit)
+		virtual void remove(Unit& unit)
 		{
 			assert(unit.squad == this);
 			units_.remove(&unit);

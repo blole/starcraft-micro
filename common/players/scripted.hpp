@@ -5,7 +5,7 @@
 #include "common/behaviortree/behaviortree.hpp"
 #include "common/terminalcheckers/standard.hpp"
 
-namespace Bot { namespace Search { namespace Players
+namespace Bot { namespace Players
 {
 	template <class BehaviorTreeType>
 	struct Scripted : Player
@@ -27,7 +27,7 @@ namespace Bot { namespace Search { namespace Players
 			{
 				for (auto& unit : state.playerUnits)
 				{
-					//each Search::Unit has it's own behaviorTree, find it
+					//each Unit has it's own behaviorTree, find it
 					int id = unit->bwapiUnit->getID();
 					auto iter = behaviorTrees.find(id);
 					if (iter == behaviorTrees.end())
@@ -40,4 +40,4 @@ namespace Bot { namespace Search { namespace Players
 			return actions;
 		}
 	};
-}}}
+}}

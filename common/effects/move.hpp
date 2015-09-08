@@ -4,7 +4,7 @@
 #include "common/units/unit.hpp"
 #include "common/effects/effect.hpp"
 
-namespace Bot { namespace Search { namespace Effects
+namespace Bot { namespace Effects
 {
 	struct MoveData : OneUnitEffectData
 	{
@@ -66,4 +66,4 @@ namespace Bot { namespace Search { namespace Effects
 			Broodwar->drawLineMap(bwapiUnit()->getPosition(), bwapiUnit()->getPosition() + offset(), BWAPI::Colors::Grey);
 		}
 	};
-}}}
+}}

@@ -2,7 +2,7 @@
 #include "common/common.hpp"
 #include "common/units/unit.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class Effect;
 
@@ -61,4 +61,4 @@ namespace Bot { namespace Search
 		void advanceFrames(unsigned int framesToAdvance);
 		void queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect);
 	};
-}}
+}

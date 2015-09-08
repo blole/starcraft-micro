@@ -4,7 +4,7 @@
 #include "common/effects/compositeeffect.hpp"
 #include "common/units/unit.hpp"
 
-namespace Bot { namespace Search { namespace ActionListers
+namespace Bot { namespace ActionListers
 {
 	template <int combinations>
 	struct BranchOnRandomCombinationOfAllUnitsActions : ActionLister
@@ -42,4 +42,4 @@ namespace Bot { namespace Search { namespace ActionListers
 			}
 		}
 	};
-}}}
+}}

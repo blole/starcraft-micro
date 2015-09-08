@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class GameState;
 
@@ -10,4 +10,4 @@ namespace Bot { namespace Search
 		virtual ~Selecter() {}
 		virtual NT& operator()(const GameState& state, NT& node) const = 0;
 	};
-}}
+}

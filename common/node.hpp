@@ -1,7 +1,7 @@
 #pragma once
 #include "common/common.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class Effect;
 	
@@ -21,4 +21,4 @@ namespace Bot { namespace Search
 
 		virtual ~Node() {}
 	};
-}}
+}

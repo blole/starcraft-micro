@@ -1,7 +1,7 @@
 #pragma once
 #include "common/behaviors/behaviortree.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	template <bool value>
 	struct WaitForAttackFrame : BehaviorTreeNode
@@ -14,4 +14,4 @@ namespace Bot { namespace Search { namespace Behaviors
 				return running;
 		}
 	};
-}}}
+}}

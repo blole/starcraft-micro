@@ -3,7 +3,7 @@
 #include "common/units/unit.hpp"
 #include "common/terminalcheckers/terminalchecker.hpp"
 
-namespace Bot { namespace Search { namespace TerminalCheckers
+namespace Bot { namespace TerminalCheckers
 {
 	struct Standard : TerminalChecker
 	{
@@ -15,4 +15,4 @@ namespace Bot { namespace Search { namespace TerminalCheckers
 				std::none_of(state.enemyUnits.begin(),  state.enemyUnits.end(),  isAlive);
 		}
 	};
-}}}
+}}

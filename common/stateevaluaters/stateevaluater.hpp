@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class GameState;
 
@@ -15,4 +15,4 @@ namespace Bot { namespace Search
 		struct Heuristic : StateEvaluater {};
 		struct Simulater : StateEvaluater {};
 	}
-}}
+}

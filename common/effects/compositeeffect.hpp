@@ -2,7 +2,7 @@
 #include "common/common.hpp"
 #include "common/effects/effect.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class GameState;
 
@@ -30,4 +30,4 @@ namespace Bot { namespace Search
 				action->executeOrder(state);
 		}
 	};
-}}
+}

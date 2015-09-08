@@ -9,7 +9,6 @@
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
-	using namespace Bot::Search;
 
 	Behaviors::Sequence behavior;
 	behavior.addChild(make_unique<Behaviors::Flee>());

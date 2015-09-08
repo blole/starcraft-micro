@@ -5,7 +5,7 @@
 #include "common/actionlisters/branchonplayer.hpp"
 #include "common/common.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class NodeABCD;
 
@@ -197,4 +197,4 @@ namespace Bot { namespace Search
 			return sum;
 		}
 	};
-}}
+}

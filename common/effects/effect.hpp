@@ -3,7 +3,7 @@
 #include "common/units/unit.hpp"
 #include "common/common.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class Effect
 	{
@@ -117,4 +117,4 @@ namespace Bot { namespace Search
 			, bwapiTarget(target.bwapiUnit)
 		{}
 	};
-}}
+}

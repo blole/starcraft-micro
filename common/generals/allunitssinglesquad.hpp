@@ -25,7 +25,7 @@ namespace Bot { namespace Generals
 					!u->isCompleted())
 					continue;
 
-				Search::Unit& unit = Search::Unit::get(u);
+				Unit& unit = Unit::get(u);
 
 				if (unit.squad == nullptr)
 					squad.add(unit);

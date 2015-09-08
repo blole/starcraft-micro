@@ -1,7 +1,7 @@
 #pragma once
 #include "common/common.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	class Effect;
 	class GameState;
@@ -11,4 +11,4 @@ namespace Bot { namespace Search
 		virtual ~ActionLister() {}
 		virtual vector<shared_ptr<Effect>> operator()(const GameState& gamestate) const = 0;
 	};
-}}
+}

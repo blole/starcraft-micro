@@ -2,7 +2,7 @@
 #include "common/behaviortree/behaviortree.hpp"
 #include "common/effects/move.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	struct Flee : BehaviorTreeNode_CRTP<Flee>
 	{
@@ -56,4 +56,4 @@ namespace Bot { namespace Search { namespace Behaviors
 			}
 		}
 	};
-}}}
+}}

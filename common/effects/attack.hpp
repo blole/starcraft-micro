@@ -3,7 +3,7 @@
 #include "common/units/unit.hpp"
 #include "common/effects/effect.hpp"
 
-namespace Bot { namespace Search { namespace Effects
+namespace Bot { namespace Effects
 {
 	template<class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
 	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
@@ -83,4 +83,4 @@ namespace Bot { namespace Search { namespace Effects
 			queueNext(state, data);
 		}
 	};
-}}}
+}}

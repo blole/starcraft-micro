@@ -5,7 +5,7 @@
 #include "common/effects/attack.hpp"
 #include "common/effects/move.hpp"
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	struct Terran_Marine : Unit_CRTP<Terran_Marine>
 	{
@@ -77,4 +77,4 @@ namespace Bot { namespace Search
 			}
 		}
 	};
-}}
+}

@@ -2,7 +2,7 @@
 #include "common/common.hpp"
 #include "common/selecters/selecter.hpp"
 
-namespace Bot { namespace Search { 	namespace Selecters
+namespace Bot { namespace Selecters
 {
 	template <class NT>
 	struct UCB : Selecter<NT>
@@ -18,4 +18,4 @@ namespace Bot { namespace Search { 	namespace Selecters
 			return node.totalReward / node.visits + std::sqrt(std::log((double)node.parent->visits) / node.visits);
 		}
 	};
-}}}
+}}

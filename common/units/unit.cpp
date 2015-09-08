@@ -1,8 +1,7 @@
 #include "common/units/unit.hpp"
 #include "common/units/marine.hpp"
 
-using namespace Bot::Search;
-using namespace std;
+using namespace Bot;
 
 Unit* Unit::create(BWAPI::Unit bwapiUnit)
 {
@@ -11,6 +10,6 @@ Unit* Unit::create(BWAPI::Unit bwapiUnit)
 	case BWAPI::UnitTypes::Enum::Terran_Marine:
 		return new Terran_Marine(bwapiUnit);
 	default:
-		throw runtime_error("only marines supported for MCTS so far.");
+		throw std::runtime_error("only marines supported for MCTS so far.");
 	}
 }

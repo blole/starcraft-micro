@@ -2,7 +2,7 @@
 #include "common/behaviors/behaviortree.hpp"
 #include "common/effects/move.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	struct MoveRelative : BehaviorTreeNode_CRTP<MoveRelative>
 	{
@@ -33,4 +33,4 @@ namespace Bot { namespace Search { namespace Behaviors
 				return running;
 		}
 	};
-}}}
+}}

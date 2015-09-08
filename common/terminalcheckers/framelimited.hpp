@@ -1,7 +1,7 @@
 #pragma once
 #include "common/terminalcheckers/standard.hpp"
 
-namespace Bot { namespace Search { namespace TerminalCheckers
+namespace Bot { namespace TerminalCheckers
 {
 	template <int max_frame>
 	struct FrameLimited : Standard
@@ -11,4 +11,4 @@ namespace Bot { namespace Search { namespace TerminalCheckers
 			return state.frame() > max_frame || Standard::operator()(state);
 		}
 	};
-}}}
+}}

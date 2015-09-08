@@ -3,7 +3,7 @@
 #include "common/effects/effect.hpp"
 #include "common/units/unit.hpp"
 
-namespace Bot { namespace Search { namespace ActionListers
+namespace Bot { namespace ActionListers
 {
 	struct BranchOnUnit : ActionLister
 	{
@@ -26,4 +26,4 @@ namespace Bot { namespace Search { namespace ActionListers
 			return { make_shared<AdvanceFrameEffect>(1) };
 		}
 	};
-}}}
+}}

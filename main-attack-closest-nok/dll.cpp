@@ -8,7 +8,6 @@
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
-	using namespace Bot::Search;
 
 	typedef Players::Scripted<Behaviors::AttackClosest/*NOK*/> PlayerType;
 	typedef Squads::Playing<PlayerType> SquadType;

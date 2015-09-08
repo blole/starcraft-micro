@@ -11,7 +11,7 @@
 #include "common/node.hpp"
 #include <chrono>
 
-namespace Bot { namespace Search
+namespace Bot
 {
 	namespace Nodes
 	{
@@ -125,4 +125,4 @@ namespace Bot { namespace Search
 			}
 		};
 	}
-}}
+}

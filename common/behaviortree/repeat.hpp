@@ -1,7 +1,7 @@
 #pragma once
 #include "common/behaviortree/behaviortree.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	// A node that repeats its child a specified number of times.
 	// If the child returns BT_FAILURE, RepeatNode will also return BT_FAILURE.
@@ -73,4 +73,4 @@ namespace Bot { namespace Search { namespace Behaviors
 			return status;
 		}
 	};
-}}}
+}}

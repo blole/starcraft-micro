@@ -12,7 +12,6 @@
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
-	using namespace Bot::Search;
 
 	typedef Players::MCTS<
 		Nodes::MCTS,

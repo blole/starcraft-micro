@@ -2,7 +2,7 @@
 #include "common/effects/effect.hpp"
 #include "common/backpropagaters/backpropagater.hpp"
 
-namespace Bot { namespace Search { 	namespace Backpropagaters
+namespace Bot { namespace Backpropagaters
 {
 	template <class NT>
 	struct UCT : Backpropagater<NT>
@@ -22,4 +22,4 @@ namespace Bot { namespace Search { 	namespace Backpropagaters
 			while (node);
 		}
 	};
-}}}
+}}

@@ -1,10 +1,9 @@
 #pragma once
 #include "common/common.hpp"
 
-namespace Bot {
-	struct Squad;
-	namespace Search
+namespace Bot
 {
+	struct Squad;
 	class Effect;
 	class GameState;
 
@@ -86,4 +85,4 @@ namespace Bot {
 			return new Derived(static_cast<const Derived&>(*this));
 		}
 	};
-}}
+}

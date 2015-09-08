@@ -2,7 +2,7 @@
 #include "common/units/unit.hpp"
 #include "common/effects/effect.hpp"
 
-using namespace Bot::Search;
+using namespace Bot;
 
 GameState::GameStateUnitContainer::GameStateUnitContainer(const vector<Unit*>& playerUnits_, const vector<Unit*>& enemyUnits_)
 {

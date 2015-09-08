@@ -3,7 +3,7 @@
 #include "common/units/unit.hpp"
 #include "common/stateevaluaters/stateevaluater.hpp"
 
-namespace Bot { namespace Search { namespace StateEvaluaters { namespace Heuristics
+namespace Bot { namespace StateEvaluaters { namespace Heuristics
 {
 	struct SimpleHeuristic : Heuristic
 	{
@@ -43,4 +43,4 @@ namespace Bot { namespace Search { namespace StateEvaluaters { namespace Heurist
 			return sqrt(unit.hp()) * dmg*24/cd;
 		}
 	};
-}}}}
+}}}

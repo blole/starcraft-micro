@@ -4,7 +4,7 @@
 #include "common/gamestate.hpp"
 #include "common/effects/effect.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	const shared_ptr<Effect> success = make_shared<NoEffect>();
 	const shared_ptr<Effect> running = make_shared<NoEffect>();
@@ -112,4 +112,4 @@ namespace Bot { namespace Search { namespace Behaviors
 			}
 		}
 	};
-}}}
+}}

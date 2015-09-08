@@ -7,7 +7,7 @@
 #include "common/players/player.hpp"
 
 
-namespace Bot { namespace Search { namespace Squads
+namespace Bot { namespace Squads
 {
 	template <class PlayerType>
 	struct Playing : Squad
@@ -65,4 +65,4 @@ namespace Bot { namespace Search { namespace Squads
 			catch (...)							{ throw; }
 		}
 	};
-}}}
+}}

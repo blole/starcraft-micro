@@ -3,7 +3,7 @@
 #include "common/behaviortree/behaviortree.hpp"
 #include "common/effects/attack.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	struct AttackClosest : BehaviorTreeNode_CRTP<AttackClosest>
 	{
@@ -48,4 +48,4 @@ namespace Bot { namespace Search { namespace Behaviors
 			}
 		}
 	};
-}}}
+}}

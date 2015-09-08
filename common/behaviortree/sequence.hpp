@@ -1,7 +1,7 @@
 #pragma once
 #include "common/behaviortree/behaviortree.hpp"
 
-namespace Bot { namespace Search { namespace Behaviors
+namespace Bot { namespace Behaviors
 {
 	// Executes its children in the order they were added.
 	// Returns the first non-success-status of it's children.
@@ -36,4 +36,4 @@ namespace Bot { namespace Search { namespace Behaviors
 			return success;
 		}
 	};
-}}}
+}}
