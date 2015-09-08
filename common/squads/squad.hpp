@@ -13,10 +13,16 @@ namespace Bot
 
 		virtual void onFrame() = 0
 		{
-			for (auto& unit : units_)
+			for (auto i = units_.begin(); i != units_.end();)
 			{
-				if (!unit->bwapiUnit->exists())
-					remove(*unit);
+				if (!(*i)->bwapiUnit->exists())
+				{
+					Unit& unit = *(*i);
+					i = units_.erase(i);
+					remove(unit);
+				}
+				else
+					++i;
 			}
 		}
 

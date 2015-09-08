@@ -5,6 +5,8 @@ using namespace Bot;
 
 Unit* Unit::create(BWAPI::Unit bwapiUnit)
 {
+	using namespace Units;
+
 	switch (bwapiUnit->getType().getID())
 	{
 	case BWAPI::UnitTypes::Enum::Terran_Marine:
