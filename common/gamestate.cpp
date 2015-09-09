@@ -33,14 +33,14 @@ GameState::GameState(GameStateUnitContainer uc, unsigned int frame_)
 }
 
 // public constructors
-GameState::GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits)
-	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), 0)
+GameState::GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits, unsigned int frame_)
+	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), frame_)
 {
 }
 GameState::GameState(const GameState& o)
-	: GameState(GameStateUnitContainer(
+	: GameState(
 		reinterpret_cast<const vector<const Unit*>&>(o.playerUnits),
-		reinterpret_cast<const vector<const Unit*>&>(o.enemyUnits)),
+		reinterpret_cast<const vector<const Unit*>&>(o.enemyUnits),
 		o.frame_)
 {
 	pendingEffects = o.pendingEffects;

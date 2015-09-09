@@ -34,7 +34,11 @@ namespace Bot
 		const vector<Unit*> playerUnits;
 		const vector<Unit*> enemyUnits;
 
-		Unit& get(BWAPI::Unit bwapiUnit)
+		bool has(const BWAPI::Unit bwapiUnit) const
+		{
+			return unitMap.find(bwapiUnit) != unitMap.end();
+		}
+		Unit& get(const BWAPI::Unit bwapiUnit) const
 		{
 			return *unitMap.at(bwapiUnit);
 		}
@@ -42,7 +46,7 @@ namespace Bot
 	private:
 		GameState(GameStateUnitContainer u, unsigned int frame_);
 	public:
-		GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits);
+		GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits, unsigned int frame_ = 0);
 		GameState(const GameState& other);
 		~GameState() {}
 		

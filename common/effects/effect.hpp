@@ -12,6 +12,7 @@ namespace Bot
 		virtual void applyTo(GameState& state) const = 0;
 		virtual void executeOrder(GameState& state) const {}
 		virtual bool isPlayerEffect(const GameState& state) const { return false; }
+		virtual bool isValid(const GameState& state) const { return true; }
 	};
 
 	class NoEffect : public Effect
@@ -25,7 +26,10 @@ namespace Bot
 	class NoEffectPlayer final : public NoEffect
 	{
 	public:
-		virtual bool isPlayerEffect(const GameState& state) const final override { return isPlayer; }
+		virtual bool isPlayerEffect(const GameState& state) const final override
+		{
+			return isPlayer;
+		}
 	};
 
 	class AdvanceFrameEffect : public Effect
@@ -82,10 +86,13 @@ namespace Bot
 		OneUnitEffect(const Data& data)
 			: EffectWithData(data)
 		{}
-
 		virtual bool isPlayerEffect(const GameState& state) const override
 		{
 			return bwapiUnit()->getPlayer() == Broodwar->self();
+		}
+		virtual bool isValid(const GameState& state) const override
+		{
+			return state.has(bwapiUnit());
 		}
 	};
 	template <class Data>
@@ -97,6 +104,10 @@ namespace Bot
 		TwoUnitEffect(Data data)
 			: OneUnitEffect<Data>(data)
 		{}
+		virtual bool isValid(const GameState& state) const override
+		{
+			return OneUnitEffect<Data>::isValid(state) && state.has(bwapiTarget());
+		}
 	};
 
 

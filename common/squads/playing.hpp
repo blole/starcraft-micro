@@ -12,6 +12,16 @@ namespace Bot { namespace Squads
 	template <class PlayerType>
 	struct Playing : Squad
 	{
+		struct FrameActions
+		{
+			const unsigned int executionFrame;
+			const vector<shared_ptr<Effect>> actions;
+			FrameActions(unsigned int executionFrame, vector<shared_ptr<Effect>> actions)
+				: executionFrame(executionFrame)
+				, actions(actions)
+			{}
+		};
+		deque<FrameActions> previousActions;
 		static const int radius = 400;
 		PlayerType play;
 		
@@ -37,17 +47,36 @@ namespace Bot { namespace Squads
 				}
 			}
 			
-			GameState state(playerUnits, enemyUnits);
+			GameState state(playerUnits, enemyUnits, Broodwar->getFrameCount());
+			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + Broodwar->getRemainingLatencyFrames();
 
 			for (auto& unit : state.units)
 				unit->firstFrameInitToAddAlreadyActiveEffects(state);
 
+			while (!previousActions.empty() && previousActions.front().executionFrame < state.frame())
+				previousActions.pop_front();
+
+			//apply previous actions
+			auto actionIter = previousActions.begin();
+			while (actionIter != previousActions.end() && state.frame() < nextExecutionFrame)
+			{
+				while (actionIter->executionFrame > state.frame())
+					state.advanceFrames(1);
+
+				do
+				{
+					for (const shared_ptr<Effect>& action : actionIter->actions)
+					{
+						if (action->isValid(state))
+							action->applyTo(state);
+					}
+					++actionIter;
+				} while (actionIter != previousActions.end() && actionIter->executionFrame == state.frame());
+			}
+
 
 			for (auto& unit : state.playerUnits)
 			{
-				//Broodwar->drawTextMap(bwapiUnit->pos - BWAPI::Position(0,15), "isAttackFrame: %d", bwapiUnit->isAttackFrame);
-				//Broodwar->drawTextMap(bwapiUnit->pos - BWAPI::Position(0, 0), "isAttackFrame: %d", bwapiUnit->bwapiUnit->isAttackFrame());
-
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,  0), "   starting: %d", unit->bwapiUnit->isStartingAttack());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 15), "attackFrame: %d", unit->bwapiUnit->isAttackFrame());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 30), "  attacking: %d", unit->bwapiUnit->isAttacking());
@@ -59,11 +88,13 @@ namespace Bot { namespace Squads
 
 			try
 			{
-				for (shared_ptr<Effect>& action : play(state))
+				auto actions = play(state);
+				for (shared_ptr<Effect>& action : actions)
 				{
 					if (action->isPlayerEffect(state))
 						action->executeOrder(state);
 				}
+				previousActions.emplace_back(nextExecutionFrame, actions);
 			}
 			catch (const std::runtime_error&)	{ throw; }
 			catch (const std::exception&)		{ throw; }
