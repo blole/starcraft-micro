@@ -52,29 +52,5 @@ namespace Bot { namespace Units
 
 			return actions;
 		}
-		
-		void firstFrameInitToAddAlreadyActiveEffects(GameState& state) override
-		{
-			if (bwapiUnit->isAttackFrame())// ||
-				//(BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
-				//bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit))
-			{
-				isAttackFrame = true;
-				//TODO: set correct move cooldown
-				state.queueEffect(6, make_shared<Effects::SetAttackFrame<false>>(*this));
-			}
-
-			if (bwapiUnit->getGroundWeaponCooldown() != 0)
-			{
-				groundWeaponCooldown = true;
-				state.queueEffect(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::ClearGroundWeaponCooldown<>>(*this));
-			}
-			else if (BWAPI::Broodwar->getFrameCount() <= bwapiUnit->getLastCommandFrame() + BWAPI::Broodwar->getRemainingLatencyFrames() &&
-				bwapiUnit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Attack_Unit)
-			{
-				groundWeaponCooldown = true;
-				state.queueEffect(14, make_shared<Effects::ClearGroundWeaponCooldown<>>(*this));
-			}
-		}
 	};
 }}

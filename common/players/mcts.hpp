@@ -108,7 +108,7 @@ namespace Bot
 				NT* node = root.get();
 				GameState state(rootState);
 
-				while (state.frame() == 0 && !node->children.empty())
+				while (state.frame() == rootState.frame() && !node->children.empty())
 				{
 					//TODO: select best, not regular selection
 					node = &select(state, *node);

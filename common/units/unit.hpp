@@ -7,6 +7,16 @@ namespace Bot
 	class Effect;
 	class GameState;
 
+	struct FramedEffect
+	{
+		const int frame;
+		shared_ptr<Effect> effect;
+		FramedEffect(int offset, const shared_ptr<Effect>& effect)
+			: frame(Broodwar->getFrameCount()+offset)
+			, effect(effect)
+		{}
+	};
+
 	class Unit
 	{
 	private:
@@ -22,6 +32,19 @@ namespace Bot
 		bool isMoving;
 		bool isAttackFrame;
 		bool groundWeaponCooldown;
+		list<FramedEffect> activeEffects;
+
+	protected:
+		Unit(BWAPI::Unit bwapiUnit)
+			: id(bwapiUnit->getID())
+			, bwapiUnit(bwapiUnit)
+			, isPlayer(bwapiUnit->getPlayer() == Broodwar->self())
+			, squad(nullptr)
+			, hp_(-1000)
+		{}
+	public:
+		virtual void onFrame();
+		virtual ~Unit() {}
 
 	public:
 		bool isAlive() const { return hp_ > 0; }
@@ -30,31 +53,9 @@ namespace Bot
 		{
 			hp_ = std::max(hp_ - damage, 0);
 		}
-		
+
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
-		virtual void firstFrameInitToAddAlreadyActiveEffects(GameState& state) = 0; //TODO: const GameState, return actions
 		virtual Unit* clone() const = 0;
-
-	protected:
-		Unit(BWAPI::Unit bwapiUnit)
-			: id(bwapiUnit->getID())
-			, bwapiUnit(bwapiUnit)
-			, isPlayer(bwapiUnit->getPlayer() == Broodwar->self())
-			, squad(nullptr)
-		{
-			update();
-		}
-	public:
-		virtual ~Unit() {}
-
-		virtual void update()
-		{
-			hp_ = bwapiUnit->getHitPoints();
-			pos = bwapiUnit->getPosition();
-			isMoving = bwapiUnit->isMoving();
-			isAttackFrame = bwapiUnit->isAttackFrame();
-			groundWeaponCooldown = bwapiUnit->getGroundWeaponCooldown()>0; //TODO: use the int?
-		}
 
 	public:
 		static const Unit& get(const BWAPI::Unit bwapiUnit)

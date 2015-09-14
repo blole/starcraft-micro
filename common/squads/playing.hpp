@@ -50,9 +50,6 @@ namespace Bot { namespace Squads
 			GameState state(playerUnits, enemyUnits, Broodwar->getFrameCount());
 			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + Broodwar->getRemainingLatencyFrames();
 
-			for (auto& unit : state.units)
-				unit->firstFrameInitToAddAlreadyActiveEffects(state);
-
 			while (!previousActions.empty() && previousActions.front().executionFrame < state.frame())
 				previousActions.pop_front();
 
@@ -77,6 +74,8 @@ namespace Bot { namespace Squads
 
 			for (auto& unit : state.playerUnits)
 			{
+				Broodwar->drawCircleMap(unit->pos, 20, BWAPI::Colors::Blue);
+				Broodwar->drawCircleMap(unit->bwapiUnit->getPosition(), 20, BWAPI::Colors::Green);
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,  0), "   starting: %d", unit->bwapiUnit->isStartingAttack());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 15), "attackFrame: %d", unit->bwapiUnit->isAttackFrame());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 30), "  attacking: %d", unit->bwapiUnit->isAttacking());

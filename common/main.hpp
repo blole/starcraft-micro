@@ -39,10 +39,15 @@ namespace Bot
 			Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
 			//Broodwar->drawTextScreen(100, 0, "Bot behavior is: %s", MainDescription);
 
-			for(auto unit : Broodwar->self()->getUnits())
-				Broodwar->drawTextMap(unit->getPosition()+BWAPI::Position(-15,10), "%s %d",
+			for (auto unit : Broodwar->self()->getUnits())
+			{
+				Broodwar->drawTextMap(unit->getPosition() + BWAPI::Position(-15, 10), "%s %d",
 					unit->getLastCommand().getType().c_str(),
-					Broodwar->getFrameCount()-unit->getLastCommandFrame());
+					Broodwar->getFrameCount() - unit->getLastCommandFrame());
+			}
+
+			for (auto& unit : Broodwar->getAllUnits())
+				Unit::getModifiable(unit).onFrame();
 
 			general.onFrame();
 		}

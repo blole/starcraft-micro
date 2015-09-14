@@ -36,11 +36,16 @@ GameState::GameState(GameStateUnitContainer uc, unsigned int frame_)
 GameState::GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits, unsigned int frame_)
 	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), frame_)
 {
+	for (auto& unit : units)
+	{
+		for (auto& e : unit->activeEffects)
+			queueEffect(e.frame - frame_, e.effect);
+	}
 }
 GameState::GameState(const GameState& o)
-	: GameState(
+	: GameState(GameStateUnitContainer(
 		reinterpret_cast<const vector<const Unit*>&>(o.playerUnits),
-		reinterpret_cast<const vector<const Unit*>&>(o.enemyUnits),
+		reinterpret_cast<const vector<const Unit*>&>(o.enemyUnits)),
 		o.frame_)
 {
 	pendingEffects = o.pendingEffects;

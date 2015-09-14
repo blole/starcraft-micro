@@ -13,6 +13,10 @@ namespace Bot { namespace Effects
 			: TwoUnitEffect<Data>(data)
 		{}
 
+		BeginAttack(const Unit& unit, const Unit& target)
+			: BeginAttack(Data(unit, target))
+		{}
+
 		virtual void applyTo(GameState& state) const override
 		{
 			Unit& unit = state.get(bwapiUnit());
