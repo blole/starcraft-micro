@@ -14,9 +14,11 @@ void Unit::onFrame()
 	activeEffects.remove_if([](const FramedEffect& e) {return e.frame < Broodwar->getFrameCount();});
 	if (bwapiUnit->isStartingAttack())
 	{
-		activeEffects.emplace_back(0, make_shared<Effects::BeginAttack<>>(*this, Unit::get(bwapiUnit->getOrderTarget())));
+		auto& target = Unit::get(bwapiUnit->getOrderTarget());
+		activeEffects.emplace_back(0, make_shared<Effects::BeginAttack<>>(*this, target));
+		activeEffects.emplace_back(1, make_shared<Effects::ApplyDamage<8>>(TwoUnitEffectData(*this, target)));
 		activeEffects.emplace_back(6, make_shared<Effects::SetAttackFrame<false>>(*this));
-		activeEffects.emplace_back(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::ClearGroundWeaponCooldown<>>(*this));
+		activeEffects.emplace_back(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::SetGroundWeaponCooldown<false>>(*this));
 	}
 }
 

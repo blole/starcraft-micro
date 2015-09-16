@@ -1,5 +1,5 @@
 #pragma once
-#include "common/behaviors/behaviortree.hpp"
+#include "common/behaviortree/behaviortree.hpp"
 
 namespace Bot { namespace Behaviors
 {

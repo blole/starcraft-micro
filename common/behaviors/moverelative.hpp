@@ -1,5 +1,5 @@
 #pragma once
-#include "common/behaviors/behaviortree.hpp"
+#include "common/behaviortree/behaviortree.hpp"
 #include "common/effects/move.hpp"
 
 namespace Bot { namespace Behaviors
@@ -28,7 +28,7 @@ namespace Bot { namespace Behaviors
 			if (unit.pos == origin + offset)
 				return success;
 			else if (!unit.isMoving)
-				return make_shared<Move<>>(MoveData(unit.id, offset));
+				return make_shared<Effects::Move<>>(unit, offset);
 			else
 				return running;
 		}

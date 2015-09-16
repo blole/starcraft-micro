@@ -54,6 +54,7 @@ namespace Bot
 			hp_ = std::max(hp_ - damage, 0);
 		}
 
+		const BWAPI::UnitType& unitType() { return bwapiUnit->getType(); }
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual Unit* clone() const = 0;
 
@@ -77,7 +78,7 @@ namespace Bot
 		static Unit* create(BWAPI::Unit bwapiUnit);
 	};
 
-	template <typename Derived>
+	template <typename Derived, const BWAPI::UnitType& UnitType>
 	class Unit_CRTP : public Unit
 	{
 	public:

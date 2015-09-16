@@ -73,17 +73,17 @@ namespace Bot { namespace Effects
 	};
 	
 	
-	template <class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
-	class ClearGroundWeaponCooldown : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
+	template <bool value, class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
+	class SetGroundWeaponCooldown : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
-		ClearGroundWeaponCooldown(const Data& data)
+		SetGroundWeaponCooldown(const Data& data)
 			: OneUnitEffect(data)
 		{}
 
 		virtual void applyTo(GameState& state) const override
 		{
-			state.get(bwapiUnit()).groundWeaponCooldown = false;
+			state.get(bwapiUnit()).groundWeaponCooldown = value;
 			queueNext(state, data);
 		}
 	};
