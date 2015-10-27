@@ -9,7 +9,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <LocalDebuggerCommand>C:\Program Files\python27\pythonw.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>$(BwapiPy) $(DebugArg) --ai $(OutDir)$(TargetName)$(TargetExt) --injectory $(Injectory) - --vs-debug-workaround --kill-on-exit --wait-for-exit</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>$(BwapiPy) $(DebugArg) --ai $(OutDir)$(TargetName)$(TargetExt) --injectory $(Injectory) - --vs-debug-workaround --kill-on-exit --wait-for-exit --rethrow</LocalDebuggerCommandArguments>
     <!-- using $(OutDir)$(TargetName)$(TargetExt) as a workaround because $(TargetPath) doesn't evaluate to anything in a property sheet -->
     <LocalDebuggerWorkingDirectory>C:\tm\starcraft</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>

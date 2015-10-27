@@ -31,25 +31,32 @@ namespace Bot
 
 		virtual void onFrame() override
 		{
-			if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
-				return;
-
-			Broodwar->drawTextScreen(200, 0, "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
-			Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
-			Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
-			//Broodwar->drawTextScreen(100, 0, "Bot behavior is: %s", MainDescription);
-
-			for (auto unit : Broodwar->self()->getUnits())
+			try
 			{
-				Broodwar->drawTextMap(unit->getPosition() + BWAPI::Position(-15, 10), "%s %d",
-					unit->getLastCommand().getType().c_str(),
-					Broodwar->getFrameCount() - unit->getLastCommandFrame());
+				if (Broodwar->isReplay() || Broodwar->isPaused() || !Broodwar->self())
+					return;
+
+				Broodwar->drawTextScreen(200, 0, "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
+				Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
+				Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
+				//Broodwar->drawTextScreen(100, 0, "Bot behavior is: %s", MainDescription);
+
+				for (auto unit : Broodwar->self()->getUnits())
+				{
+					Broodwar->drawTextMap(unit->getPosition() + BWAPI::Position(-15, 10), "%s %d",
+						unit->getLastCommand().getType().c_str(),
+						Broodwar->getFrameCount() - unit->getLastCommandFrame());
+				}
+
+				for (auto& unit : Broodwar->getAllUnits())
+					Unit::getModifiable(unit).onFrame();
+
+				general.onFrame();
 			}
-
-			for (auto& unit : Broodwar->getAllUnits())
-				Unit::getModifiable(unit).onFrame();
-
-			general.onFrame();
+			catch (std::runtime_error e)
+			{
+				Broodwar << BWAPI::Text::Red << "onFrame(): error: " << e.what() << endl;
+			}
 		}
 
 		virtual void onSendText(string text) override
