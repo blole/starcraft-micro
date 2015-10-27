@@ -163,7 +163,7 @@ namespace Bot
 				else // Advance in time (no actions available for both player)
 				{
 					nbFrameAdvanced++;
-					node->gamestate->advanceFrames(1);
+					node->gamestate->advanceFrame();
 					if(node->gamestate->isTerminal() ||nbFrameAdvanced > 100)
 						return evaluate(node->gamestate);
 					else

@@ -9,7 +9,7 @@ namespace Bot
 
 	struct FramedEffect
 	{
-		const int frame;
+		const unsigned int frame;
 		shared_ptr<Effect> effect;
 		FramedEffect(int offset, const shared_ptr<Effect>& effect)
 			: frame(Broodwar->getFrameCount()+offset)

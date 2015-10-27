@@ -58,7 +58,7 @@ namespace Bot { namespace Squads
 			while (actionIter != previousActions.end() && state.frame() < nextExecutionFrame)
 			{
 				while (actionIter->executionFrame > state.frame())
-					state.advanceFrames(1);
+					state.advanceFrame();
 
 				do
 				{

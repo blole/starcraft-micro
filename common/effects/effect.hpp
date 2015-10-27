@@ -34,14 +34,10 @@ namespace Bot
 
 	class AdvanceFrameEffect : public Effect
 	{
-		const int frames;
 	public:
-		AdvanceFrameEffect(int frames)
-			: frames(frames)
-		{}
 		virtual void applyTo(GameState& state) const override
 		{
-			state.advanceFrames(frames);
+			state.advanceFrame();
 		}
 	};
 

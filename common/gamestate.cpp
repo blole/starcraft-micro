@@ -51,19 +51,17 @@ GameState::GameState(const GameState& o)
 	pendingEffects = o.pendingEffects;
 }
 
-void GameState::advanceFrames(unsigned int framesToAdvance)
+void GameState::advanceFrame()
 {
-	for (unsigned int i=0; i<framesToAdvance; i++)
+	frame_++;
+	
+	if (!pendingEffects.empty())
 	{
-		frame_++;
-		if (!pendingEffects.empty())
-		{
-			vector<shared_ptr<Effect>> effects = pendingEffects.front();
-			pendingEffects.pop_front();
+		vector<shared_ptr<Effect>> effects = pendingEffects.front();
+		pendingEffects.pop_front();
 
-			for (auto& effect : effects)
-				effect->applyTo(*this);
-		}
+		for (auto& effect : effects)
+			effect->applyTo(*this);
 	}
 }
 

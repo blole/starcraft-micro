@@ -62,7 +62,7 @@ namespace Bot
 	public:
 		unsigned int frame() const { return frame_; }
 
-		void advanceFrames(unsigned int framesToAdvance);
+		void advanceFrame();
 		void queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect);
 	};
 }
