@@ -59,11 +59,7 @@ namespace Bot
 		virtual Unit* clone() const = 0;
 
 	public:
-		static const Unit& get(const BWAPI::Unit bwapiUnit)
-		{
-			return getModifiable(bwapiUnit);
-		}
-		static Unit& getModifiable(const BWAPI::Unit bwapiUnit)
+		static Unit& get(const BWAPI::Unit bwapiUnit)
 		{
 			static const int key = 87073;
 			void* ptr = bwapiUnit->getClientInfo(key);

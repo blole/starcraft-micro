@@ -49,7 +49,7 @@ namespace Bot
 				}
 
 				for (auto& unit : Broodwar->getAllUnits())
-					Unit::getModifiable(unit).onFrame();
+					Unit::get(unit).onFrame();
 
 				general.onFrame();
 			}
