@@ -8,19 +8,16 @@ void Unit::onFrame()
 	hp_ = bwapiUnit->getHitPoints();
 	pos = bwapiUnit->getPosition();
 	isMoving = bwapiUnit->isMoving();
-	isAttackFrame = bwapiUnit->isAttackFrame();
-	groundWeaponCooldown = bwapiUnit->getGroundWeaponCooldown() > 0;
-
-	activeEffects.remove_if([](const FramedEffect& e) {return e.frame < Broodwar->getFrameCount();});
-	if (bwapiUnit->isStartingAttack())
-	{
-		auto& target = Unit::get(bwapiUnit->getOrderTarget());
-		activeEffects.emplace_back(0, make_shared<Effects::BeginAttack<>>(*this, target));
-		activeEffects.emplace_back(1, make_shared<Effects::ApplyDamage<8>>(TwoUnitEffectData(*this, target)));
-		activeEffects.emplace_back(6, make_shared<Effects::SetAttackFrame<false>>(*this));
-		activeEffects.emplace_back(bwapiUnit->getGroundWeaponCooldown(), make_shared<Effects::SetGroundWeaponCooldown<false>>(*this));
-	}
 }
+
+void Unit::simulateOneFrameForward(GameState& state)
+{
+	if (groundWeaponCooldown > 0)
+		groundWeaponCooldown--;
+	if (moveCooldown > 0)
+		moveCooldown--;
+}
+
 
 Unit* Unit::create(BWAPI::Unit bwapiUnit)
 {
@@ -31,6 +28,6 @@ Unit* Unit::create(BWAPI::Unit bwapiUnit)
 	case BWAPI::UnitTypes::Enum::Terran_Marine:
 		return new Terran_Marine(bwapiUnit);
 	default:
-		throw std::runtime_error("only marines supported so far.");
+		throw std::runtime_error("unit type "+bwapiUnit->getType().getName()+" not supported yet");
 	}
 }

@@ -37,7 +37,7 @@ namespace Bot { namespace Effects
 		virtual void applyTo(GameState& state) const override
 		{
 			Unit& unit = state.get(bwapiUnit());
-			if (!unit.isAlive() || unit.isAttackFrame || offset() == BWAPI::Position(0,0)) //can't start/continue or done
+			if (!unit.isAlive() || unit.moveCooldown || offset() == BWAPI::Position(0,0)) //can't start/continue or done
 				unit.isMoving = false;
 			else if (!unit.isMoving) //starting
 			{

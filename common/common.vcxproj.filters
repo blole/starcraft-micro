@@ -40,6 +40,7 @@
     <ClInclude Include="generals\general.hpp" />
     <ClInclude Include="generals\limitedsquadsize.hpp" />
     <ClInclude Include="squads\squad.hpp" />
+    <ClInclude Include="units\unit_crtp.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />

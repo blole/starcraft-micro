@@ -1,5 +1,5 @@
 #pragma once
-#include "common/units/unit.hpp"
+#include "common/units/unit_crtp.hpp"
 #include "common/gamestate.hpp"
 #include "common/effects/effect.hpp"
 #include "common/effects/attack.hpp"
@@ -34,7 +34,7 @@ namespace Bot { namespace Units
 				}
 			}
 
-			if (!isAttackFrame && !isMoving)
+			if (!moveCooldown && !isMoving)
 			{
 				//TODO: precalc all of these directional offsets..
 				for (float dir = 0; dir < 3.14f * 2; dir += 3.15f / 2)

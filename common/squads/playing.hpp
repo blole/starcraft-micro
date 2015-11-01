@@ -50,26 +50,38 @@ namespace Bot { namespace Squads
 			GameState state(playerUnits, enemyUnits, Broodwar->getFrameCount());
 			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + Broodwar->getRemainingLatencyFrames();
 
-			while (!previousActions.empty() && previousActions.front().executionFrame < state.frame())
+			//apply current actions
+			for (auto& unit : units())
+			{
+				auto order = unit->getActualOrders();
+				if (order->isValid(state))
+					order->applyTo(state);
+			}
+
+			//forget all non future actions
+			while (!previousActions.empty() && previousActions.front().executionFrame <= Broodwar->getFrameCount())
 				previousActions.pop_front();
 
-			//apply previous actions
-			auto actionIter = previousActions.begin();
-			while (actionIter != previousActions.end() && state.frame() < nextExecutionFrame)
+			//forget too far future actions TODO: don't schedule them to begin with
+			//this is relevant only on connections where Broodwar->getRemainingLatencyFrames() varies
+			while (!previousActions.empty() && previousActions.back().executionFrame >= nextExecutionFrame)
+				previousActions.pop_back();
+
+			//apply future actions
+			for (FrameActions& frameActions : previousActions)
 			{
-				while (actionIter->executionFrame > state.frame())
+				while (frameActions.executionFrame > state.frame())
 					state.advanceFrame();
 
-				do
+				for (auto& action : frameActions.actions)
 				{
-					for (const shared_ptr<Effect>& action : actionIter->actions)
-					{
-						if (action->isValid(state))
-							action->applyTo(state);
-					}
-					++actionIter;
-				} while (actionIter != previousActions.end() && actionIter->executionFrame == state.frame());
+					if (action->isValid(state))
+						action->applyTo(state);
+				}
 			}
+
+			while (state.frame() < nextExecutionFrame)
+				state.advanceFrame();
 
 
 			for (auto& unit : state.playerUnits)
@@ -84,6 +96,7 @@ namespace Bot { namespace Squads
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   isMoving: %d", unit->bwapiUnit->isMoving());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 90), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
 			}
+
 
 			try
 			{

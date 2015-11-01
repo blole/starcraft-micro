@@ -20,8 +20,8 @@ namespace Bot { namespace Effects
 		virtual void applyTo(GameState& state) const override
 		{
 			Unit& unit = state.get(bwapiUnit());
-			unit.isAttackFrame = true;
-			unit.groundWeaponCooldown = true;
+			unit.moveCooldown = 6;
+			unit.groundWeaponCooldown = 16;
 			queueNext(state, data);
 		}
 		
@@ -57,23 +57,23 @@ namespace Bot { namespace Effects
 	};
 	
 	
-	template <bool value, class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
-	class SetAttackFrame : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
+	template <int value, class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
+	class SetMoveCooldown : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
-		SetAttackFrame(const Data& data)
+		SetMoveCooldown(const Data& data)
 			: OneUnitEffect(data)
 		{}
 
 		virtual void applyTo(GameState& state) const override
 		{
-			state.get(bwapiUnit()).isAttackFrame = value;
+			state.get(bwapiUnit()).moveCooldown = value;
 			queueNext(state, data);
 		}
 	};
 	
 	
-	template <bool value, class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
+	template <int value, class Data = OneUnitEffectData, int offset = 0, class NextEffect = void>
 	class SetGroundWeaponCooldown : public OneUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:

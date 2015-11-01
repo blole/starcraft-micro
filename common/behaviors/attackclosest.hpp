@@ -34,11 +34,11 @@ namespace Bot { namespace Behaviors
 					return make_shared<Effects::BeginAttack<>>(Effects::TwoUnitEffectData(unit, target));
 				}
 			case 1:
-				if (!unit.isAttackFrame)
+				if (!unit.moveCooldown)
 					return running;
 				fsm++;
 			case 2:
-				if (unit.isAttackFrame)
+				if (unit.moveCooldown)
 					return running;
 				fsm++;
 			case 3:

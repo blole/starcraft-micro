@@ -50,6 +50,7 @@
     <ClInclude Include="main.hpp" />
     <ClInclude Include="units\marine.hpp" />
     <ClInclude Include="units\unit.hpp" />
+    <ClInclude Include="units\unit_crtp.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />

@@ -36,11 +36,6 @@ GameState::GameState(GameStateUnitContainer uc, unsigned int frame_)
 GameState::GameState(const vector<const Unit*>& playerUnits, const vector<const Unit*>& enemyUnits, unsigned int frame_)
 	: GameState(GameStateUnitContainer(playerUnits, enemyUnits), frame_)
 {
-	for (auto& unit : units)
-	{
-		for (auto& e : unit->activeEffects)
-			queueEffect(e.frame - frame_, e.effect);
-	}
 }
 GameState::GameState(const GameState& o)
 	: GameState(GameStateUnitContainer(
@@ -63,6 +58,9 @@ void GameState::advanceFrame()
 		for (auto& effect : effects)
 			effect->applyTo(*this);
 	}
+
+	for (auto& unit : units)
+		unit->simulateOneFrameForward(*this);
 }
 
 void GameState::queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect)

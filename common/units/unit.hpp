@@ -7,16 +7,6 @@ namespace Bot
 	class Effect;
 	class GameState;
 
-	struct FramedEffect
-	{
-		const unsigned int frame;
-		shared_ptr<Effect> effect;
-		FramedEffect(int offset, const shared_ptr<Effect>& effect)
-			: frame(Broodwar->getFrameCount()+offset)
-			, effect(effect)
-		{}
-	};
-
 	class Unit
 	{
 	private:
@@ -30,9 +20,8 @@ namespace Bot
 		Squad* squad;
 		BWAPI::Position pos;
 		bool isMoving;
-		bool isAttackFrame;
-		bool groundWeaponCooldown;
-		list<FramedEffect> activeEffects;
+		int moveCooldown;
+		int groundWeaponCooldown;
 
 	protected:
 		Unit(BWAPI::Unit bwapiUnit)
@@ -54,9 +43,11 @@ namespace Bot
 			hp_ = std::max(hp_ - damage, 0);
 		}
 
-		const BWAPI::UnitType& unitType() { return bwapiUnit->getType(); }
+		virtual shared_ptr<Effect> getActualOrders() = 0;
+		virtual const BWAPI::UnitType& unitType() = 0;
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual Unit* clone() const = 0;
+		void simulateOneFrameForward(GameState& state);
 
 	public:
 		static Unit& get(const BWAPI::Unit bwapiUnit)
@@ -72,19 +63,5 @@ namespace Bot
 		}
 	private:
 		static Unit* create(BWAPI::Unit bwapiUnit);
-	};
-
-	template <typename Derived, const BWAPI::UnitType& UnitType>
-	class Unit_CRTP : public Unit
-	{
-	public:
-		Unit_CRTP(BWAPI::Unit bwapiUnit)
-			: Unit(bwapiUnit)
-		{}
-
-		virtual Unit* clone() const final override
-		{
-			return new Derived(static_cast<const Derived&>(*this));
-		}
 	};
 }
