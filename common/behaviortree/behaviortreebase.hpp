@@ -6,9 +6,9 @@
 
 namespace Bot { namespace Behaviors
 {
-	const shared_ptr<Effect> success = make_shared<NoEffect>();
-	const shared_ptr<Effect> running = make_shared<NoEffect>();
-	const shared_ptr<Effect> failure = make_shared<NoEffect>();
+	const shared_ptr<Effect> success = make_shared<Effects::NoEffect>();
+	const shared_ptr<Effect> running = make_shared<Effects::NoEffect>();
+	const shared_ptr<Effect> failure = make_shared<Effects::NoEffect>();
 
 	/// Enumerates the options for when a parallel node is considered to have failed.
 	/**

@@ -23,7 +23,7 @@ namespace Bot { namespace ActionListers
 				}
 			}
 			
-			return { make_shared<AdvanceFrameEffect>() };
+			return { make_shared<Effects::AdvanceFrameEffect>() };
 		}
 	};
 }}

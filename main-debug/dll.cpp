@@ -4,8 +4,6 @@
 #include "common/squads/playing.hpp"
 #include "common/dll.hpp"
 
-const shared_ptr<Bot::Effect> success = make_shared<Bot::NoEffect>();
-
 extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;

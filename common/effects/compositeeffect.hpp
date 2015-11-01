@@ -2,10 +2,8 @@
 #include "common/common.hpp"
 #include "common/effects/effect.hpp"
 
-namespace Bot
+namespace Bot { namespace Effects
 {
-	class GameState;
-
 	class CompositeEffect : public Effect
 	{
 	protected:
@@ -30,4 +28,4 @@ namespace Bot
 				action->executeOrder(state);
 		}
 	};
-}
+}}

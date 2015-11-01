@@ -60,7 +60,7 @@ namespace Bot
 				using namespace std::chrono;
 				auto timeout = steady_clock::now() + std::chrono::milliseconds(40);
 
-				unique_ptr<NT> root = std::make_unique<NT>(nullptr, std::make_shared<NoEffectPlayer<true>>());
+				unique_ptr<NT> root = std::make_unique<NT>(nullptr, std::make_shared<Effects::NoEffectPlayer<true>>());
 
 				int expansions = 0;
 				for (; expansions % 10 != 0 || steady_clock::now() < timeout; expansions++)
