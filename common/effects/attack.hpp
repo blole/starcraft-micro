@@ -6,25 +6,28 @@
 namespace Bot { namespace Effects
 {
 	template<class Data = TwoUnitEffectData, int offset = 0, class NextEffect = void>
-	class BeginAttack : public TwoUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
+	class OrderAttack : public TwoUnitEffect<Data>, public EffectChain<Data, offset, NextEffect>
 	{
 	public:
-		BeginAttack(Data data)
+		explicit OrderAttack(Data data)
 			: TwoUnitEffect<Data>(data)
 		{}
 
-		BeginAttack(const Unit& unit, const Unit& target)
-			: BeginAttack(Data(unit, target))
+		OrderAttack(const Unit& unit, const Unit& target)
+			: OrderAttack(Data(unit, target))
 		{}
 
 		virtual void applyTo(GameState& state) const override
 		{
 			Unit& unit = state.get(bwapiUnit());
 			unit.moveCooldown = 6;
-			unit.groundWeaponCooldown = 16;
+			unit.groundWeaponCooldown = bwapiUnit()->getType().groundWeapon().damageCooldown();
 			queueNext(state, data);
 		}
 		
+		virtual void applyLive(GameState& state) const override
+		{}
+
 		virtual void executeOrder(GameState& state) const override
 		{
 			Broodwar << Broodwar->getFrameCount() << ": attack order";

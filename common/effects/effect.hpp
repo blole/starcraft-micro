@@ -10,6 +10,7 @@ namespace Bot
 	public:
 		virtual ~Effect() {}
 		virtual void applyTo(GameState& state) const = 0;
+		virtual void applyLive(GameState& state) const { applyTo(state); }
 		virtual void executeOrder(GameState& state) const {}
 		virtual bool isPlayerEffect(const GameState& state) const { return false; }
 		virtual bool isValid(const GameState& state) const { return true; }

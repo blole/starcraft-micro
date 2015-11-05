@@ -31,7 +31,7 @@ namespace Bot { namespace Behaviors
 						return (unit.pos - enemy->pos).getLength();
 					}));
 					fsm++;
-					return make_shared<Effects::BeginAttack<>>(Effects::TwoUnitEffectData(unit, target));
+					return make_shared<Effects::OrderAttack<>>(Effects::TwoUnitEffectData(unit, target));
 				}
 			case 1:
 				if (!unit.moveCooldown)

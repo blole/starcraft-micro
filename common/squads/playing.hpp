@@ -12,16 +12,7 @@ namespace Bot { namespace Squads
 	template <class PlayerType>
 	struct Playing : Squad
 	{
-		struct FrameActions
-		{
-			const unsigned int executionFrame;
-			const vector<shared_ptr<Effect>> actions;
-			FrameActions(unsigned int executionFrame, vector<shared_ptr<Effect>> actions)
-				: executionFrame(executionFrame)
-				, actions(actions)
-			{}
-		};
-		deque<FrameActions> previousActions;
+		deque<vector<shared_ptr<Effect>>> pendingEffects;
 		static const int radius = 400;
 		PlayerType play;
 		
@@ -33,6 +24,8 @@ namespace Bot { namespace Squads
 		{
 			Squad::onFrame();
 			
+			//TODO: return if the next execution frame is further away than necessary
+
 			vector<const Unit*> playerUnits;
 			vector<const Unit*> enemyUnits;
 			
@@ -49,8 +42,22 @@ namespace Bot { namespace Squads
 			
 			GameState state(playerUnits, enemyUnits, Broodwar->getFrameCount());
 			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + Broodwar->getRemainingLatencyFrames();
+			const unsigned int nextExecutionFrameOffset = nextExecutionFrame - state.frame();
 
-			//apply current actions
+			//remove all effects that have become invalid
+			for (auto& frameEffects : pendingEffects)
+				std::remove_if(frameEffects.begin(), frameEffects.end(), [&state](shared_ptr<Effect> e) {return !e->isValid(state);});
+
+			//apply predicted pending effects via applyLive()
+			if (!pendingEffects.empty())
+			{
+				for (auto& effect : pendingEffects.front())
+					effect->applyLive(state);
+				pendingEffects.pop_front();
+			}
+			state.pendingEffects = pendingEffects;
+
+			//and apply actual effects via applyTo()
 			for (auto& unit : units())
 			{
 				auto order = unit->getActualOrders();
@@ -58,30 +65,29 @@ namespace Bot { namespace Squads
 					order->applyTo(state);
 			}
 
-			//forget all non future actions
-			while (!previousActions.empty() && previousActions.front().executionFrame <= Broodwar->getFrameCount())
-				previousActions.pop_front();
+			pendingEffects = state.pendingEffects;
 
-			//forget too far future actions TODO: don't schedule them to begin with
-			//this is relevant only on connections where Broodwar->getRemainingLatencyFrames() varies
-			while (!previousActions.empty() && previousActions.back().executionFrame >= nextExecutionFrame)
-				previousActions.pop_back();
+			for (unsigned int i = 0; i < nextExecutionFrameOffset; i++)
+				state.advanceFrame();
 
-			//apply future actions
-			for (FrameActions& frameActions : previousActions)
+			try
 			{
-				while (frameActions.executionFrame > state.frame())
-					state.advanceFrame();
+				auto actions = play(state);
 
-				for (auto& action : frameActions.actions)
+				if (pendingEffects.size() < nextExecutionFrameOffset)
+					pendingEffects.resize(nextExecutionFrameOffset);
+				
+				for (shared_ptr<Effect>& action : actions)
 				{
-					if (action->isValid(state))
-						action->applyTo(state);
+					if (action->isPlayerEffect(state))
+						action->executeOrder(state);
+					pendingEffects[nextExecutionFrameOffset-1].push_back(action);
 				}
 			}
+			catch (const std::runtime_error&)	{ throw; }
+			catch (const std::exception&)		{ throw; }
+			catch (...)							{ throw; }
 
-			while (state.frame() < nextExecutionFrame)
-				state.advanceFrame();
 
 
 			for (auto& unit : state.playerUnits)
@@ -96,21 +102,6 @@ namespace Bot { namespace Squads
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   isMoving: %d", unit->bwapiUnit->isMoving());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 90), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
 			}
-
-
-			try
-			{
-				auto actions = play(state);
-				for (shared_ptr<Effect>& action : actions)
-				{
-					if (action->isPlayerEffect(state))
-						action->executeOrder(state);
-				}
-				previousActions.emplace_back(nextExecutionFrame, actions);
-			}
-			catch (const std::runtime_error&)	{ throw; }
-			catch (const std::exception&)		{ throw; }
-			catch (...)							{ throw; }
 		}
 	};
 }}

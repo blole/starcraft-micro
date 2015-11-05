@@ -11,6 +11,7 @@ namespace Bot
 	public:
 		virtual ~Squad() {}
 
+		//remove nonexisting units
 		virtual void onFrame() = 0
 		{
 			for (auto i = units_.begin(); i != units_.end();)

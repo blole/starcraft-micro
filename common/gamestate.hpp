@@ -25,6 +25,7 @@ namespace Bot
 		};
 	private:
 		unsigned int frame_;
+	public:
 		deque<vector<shared_ptr<Effect>>> pendingEffects;
 
 	private:
