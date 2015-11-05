@@ -2,20 +2,47 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <DebugArg Condition="'$(Configuration)'=='Debug'">--debug</DebugArg>
-    <DebugArg Condition="'$(Configuration)'!='Debug'"></DebugArg>
-    <Injectory>C:\Dropbox\kth\ex\injectory\build\x86\Release\bin\injectory.exe</Injectory>
-    <BwapiPy>C:\Dropbox\kth\ex\bwapi.py\bwapi.py</BwapiPy>
-  </PropertyGroup>
-  <PropertyGroup>
-    <LocalDebuggerCommand>C:\Program Files\python27\pythonw.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>$(BwapiPy) $(DebugArg) --ai $(OutDir)$(TargetName)$(TargetExt) --injectory $(Injectory) - --vs-debug-workaround --kill-on-exit --wait-for-exit --rethrow</LocalDebuggerCommandArguments>
-    <!-- using $(OutDir)$(TargetName)$(TargetExt) as a workaround because $(TargetPath) doesn't evaluate to anything in a property sheet -->
+    <DebugSuffix Condition="'$(Configuration)'=='Debug'">d</DebugSuffix>
+    <DebugSuffix Condition="'$(Configuration)'!='Debug'"></DebugSuffix>
+    
+    <BwapiDll>bwapi-data/BWAPI$(DebugSuffix).dll</BwapiDll>
+    <BwapiIni>bwapi-data/bwapi.ini</BwapiIni>
+    <BwapiAi>$(OutDir)$(TargetName)$(TargetExt)</BwapiAi>
+    <BwapiTournament />
+    <BwapiCharacterName>$(TargetName)</BwapiCharacterName>
+    
+    <LocalDebuggerCommand>C:\Dropbox\kth\ex\injectory\build\x86\Release\bin\injectory.x86.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommandArguments>--launch starcraft.exe --inject $(BwapiDll) --vs-debug-workaround --wait-for-exit --rethrow</LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>C:\tm\starcraft</LocalDebuggerWorkingDirectory>
+    
+    <LocalDebuggerEnvironment>bwapi_config_ini=$(BwapiIni)
+BWAPI_CONFIG_AI__AI=$(BwapiAi)
+BWAPI_CONFIG_AI__AI_DBG=$(BwapiAi)
+BWAPI_CONFIG_AI__TOURNAMENT=$(BwapiTournament)
+BWAPI_CONFIG_AUTO_MENU__CHARACTER_NAME=$(BwapiCharacterName)</LocalDebuggerEnvironment>
+    
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerDebuggerType>NativeOnly</LocalDebuggerDebuggerType>
+    <LocalDebuggerMergeEnvironment>true</LocalDebuggerMergeEnvironment>
+    <LocalDebuggerAttach>false</LocalDebuggerAttach>
   </PropertyGroup>
+  <!-- using $(OutDir)$(TargetName)$(TargetExt) as a workaround because $(TargetPath) doesn't evaluate to anything in a property sheet -->
   <ItemGroup>
+    <BuildMacro Include="BwapiDll">
+      <Value>$(BwapiDll)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BwapiIni">
+      <Value>$(BwapiIni)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BwapiAi">
+      <Value>$(BwapiAi)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BwapiTournament">
+      <Value>$(BwapiTournament)</Value>
+    </BuildMacro>
+    <BuildMacro Include="BwapiCharacterName">
+      <Value>$(BwapiCharacterName)</Value>
+    </BuildMacro>
     <BuildMacro Include="LocalDebuggerCommand">
       <Value>$(LocalDebuggerCommand)</Value>
     </BuildMacro>
@@ -25,17 +52,20 @@
     <BuildMacro Include="LocalDebuggerWorkingDirectory">
       <Value>$(LocalDebuggerWorkingDirectory)</Value>
     </BuildMacro>
+    <BuildMacro Include="LocalDebuggerEnvironment">
+      <Value>$(LocalDebuggerEnvironment)</Value>
+    </BuildMacro>
     <BuildMacro Include="DebuggerFlavor">
       <Value>$(DebuggerFlavor)</Value>
     </BuildMacro>
     <BuildMacro Include="LocalDebuggerDebuggerType">
       <Value>$(LocalDebuggerDebuggerType)</Value>
     </BuildMacro>
-    <BuildMacro Include="Injectory">
-      <Value>$(Injectory)</Value>
+    <BuildMacro Include="LocalDebuggerMergeEnvironment">
+      <Value>$(LocalDebuggerMergeEnvironment)</Value>
     </BuildMacro>
-    <BuildMacro Include="BwapiPy">
-      <Value>$(BwapiPy)</Value>
+    <BuildMacro Include="LocalDebuggerAttach">
+      <Value>$(LocalDebuggerAttach)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>
