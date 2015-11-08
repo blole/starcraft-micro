@@ -70,19 +70,24 @@ namespace Bot
 
 					while (!node->terminal)
 					{
-						//expansion
-						if (node->children.empty())
+						//expansion/termination
+						if (!node->expanded())
 						{
-							if (!isTerminal(state))
-							{
-								for (shared_ptr<Effect>& effect : actions(state))
-									node->children.emplace_back(node, effect);
-							}
-
-							if (node->children.empty())
+							if (isTerminal(state)) //termination
 							{
 								node->terminal = true;
 								break;
+							}
+							else //expansion
+							{
+								auto allActions = actions(state);
+								if (!allActions.empty())
+								{
+									for (shared_ptr<Effect>& effect : allActions)
+										node->children.emplace_back(node, effect);
+								}
+								else
+									node->children.emplace_back(node, make_shared<Effects::AdvanceFrameEffect>());
 							}
 						}
 
@@ -108,14 +113,18 @@ namespace Bot
 				NT* node = root.get();
 				GameState state(rootState);
 
-				while (state.frame() == rootState.frame() && !node->children.empty())
+				//root->effect is just a NoEffect, so don't push it to bestActions
+
+				while (node->expanded())
 				{
-					//TODO: select best, not regular selection
+					//TODO: select best, not regular selection?
 					node = &select(state, *node);
 					state.queueEffect(0, node->effect);
 
-					if (node->effect->isPlayerEffect(state))
-						bestActions.push_back(node->effect);
+					if (state.frame() != rootState.frame()) //AdvanceFrameEffect
+						break;
+
+					bestActions.push_back(node->effect);
 				}
 
 				Broodwar->drawTextScreen(200, 70, "taken actions:  %d", bestActions.size());

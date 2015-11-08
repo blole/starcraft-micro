@@ -8,6 +8,12 @@ void Unit::onFrame()
 	hp_ = bwapiUnit->getHitPoints();
 	pos = bwapiUnit->getPosition();
 	isMoving = bwapiUnit->isMoving();
+	groundWeaponCooldown = bwapiUnit->getGroundWeaponCooldown();
+
+	if (bwapiUnit->isStartingAttack())
+		moveCooldown = 6;
+	else if (moveCooldown > 0)
+		moveCooldown--;
 }
 
 void Unit::simulateOneFrameForward(GameState& state)

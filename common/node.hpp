@@ -19,6 +19,11 @@ namespace Bot
 			, terminal(false)
 		{}
 
+		bool expanded() const
+		{
+			return !children.empty();
+		}
+
 		virtual ~Node() {}
 	};
 }

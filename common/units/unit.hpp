@@ -29,7 +29,12 @@ namespace Bot
 			, bwapiUnit(bwapiUnit)
 			, isPlayer(bwapiUnit->getPlayer() == Broodwar->self())
 			, squad(nullptr)
-			, hp_(-1000)
+			, moveCooldown(0)
+			// these are initialized in onFrame()
+			, hp_(-1)
+			, pos(-1, -1)
+			, isMoving(false)
+			, groundWeaponCooldown(-1)
 		{}
 	public:
 		virtual void onFrame();

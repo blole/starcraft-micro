@@ -41,14 +41,17 @@ namespace Bot { namespace Squads
 			}
 			
 			GameState state(playerUnits, enemyUnits, Broodwar->getFrameCount());
-			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + Broodwar->getRemainingLatencyFrames();
-			const unsigned int nextExecutionFrameOffset = nextExecutionFrame - state.frame();
+			const unsigned int nextExecutionFrameOffset = Broodwar->getRemainingLatencyFrames();
+			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + nextExecutionFrameOffset;
 
 			//remove all effects that have become invalid
 			for (auto& frameEffects : pendingEffects)
-				std::remove_if(frameEffects.begin(), frameEffects.end(), [&state](shared_ptr<Effect> e) {return !e->isValid(state);});
+			{
+				frameEffects.erase(std::remove_if(frameEffects.begin(), frameEffects.end(),
+					[&state](shared_ptr<Effect>& e) {return !e->isValid(state);}), frameEffects.end());
+			}
 
-			//apply predicted pending effects via applyLive()
+			//apply predicted effects via applyLive()
 			if (!pendingEffects.empty())
 			{
 				for (auto& effect : pendingEffects.front())
@@ -70,13 +73,13 @@ namespace Bot { namespace Squads
 			for (unsigned int i = 0; i < nextExecutionFrameOffset; i++)
 				state.advanceFrame();
 
+			if (pendingEffects.size() < nextExecutionFrameOffset)
+				pendingEffects.resize(nextExecutionFrameOffset);
+
 			try
 			{
 				auto actions = play(state);
 
-				if (pendingEffects.size() < nextExecutionFrameOffset)
-					pendingEffects.resize(nextExecutionFrameOffset);
-				
 				for (shared_ptr<Effect>& action : actions)
 				{
 					if (action->isPlayerEffect(state))

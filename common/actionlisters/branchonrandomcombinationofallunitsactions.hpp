@@ -25,7 +25,7 @@ namespace Bot { namespace ActionListers
 			}
 
 			if (matrixOfActions.empty())
-				return { make_shared<AdvanceFrameEffect>() };
+				return {};
 			else
 			{
 				vector<shared_ptr<Effect>> compositeActions;
@@ -35,7 +35,7 @@ namespace Bot { namespace ActionListers
 					vector<shared_ptr<Effect>> actions;
 					for (auto& unit_possibleActions : matrixOfActions)
 						actions.push_back(unit_possibleActions[rand() % unit_possibleActions.size()]);
-					compositeActions.push_back(make_shared<CompositeEffect>(actions));
+					compositeActions.push_back(make_shared<Effects::CompositeEffect>(actions));
 				}
 
 				return compositeActions;
