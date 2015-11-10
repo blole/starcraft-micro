@@ -48,23 +48,29 @@ namespace Bot
 			hp_ = std::max(hp_ - damage, 0);
 		}
 
-		virtual shared_ptr<Effect> getActualOrders() = 0;
+		virtual vector<shared_ptr<Effect>> getNewEffects() = 0;
 		virtual const BWAPI::UnitType& unitType() = 0;
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual Unit* clone() const = 0;
 		void simulateOneFrameForward(GameState& state);
 
+
+		int groundWeaponDamage() const					{ return bwapiUnit->getType().groundWeapon().damageAmount(); }
+		int groundWeaponCooldownDefault() const			{ return bwapiUnit->getType().groundWeapon().damageCooldown(); }
+		virtual int groundWeaponDamageOffset() const	{ return 1; }
+		virtual int groundWeaponMoveCooldownDefault() const = 0;
+
 	public:
 		static Unit& get(const BWAPI::Unit bwapiUnit)
 		{
 			static const int key = 87073;
-			void* ptr = bwapiUnit->getClientInfo(key);
-			if (!ptr)
+			Unit* unit = static_cast<Unit*>(bwapiUnit->getClientInfo(key));
+			if (!unit)
 			{
-				ptr = Unit::create(bwapiUnit);
-				bwapiUnit->setClientInfo(ptr, key);
+				unit = Unit::create(bwapiUnit);
+				bwapiUnit->setClientInfo(unit, key);
 			}
-			return *static_cast<Unit*>(ptr);
+			return *unit;
 		}
 	private:
 		static Unit* create(BWAPI::Unit bwapiUnit);

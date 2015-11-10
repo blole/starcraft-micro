@@ -11,7 +11,7 @@ void Unit::onFrame()
 	groundWeaponCooldown = bwapiUnit->getGroundWeaponCooldown();
 
 	if (bwapiUnit->isStartingAttack())
-		moveCooldown = 6;
+		moveCooldown = groundWeaponMoveCooldownDefault();
 	else if (moveCooldown > 0)
 		moveCooldown--;
 }

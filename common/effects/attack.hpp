@@ -20,22 +20,28 @@ namespace Bot { namespace Effects
 		virtual void applyTo(GameState& state) const override
 		{
 			Unit& unit = state.get(bwapiUnit());
-			unit.moveCooldown = 6;
-			unit.groundWeaponCooldown = bwapiUnit()->getType().groundWeapon().damageCooldown();
+			unit.moveCooldown = unit.groundWeaponMoveCooldownDefault();
+			unit.groundWeaponCooldown = unit.groundWeaponCooldownDefault();
 			queueNext(state, data);
 		}
 		
-		virtual void applyLive(GameState& state) const override
-		{}
+		virtual void applyPredicted(GameState& state) const override {}
+		virtual void applyObserved(GameState& state) const override
+		{
+			queueNext(state, data);
+		}
 
 		virtual void executeOrder(GameState& state) const override
 		{
 			Broodwar << Broodwar->getFrameCount() << ": attack order";
-			if (bwapiUnit()->getOrderTarget() != bwapiTarget()) //TODO: this line shouldn't be needed
+			if (!(bwapiUnit()->getOrder() == BWAPI::Orders::AttackUnit && 
+				  bwapiUnit()->getOrderTarget() == bwapiTarget())) //TODO: this line might not be needed
 			{
+				//bwapiUnit()->stop(); //this may be an improvement
 				bwapiUnit()->attack(bwapiTarget());
 				Broodwar << " issued";
 			}
+			Broodwar << " cd:" << bwapiUnit()->getGroundWeaponCooldown();
 			Broodwar << endl;
 			
 			Broodwar->drawLineMap(bwapiUnit()->getPosition(), bwapiTarget()->getPosition(),

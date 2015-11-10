@@ -42,7 +42,7 @@ namespace Bot
 			TerminalCheckerType isTerminal;
 
 		public:
-			MCTS(
+			explicit MCTS(
 				const ActionListerType&			actionlister	= ActionListerType(),
 				const SelecterType<NT>&			selecter		= SelecterType<NT>(),
 				const StateEvaluaterType&		evaluater		= StateEvaluaterType(),

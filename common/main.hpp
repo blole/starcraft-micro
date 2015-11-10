@@ -39,7 +39,7 @@ namespace Bot
 				Broodwar->drawTextScreen(200, 0, "FPS: %d (%.2f avg)", Broodwar->getFPS(), Broodwar->getAverageFPS());
 				Broodwar->drawTextScreen(200, 15, "latency frames: %d (%d max)", Broodwar->getRemainingLatencyFrames(), Broodwar->getLatencyFrames());
 				Broodwar->drawTextScreen(200, 30, "I'm player: %d", Broodwar->self()->getID());
-				//Broodwar->drawTextScreen(100, 0, "Bot behavior is: %s", MainDescription);
+				Broodwar->drawTextScreen(350, 0, "frame %d", Broodwar->getFrameCount());
 
 				for (auto unit : Broodwar->self()->getUnits())
 				{

@@ -9,10 +9,16 @@ namespace Bot { namespace Units
 {
 	struct Terran_Marine : Unit_CRTP<Terran_Marine, BWAPI::UnitTypes::Terran_Marine>
 	{
-		using Attack = Effects::OrderAttack<Effects::TwoUnitEffectData,
-				1, Effects::ApplyDamage<8>>;
+		const static int GroundWeaponDamage = 8;
+		const static int GroundWeaponDamageOffset = 1;
+		const static int GroundWeaponMoveCooldownDefault = 8;
+		virtual int groundWeaponDamageOffset() const override			{ return GroundWeaponDamageOffset; }
+		virtual int groundWeaponMoveCooldownDefault() const override	{ return GroundWeaponMoveCooldownDefault; }
 
-		Terran_Marine(BWAPI::Unit bwapiUnit)
+		using Attack = Effects::OrderAttack<Effects::TwoUnitEffectData,
+				GroundWeaponDamageOffset, Effects::ApplyDamage<GroundWeaponDamage>>;
+
+		explicit Terran_Marine(BWAPI::Unit bwapiUnit)
 			: Unit_CRTP<Terran_Marine, BWAPI::UnitTypes::Terran_Marine>(bwapiUnit)
 		{}
 

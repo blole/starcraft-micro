@@ -41,7 +41,7 @@ namespace Bot { namespace Squads
 			}
 			
 			GameState state(playerUnits, enemyUnits, Broodwar->getFrameCount());
-			const unsigned int nextExecutionFrameOffset = Broodwar->getRemainingLatencyFrames();
+			const unsigned int nextExecutionFrameOffset = Broodwar->getRemainingLatencyFrames()+1;
 			const unsigned int nextExecutionFrame = Broodwar->getFrameCount() + nextExecutionFrameOffset;
 
 			//remove all effects that have become invalid
@@ -51,39 +51,43 @@ namespace Bot { namespace Squads
 					[&state](shared_ptr<Effect>& e) {return !e->isValid(state);}), frameEffects.end());
 			}
 
-			//apply predicted effects via applyLive()
+			//apply predicted effects via applyPredicted()
 			if (!pendingEffects.empty())
 			{
 				for (auto& effect : pendingEffects.front())
-					effect->applyLive(state);
+					effect->applyPredicted(state);
 				pendingEffects.pop_front();
 			}
 			state.pendingEffects = pendingEffects;
 
-			//and apply actual effects via applyTo()
+			//and apply actual effects via applyObserved()
 			for (auto& unit : units())
 			{
-				auto order = unit->getActualOrders();
-				if (order->isValid(state))
-					order->applyTo(state);
+				for (auto effect : unit->getNewEffects())
+				{
+					if (effect->isValid(state))
+						effect->applyObserved(state);
+				}
 			}
 
 			pendingEffects = state.pendingEffects;
 
+			GameState projectedState(state);
+
 			for (unsigned int i = 0; i < nextExecutionFrameOffset; i++)
-				state.advanceFrame();
+				projectedState.advanceFrame();
 
 			if (pendingEffects.size() < nextExecutionFrameOffset)
 				pendingEffects.resize(nextExecutionFrameOffset);
 
 			try
 			{
-				auto actions = play(state);
+				auto actions = play(projectedState);
 
 				for (shared_ptr<Effect>& action : actions)
 				{
-					if (action->isPlayerEffect(state))
-						action->executeOrder(state);
+					if (action->isPlayerEffect(projectedState))
+						action->executeOrder(projectedState);
 					pendingEffects[nextExecutionFrameOffset-1].push_back(action);
 				}
 			}
@@ -93,7 +97,7 @@ namespace Bot { namespace Squads
 
 
 
-			for (auto& unit : state.playerUnits)
+			for (auto& unit : state.units)
 			{
 				Broodwar->drawCircleMap(unit->pos, 20, BWAPI::Colors::Blue);
 				Broodwar->drawCircleMap(unit->bwapiUnit->getPosition(), 20, BWAPI::Colors::Green);
@@ -103,7 +107,17 @@ namespace Bot { namespace Squads
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 45), "     target: %d", unit->bwapiUnit->getOrderTarget());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 60), "   accelera: %d", unit->bwapiUnit->isAccelerating());
 				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 75), "   isMoving: %d", unit->bwapiUnit->isMoving());
-				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 90), "   cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0, 90), " w cooldown: %d", unit->bwapiUnit->getGroundWeaponCooldown());
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,105), " m cooldown: %d", unit->moveCooldown);
+				Broodwar->drawTextMap(unit->pos - BWAPI::Position(0,120), "         hp: %d", unit->bwapiUnit->getHitPoints());
+				if (unit->bwapiUnit->getGroundWeaponCooldown() != unit->groundWeaponCooldown)
+					Broodwar << Broodwar->getFrameCount() << " error: " << unit->bwapiUnit->getGroundWeaponCooldown() << " != " << unit->groundWeaponCooldown << " ";
+			}
+
+			for (auto& unit : state.playerUnits)
+			{
+				if (unit->bwapiUnit->isStartingAttack())
+					Broodwar << Broodwar->getFrameCount() << ": started attacking" << std::endl;
 			}
 		}
 	};

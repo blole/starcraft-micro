@@ -15,9 +15,6 @@ namespace Bot { namespace ActionListers
 				{
 					vector<shared_ptr<Effect>> actions = unit->possibleActions(state);
 
-					if (actions.size() > 2)
-						actions.erase(actions.begin()+2, actions.end());
-
 					if (!actions.empty())
 						return actions;
 				}

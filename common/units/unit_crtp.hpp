@@ -12,23 +12,12 @@ namespace Bot
 			: Unit(bwapiUnit)
 		{}
 
-		virtual void onFrame() override
+		virtual vector<shared_ptr<Effect>> Unit::getNewEffects() override
 		{
-			Unit::onFrame();
-
+			vector<shared_ptr<Effect>> orders;
 			if (bwapiUnit->isStartingAttack())
-			{
-				groundWeaponCooldown = bwapiUnit->getGroundWeaponCooldown();
-				moveCooldown = 6;
-			}
-		}
-
-		virtual shared_ptr<Effect> Unit::getActualOrders() override
-		{
-			if (bwapiUnit->isStartingAttack())
-				return make_shared<typename Derived::Attack>(*this, Unit::get(bwapiUnit->getOrderTarget()));
-
-			return make_shared<Effects::NoEffect>();
+				orders.push_back(make_shared<typename Derived::Attack>(*this, Unit::get(bwapiUnit->getOrderTarget())));
+			return orders;
 		}
 
 
