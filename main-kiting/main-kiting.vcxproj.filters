@@ -9,4 +9,7 @@
     <ClInclude Include="generalkiting.hpp" />
     <ClInclude Include="influencemap.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

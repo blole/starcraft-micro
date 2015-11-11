@@ -46,4 +46,7 @@
     <ClCompile Include="gamestate.cpp" />
     <ClCompile Include="units\unit.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
