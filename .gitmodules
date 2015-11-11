@@ -1,0 +1,3 @@
+[submodule "builddir.props"]
+	path = builddir.props
+	url = https://github.com/blole/builddir.props.git
