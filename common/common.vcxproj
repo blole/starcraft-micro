@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\builddir.1.1.0\build\native\builddir.props" Condition="Exists('..\packages\builddir.1.1.0\build\native\builddir.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -82,10 +81,12 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="..\packages\builddir.props.1.4.0\tools\builddir.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\bwapi.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="..\packages\builddir.props.1.4.0\tools\builddir.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\bwapi.props" />
   </ImportGroup>
@@ -137,14 +138,5 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\builddir.1.1.0\build\native\builddir.targets" Condition="Exists('..\packages\builddir.1.1.0\build\native\builddir.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\builddir.1.1.0\build\native\builddir.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\builddir.1.1.0\build\native\builddir.props'))" />
-    <Error Condition="!Exists('..\packages\builddir.1.1.0\build\native\builddir.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\builddir.1.1.0\build\native\builddir.targets'))" />
-  </Target>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
