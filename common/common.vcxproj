@@ -81,9 +81,11 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="..\packages\builddir.props.1.6.0\build\builddir.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="..\packages\builddir.props.1.6.0\build\builddir.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -136,13 +138,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\bwapi-vc120.4.1.2.2\build\native\bwapi-vc120.targets" Condition="Exists('..\packages\bwapi-vc120.4.1.2.2\build\native\bwapi-vc120.targets')" />
-    <Import Project="..\packages\builddir.2.0.0\build\builddir.targets" Condition="Exists('..\packages\builddir.2.0.0\build\builddir.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\bwapi-vc120.4.1.2.2\build\native\bwapi-vc120.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\bwapi-vc120.4.1.2.2\build\native\bwapi-vc120.targets'))" />
-    <Error Condition="!Exists('..\packages\builddir.2.0.0\build\builddir.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\builddir.2.0.0\build\builddir.targets'))" />
   </Target>
 </Project>
