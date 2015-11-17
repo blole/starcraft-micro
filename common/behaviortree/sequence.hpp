@@ -5,7 +5,8 @@ namespace Bot { namespace Behaviors
 {
 	// Executes its children in the order they were added.
 	// Returns the first non-success-status of it's children.
-	struct Sequence : BehaviorTreeInternalNode<Sequence>
+	template <typename ...T>
+	struct Sequence : BehaviorTreeInternalNode<Sequence<T...>>
 	{
 	protected:
 		unsigned int n;
@@ -13,7 +14,10 @@ namespace Bot { namespace Behaviors
 	public:
 		Sequence()
 			: n(0)
-		{}
+		{
+			[](...) {}((addChild(make_unique<T>()))...);
+			//auto list = {(addChild(make_unique<T>()))...};
+		}
 
 		virtual void init(GameState& state, Unit& unit) override
 		{

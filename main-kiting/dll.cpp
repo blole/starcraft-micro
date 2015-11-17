@@ -10,12 +10,15 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 {
 	using namespace Bot;
 
-	Behaviors::Sequence behavior;
-	behavior.addChild(make_unique<Behaviors::Flee>());
-	behavior.addChild(make_unique<Behaviors::AttackClosest>());
+	using BehaviorTreeType =
+		Behaviors::Sequence
+		<
+			Behaviors::Flee,
+			Behaviors::AttackClosest
+		>;
 
-	typedef Players::Scripted<Behaviors::Sequence> PlayerType;
-	typedef Squads::Playing<PlayerType> SquadType;
-	typedef Generals::Kiting<SquadType> GeneralType;
-	return new Main<GeneralType>(GeneralType(SquadType(PlayerType(behavior))));
+	using PlayerType  = Players::Scripted<BehaviorTreeType>;
+	using SquadType   = Squads::Playing<PlayerType>;
+	using GeneralType = Generals::Kiting<SquadType>;
+	return new Main<GeneralType>;
 }

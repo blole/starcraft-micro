@@ -73,7 +73,8 @@ namespace Bot { namespace Behaviors
 	};
 
 	// Always returns the given status
-	struct Always : BehaviorTreeNode_CRTP<Always>
+	template <typename Derived> //TODO: take what to return as input here instead.
+	struct Always : BehaviorTreeNode_CRTP<Derived>
 	{
 	protected:
 		const shared_ptr<Effect> status;
@@ -85,6 +86,13 @@ namespace Bot { namespace Behaviors
 		{
 			return status;
 		}
+	};
+
+	struct AlwaysSuccess : Always<AlwaysSuccess>
+	{
+		AlwaysSuccess()
+			: Always(success)
+		{}
 	};
 
 

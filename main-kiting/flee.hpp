@@ -1,6 +1,6 @@
 #pragma once
 #include "common/behaviortree/behaviortree.hpp"
-#include "common/effects/move.hpp"
+#include "influencemap.hpp"
 
 namespace Bot { namespace Behaviors
 {
@@ -52,7 +52,7 @@ namespace Bot { namespace Behaviors
 				}
 				Broodwar->drawLineMap(unit.pos, bestPos, BWAPI::Colors::Blue);
 				
-				return make_shared<Effects::Move<>>(unit, bestPos-unit.pos);
+				return unit.move(bestPos - unit.pos);
 			}
 		}
 	};
