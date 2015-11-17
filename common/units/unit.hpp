@@ -57,8 +57,12 @@ namespace Bot
 
 		int groundWeaponDamage() const					{ return bwapiUnit->getType().groundWeapon().damageAmount(); }
 		int groundWeaponCooldownDefault() const			{ return bwapiUnit->getType().groundWeapon().damageCooldown(); }
+		int groundWeaponMinRange() const				{ return bwapiUnit->getType().groundWeapon().minRange(); }
+		int groundWeaponMaxRange() const				{ return bwapiUnit->getType().groundWeapon().maxRange(); }
 		virtual int groundWeaponDamageOffset() const	{ return 1; }
 		virtual int groundWeaponMoveCooldownDefault() const = 0;
+		virtual shared_ptr<Effect> attack(const Unit& target) const = 0;
+		virtual shared_ptr<Effect> move(const BWAPI::Position& offset) const;
 
 	public:
 		static Unit& get(const BWAPI::Unit bwapiUnit)

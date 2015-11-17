@@ -14,6 +14,7 @@ namespace Bot { namespace Units
 		const static int GroundWeaponMoveCooldownDefault = 8;
 		virtual int groundWeaponDamageOffset() const override			{ return GroundWeaponDamageOffset; }
 		virtual int groundWeaponMoveCooldownDefault() const override	{ return GroundWeaponMoveCooldownDefault; }
+		virtual shared_ptr<Effect> attack(const Unit& target) const override	{ return make_shared<Attack>(*this, target); }
 
 		using Attack = Effects::OrderAttack<Effects::TwoUnitEffectData,
 				GroundWeaponDamageOffset, Effects::ApplyDamage<GroundWeaponDamage>>;
@@ -33,7 +34,7 @@ namespace Bot { namespace Units
 				for (auto& unit : state.teamunits(!isPlayer))
 				{
 					if (unit->isAlive() && pos.getDistance(unit->pos) <= range)
-						actions.push_back(make_shared<Attack>(*this, *unit));
+						actions.push_back(attack(*unit));
 				}
 			}
 

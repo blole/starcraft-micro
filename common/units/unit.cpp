@@ -24,6 +24,11 @@ void Unit::simulateOneFrameForward(GameState& state)
 		moveCooldown--;
 }
 
+shared_ptr<Effect> Unit::move(const BWAPI::Position& offset) const
+{
+	return make_shared<Effects::Move<>>(*this, offset);
+}
+
 
 Unit* Unit::create(BWAPI::Unit bwapiUnit)
 {
