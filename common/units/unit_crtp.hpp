@@ -12,11 +12,11 @@ namespace Bot
 			: Unit(bwapiUnit)
 		{}
 
-		virtual vector<shared_ptr<Effect>> Unit::getNewEffects() override
+		virtual vector<shared_ptr<Effect>> Unit::getNewEffects() const override
 		{
 			vector<shared_ptr<Effect>> orders;
 			if (bwapiUnit->isStartingAttack())
-				orders.push_back(make_shared<typename Derived::Attack>(*this, Unit::get(bwapiUnit->getOrderTarget())));
+				orders.push_back(attack(bwapiUnit->getOrderTarget()));
 			return orders;
 		}
 

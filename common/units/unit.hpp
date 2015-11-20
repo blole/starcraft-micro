@@ -48,7 +48,7 @@ namespace Bot
 			hp_ = std::max(hp_ - damage, 0);
 		}
 
-		virtual vector<shared_ptr<Effect>> getNewEffects() = 0;
+		virtual vector<shared_ptr<Effect>> getNewEffects() const = 0;
 		virtual const BWAPI::UnitType& unitType() = 0;
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const = 0;
 		virtual Unit* clone() const = 0;
@@ -63,6 +63,8 @@ namespace Bot
 		virtual int groundWeaponMoveCooldownDefault() const = 0;
 		virtual shared_ptr<Effect> attack(const Unit& target) const = 0;
 		virtual shared_ptr<Effect> move(const BWAPI::Position& offset) const;
+		shared_ptr<Effect> attack(const BWAPI::Unit& target) const				{ return attack(Unit::get(target)); }
+		shared_ptr<Effect> moveAbsolute(const BWAPI::Position& to) const		{ return move(to - pos); }
 
 	public:
 		static Unit& get(const BWAPI::Unit bwapiUnit)

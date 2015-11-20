@@ -12,7 +12,7 @@ namespace Bot { namespace Backpropagaters
 			NT* node = &node_;
 			do
 			{
-				++node->visits;
+				++(node->visits);
 				if (node->effect->isPlayerEffect(state))
 					node->totalReward += score;
 				else

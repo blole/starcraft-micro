@@ -17,7 +17,7 @@ extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
 		Selecters::UCB,
 		StateEvaluaters::Heuristics::SqrtHp_Dps,
 		Backpropagaters::UCT,
-		TerminalCheckers::FrameLimited<100>
+		TerminalCheckers::FrameLimited<500>
 	>;
 
 	return new PlayerMain<PlayerType>;

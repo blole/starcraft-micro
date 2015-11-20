@@ -25,15 +25,13 @@ namespace Bot { namespace Units
 
 		virtual vector<shared_ptr<Effect>> possibleActions(const GameState& state) const override
 		{
-			static const int range = BWAPI::UnitTypes::Terran_Marine.groundWeapon().maxRange();
-
 			vector<shared_ptr<Effect>> actions;
 
 			if (!groundWeaponCooldown)
 			{
 				for (auto& unit : state.teamunits(!isPlayer))
 				{
-					if (unit->isAlive() && pos.getDistance(unit->pos) <= range)
+					if (unit->isAlive() && pos.getDistance(unit->pos) <= groundWeaponMaxRange())
 						actions.push_back(attack(*unit));
 				}
 			}

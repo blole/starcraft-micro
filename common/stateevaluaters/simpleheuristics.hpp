@@ -9,7 +9,7 @@ namespace Bot { namespace StateEvaluaters { namespace Heuristics
 	{
 		virtual double unitValue(const Unit& unit) const = 0;
 
-		virtual double operator()(GameState& state) const override
+		virtual double operator()(GameState& state) const final override
 		{
 			double sum = 0;
 			for (auto& unit : state.playerUnits) sum += unitValue(*unit);

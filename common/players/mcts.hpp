@@ -10,6 +10,7 @@
 #include "common/effects/effect.hpp"
 #include "common/node.hpp"
 #include <chrono>
+#include <boost/format.hpp>
 
 namespace Bot
 {
@@ -17,7 +18,7 @@ namespace Bot
 	{
 		struct MCTS : Node<MCTS>
 		{
-			int visits;
+			unsigned int visits;
 			double totalReward;
 		
 			MCTS(MCTS* parent, shared_ptr<Effect> effect)
@@ -40,6 +41,8 @@ namespace Bot
 			StateEvaluaterType evaluate;
 			BackpropagaterType<NT> backpropagate;
 			TerminalCheckerType isTerminal;
+			unsigned int actioncount = 0;
+			unsigned int actioncountframeadvance = 0;
 
 		public:
 			explicit MCTS(
@@ -85,16 +88,29 @@ namespace Bot
 								{
 									for (shared_ptr<Effect>& effect : allActions)
 										node->children.emplace_back(node, effect);
+									actioncount+=allActions.size();
 								}
 								else
+								{
 									node->children.emplace_back(node, make_shared<Effects::AdvanceFrameEffect>());
+									actioncountframeadvance++;
+								}
 							}
+						}
+
+						//always select unvisited children first
+						if (node->visits < node->children.size())
+						{
+							node = &node->children[node->visits];
+							state.queueEffect(0, node->effect);
+							goto simulate;
 						}
 
 						//selection
 						node = &select(state, *node);
 						state.queueEffect(0, node->effect);
 					}
+					simulate:
 
 					//simulation
 					double score = evaluate(state);
@@ -106,8 +122,40 @@ namespace Bot
 				return root;
 			}
 
+			void printTree(NT& n, string prefix, int depth)
+			{
+				static auto f = boost::format("%-10s:%.2f/%d=%.2f, ucb:%.2f");
+				Broodwar << f % prefix.c_str() % n.totalReward % n.visits % (n.totalReward / n.visits) % (n.parent?Selecters::UCB<NT>::ucb(n):-1);
+
+				Broodwar << " children:" << n.children.size();
+
+				if (n.terminal)
+					Broodwar << " terminal";
+
+				Broodwar << endl;
+
+				if (depth > 0)
+				{
+					for (unsigned int i = 0; i < n.children.size(); i++)
+						printTree(n.children[i], prefix + " " + std::to_string(i), depth - 1);
+				}
+			}
+
+			void paintTree(NT& n, GameState state)
+			{
+				state.queueEffect(0, n.effect);
+				for (auto& u : state.units)
+				{
+					Broodwar->drawCircleMap(u->pos, 0, BWAPI::Colors::Yellow, true);
+				}
+				for (NT& child : n.children)
+					paintTree(child, GameState(state));
+			}
+
 			vector<shared_ptr<Effect>> operator()(GameState& rootState) override
 			{
+				actioncount = 0;
+				actioncountframeadvance = 0;
 				vector<shared_ptr<Effect>> bestActions;
 				unique_ptr<NT> root = buildTree(rootState);
 				NT* node = root.get();
@@ -127,9 +175,16 @@ namespace Bot
 					bestActions.push_back(node->effect);
 				}
 
+				Broodwar << Broodwar->getFrameCount() << endl;
+				printTree(*root, "", 2);
+				paintTree(*root, GameState(rootState));
+
 				Broodwar->drawTextScreen(200, 70, "taken actions:  %d", bestActions.size());
 				Broodwar->drawTextScreen(200, 85, "root.visits:    %d", root->visits);
 				Broodwar->drawTextScreen(200, 100, "root.avgReward: %.1f", root->totalReward / root->visits);
+
+				Broodwar->drawTextScreen(565, 300, "actions: %d", actioncount);
+				Broodwar->drawTextScreen(530, 315, "advanceframe: %d", actioncountframeadvance);
 				return bestActions;
 			}
 		};

@@ -12,7 +12,6 @@ namespace Bot { namespace Selecters
 			return *std::max_element(node.children.begin(), node.children.end(), function<double(const NT&)>(ucb));
 		}
 
-	private:
 		static double ucb(const NT& node)
 		{
 			return node.totalReward / node.visits + std::sqrt(std::log((double)node.parent->visits) / node.visits);

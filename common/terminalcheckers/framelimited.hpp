@@ -8,7 +8,7 @@ namespace Bot { namespace TerminalCheckers
 	{
 		virtual bool operator()(const GameState& state) const override
 		{
-			return state.frame() > max_frame || Standard::operator()(state);
+			return state.frameOffset() > max_frame || Standard::operator()(state);
 		}
 	};
 }}

@@ -62,6 +62,7 @@ namespace Bot
 
 	public:
 		unsigned int frame() const { return frame_; }
+		unsigned int frameOffset() const { return frame() - Broodwar->getFrameCount(); }
 
 		void advanceFrame();
 		void queueEffect(unsigned int frameOffset, shared_ptr<Effect> effect);
