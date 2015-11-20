@@ -59,6 +59,8 @@ namespace Bot { namespace Effects
 			}
 		}
 
+		virtual void applyPredicted(GameState& state) const override {}
+
 		virtual void executeOrder(GameState& state) const override
 		{
 			bwapiUnit()->move(bwapiUnit()->getPosition() + offset());

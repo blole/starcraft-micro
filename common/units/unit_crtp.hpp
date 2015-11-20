@@ -17,6 +17,8 @@ namespace Bot
 			vector<shared_ptr<Effect>> orders;
 			if (bwapiUnit->isStartingAttack())
 				orders.push_back(attack(bwapiUnit->getOrderTarget()));
+			if (bwapiUnit->getOrder() == BWAPI::Orders::Move)
+				orders.push_back(moveAbsolute(bwapiUnit->getOrderTargetPosition()));
 			return orders;
 		}
 
