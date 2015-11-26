@@ -44,6 +44,7 @@
     <ClInclude Include="squads\squad.hpp" />
     <ClInclude Include="stateevaluaters\simpleheuristics.hpp" />
     <ClInclude Include="stateevaluaters\stateevaluater.hpp" />
+    <ClInclude Include="stateevaluaters\simulaterscripted.hpp" />
     <ClInclude Include="terminalcheckers\framelimited.hpp" />
     <ClInclude Include="terminalcheckers\standard.hpp" />
     <ClInclude Include="terminalcheckers\terminalchecker.hpp" />

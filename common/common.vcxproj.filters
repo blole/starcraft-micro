@@ -41,6 +41,7 @@
     <ClInclude Include="generals\limitedsquadsize.hpp" />
     <ClInclude Include="squads\squad.hpp" />
     <ClInclude Include="units\unit_crtp.hpp" />
+    <ClInclude Include="stateevaluaters\simulaterscripted.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestate.cpp" />
