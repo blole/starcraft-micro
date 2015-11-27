@@ -6,19 +6,24 @@
 #include "common/players/scripted.hpp"
 #include "common/dll.hpp"
 
-extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
+struct : DllInitializer
 {
-	using namespace Bot;
+	virtual BWAPI::AIModule* newAIModule() override
+	{
+		using namespace Bot;
 
-	using BehaviorTreeType =
-		Behaviors::Sequence
-		<
+		using BehaviorTreeType =
+			Behaviors::Sequence
+			<
 			Behaviors::Flee,
 			Behaviors::AttackClosest
-		>;
+			>;
 
-	using PlayerType  = Players::Scripted<BehaviorTreeType>;
-	using SquadType   = Squads::Playing<PlayerType>;
-	using GeneralType = Generals::Kiting<SquadType>;
-	return new Main<GeneralType>;
-}
+		using PlayerType = Players::Scripted<BehaviorTreeType>;
+		using SquadType = Squads::Playing<PlayerType>;
+		using GeneralType = Generals::Kiting<SquadType>;
+		return new Main<GeneralType>;
+	}
+} initializer;
+
+DllInitializer& DllInitializer::instance = initializer;

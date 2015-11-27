@@ -2,9 +2,14 @@
 #include "common/behaviors/attackclosest.hpp"
 #include "common/dll.hpp"
 
-extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
+struct : DllInitializer
 {
-	using namespace Bot;
+	virtual BWAPI::AIModule* newAIModule() override
+	{
+		using namespace Bot;
 
-	return new ScriptedMain<Behaviors::AttackClosest>;
-}
+		return new ScriptedMain<Behaviors::AttackClosest>;
+	}
+} initializer;
+
+DllInitializer& DllInitializer::instance = initializer;

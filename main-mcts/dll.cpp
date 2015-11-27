@@ -7,18 +7,23 @@
 #include "common/backpropagaters/uct.hpp"
 #include "common/terminalcheckers/framelimited.hpp"
 
-extern "C" __declspec(dllexport) BWAPI::AIModule* newAIModule()
+struct : DllInitializer
 {
-	using namespace Bot;
+	virtual BWAPI::AIModule* newAIModule() override
+	{
+		using namespace Bot;
 
-	using PlayerType = Players::MCTS<
-		Nodes::MCTS,
-		ActionListers::BranchOnUnit,
-		Selecters::UCB,
-		StateEvaluaters::Heuristics::SqrtHp_Dps,
-		Backpropagaters::UCT,
-		TerminalCheckers::FrameLimited<500>
-	>;
+		using PlayerType = Players::MCTS<
+			Nodes::MCTS,
+			ActionListers::BranchOnUnit,
+			Selecters::UCB,
+			StateEvaluaters::Heuristics::SqrtHp_Dps,
+			Backpropagaters::UCT,
+			TerminalCheckers::FrameLimited<500>
+		>;
 
-	return new PlayerMain<PlayerType>;
-}
+		return new PlayerMain<PlayerType>;
+	}
+} initializer;
+
+DllInitializer& DllInitializer::instance = initializer;
